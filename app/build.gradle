@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -29,4 +33,23 @@ dependencies {
     //design support library
     compile 'com.android.support:design:26.1.0'
 
+    //bottom navigation view
+    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
+
+    //Retrofit RxJava Gson
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.7'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
+    //butterknife
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    //dependency Injection
+    compile 'com.google.dagger:dagger-android:2.13'
+    compile 'com.google.dagger:dagger-android-support:2.13'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.13'
 }

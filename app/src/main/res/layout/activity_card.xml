@@ -4,281 +4,288 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.forzo.holdMyCard.CardActivity">
+    tools:context="com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity">
 
-    <ScrollView
-        android:id="@+id/scroll_view"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/image_view"
-                android:layout_width="match_parent"
-                android:layout_height="256dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/business_card" />
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:layout_marginBottom="56dp"
+            android:scrollbars="none">
 
             <RelativeLayout
-                android:id="@+id/card_action"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/image_view">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="256dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/business_card" />
+
+                <RelativeLayout
+                    android:id="@+id/card_action"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="3">
+                    android:layout_below="@+id/image_view">
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:weightSum="3">
 
-                        <ImageView
-                            android:id="@+id/cal_image"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_centerInParent="true"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/ic_calender"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/text_cal"
-                            android:layout_below="@+id/cal_image"
-                            android:layout_centerHorizontal="true"
-                            android:text="Calender"
-                            android:layout_marginBottom="8dp"
-                            />
+                            android:layout_weight="1">
 
-                    </RelativeLayout>
+                            <ImageView
+                                android:id="@+id/cal_image"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_centerInParent="true"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_calender" />
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/text_cal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/cal_image"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="8dp"
+                                android:text="Calender" />
 
-                        <ImageView
-                            android:id="@+id/remainder_image"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_centerInParent="true"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/ic_reminder"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/text_remainder"
-                            android:layout_below="@+id/remainder_image"
-                            android:layout_centerHorizontal="true"
-                            android:text="Remainder"
-                            android:layout_marginBottom="8dp"
-                            />
+                            android:layout_weight="1">
 
-                    </RelativeLayout>
+                            <ImageView
+                                android:id="@+id/remainder_image"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_centerInParent="true"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_reminder" />
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/text_remainder"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/remainder_image"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="8dp"
+                                android:text="Remainder" />
 
-                        <ImageView
-                            android:id="@+id/note_image"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_centerInParent="true"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/ic_note"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/text_note"
-                            android:layout_below="@+id/note_image"
-                            android:layout_centerHorizontal="true"
-                            android:text="Note"
-                            android:layout_marginBottom="8dp"
-                            />
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/note_image"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_centerInParent="true"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_note" />
+
+                            <TextView
+                                android:id="@+id/text_note"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/note_image"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="8dp"
+                                android:text="Note" />
 
 
-                    </RelativeLayout>
+                        </RelativeLayout>
 
 
-                </LinearLayout>
+                    </LinearLayout>
 
-            </RelativeLayout>
+                </RelativeLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/textInputLayoutName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/card_action"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:focusableInTouchMode="true"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
-                android:layout_marginEnd="8dp">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/textInputEditTextName"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/name"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:text="Dheerandra Kumar"
-                    android:maxLines="1"
-                    android:focusable="true"
+                    android:layout_below="@+id/card_action"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:focusableInTouchMode="true"
-                    android:textColor="@android:color/black" />
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
-            </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/textInputEditTextName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:hint="@string/name"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="Dheerandra Kumar"
+                        android:textColor="@android:color/black" />
+
+                </android.support.design.widget.TextInputLayout>
 
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/textInputLayoutCompanyName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textInputLayoutName"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:focusableInTouchMode="true"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
-                android:layout_marginEnd="8dp">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/textInputEditTextCompanyName"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutCompanyName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Company Name"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:text="DK Arts"
-                    android:maxLines="1"
-                    android:textColor="@android:color/black" />
+                    android:layout_below="@+id/textInputLayoutName"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:focusableInTouchMode="true"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
-            </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/textInputEditTextCompanyName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Company Name"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="DK Arts"
+                        android:textColor="@android:color/black" />
+
+                </android.support.design.widget.TextInputLayout>
 
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/textInputLayoutMobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textInputLayoutCompanyName"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:focusableInTouchMode="true"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
-                android:layout_marginEnd="8dp">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/textInputEditTextMobile"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutMobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mobile"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:text="+91 987543211"
-                    android:maxLines="1"
-                    android:textColor="@android:color/black" />
+                    android:layout_below="@+id/textInputLayoutCompanyName"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:focusableInTouchMode="true"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
-            </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/textInputEditTextMobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Mobile"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="+91 987543211"
+                        android:textColor="@android:color/black" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/textInputLayoutEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textInputLayoutMobile"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:focusableInTouchMode="true"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
-                android:layout_marginEnd="8dp">
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/textInputEditTextEmail"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email id"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:text="abcd123@gmail.com"
-                    android:maxLines="1"
-                    android:textColor="@android:color/black" />
+                    android:layout_below="@+id/textInputLayoutMobile"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:focusableInTouchMode="true"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
-            </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/textInputEditTextEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Email id"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="abcd123@gmail.com"
+                        android:textColor="@android:color/black" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/textInputLayoutAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textInputLayoutEmail"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:focusableInTouchMode="true"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
-                android:layout_marginEnd="8dp">
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/textInputEditTextAddress"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Address"
-                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                    android:textColor="@android:color/black"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true" />
+                    android:layout_below="@+id/textInputLayoutEmail"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:focusableInTouchMode="true"
+                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
-            </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/textInputEditTextAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:inputType="text"
+                        android:focusableInTouchMode="true"
+                        android:hint="Address"
+                        android:text="No.14, Arun Excello, Nungambakkam, Chennai "
+                        android:textColor="@android:color/black" />
+
+                </android.support.design.widget.TextInputLayout>
 
 
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/colorPrimary"
-                android:layout_below="@+id/textInputLayoutAddress">
-
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:weightSum="2">
+                    android:layout_height="48dp"
+                    android:layout_below="@+id/textInputLayoutAddress"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/colorPrimary">
 
-                    <TextView
-                        android:id="@+id/cancel_text"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Cancel"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
-                        android:gravity="center"/>
+                        android:weightSum="2">
 
-                    <TextView
-                        android:id="@+id/save_text"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Save"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
-                        android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/cancel_text"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Cancel"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/save_text"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Save"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
 
             </RelativeLayout>
 
-        </RelativeLayout>
+        </ScrollView>
 
-    </ScrollView>
+        <include layout="@layout/layout_bottom_navigation_view" />
 
+    </RelativeLayout>
 
 </RelativeLayout>

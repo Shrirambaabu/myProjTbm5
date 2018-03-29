@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.forzo.holdMyCard.MainActivity">
+    tools:context="com.forzo.holdMyCard.ui.activities.home.HomeActivity">
 
     <Button
         android:id="@+id/button"
@@ -12,14 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/button_bg"
-        android:text="Click Here to capture image"
-        />
+        android:text="Click Here to capture image" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:id="@+id/image_android"
-        android:layout_below="@+id/button"
-        android:layout_marginTop="8dp"/>
+
+
+    <include layout="@layout/layout_bottom_navigation_view" />
 
 </RelativeLayout>

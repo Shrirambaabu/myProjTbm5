@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/ic_camera"
+        android:icon="@drawable/ic_reminder"
+        android:title="New"/>
+
+    <item android:id="@+id/ic_library"
+        android:icon="@drawable/ic_reminder"
+        android:title="Library"/>
+
+    <item android:id="@+id/ic_profile"
+        android:icon="@drawable/ic_reminder"
+        android:title="Profile"/>
+    <item android:id="@+id/ic_sort_card"
+        android:icon="@drawable/ic_reminder"
+        android:title="Sort"/>
+
+</menu>
