@@ -1,4 +1,4 @@
-package com.forzo.holdMyCard.ui.activities.library;
+package com.forzo.holdMyCard.ui.activities.mylibrary;
 
 import com.forzo.holdMyCard.base.PerActivityScope;
 

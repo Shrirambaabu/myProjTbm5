@@ -8,8 +8,6 @@ import android.view.MenuItem;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
-import com.forzo.holdMyCard.ui.activities.library.MyLibraryActivity;
-import com.forzo.holdMyCard.ui.activities.library.MyLibraryPresenter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import javax.inject.Inject;

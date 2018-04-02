@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="4dp"
+    android:background="@drawable/mylibrary_bg"
+    tools:targetApi="lollipop">
+
+
+    <ImageView
+        android:id="@+id/card_image"
+        android:layout_width="150dp"
+        android:layout_height="96dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/business_card" />
+
+    <LinearLayout
+        android:layout_toEndOf="@id/card_image"
+        android:layout_width="wrap_content"
+        android:layout_height="96dp"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+
+        <TextView
+            android:id="@+id/card_name"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1"
+            android:text="John Doe"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/card_description"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="Card Description"
+            android:maxLength="18"
+            android:ellipsize="end"
+            android:textColor="@color/colorCardDetails"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/card_details"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="Card Details"
+            android:maxLength="18"
+            android:ellipsize="end"
+            android:textColor="@color/colorCardDetails"
+            android:textSize="16sp"
+
+            />
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_right_arrow"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="8dp"/>
+</RelativeLayout>

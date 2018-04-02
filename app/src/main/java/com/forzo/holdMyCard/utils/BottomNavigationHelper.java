@@ -7,7 +7,7 @@ import android.content.Intent;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.activities.home.HomeActivity;
-import com.forzo.holdMyCard.ui.activities.library.MyLibraryActivity;
+import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.activities.sort.SortCardActivity;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 

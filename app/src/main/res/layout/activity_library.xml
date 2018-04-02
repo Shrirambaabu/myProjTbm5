@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.forzo.holdMyCard.ui.activities.library.MyLibraryActivity">
-
+    tools:context="com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity">
 
 
     <RelativeLayout
@@ -13,19 +12,26 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="56dp">
 
-        <ScrollView
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            style="@style/MyCustomTabLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:tabBackground="@android:color/white"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabSelectedTextColor="@android:color/black"
+            app:tabTextColor="@android:color/black" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="My Library Screen"
-                android:layout_gravity="center"/>
+            <include layout="@layout/layout_center_viewpager" />
 
-        </ScrollView>
-
+        </RelativeLayout>
 
     </RelativeLayout>
 

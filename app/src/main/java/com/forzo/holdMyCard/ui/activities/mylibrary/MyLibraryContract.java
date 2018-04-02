@@ -1,6 +1,11 @@
-package com.forzo.holdMyCard.ui.activities.library;
+package com.forzo.holdMyCard.ui.activities.mylibrary;
+
+import android.support.v4.view.ViewPager;
 
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
+import com.forzo.holdMyCard.ui.fragments.mycurrentlibrary.MyCurrentLibraryFragment;
+import com.forzo.holdMyCard.ui.fragments.mygroups.MyGroupsFragment;
+import com.forzo.holdMyCard.utils.SectionsStatePagerAdapter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 /**
@@ -12,12 +17,14 @@ public interface MyLibraryContract {
     interface Presenter extends BaseMvpPresenter<View> {
 
         void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
+        void setupViewPager(ViewPager viewPager, SectionsStatePagerAdapter adapter, MyCurrentLibraryFragment myCurrentLibraryFragment, MyGroupsFragment myGroupsFragment);
 
-         }
+    }
 
     // Action callbacks. Activity/Fragment will implement
     interface View {
 
+        void showTabLayout();
         void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
 
 
