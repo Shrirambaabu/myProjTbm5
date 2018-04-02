@@ -17,11 +17,14 @@
             android:layout_height="match_parent">
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sort Screen"
-                    android:layout_gravity="center"/>
+
+            <Button
+                android:id="@+id/login_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Login/Register"
+                android:background="@drawable/button_bg"/>
 
         </ScrollView>
 

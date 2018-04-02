@@ -1,6 +1,7 @@
 package com.forzo.holdMyCard.ui.activities.sort;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,12 +9,14 @@ import android.view.MenuItem;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
+import com.forzo.holdMyCard.ui.activities.login.LoginActivity;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation;
 
@@ -54,5 +57,13 @@ public class SortCardActivity extends AppCompatActivity implements SortCardContr
         Menu menu = bottomNavigationViewEx.getMenu();
         MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
         menuItem.setChecked(true);
+    }
+
+    @OnClick(R.id.login_reg)
+    public void loginPage() {
+
+        Intent libraryIntent = new Intent(SortCardActivity.this, LoginActivity.class);
+        startActivity(libraryIntent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

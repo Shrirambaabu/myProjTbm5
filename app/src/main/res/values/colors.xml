@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorMyLibrary">#F9F9F9</color>
     <color name="colorCardDetails">#BEBEBE</color>
+    <color name="colorFadeLogin">#737373</color>
+    <color name="colorLoginBg">#DFDDDE</color>
 </resources>

@@ -6,6 +6,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">#515151</item>
+
+    </style>
+
+    <style name="AppThemeNoAction" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">#515151</item>
     </style>
 
     <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
@@ -20,6 +28,7 @@
 
     <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">15sp</item>
+
         <item name="textAllCaps">false</item>
         <item name="android:textAllCaps">false</item>
     </style>

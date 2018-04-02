@@ -23,10 +23,11 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation;
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener, ProfileContract.View {
+public class ProfileActivity extends AppCompatActivity implements  ProfileContract.View {
 
 
     private static final int ACTIVITY_NUM = 2;
@@ -73,8 +74,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         //  imageView.setImageResource(R.drawable.business_card);
 
-        cancelText.setOnClickListener(this);
-        saveText.setOnClickListener(this);
+
 
     }
 
@@ -106,36 +106,29 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    @Override
-    public void onClick(View v) {
 
-        switch (v.getId()) {
+    @OnClick(R.id.save_text)
+    public void saveToast() {
+        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
 
-            case R.id.cancel_text:
-
-                Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
-
-                Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
-                break;
-
-            case R.id.save_text:
-
-
-                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
-
-                Intent intentSave = new Intent(ProfileActivity.this, HomeActivity.class);
-                intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intentSave);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
-                break;
-        }
-
+        Intent intentSave = new Intent(ProfileActivity.this, HomeActivity.class);
+        intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intentSave);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
+
+    @OnClick(R.id.cancel_text)
+    public void cancelToast() {
+        Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+
+
 
     @Override
     public void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx) {

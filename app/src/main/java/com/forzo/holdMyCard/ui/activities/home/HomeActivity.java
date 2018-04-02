@@ -21,6 +21,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation;
 
@@ -61,6 +62,13 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         });
 
+    }
+
+    @OnClick(R.id.button)
+    public void captureImage() {
+
+        Intent photoCaptureIntent = new Intent("android.media.action.IMAGE_CAPTURE");
+        startActivityForResult(photoCaptureIntent, requestCode);
     }
 
     @Override

@@ -21,7 +21,10 @@
         </activity>
         <activity android:name=".ui.activities.Profile.ProfileActivity" />
         <activity android:name=".ui.activities.sort.SortCardActivity" />
-        <activity android:name=".ui.activities.mylibrary.MyLibraryActivity"></activity>
+        <activity android:name=".ui.activities.mylibrary.MyLibraryActivity" />
+        <activity
+            android:name=".ui.activities.login.LoginActivity"
+            android:theme="@style/AppThemeNoAction"></activity>
     </application>
 
 </manifest>
