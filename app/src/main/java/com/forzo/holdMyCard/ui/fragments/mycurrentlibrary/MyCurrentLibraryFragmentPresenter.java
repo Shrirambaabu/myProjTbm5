@@ -27,14 +27,14 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
     }
 
     @Override
-    public void setupShowsRecyclerView(EmptyRecyclerView paymentCurrentRecyclerView, RelativeLayout emptyView) {
+    public void setupShowsRecyclerView(EmptyRecyclerView emptyRecyclerView, RelativeLayout emptyView) {
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
-        paymentCurrentRecyclerView.setLayoutManager(mLayoutManager);
-        paymentCurrentRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        paymentCurrentRecyclerView.setHasFixedSize(true);
+        emptyRecyclerView.setLayoutManager(mLayoutManager);
+        emptyRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        emptyRecyclerView.setHasFixedSize(true);
 
-        paymentCurrentRecyclerView.setEmptyView(emptyView);
+        emptyRecyclerView.setEmptyView(emptyView);
 
         getView().showRecyclerView();
 

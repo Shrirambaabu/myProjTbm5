@@ -11,8 +11,8 @@ import android.widget.RelativeLayout;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.FragmentContext;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
-import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibraryListPresenter;
-import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibraryRecyclerAdapter;
+import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibrary.MyLibraryListPresenter;
+import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibrary.MyLibraryRecyclerAdapter;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
 
 import java.util.ArrayList;

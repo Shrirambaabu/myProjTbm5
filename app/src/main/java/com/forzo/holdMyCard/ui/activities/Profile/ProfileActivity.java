@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.home.HomeActivity;
+import com.google.api.services.vision.v1.model.Feature;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import javax.inject.Inject;
@@ -27,17 +29,28 @@ import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation;
 
-public class ProfileActivity extends AppCompatActivity implements  ProfileContract.View {
+public class ProfileActivity extends AppCompatActivity implements ProfileContract.View {
 
 
     private static final int ACTIVITY_NUM = 2;
 
+    private Feature feature;
+    private String[] visionAPI = new String[]{"TEXT_DETECTION"};
+
+
+    private String api = visionAPI[0];
+
+    private Bitmap bitmap;
 
     @BindView(R.id.bottomNavigationView)
     BottomNavigationViewEx bottomNavigationViewEx;
 
     @Inject
     ProfilePresenter profilePresenter;
+
+
+    @BindView(R.id.image_view)
+    ImageView imageView;
 
     private Context mContext = ProfileActivity.this;
 
@@ -57,23 +70,26 @@ public class ProfileActivity extends AppCompatActivity implements  ProfileContra
                 .build()
                 .inject(this);
 
+
+        bitmap = getIntent().getParcelableExtra("image");
+
+        feature = new Feature();
+        feature.setType(visionAPI[0]);
+        feature.setMaxResults(10);
+
+
         profilePresenter.attach(this);
 
         profilePresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
 
-        Bitmap bmp = getIntent().getParcelableExtra("image");
 
-        TextView cancelText = findViewById(R.id.cancel_text);
-        TextView saveText = findViewById(R.id.save_text);
-        ImageView imageView = findViewById(R.id.image_view);
+        profilePresenter.callCloudVision(bitmap, feature);
 
-        if (bmp != null) {
-            imageView.setImageBitmap(bmp);
+        if (bitmap != null) {
+            imageView.setImageBitmap(bitmap);
         } else {
             imageView.setImageResource(R.drawable.business_card);
         }
-        //  imageView.setImageResource(R.drawable.business_card);
-
 
 
     }
@@ -106,7 +122,6 @@ public class ProfileActivity extends AppCompatActivity implements  ProfileContra
     }
 
 
-
     @OnClick(R.id.save_text)
     public void saveToast() {
         Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
@@ -126,8 +141,6 @@ public class ProfileActivity extends AppCompatActivity implements  ProfileContra
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
-
-
 
 
     @Override

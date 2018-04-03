@@ -35,6 +35,15 @@ public class DataService {
         myLibraryArrayList.add(new MyLibrary("Mohan", "Electrical Engineering",
                 "Chennai"));
 
+        myLibraryArrayList.add(new MyLibrary("Mani", "Electrical Engineering",
+                "Villupuram"));
+
+        myLibraryArrayList.add(new MyLibrary("Sugumar", "Electrical Engineering",
+                "Vellore"));
+
+        myLibraryArrayList.add(new MyLibrary("Makesh", "Electrical Engineering",
+                "Mayiladuthurai"));
+
 
         return myLibraryArrayList;
 
