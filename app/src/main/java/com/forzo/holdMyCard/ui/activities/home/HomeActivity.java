@@ -144,7 +144,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @Override
     public void onBackPressed() {
-        homePresenter.onBackPress();
-    }
+        super.onBackPressed();    }
 
 }

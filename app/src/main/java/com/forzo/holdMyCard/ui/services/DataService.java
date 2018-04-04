@@ -1,6 +1,7 @@
 package com.forzo.holdMyCard.ui.services;
 
 import com.forzo.holdMyCard.ui.models.MyLibrary;
+import com.forzo.holdMyCard.ui.models.MyNotes;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,6 +47,31 @@ public class DataService {
 
 
         return myLibraryArrayList;
+
+    }
+
+    public static Collection<? extends MyNotes> getCardNameList() {
+
+        ArrayList<MyNotes> myNotes = new ArrayList<>();
+
+        myNotes.add(new MyNotes("Shriram Android Developer Chennai"));
+
+        myNotes.add(new MyNotes("TamilArasan Circuit Designer Bangalore"));
+
+        myNotes.add(new MyNotes("Mohan Electrical Engineering Chennai"));
+
+        myNotes.add(new MyNotes("Mani Electrical Engineering Villupuram"));
+
+        myNotes.add(new MyNotes("Sugumar Electrical Engineering Vellore"));
+
+        myNotes.add(new MyNotes("Makesh Electrical Engineering Mayiladuthurai"));
+
+        myNotes.add(new MyNotes("SAM Electrical Engineering Bangalore"));
+
+        myNotes.add(new MyNotes("Kd Electrical Engineering Chennai"));
+
+
+        return myNotes;
 
     }
 

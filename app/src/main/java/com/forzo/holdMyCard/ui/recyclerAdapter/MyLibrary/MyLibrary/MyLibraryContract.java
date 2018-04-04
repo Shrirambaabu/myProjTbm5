@@ -9,6 +9,7 @@ public class MyLibraryContract {
     interface Presenter {
 
         int getItemCount();
+        void onItemClick(int adapterPosition);
 
         void bindEventRow(int position, MyLibraryRowView holder);
 

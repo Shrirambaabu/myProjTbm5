@@ -3,6 +3,7 @@ package com.forzo.holdMyCard.ui.activities.Profile;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,12 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.home.HomeActivity;
+import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
+import com.forzo.holdMyCard.ui.activities.notes.NotesActivity;
 import com.google.api.services.vision.v1.model.Feature;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
@@ -28,6 +32,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation;
+import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileContract.View {
 
@@ -52,6 +57,16 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @BindView(R.id.image_view)
     ImageView imageView;
 
+    @BindView(R.id.calendar_rel)
+    RelativeLayout calendarRelative;
+
+    @BindView(R.id.remaindar_rel)
+    RelativeLayout remainderRelative;
+
+    @BindView(R.id.note_rel)
+    RelativeLayout noteRelative;
+
+
     private Context mContext = ProfileActivity.this;
 
     @Override
@@ -60,11 +75,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         setContentView(R.layout.activity_card);
         ButterKnife.bind(this);
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-        }
+        backButtonOnToolbar(ProfileActivity.this);
+
         DaggerProfileComponent.builder()
                 .activityContext(new ActivityContext(mContext))
                 .build()
@@ -93,6 +105,19 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
 
     }
+
+
+
+    @OnClick(R.id.note_rel)
+    public void noteSection() {
+
+        Intent intent=new Intent(ProfileActivity.this, NotesActivity.class);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+
+    }
+
 
     @Override
     protected void onResume() {
@@ -126,7 +151,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void saveToast() {
         Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
 
-        Intent intentSave = new Intent(ProfileActivity.this, HomeActivity.class);
+        Intent intentSave = new Intent(ProfileActivity.this, MyLibraryActivity.class);
         intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -136,7 +161,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void cancelToast() {
         Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
+        Intent intent = new Intent(ProfileActivity.this, MyLibraryActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

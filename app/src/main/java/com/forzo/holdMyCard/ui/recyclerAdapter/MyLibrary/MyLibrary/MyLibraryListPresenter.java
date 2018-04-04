@@ -1,7 +1,11 @@
 package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibrary;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 
+import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 
 import java.util.ArrayList;
@@ -23,6 +27,16 @@ public class MyLibraryListPresenter implements MyLibraryContract.Presenter {
     @Override
     public int getItemCount() {
         return (null != myLibraries ? myLibraries.size() : 0);
+    }
+
+    @Override
+    public void onItemClick(int adapterPosition) {
+
+        Activity activity = (Activity) context;
+        Intent eventDetailsIntent = new Intent(context, ProfileActivity.class);
+        context.startActivity(eventDetailsIntent);
+        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
     }
 
     @Override

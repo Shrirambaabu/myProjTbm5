@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.forzo.holdMyCard.R;
+import com.forzo.holdMyCard.ui.activities.forgetpassword.ForgetPasswordActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +24,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.register_button)
     TextView registerSection;
+
+    @BindView(R.id.forget_pass)
+    TextView forgotPass;
 
     @BindView(R.id.login_content)
     RelativeLayout loginContent;
@@ -38,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+
+
     }
 
     @OnClick(R.id.login_section)
@@ -47,6 +53,17 @@ public class LoginActivity extends AppCompatActivity {
 
         loginContent.setVisibility(View.VISIBLE);
         registerContent.setVisibility(View.GONE);
+
+    }
+
+    @OnClick(R.id.forget_pass)
+    public void forgotPassSection() {
+
+        Intent intent = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+
 
     }
 

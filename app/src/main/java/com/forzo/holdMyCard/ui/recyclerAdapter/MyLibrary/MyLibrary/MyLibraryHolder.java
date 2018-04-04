@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
  * Created by Shriram on 3/31/2018.
  */
 
-public class MyLibraryHolder extends RecyclerView.ViewHolder implements MyLibraryContract.MyLibraryRowView {
+public class MyLibraryHolder extends RecyclerView.ViewHolder implements MyLibraryContract.MyLibraryRowView, View.OnClickListener {
 
     MyLibraryListPresenter fragmentListPresenter;
 
@@ -29,8 +29,12 @@ public class MyLibraryHolder extends RecyclerView.ViewHolder implements MyLibrar
         super(itemView);
         this.fragmentListPresenter = fragmentListPresenter;
         ButterKnife.bind(this, itemView);
+        itemView.setOnClickListener(this);
     }
-
+    @Override
+    public void onClick(View v) {
+        fragmentListPresenter.onItemClick(getAdapterPosition());
+    }
 
     @Override
     public void setCardName(String cardName) {

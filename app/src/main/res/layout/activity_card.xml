@@ -42,6 +42,7 @@
                         android:weightSum="3">
 
                         <RelativeLayout
+                            android:id="@+id/calendar_rel"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1">
@@ -61,11 +62,12 @@
                                 android:layout_below="@+id/cal_image"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="8dp"
-                                android:text="Calender" />
+                                android:text="@string/calender" />
 
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/remaindar_rel"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1">
@@ -85,11 +87,12 @@
                                 android:layout_below="@+id/remainder_image"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="8dp"
-                                android:text="Remainder" />
+                                android:text="@string/remainder" />
 
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/note_rel"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1">
@@ -109,7 +112,7 @@
                                 android:layout_below="@+id/note_image"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="8dp"
-                                android:text="Note" />
+                                android:text="@string/note" />
 
 
                         </RelativeLayout>

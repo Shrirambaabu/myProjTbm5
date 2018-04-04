@@ -24,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation;
+import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 
 public class CreateGroupActivity extends AppCompatActivity implements CreateGroupContract.View {
 
@@ -60,7 +61,7 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
         setContentView(R.layout.activity_create_group);
         ButterKnife.bind(this);
 
-
+        backButtonOnToolbar(CreateGroupActivity.this);
 
         DaggerCreateGroupComponent.builder()
                 .activityContext(new ActivityContext(mContext))
