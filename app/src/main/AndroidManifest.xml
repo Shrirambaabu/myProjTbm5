@@ -28,7 +28,9 @@
         <activity android:name=".ui.activities.creategroup.CreateGroupActivity" />
         <activity android:name=".ui.activities.forgetpassword.ForgetPasswordActivity" />
         <activity android:name=".ui.activities.notes.NotesActivity" />
-        <activity android:name=".ui.activities.notesdetail.NotesDetailsActivity"></activity>
+        <activity android:name=".ui.activities.notesdetail.NotesDetailsActivity" />
+        <activity android:name=".ui.activities.remainder.RemainderActivity" />
+        <activity android:name=".ui.activities.remainderdetails.RemainderDetailsActivity"></activity>
     </application>
 
 </manifest>

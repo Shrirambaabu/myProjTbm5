@@ -84,10 +84,16 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
     @OnClick(R.id.add_note)
     public void addNoteSection() {
 
-
         Intent intentSave = new Intent(NotesActivity.this, NotesDetailsActivity.class);
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 }

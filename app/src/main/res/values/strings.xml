@@ -18,4 +18,6 @@
     <string name="note">Note</string>
     <string name="calender">Calender</string>
     <string name="add_note">Add Note</string>
+    <string name="add_remainder">Add Remainder</string>
+    <string name="date">Date</string>
 </resources>

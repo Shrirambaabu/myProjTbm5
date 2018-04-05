@@ -22,6 +22,7 @@ import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.home.HomeActivity;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.activities.notes.NotesActivity;
+import com.forzo.holdMyCard.ui.activities.remainder.RemainderActivity;
 import com.google.api.services.vision.v1.model.Feature;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
@@ -112,6 +113,16 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void noteSection() {
 
         Intent intent=new Intent(ProfileActivity.this, NotesActivity.class);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+
+    }
+
+    @OnClick(R.id.remaindar_rel)
+    public void remainderSection() {
+
+        Intent intent=new Intent(ProfileActivity.this, RemainderActivity.class);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

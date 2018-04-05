@@ -7,13 +7,14 @@
     tools:context="com.forzo.holdMyCard.ui.activities.notesdetail.NotesDetailsActivity">
 
     
-    <TextView
+    <EditText
         android:id="@+id/note_des"
         android:layout_width="match_parent"
         android:layout_height="256dp"
         android:background="@drawable/mylibrary_bg"
         android:padding="8dp"
         android:textSize="18sp"
+        android:gravity="start"
         android:hint="Please enter your content"
         android:layout_margin="16dp"/>
 

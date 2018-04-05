@@ -2,6 +2,7 @@ package com.forzo.holdMyCard.ui.services;
 
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.models.MyNotes;
+import com.forzo.holdMyCard.ui.models.MyRemainder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -72,6 +73,31 @@ public class DataService {
 
 
         return myNotes;
+
+    }
+
+public static Collection<? extends MyRemainder> getRemainderList() {
+
+        ArrayList<MyRemainder> myRemainders = new ArrayList<>();
+
+    myRemainders.add(new MyRemainder("Shriram Android Developer Chennai","12-04-2018 12:00PM"));
+
+    myRemainders.add(new MyRemainder("TamilArasan Circuit Designer Bangalore","22-04-2018 12:00PM"));
+
+    myRemainders.add(new MyRemainder("Mohan Electrical Engineering Chennai","18-04-2018 12:00PM"));
+
+    myRemainders.add(new MyRemainder("Mani Electrical Engineering Villupuram","17-04-2018 12:00PM"));
+
+    myRemainders.add(new MyRemainder("Sugumar Electrical Engineering Vellore","21-04-2018 12:00PM"));
+
+    myRemainders.add(new MyRemainder("Makesh Electrical Engineering Mayiladuthurai","08-04-2018 12:00PM"));
+
+    myRemainders.add(new MyRemainder("SAM Electrical Engineering Bangalore","12-04-2018 12:00PM"));
+
+    myRemainders.add(new MyRemainder("Kd Electrical Engineering Chennai","11-04-2018 12:00PM"));
+
+
+        return myRemainders;
 
     }
 
