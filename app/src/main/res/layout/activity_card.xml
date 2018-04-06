@@ -15,8 +15,8 @@
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
             android:layout_marginBottom="56dp"
+            android:fillViewport="true"
             android:scrollbars="none">
 
             <RelativeLayout
@@ -238,9 +238,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="true"
-                        android:inputType="text"
                         android:focusableInTouchMode="true"
                         android:hint="Address"
+                        android:inputType="text"
                         android:text="No.14, Arun Excello, Nungambakkam, Chennai "
                         android:textColor="@android:color/black" />
 
@@ -289,6 +289,25 @@
 
         <include layout="@layout/layout_bottom_navigation_view" />
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/colorTransparent">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avi"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:background="@color/colorTransparent"
+            app:indicatorColor="@color/colorPrimary"
+            app:indicatorName="BallGridPulseIndicator" />
     </RelativeLayout>
 
 </RelativeLayout>

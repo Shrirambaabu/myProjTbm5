@@ -123,7 +123,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
             Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
 
-
             intent.putExtra("image", bitmap);
 
             startActivity(intent);

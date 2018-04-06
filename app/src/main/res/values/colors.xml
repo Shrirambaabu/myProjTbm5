@@ -8,4 +8,6 @@
     <color name="colorFadeLogin">#737373</color>
     <color name="colorLoginBg">#DFDDDE</color>
     <color name="searchBg">#FAFAFA</color>
+    <color name="colorTransparent">#80000000</color>
+
 </resources>
