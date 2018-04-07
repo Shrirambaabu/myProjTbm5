@@ -35,6 +35,9 @@ public interface ProfileContract {
 
         void setEmailId(String emailId);
         void setWebsite(String website);
+        void setCompanyName(String companyName);
+        void setJobTitle(String jobTitle);
+        void setAddress(String address);
 
 
     }

@@ -10,8 +10,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
+import com.forzo.holdMyCard.utils.HttpHandler;
+import com.forzo.holdMyCard.utils.NetworkController;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
@@ -32,6 +35,9 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,6 +47,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
+import static com.forzo.holdMyCard.utils.Utils.BaseUri;
 
 /**
  * Created by Shriram on 3/29/2018.
@@ -53,6 +60,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     private ApiService mApiService;
 
     private static final String CLOUD_VISION_API_KEY = "AIzaSyCFVBIjD8Vk13VzO980yu_OsVL2-F5itpA";
+    private RequestQueue queue;
 
     private String[] visionAPI = new String[]{"TEXT_DETECTION"};
 
@@ -72,7 +80,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     @SuppressLint("StaticFieldLeak")
     @Override
-    public void callCloudVision(final Bitmap bitmap, final Feature feature,AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeProgress) {
+    public void callCloudVision(final Bitmap bitmap, final Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeProgress) {
 
 
         final List<Feature> featureList = new ArrayList<>();
@@ -134,26 +142,104 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 String website = "";
                 ArrayList<String> phone = new ArrayList<>();
 
-                String phoneNumber="";
+                String phoneNumber = "";
 
                 email = parseEmail(result);
                 website = parseWebsite(result);
                 phone = parseMobile(result);
 
-                phoneNumber=phone.toString().replaceAll("\\[", "").replaceAll("\\]","");
+                makeJsonRequest(result,avLoadingIndicatorView,relativeProgress);
+                phoneNumber = phone.toString().replaceAll("\\[", "").replaceAll("\\]", "");
 
-                if (phoneNumber.equals("")){
-                    phoneNumber="No number found";
+                if (phoneNumber.equals("")) {
+                    phoneNumber = "No number found";
                 }
 
                 getView().setEmailId(email);
                 getView().setPhoneNumber(phoneNumber);
                 getView().setWebsite(website);
 
+/*
 
                 avLoadingIndicatorView.hide();
                 avLoadingIndicatorView.setVisibility(View.GONE);
                 relativeProgress.setVisibility(View.GONE);
+*/
+            }
+        }.execute();
+
+
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void makeJsonRequest(String result,AVLoadingIndicatorView avLoadingIndicatorView,RelativeLayout relativeProgress) {
+
+
+        new AsyncTask<Object, Void, String>() {
+            @Override
+            protected String doInBackground(Object... params) {
+
+                HttpHandler sh = new HttpHandler();
+
+                String url=BaseUri+result.replaceAll("\\s","%20");
+
+                Log.e("url ",""+url);
+                // Making a request to url and getting response
+                String jsonStr = sh.makeServiceCall(url);
+
+
+                return jsonStr;
+            }
+
+            protected void onPostExecute(String result) {
+
+                Log.e("result", "" + result);
+
+                String userName="No name found";
+                String companyName="No name found";
+                String jobTitle="No Jobs Found";
+                String address="Address not found";
+
+                if (result!=null){
+                    try {
+                        JSONObject jsonObj = new JSONObject(result);
+
+                        userName=jsonObj.getString("name");
+                        companyName=jsonObj.getString("organisation");
+                        jobTitle=jsonObj.getString("title");
+                        address=jsonObj.getString("address");
+
+                        Log.e("web",""+jsonObj.getString("name"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                if (userName.equals("null")){
+                    userName="No name found";
+                }
+                if (companyName.equals("null")){
+                    companyName="No name found";
+                }
+                if (jobTitle.equals("null")){
+                    jobTitle="No Jobs Found";
+                }
+                if (address.equals("null")){
+                    address="Address not found";
+                }
+                getView().setUserName(userName);
+                getView().setJobTitle(jobTitle);
+                getView().setCompanyName(companyName);
+                getView().setAddress(address);
+
+
+
+                avLoadingIndicatorView.hide();
+                avLoadingIndicatorView.setVisibility(View.GONE);
+                relativeProgress.setVisibility(View.GONE);
+
             }
         }.execute();
 
@@ -194,6 +280,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
             Log.e("msg", "" + text.getText());
 
             textResult = text.getText();
+
 
         }
         return textResult;

@@ -75,6 +75,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @BindView(R.id.textInputEditTextCompanyName)
     TextInputEditText companyNameEditText;
 
+    @BindView(R.id.textInputEditTextJobTitle)
+    TextInputEditText jobTitleEditText;
+
     @BindView(R.id.textInputEditTextMobile)
     TextInputEditText mobileEditText;
 
@@ -83,6 +86,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @BindView(R.id.textInputEditTextAddress)
     TextInputEditText addressEditText;
+
+    @BindView(R.id.textInputEditTextWebsite)
+    TextInputEditText websiteEditText;
 
     @BindView(R.id.avi)
     AVLoadingIndicatorView avLoadingIndicatorView;
@@ -230,6 +236,21 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @Override
     public void setWebsite(String website) {
-        companyNameEditText.setText(website);
+        websiteEditText.setText(website);
+    }
+
+    @Override
+    public void setCompanyName(String companyName) {
+        companyNameEditText.setText(companyName);
+    }
+
+    @Override
+    public void setJobTitle(String jobTitle) {
+        jobTitleEditText.setText(jobTitle);
+    }
+
+    @Override
+    public void setAddress(String address) {
+        addressEditText.setText(address);
     }
 }
