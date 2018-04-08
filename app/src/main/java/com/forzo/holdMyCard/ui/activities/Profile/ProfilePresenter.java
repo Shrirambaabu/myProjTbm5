@@ -148,7 +148,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 website = parseWebsite(result);
                 phone = parseMobile(result);
 
-                makeJsonRequest(result,avLoadingIndicatorView,relativeProgress);
+                makeJsonRequest(result, avLoadingIndicatorView, relativeProgress);
                 phoneNumber = phone.toString().replaceAll("\\[", "").replaceAll("\\]", "");
 
                 if (phoneNumber.equals("")) {
@@ -172,7 +172,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void makeJsonRequest(String result,AVLoadingIndicatorView avLoadingIndicatorView,RelativeLayout relativeProgress) {
+    private void makeJsonRequest(String result, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeProgress) {
 
 
         new AsyncTask<Object, Void, String>() {
@@ -180,13 +180,18 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
             protected String doInBackground(Object... params) {
 
                 HttpHandler sh = new HttpHandler();
+                String jsonStr = "";
 
-                String url=BaseUri+result.replaceAll("\\s","%20");
+                if (result.equals("No Data")) {
+                    jsonStr = "null";
+                } else {
 
-                Log.e("url ",""+url);
-                // Making a request to url and getting response
-                String jsonStr = sh.makeServiceCall(url);
+                    String url = BaseUri + result.replaceAll("\\s", "%20");
 
+                    Log.e("url ", "" + url);
+                    // Making a request to url and getting response
+                    jsonStr = sh.makeServiceCall(url);
+                }
 
                 return jsonStr;
             }
@@ -195,21 +200,21 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                 Log.e("result", "" + result);
 
-                String userName="No name found";
-                String companyName="No name found";
-                String jobTitle="No Jobs Found";
-                String address="Address not found";
+                String userName = "null";
+                String companyName = "null";
+                String jobTitle = "null";
+                String address = "null";
 
-                if (result!=null){
+                if (result != null) {
                     try {
                         JSONObject jsonObj = new JSONObject(result);
 
-                        userName=jsonObj.getString("name");
-                        companyName=jsonObj.getString("organisation");
-                        jobTitle=jsonObj.getString("title");
-                        address=jsonObj.getString("address");
+                        userName = jsonObj.getString("name");
+                        companyName = jsonObj.getString("organisation");
+                        jobTitle = jsonObj.getString("title");
+                        address = jsonObj.getString("address");
 
-                        Log.e("web",""+jsonObj.getString("name"));
+                        Log.e("web", "" + jsonObj.getString("name"));
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -217,23 +222,22 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                 }
 
-                if (userName.equals("null")){
-                    userName="No name found";
+                if (userName.equals("null")) {
+                    userName = "No name found";
                 }
-                if (companyName.equals("null")){
-                    companyName="No name found";
+                if (companyName.equals("null")) {
+                    companyName = "No name found";
                 }
-                if (jobTitle.equals("null")){
-                    jobTitle="No Jobs Found";
+                if (jobTitle.equals("null")) {
+                    jobTitle = "No Jobs Found";
                 }
-                if (address.equals("null")){
-                    address="Address not found";
+                if (address.equals("null")) {
+                    address = "Address not found";
                 }
                 getView().setUserName(userName);
                 getView().setJobTitle(jobTitle);
                 getView().setCompanyName(companyName);
                 getView().setAddress(address);
-
 
 
                 avLoadingIndicatorView.hide();

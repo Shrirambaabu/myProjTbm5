@@ -23,7 +23,7 @@ public class HttpHandler {
     }
 
     public String makeServiceCall(String reqUrl) {
-        String response = null;
+        String response = "null";
         try {
             URL url = new URL(reqUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
