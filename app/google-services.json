@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1023904257186",
+    "firebase_url": "https://holdmycardmobiletier.firebaseio.com",
+    "project_id": "holdmycardmobiletier",
+    "storage_bucket": "holdmycardmobiletier.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023904257186:android:ef9d3a3428b3eb56",
+        "android_client_info": {
+          "package_name": "com.forzo.holdMyCard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023904257186-cllmrh8jvopnug3v7ehjs7db466n4vnn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCo3xdVuz7WFfORDOvlDBy-5617QL9Rg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
