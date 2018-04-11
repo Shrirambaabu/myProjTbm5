@@ -1,6 +1,7 @@
 package com.forzo.holdMyCard.ui.activities.Profile;
 
 import android.graphics.Bitmap;
+import android.support.design.widget.TextInputEditText;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
@@ -19,9 +20,9 @@ public interface ProfileContract {
 
         void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
 
-        void callCloudVision(Bitmap bitmap, Feature feature,AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeProgress);
-        void setupNetworkCall(Bitmap bitmap, Feature feature);
+        void callCloudVision(Bitmap bitmap, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeProgress);
 
+        void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText);
     }
 
     interface View {
@@ -34,10 +35,16 @@ public interface ProfileContract {
         void setPhoneNumber(String phoneNumber);
 
         void setEmailId(String emailId);
+
         void setWebsite(String website);
+
         void setCompanyName(String companyName);
+
         void setJobTitle(String jobTitle);
+
         void setAddress(String address);
+
+        void savedSuccessfully();
 
 
     }

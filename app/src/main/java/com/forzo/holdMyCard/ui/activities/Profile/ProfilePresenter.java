@@ -5,14 +5,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
+import com.forzo.holdMyCard.HmcApplication;
+import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
+import com.forzo.holdMyCard.ui.models.BusinessCard;
 import com.forzo.holdMyCard.utils.HttpHandler;
 import com.forzo.holdMyCard.utils.NetworkController;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -46,6 +50,11 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
 import static com.forzo.holdMyCard.utils.Utils.BaseUri;
 
@@ -70,6 +79,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     ProfilePresenter(Context context) {
         this.context = context;
+        mApiService = ApiFactory.create(HmcApplication.get((Activity) context).getRetrofit());
+
     }
 
     @Override
@@ -171,6 +182,56 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     }
 
+    @Override
+    public void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText) {
+
+
+        String name=nameTextInputEditText.getText().toString();
+        String company=companyTextInputEditText.getText().toString();
+        String jobTitle=jobTitleTextInputEditText.getText().toString();
+        String mobileNumber=mobileTextInputEditText.getText().toString();
+        String emailId=emailTextInputEditText.getText().toString();
+        String website=websiteTextInputEditText.getText().toString();
+
+
+        BusinessCard businessCard=new BusinessCard();
+
+        businessCard.setId("1");
+        businessCard.setName(name);
+        businessCard.setCompany(company);
+        businessCard.setJobTitle(jobTitle);
+        businessCard.setPhoneNumber(mobileNumber);
+        businessCard.setEmailId(emailId);
+        businessCard.setWebsite(website);
+
+        mApiService.saveBusinessCard(businessCard)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BusinessCard>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                       // progressBar.smoothToShow();
+                    }
+
+                    @Override
+                    public void onNext(BusinessCard userChangePassword) {
+                        getView().savedSuccessfully();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                      //  progressBar.smoothToHide();
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
+
     @SuppressLint("StaticFieldLeak")
     private void makeJsonRequest(String result, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeProgress) {
 
@@ -247,11 +308,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
             }
         }.execute();
 
-
-    }
-
-    @Override
-    public void setupNetworkCall(Bitmap bitmap, Feature feature) {
 
     }
 

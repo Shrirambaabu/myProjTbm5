@@ -1,12 +1,24 @@
 package com.forzo.holdMyCard.ui.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Shriram on 4/5/2018.
  */
 
 public class MyRemainder {
 
+    @SerializedName("name")
+    @Expose
     private String name;
+
+
+    @SerializedName("dateTime")
+    @Expose
+    private String dateTime;
+
+
 
     public String getName() {
         return name;
@@ -24,7 +36,7 @@ public class MyRemainder {
         this.dateTime = dateTime;
     }
 
-    private String dateTime;
+
 
     public MyRemainder(String name, String dateTime) {
         this.name = name;

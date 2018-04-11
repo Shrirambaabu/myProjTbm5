@@ -1,16 +1,30 @@
 package com.forzo.holdMyCard.ui.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Shriram on 3/31/2018.
  */
 
 public class MyLibrary {
 
-    String cardImage;
+   private String cardImage;
 
-    String cardName;
 
-    String cardDescription;
+    @SerializedName("name")
+    @Expose
+    private String cardName;
+
+    @SerializedName("description")
+    @Expose
+    private  String cardDescription;
+
+
+    @SerializedName("details")
+    @Expose
+    private String cardDetails;
+
 
     public MyLibrary(String cardName, String cardDescription, String cardDetails) {
         this.cardName = cardName;
@@ -18,7 +32,7 @@ public class MyLibrary {
         this.cardDetails = cardDetails;
     }
 
-    String cardDetails;
+
 
     public String getCardImage() {
         return cardImage;

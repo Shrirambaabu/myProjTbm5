@@ -61,8 +61,6 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library);
-
-
         ButterKnife.bind(this);
 
 

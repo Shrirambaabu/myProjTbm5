@@ -307,22 +307,24 @@
                         android:layout_height="match_parent"
                         android:weightSum="2">
 
-                        <TextView
+                        <Button
                             android:id="@+id/cancel_text"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
+                            android:background="@drawable/button_business"
                             android:text="Cancel"
                             android:textColor="@android:color/black"
                             android:textSize="18sp" />
 
-                        <TextView
+                        <Button
                             android:id="@+id/save_text"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
+                            android:background="@drawable/button_business"
                             android:text="Save"
                             android:textColor="@android:color/black"
                             android:textSize="18sp" />

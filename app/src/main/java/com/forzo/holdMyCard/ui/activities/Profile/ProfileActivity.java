@@ -2,7 +2,9 @@ package com.forzo.holdMyCard.ui.activities.Profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.provider.CalendarContract;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -27,6 +29,8 @@ import com.forzo.holdMyCard.ui.activities.remainder.RemainderActivity;
 import com.google.api.services.vision.v1.model.Feature;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.wang.avi.AVLoadingIndicatorView;
+
+import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -129,7 +133,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
             imageView.setImageBitmap(bitmap);
 
             profilePresenter.callCloudVision(bitmap, feature,avLoadingIndicatorView,relativeProgress);
-            //profilePresenter.setupNetworkCall(bitmap, feature);
 
         } else {
             imageView.setImageResource(R.drawable.business_card);
@@ -158,7 +161,37 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
 
     }
+    @OnClick(R.id.calendar_rel)
+    public void calenderSection() {
+        Calendar beginTime = Calendar.getInstance();
+        beginTime.set(2018, 3, 21, 7, 30);
+        Calendar endTime = Calendar.getInstance();
+        endTime.set(2018, 3, 22, 8, 30);
 
+        if(isPackageInstalled("com.google.android.calendar", getApplicationContext())) {
+            Intent intent = new Intent(Intent.ACTION_INSERT)
+                    .setData(CalendarContract.Events.CONTENT_URI)
+                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                    .putExtra(CalendarContract.Events.TITLE, "Yoga")
+                    .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
+                    .putExtra(CalendarContract.Events.EVENT_LOCATION, "Chennai")
+                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+                    .putExtra(Intent.EXTRA_EMAIL, "ashithvl@gmail.com,shriam.baabu@gmail.com");
+            startActivity(intent);
+        }else {
+            Toast.makeText(getApplicationContext(),"Google Calendar not installed.",Toast.LENGTH_LONG).show();
+        }
+    }
+    public static boolean isPackageInstalled(String packagename, Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            pm.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -196,6 +229,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+      //  profilePresenter.saveBusinessCard(nameEditText,companyNameEditText,jobTitleEditText,mobileEditText,emailEditText,websiteEditText);
+
     }
 
     @OnClick(R.id.cancel_text)
@@ -252,5 +288,16 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @Override
     public void setAddress(String address) {
         addressEditText.setText(address);
+    }
+
+    @Override
+    public void savedSuccessfully() {
+        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+
+        Intent intentSave = new Intent(ProfileActivity.this, MyLibraryActivity.class);
+        intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intentSave);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
     }
 }
