@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.CalendarContract;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -30,6 +32,7 @@ import com.google.api.services.vision.v1.model.Feature;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 import javax.inject.Inject;
@@ -40,6 +43,7 @@ import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation;
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
+import static com.forzo.holdMyCard.utils.Utils.getResizedBitmap;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileContract.View {
 
@@ -100,7 +104,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @BindView(R.id.relative_progress)
     RelativeLayout relativeProgress;
 
-
     private Context mContext = ProfileActivity.this;
 
     @Override
@@ -117,7 +120,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
                 .inject(this);
 
 
-        bitmap = getIntent().getParcelableExtra("image");
+
 
         feature = new Feature();
         feature.setType(visionAPI[0]);
@@ -125,18 +128,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
 
         profilePresenter.attach(this);
-
+        profilePresenter.getIntentValues(getIntent());
         profilePresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
-
-
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
-
-            profilePresenter.callCloudVision(bitmap, feature,avLoadingIndicatorView,relativeProgress);
-
-        } else {
-            imageView.setImageResource(R.drawable.business_card);
-        }
 
 
     }
@@ -161,6 +154,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
 
     }
+
     @OnClick(R.id.calendar_rel)
     public void calenderSection() {
         Calendar beginTime = Calendar.getInstance();
@@ -168,7 +162,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         Calendar endTime = Calendar.getInstance();
         endTime.set(2018, 3, 22, 8, 30);
 
-        if(isPackageInstalled("com.google.android.calendar", getApplicationContext())) {
+        if (isPackageInstalled("com.google.android.calendar", getApplicationContext())) {
             Intent intent = new Intent(Intent.ACTION_INSERT)
                     .setData(CalendarContract.Events.CONTENT_URI)
                     .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
@@ -179,10 +173,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
                     .putExtra(Intent.EXTRA_EMAIL, "ashithvl@gmail.com,shriam.baabu@gmail.com");
             startActivity(intent);
-        }else {
-            Toast.makeText(getApplicationContext(),"Google Calendar not installed.",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Google Calendar not installed.", Toast.LENGTH_LONG).show();
         }
     }
+
     public static boolean isPackageInstalled(String packagename, Context context) {
         PackageManager pm = context.getPackageManager();
         try {
@@ -230,7 +225,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
-      //  profilePresenter.saveBusinessCard(nameEditText,companyNameEditText,jobTitleEditText,mobileEditText,emailEditText,websiteEditText);
+        //  profilePresenter.saveBusinessCard(nameEditText,companyNameEditText,jobTitleEditText,mobileEditText,emailEditText,websiteEditText);
 
     }
 
@@ -273,6 +268,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @Override
     public void setWebsite(String website) {
         websiteEditText.setText(website);
+    }
+
+    @Override
+    public void setProfileImage(Bitmap profileImage) {
+        imageView.setImageBitmap(profileImage);
     }
 
     @Override

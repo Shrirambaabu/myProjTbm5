@@ -15,7 +15,35 @@
         android:text="Click Here to capture image" />
 
 
+    <Button
+        android:id="@+id/emul_button"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_bg"
+        android:text="Emulator" />
+
 
     <include layout="@layout/layout_bottom_navigation_view" />
 
+
+    <RelativeLayout
+        android:id="@+id/relative_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/colorTransparent"
+        >
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avi"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            app:indicatorColor="@color/colorPrimary"
+            app:indicatorName="BallGridPulseIndicator" />
+
+    </RelativeLayout>
 </RelativeLayout>

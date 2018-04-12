@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
@@ -25,9 +29,14 @@ import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.base.BaseView;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.google.api.services.vision.v1.model.Feature;
+import com.google.api.services.vision.v1.model.Image;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -36,6 +45,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation;
+import static com.forzo.holdMyCard.utils.Utils.getImageEncodeImage;
+import static com.forzo.holdMyCard.utils.Utils.getResizedBitmap;
 
 public class HomeActivity extends AppCompatActivity implements HomeContract.View, BaseView {
 
@@ -43,8 +54,14 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private Context mContext = HomeActivity.this;
     private static final int ACTIVITY_NUM = 0;
 
+
+    static Uri capturedImageUri = null;
+
     private Bitmap bitmap;
 
+
+    private Feature feature;
+    private String[] visionAPI = new String[]{"TEXT_DETECTION"};
 
     private static final int RECORD_REQUEST_CODE = 101;
     private static final int STORAGE_REQUEST_CODE = 103;
@@ -58,6 +75,16 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @BindView(R.id.button)
     Button button;
+
+    @BindView(R.id.emul_button)
+    Button buttonEmulator;
+
+    @BindView(R.id.relative_progress)
+    RelativeLayout relativeLayout;
+
+    @BindView(R.id.avi)
+    AVLoadingIndicatorView avLoadingIndicatorView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,14 +101,73 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         homePresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
 
 
+        feature = new Feature();
+        feature.setType(visionAPI[0]);
+        feature.setMaxResults(10);
+
     }
 
     @OnClick(R.id.button)
     public void captureImage() {
 
-        Intent photoCaptureIntent = new Intent("android.media.action.IMAGE_CAPTURE");
-        startActivityForResult(photoCaptureIntent, requestCode);
+        Calendar cal = Calendar.getInstance();
+
+
+        // fetching the root directory
+        String root = Environment.getExternalStorageDirectory().toString()
+                + "/HMC";
+
+        // Creating folders for Image
+        String imageFolderPath = root + "/saved_images";
+        File imagesFolder = new File(imageFolderPath);
+        imagesFolder.mkdirs();
+
+        // Generating file name
+        String imageName = cal.getTimeInMillis() + ".png";
+
+        // Creating image here
+        File image = new File(imageFolderPath, imageName);
+
+        capturedImageUri = Uri.fromFile(image);
+
+        // imageView.setTag(imageFolderPath + File.separator + imageName);
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri);
+
+        startActivityForResult(takePictureIntent, requestCode);
+
     }
+
+    @OnClick(R.id.emul_button)
+    public void emulator() {
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bsk);
+        homePresenter.callVisionApi(HomeActivity.this, b, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (this.requestCode == requestCode && resultCode == RESULT_OK) {
+
+            //     bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), capturedImageUri);
+
+            //  bitmap = BitmapFactory.decodeFile(capturedImageUri.getPath());
+            button.setEnabled(false);
+            avLoadingIndicatorView.setVisibility(View.VISIBLE);
+            avLoadingIndicatorView.show();
+            relativeLayout.setVisibility(View.VISIBLE);
+            homePresenter.callVisionApi(HomeActivity.this, bitmap, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout);
+
+
+        } else {
+
+            Toast.makeText(getApplicationContext(), "Action Cancelled", Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     @Override
     public void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx) {
@@ -95,21 +181,22 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     @Override
     protected void onResume() {
         super.onResume();
-        if (checkPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED ) {
+
+        if (checkPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
 
         } else {
             makeRequest(Manifest.permission.CAMERA);
 
         }
-        if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED ){
+        if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-        }else {
+        } else {
             makeStorageRequest(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
 
-        if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED ){
+        if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-        }else {
+        } else {
             makeReadStorageRequest(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
     }
@@ -143,53 +230,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (this.requestCode == requestCode && resultCode == RESULT_OK) {
-
-
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            //file path of captured image
-           String filePath = cursor.getString(columnIndex);
-            //file path of captured image
-            File f = new File(filePath);
-          String  filename= f.getName();
-
-            Toast.makeText(HomeActivity.this, "Your Path:"+filePath, Toast.LENGTH_LONG).show();
-            Toast.makeText(HomeActivity.this, "Your Filename:"+filename, Toast.LENGTH_LONG).show();
-            cursor.close();
-
-            //Convert file path into bitmap image using below line.
-            // yourSelectedImage = BitmapFactory.decodeFile(filePath);
-
-
-            //put bitmapimage in your imageview
-            //yourimgView.setImageBitmap(yourSelectedImage);
-
-            /*
-            bitmap = (Bitmap) data.getExtras().get("data");
-
-            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-
-            intent.putExtra("image", bitmap);
-
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-*/
-        } else {
-
-            Toast.makeText(getApplicationContext(), "Action Cancelled", Toast.LENGTH_LONG).show();
-        }
-    }
-
-
-    @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
@@ -197,6 +237,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();    }
+        super.onBackPressed();
+    }
 
 }

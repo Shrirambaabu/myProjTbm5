@@ -79,7 +79,9 @@ dependencies {
     compile 'com.google.api-client:google-api-client-android:1.22.0'
     compile 'com.google.apis:google-api-services-vision:v1-rev357-1.22.0'
     compile 'com.google.code.findbugs:jsr305:3.0.1'
+    compile 'com.google.apis:google-api-services-language:v1beta2-rev6-1.22.0'
 
+    compile 'commons-io:commons-io:2.5'
 
     // https://mvnrepository.com/artifact/com.googlecode.libphonenumber/libphonenumber
     compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '7.0'

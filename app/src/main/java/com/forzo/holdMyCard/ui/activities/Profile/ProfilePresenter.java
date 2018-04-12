@@ -3,8 +3,12 @@ package com.forzo.holdMyCard.ui.activities.Profile;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +17,7 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.forzo.holdMyCard.HmcApplication;
+import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
@@ -20,10 +25,18 @@ import com.forzo.holdMyCard.ui.models.BusinessCard;
 import com.forzo.holdMyCard.utils.HttpHandler;
 import com.forzo.holdMyCard.utils.NetworkController;
 import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.language.v1beta2.CloudNaturalLanguage;
+import com.google.api.services.language.v1beta2.CloudNaturalLanguageRequestInitializer;
+import com.google.api.services.language.v1beta2.model.AnnotateTextRequest;
+import com.google.api.services.language.v1beta2.model.AnnotateTextResponse;
+import com.google.api.services.language.v1beta2.model.Document;
+import com.google.api.services.language.v1beta2.model.Entity;
+import com.google.api.services.language.v1beta2.model.Features;
 import com.google.api.services.vision.v1.Vision;
 import com.google.api.services.vision.v1.VisionRequestInitializer;
 import com.google.api.services.vision.v1.model.AnnotateImageRequest;
@@ -57,6 +70,9 @@ import io.reactivex.schedulers.Schedulers;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
 import static com.forzo.holdMyCard.utils.Utils.BaseUri;
+import static com.forzo.holdMyCard.utils.Utils.CLOUD_NATURAL_API_KEY;
+import static com.forzo.holdMyCard.utils.Utils.CLOUD_VISION_API_KEY;
+import static com.forzo.holdMyCard.utils.Utils.getImageEncodeImage;
 
 /**
  * Created by Shriram on 3/29/2018.
@@ -68,7 +84,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     private static final String TAG = "ProfileActivity";
     private ApiService mApiService;
 
-    private static final String CLOUD_VISION_API_KEY = "AIzaSyCFVBIjD8Vk13VzO980yu_OsVL2-F5itpA";
+
     private RequestQueue queue;
 
     private String[] visionAPI = new String[]{"TEXT_DETECTION"};
@@ -158,7 +174,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 email = parseEmail(result);
                 website = parseWebsite(result);
                 phone = parseMobile(result);
-
                 makeJsonRequest(result, avLoadingIndicatorView, relativeProgress);
                 phoneNumber = phone.toString().replaceAll("\\[", "").replaceAll("\\]", "");
 
@@ -183,18 +198,127 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @Override
+    public void getIntentValues(Intent intent) {
+        Uri imageCaptured = intent.getParcelableExtra("image");
+
+        Bitmap bitmap;
+
+
+        String email = "No email found";
+        String website = "No website found";
+        String phoneNumber = "No Phone Number found";
+        String result = "null";
+
+        email = intent.getStringExtra("email");
+        website = intent.getStringExtra("website");
+        phoneNumber = intent.getStringExtra("phoneNumber");
+        result = intent.getStringExtra("result");
+
+        naturalProcess(result);
+
+        getView().setEmailId(email);
+        getView().setPhoneNumber(phoneNumber);
+        getView().setWebsite(website);
+
+
+        if (imageCaptured != null) {
+
+            Log.e("Profile", "Called");
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageCaptured);
+
+                int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
+                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+
+                getView().setProfileImage(scaled);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // profilePresenter.callCloudVision(bitmap, feature, avLoadingIndicatorView, relativeProgress);
+
+        } else {
+            Bitmap b = BitmapFactory.decodeResource(context.getResources(), R.drawable.bsk);
+
+            getView().setEmailId(email);
+            getView().setPhoneNumber(phoneNumber);
+            getView().setWebsite(website);
+            getView().setProfileImage(b);
+            // imageView.setImageResource(R.drawable.business_card);
+        }
+    }
+
+    private void naturalProcess(String result) {
+
+        final CloudNaturalLanguage naturalLanguageService =
+                new CloudNaturalLanguage.Builder(
+                        AndroidHttp.newCompatibleTransport(),
+                        new AndroidJsonFactory(),
+                        null
+                ).setCloudNaturalLanguageRequestInitializer(
+                        new CloudNaturalLanguageRequestInitializer(CLOUD_NATURAL_API_KEY)
+                ).build();
+
+
+        Document document = new Document();
+        document.setType("PLAIN_TEXT");
+        document.setLanguage("en-US");
+        document.setContent(result);
+
+        Features features = new Features();
+        features.setExtractEntities(true);
+        features.setExtractDocumentSentiment(true);
+
+        final AnnotateTextRequest request = new AnnotateTextRequest();
+        request.setDocument(document);
+        request.setFeatures(features);
+
+
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    AnnotateTextResponse response = naturalLanguageService.documents()
+                                    .annotateText(request).execute();
+
+                    final List<Entity> entityList = response.getEntities();
+                    final float sentiment = response.getDocumentSentiment().getScore();
+
+                    String entities = "";
+                    for(Entity entity:entityList) {
+                        entities += "\n" + entity.getName();
+
+                       }
+                    Log.e("entityList",""+entityList);
+                    Log.e("entity",""+entities);
+
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // More code here
+            }
+        });
+
+    }
+
+    @Override
     public void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText) {
 
 
-        String name=nameTextInputEditText.getText().toString();
-        String company=companyTextInputEditText.getText().toString();
-        String jobTitle=jobTitleTextInputEditText.getText().toString();
-        String mobileNumber=mobileTextInputEditText.getText().toString();
-        String emailId=emailTextInputEditText.getText().toString();
-        String website=websiteTextInputEditText.getText().toString();
+        String name = nameTextInputEditText.getText().toString();
+        String company = companyTextInputEditText.getText().toString();
+        String jobTitle = jobTitleTextInputEditText.getText().toString();
+        String mobileNumber = mobileTextInputEditText.getText().toString();
+        String emailId = emailTextInputEditText.getText().toString();
+        String website = websiteTextInputEditText.getText().toString();
 
 
-        BusinessCard businessCard=new BusinessCard();
+        BusinessCard businessCard = new BusinessCard();
 
         businessCard.setId("1");
         businessCard.setName(name);
@@ -210,7 +334,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 .subscribe(new Observer<BusinessCard>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                       // progressBar.smoothToShow();
+                        // progressBar.smoothToShow();
                     }
 
                     @Override
@@ -220,7 +344,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                     @Override
                     public void onError(Throwable e) {
-                      //  progressBar.smoothToHide();
+                        //  progressBar.smoothToHide();
 
                     }
 
@@ -311,19 +435,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     }
 
-    public Image getImageEncodeImage(Bitmap bitmap) {
-
-        Image base64EncodedImage = new Image();
-        // Convert the bitmap to a JPEG
-        // Just in case it's a format that Android understands but Cloud Vision
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
-        byte[] imageBytes = byteArrayOutputStream.toByteArray();
-
-        // Base64 encode the JPEG
-        base64EncodedImage.encodeContent(imageBytes);
-        return base64EncodedImage;
-    }
 
     private String convertResponseToString(BatchAnnotateImagesResponse response) throws IOException {
 

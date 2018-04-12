@@ -1,5 +1,6 @@
 package com.forzo.holdMyCard.ui.activities.Profile;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.design.widget.TextInputEditText;
 import android.widget.PopupWindow;
@@ -22,6 +23,7 @@ public interface ProfileContract {
 
         void callCloudVision(Bitmap bitmap, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeProgress);
 
+        void getIntentValues(Intent intent);
         void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText);
     }
 
@@ -38,6 +40,7 @@ public interface ProfileContract {
 
         void setWebsite(String website);
 
+        void setProfileImage(Bitmap profileImage);
         void setCompanyName(String companyName);
 
         void setJobTitle(String jobTitle);
