@@ -350,7 +350,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 if (person.equals("")) {
                     person = "No name found";
                 }if (company.equals("")) {
-                    person = "No Company name found";
+                    company = "No Company name found";
                 }if (company.equals("")) {
                     address = "No Address found";
                 }

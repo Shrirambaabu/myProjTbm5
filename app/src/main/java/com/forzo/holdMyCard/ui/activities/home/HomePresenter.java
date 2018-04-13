@@ -76,7 +76,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     @SuppressLint("StaticFieldLeak")
     @Override
     public void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout,RelativeLayout relativeLayoutMain) {
-
+        Log.e("HM", "Vision called");
 
         if (uri != null) {
             bitmap = BitmapFactory.decodeFile(uri.getPath());
@@ -92,7 +92,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
         annotateImageRequests.add(annotateImageReq);
 
 
-        Log.e("HM", "Vision calling");
+
 
         new AsyncTask<Object, Void, String>() {
             @Override
