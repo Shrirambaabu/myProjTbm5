@@ -260,7 +260,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
             // profilePresenter.callCloudVision(bitmap, feature, avLoadingIndicatorView, relativeProgress);
 
         } else {
-            Bitmap b = BitmapFactory.decodeResource(context.getResources(), R.drawable.bsk);
+            Bitmap b = BitmapFactory.decodeResource(context.getResources(), R.drawable.abc_d);
 /*
             getView().setEmailId(email);
             getView().setPhoneNumber(phoneNumber);

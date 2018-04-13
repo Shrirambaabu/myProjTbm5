@@ -145,7 +145,11 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @OnClick(R.id.emul_button)
     public void emulator() {
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bsk);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.abc_d);
+        avLoadingIndicatorView.setVisibility(View.VISIBLE);
+        avLoadingIndicatorView.show();
+        relativeLayout.setVisibility(View.VISIBLE);
+        relativeLayoutMain.setVisibility(View.GONE);
         homePresenter.callVisionApi(HomeActivity.this, b, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout,relativeLayoutMain);
 
     }

@@ -9,6 +9,10 @@ import com.google.api.services.vision.v1.model.Image;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Shriram on 4/4/2018.
@@ -28,6 +32,57 @@ public class Utils {
             mActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
+
+    public static ArrayList<String> convertToHourMinuteTimeSet(int hourOfDay, int minute) {
+
+        ArrayList<String> integerArrayList = new ArrayList<>();
+
+        int hour = hourOfDay;
+        String timeSet = "";
+        if (hour > 12) {
+            hour -= 12;
+            timeSet = "PM";
+        } else if (hour == 0) {
+            hour += 12;
+            timeSet = "AM";
+        } else if (hour == 12) {
+            timeSet = "PM";
+        } else {
+            timeSet = "AM";
+        }
+        String hourFinal="";
+        if (hour<10){
+            hourFinal="0"+hour;
+        }
+
+        String min = "";
+        if (minute < 10)
+            min = "0" + minute;
+        else
+            min = String.valueOf(minute);
+
+        integerArrayList.add(hourFinal);
+        integerArrayList.add(min);
+        integerArrayList.add(timeSet);
+
+        return integerArrayList;
+
+    }
+
+
+    public static String formatDate(int year, int monthOfYear, int dayOfMonth) {
+
+        SimpleDateFormat parseFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, monthOfYear);
+        calendar.set(Calendar.DATE, dayOfMonth);
+        Date date = calendar.getTime();
+        //Date date = new Date(newYear, monthOfYear, dayOfMonth);
+        return parseFormat.format(date);
+    }
+
 
     public static Image getImageEncodeImage(Bitmap bitmap) {
 
