@@ -6,34 +6,39 @@
     android:layout_height="match_parent"
     tools:context="com.forzo.holdMyCard.ui.activities.home.HomeActivity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/button_bg"
-        android:text="Click Here to capture image" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relative_main">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_bg"
+            android:text="Click Here to capture image" />
 
 
-    <Button
-        android:id="@+id/emul_button"
-        android:layout_width="wrap_content"
-        android:visibility="gone"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_bg"
-        android:text="Emulator" />
+        <Button
+            android:id="@+id/emul_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_bg"
+            android:text="Emulator"
+            android:visibility="visible" />
 
 
-    <include layout="@layout/layout_bottom_navigation_view" />
+        <include layout="@layout/layout_bottom_navigation_view" />
 
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/relative_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:background="@color/colorTransparent"
-        >
+        android:visibility="gone">
 
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/avi"

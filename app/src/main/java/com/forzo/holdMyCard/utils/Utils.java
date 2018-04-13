@@ -1,11 +1,13 @@
 package com.forzo.holdMyCard.utils;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.api.services.vision.v1.model.Image;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 /**
@@ -39,6 +41,13 @@ public class Utils {
         // Base64 encode the JPEG
         base64EncodedImage.encodeContent(imageBytes);
         return base64EncodedImage;
+    }
+    public static Bitmap getImageCompressImage(Bitmap bitmap) {
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, out);
+        Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+        return decoded;
     }
 
     public static Bitmap getResizedBitmap(Bitmap image, int maxSize) {

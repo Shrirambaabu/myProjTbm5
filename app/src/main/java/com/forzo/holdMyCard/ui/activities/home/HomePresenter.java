@@ -75,7 +75,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
     @SuppressLint("StaticFieldLeak")
     @Override
-    public void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout) {
+    public void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout,RelativeLayout relativeLayoutMain) {
 
 
         if (uri != null) {
@@ -156,6 +156,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                 avLoadingIndicatorView.setVisibility(View.GONE);
                 avLoadingIndicatorView.hide();
                 relativeLayout.setVisibility(View.GONE);
+                relativeLayoutMain.setVisibility(View.VISIBLE);
 
                 intent.putExtra("email", email);
                 intent.putExtra("image", uri);

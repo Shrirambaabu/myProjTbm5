@@ -82,6 +82,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     @BindView(R.id.relative_progress)
     RelativeLayout relativeLayout;
 
+    @BindView(R.id.relative_main)
+    RelativeLayout relativeLayoutMain;
+
     @BindView(R.id.avi)
     AVLoadingIndicatorView avLoadingIndicatorView;
 
@@ -143,7 +146,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     @OnClick(R.id.emul_button)
     public void emulator() {
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bsk);
-        homePresenter.callVisionApi(HomeActivity.this, b, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout);
+        homePresenter.callVisionApi(HomeActivity.this, b, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout,relativeLayoutMain);
 
     }
 
@@ -155,11 +158,12 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             //     bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), capturedImageUri);
 
             //  bitmap = BitmapFactory.decodeFile(capturedImageUri.getPath());
-            button.setEnabled(false);
+
             avLoadingIndicatorView.setVisibility(View.VISIBLE);
             avLoadingIndicatorView.show();
             relativeLayout.setVisibility(View.VISIBLE);
-            homePresenter.callVisionApi(HomeActivity.this, bitmap, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout);
+            relativeLayoutMain.setVisibility(View.GONE);
+            homePresenter.callVisionApi(HomeActivity.this, bitmap, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout,relativeLayoutMain);
 
 
         } else {

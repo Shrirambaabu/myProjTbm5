@@ -22,7 +22,7 @@ public interface HomeContract {
 
     void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
 
-    void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout);
+    void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout,RelativeLayout relativeLayoutTwo);
     void onBackPress();
 
 }

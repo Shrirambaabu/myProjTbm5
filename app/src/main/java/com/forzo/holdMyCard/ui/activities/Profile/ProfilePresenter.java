@@ -60,6 +60,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -214,7 +215,27 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         phoneNumber = intent.getStringExtra("phoneNumber");
         result = intent.getStringExtra("result");
 
-        naturalProcess(result);
+
+        if (result != null) {
+            naturalProcess(result);
+        } else {
+            Log.e("intent", "" + intent.getStringExtra("result"));
+
+            getView().setUserName("No Name found");
+            getView().setCompanyName("No Company name found");
+            getView().setAddress("No Address found");
+        }
+        getView().setJobTitle("No Jobs found");
+        if (email == null) {
+            email = "No email found";
+        }
+        if (website == null) {
+            website = "No website found";
+        }
+        if (phoneNumber == null) {
+            phoneNumber = "No email found";
+        }
+
 
         getView().setEmailId(email);
         getView().setPhoneNumber(phoneNumber);
@@ -240,17 +261,19 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
         } else {
             Bitmap b = BitmapFactory.decodeResource(context.getResources(), R.drawable.bsk);
-
+/*
             getView().setEmailId(email);
             getView().setPhoneNumber(phoneNumber);
-            getView().setWebsite(website);
+            getView().setWebsite(website);*/
             getView().setProfileImage(b);
             // imageView.setImageResource(R.drawable.business_card);
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void naturalProcess(String result) {
 
+        Log.e("natural", "doing");
         final CloudNaturalLanguage naturalLanguageService =
                 new CloudNaturalLanguage.Builder(
                         AndroidHttp.newCompatibleTransport(),
@@ -275,34 +298,68 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         request.setFeatures(features);
 
 
-
-        AsyncTask.execute(new Runnable() {
+        new AsyncTask<Object, Void, AnnotateTextResponse>() {
             @Override
-            public void run() {
+            protected AnnotateTextResponse doInBackground(Object... params) {
+
+                AnnotateTextResponse response = new AnnotateTextResponse();
                 try {
-                    AnnotateTextResponse response = naturalLanguageService.documents()
-                                    .annotateText(request).execute();
+                    Log.e(TAG, "doInBackground: sending Request ");
 
-                    final List<Entity> entityList = response.getEntities();
-                    final float sentiment = response.getDocumentSentiment().getScore();
-
-                    String entities = "";
-                    for(Entity entity:entityList) {
-                        entities += "\n" + entity.getName();
-
-                       }
-                    Log.e("entityList",""+entityList);
-                    Log.e("entity",""+entities);
+                    response = naturalLanguageService.documents()
+                            .annotateText(request).execute();
 
 
+                    return response;
 
+                } catch (GoogleJsonResponseException e) {
+                    Log.e(TAG, "failed to connect because " + e.getContent());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "failed to connect because of other IOException " + e.getMessage());
                 }
-
-                // More code here
+                return response;
             }
-        });
+
+            protected void onPostExecute(AnnotateTextResponse response) {
+
+
+                Log.e("result", "" + result);
+
+                final List<Entity> entityList = response.getEntities();
+                // final float sentiment = response.getDocumentSentiment().getScore();
+
+                String entities = "";
+
+                String person = "";
+                String company = "";
+                String address = "";
+
+                for (Entity entity : entityList) {
+                    entities += "\n" + entity.getName() + " " + entity.getType();
+
+                    if (entity.getType().equals("PERSON")) {
+                        person += entity.getName();
+                    }
+                    if (entity.getType().equals("ORGANIZATION")) {
+                        company += entity.getName();
+                    }
+                    if (entity.getType().equals("LOCATION")) {
+                        address += " " + entity.getName();
+                    }
+                }
+                if (person.equals("")) {
+                    person = "No name found";
+                }if (company.equals("")) {
+                    person = "No Company name found";
+                }if (company.equals("")) {
+                    address = "No Address found";
+                }
+                getView().setUserName("" + person);
+                getView().setCompanyName("" + company);
+                getView().setAddress("" + address);
+            }
+        }.execute();
+
 
     }
 
