@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -38,7 +39,7 @@ import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 import static com.forzo.holdMyCard.utils.Utils.convertToHourMinuteTimeSet;
 import static com.forzo.holdMyCard.utils.Utils.formatDate;
 
-public class RemainderDetailsActivity extends AppCompatActivity {
+public class RemainderDetailsActivity extends AppCompatActivity implements RemainderDetailsContract.View{
 
     static final int DATE_PICKER_ID = 1111;
 
@@ -49,6 +50,9 @@ public class RemainderDetailsActivity extends AppCompatActivity {
     TextView datePickerValue;
     @BindView(R.id.time_remainder)
     TextView timePickerValue;
+
+    @BindView(R.id.remain_des)
+    EditText remainDes;
 
     @Inject
     RemainderDetailsPresenter remainderDetailsPresenter;
@@ -76,9 +80,28 @@ public class RemainderDetailsActivity extends AppCompatActivity {
     @OnClick(R.id.save_remainder)
     public void remainderSection() {
 
-        Intent intent = new Intent(RemainderDetailsActivity.this, RemainderActivity.class);
+        if (remainDes.getText().toString().equals("")){
+            Toast.makeText(getApplicationContext(),"Please enter your content",Toast.LENGTH_LONG).show();
+            return;
+        }if (datePickerValue.getText().toString().equals("")){
+            Toast.makeText(getApplicationContext(),"Please select the Date",Toast.LENGTH_LONG).show();
+            return;
+        }if (timePickerValue.getText().toString().equals("")){
+            Toast.makeText(getApplicationContext(),"Please select the time",Toast.LENGTH_LONG).show();
+            return;
+        }
+        else {
+
+         //   remainderDetailsPresenter.saveRemainder(RemainderDetailsActivity.this,remainDes,datePickerValue,timePickerValue);
+
+            finish();
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
+
+
+       /* Intent intent = new Intent(RemainderDetailsActivity.this, RemainderActivity.class);
         startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);*/
 
     }
 
@@ -109,8 +132,16 @@ public class RemainderDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
 
@@ -180,4 +211,9 @@ public class RemainderDetailsActivity extends AppCompatActivity {
 
     };
 
+    @Override
+    public void savedSuccessfully() {
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
 }

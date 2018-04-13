@@ -92,8 +92,15 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);    }
 
 }

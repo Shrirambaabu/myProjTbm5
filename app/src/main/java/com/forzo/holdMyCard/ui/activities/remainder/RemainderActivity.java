@@ -82,8 +82,16 @@ public class RemainderActivity extends AppCompatActivity  implements RemainderCo
     }
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override

@@ -57,7 +57,6 @@
             android:paddingBottom="8dp"
             android:paddingEnd="16dp"
             android:paddingTop="8dp"
-            android:text="12-04-1996"
             android:textSize="16sp" />
 
     </LinearLayout>
@@ -99,7 +98,6 @@
             android:paddingBottom="8dp"
             android:paddingEnd="16dp"
             android:paddingTop="8dp"
-            android:text="12:00 PM"
             android:textSize="16sp" />
 
     </LinearLayout>

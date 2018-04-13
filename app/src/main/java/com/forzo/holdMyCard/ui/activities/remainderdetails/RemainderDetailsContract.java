@@ -1,6 +1,8 @@
 package com.forzo.holdMyCard.ui.activities.remainderdetails;
 
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
@@ -17,11 +19,12 @@ public interface RemainderDetailsContract {
     interface Presenter extends BaseMvpPresenter<View> {
 
         void showDatePicker();
+        void saveRemainder(RemainderDetailsActivity remainderDetailsActivity, EditText editText, TextView dateText,TextView timeText);
 
     }
 
     interface View {
 
-
+    void savedSuccessfully();
     }
 }

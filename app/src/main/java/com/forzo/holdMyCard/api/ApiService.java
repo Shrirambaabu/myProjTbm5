@@ -34,4 +34,12 @@ public interface ApiService {
     Observable<BusinessCard> saveBusinessCard(@Body BusinessCard businessCard);
 
 
+
+    @POST("user/saveNotes")
+    Observable<MyNotes> saveNotes(@Body MyNotes myNotes);
+
+    @POST("user/saveRemainder")
+    Observable<MyRemainder> saveRemainder(@Body MyRemainder myRemainder);
+
+
 }

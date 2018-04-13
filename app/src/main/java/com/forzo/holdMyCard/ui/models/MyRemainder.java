@@ -13,10 +13,44 @@ public class MyRemainder {
     @Expose
     private String name;
 
+    public String getId() {
+        return id;
+    }
 
-    @SerializedName("dateTime")
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @SerializedName("id")
     @Expose
-    private String dateTime;
+
+    private String id;
+
+
+    @SerializedName("date")
+    @Expose
+    private String date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    @SerializedName("time")
+    @Expose
+
+    private String time;
 
 
 
@@ -29,18 +63,18 @@ public class MyRemainder {
     }
 
     public String getDateTime() {
-        return dateTime;
+        return date;
     }
 
     public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+        this.date = dateTime;
     }
 
 
 
     public MyRemainder(String name, String dateTime) {
         this.name = name;
-        this.dateTime = dateTime;
+        this.date = dateTime;
     }
 
     public MyRemainder() {

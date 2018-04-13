@@ -13,6 +13,23 @@ public class MyNotes {
     @Expose
     private String notes;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public MyNotes(String notes) {
+        this.notes = notes;
+    }
+
+    @SerializedName("id")
+    @Expose
+
+    private String id;
+
     public String getNotes() {
         return notes;
     }
@@ -21,8 +38,9 @@ public class MyNotes {
         this.notes = notes;
     }
 
-    public MyNotes(String notes) {
+    public MyNotes(String notes,String id) {
         this.notes = notes;
+        this.id = id;
     }
 
     public MyNotes() {
