@@ -38,7 +38,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -79,7 +81,14 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
         Log.e("HM", "Vision called");
 
         if (uri != null) {
-            bitmap = BitmapFactory.decodeFile(uri.getPath());
+
+            try {
+                InputStream ims = homeActivity.getContentResolver().openInputStream(uri);
+                bitmap = BitmapFactory.decodeStream(ims);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
         }
         final List<Feature> featureList = new ArrayList<>();
         featureList.add(feature);

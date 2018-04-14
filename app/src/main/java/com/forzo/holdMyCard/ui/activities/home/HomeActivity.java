@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.forzo.holdMyCard.BuildConfig;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.base.BaseView;
@@ -131,7 +133,10 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         // Creating image here
         File image = new File(imageFolderPath, imageName);
 
-        capturedImageUri = Uri.fromFile(image);
+       // capturedImageUri = Uri.fromFile(image);
+        capturedImageUri =  FileProvider.getUriForFile(HomeActivity.this,
+                BuildConfig.APPLICATION_ID + ".provider",
+                image);
 
         // imageView.setTag(imageFolderPath + File.separator + imageName);
 
@@ -168,6 +173,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             relativeLayout.setVisibility(View.VISIBLE);
             relativeLayoutMain.setVisibility(View.GONE);
             Log.e("HM","Calling Vision");
+            Log.e("uri",""+capturedImageUri);
             homePresenter.callVisionApi(HomeActivity.this, bitmap, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout,relativeLayoutMain);
 
 
