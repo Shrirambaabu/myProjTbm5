@@ -23,7 +23,7 @@ public interface ProfileContract {
 
         void callCloudVision(Bitmap bitmap, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeProgress);
 
-        void getIntentValues(Intent intent);
+        void getIntentValues(Intent intent, RelativeLayout cardLayout);
         void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText);
     }
 

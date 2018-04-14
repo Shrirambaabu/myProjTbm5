@@ -46,6 +46,7 @@ public class BottomNavigationHelper {
 
                 case R.id.ic_profile:
                     Intent profileIntent = new Intent(context, ProfileActivity.class);
+                    profileIntent.putExtra("profile","profileActivity");
                     context.startActivity(profileIntent);
                     callingActivity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     break;

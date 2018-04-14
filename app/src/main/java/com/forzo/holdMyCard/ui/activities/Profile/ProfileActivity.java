@@ -104,6 +104,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @BindView(R.id.relative_progress)
     RelativeLayout relativeProgress;
 
+    @BindView(R.id.card_action)
+    RelativeLayout cardLayout;
+
     private Context mContext = ProfileActivity.this;
 
     @Override
@@ -128,7 +131,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
 
         profilePresenter.attach(this);
-        profilePresenter.getIntentValues(getIntent());
+        profilePresenter.getIntentValues(getIntent(),cardLayout);
         profilePresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
 
 

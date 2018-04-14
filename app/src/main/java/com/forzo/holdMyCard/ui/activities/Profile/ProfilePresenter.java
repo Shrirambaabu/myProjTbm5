@@ -199,7 +199,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @Override
-    public void getIntentValues(Intent intent) {
+    public void getIntentValues(Intent intent, RelativeLayout cardLayout) {
         Uri imageCaptured = intent.getParcelableExtra("image");
 
         Bitmap bitmap;
@@ -210,11 +210,19 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         String phoneNumber = "No Phone Number found";
         String result = "null";
 
+        String profile="";
+
         email = intent.getStringExtra("email");
         website = intent.getStringExtra("website");
         phoneNumber = intent.getStringExtra("phoneNumber");
         result = intent.getStringExtra("result");
+        profile = intent.getStringExtra("profile");
 
+        if (profile!=null){
+            cardLayout.setVisibility(View.GONE);
+        }else {
+            cardLayout.setVisibility(View.VISIBLE);
+        }
 
         if (result != null) {
             naturalProcess(result);
