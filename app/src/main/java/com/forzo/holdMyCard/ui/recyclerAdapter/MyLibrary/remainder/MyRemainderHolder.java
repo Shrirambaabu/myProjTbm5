@@ -49,5 +49,7 @@ public class MyRemainderHolder extends RecyclerView.ViewHolder implements MyRema
 
         remainderDate.setText(dateTime);
     }
+
+
 }
 

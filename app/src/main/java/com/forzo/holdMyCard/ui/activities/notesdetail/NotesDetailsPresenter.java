@@ -2,6 +2,9 @@ package com.forzo.holdMyCard.ui.activities.notesdetail;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.forzo.holdMyCard.HmcApplication;
@@ -69,5 +72,15 @@ public class NotesDetailsPresenter extends BasePresenter<NotesDetailContract.Vie
                 });
 
 
+    }
+
+    @Override
+    public void getIntentValues(Intent intent, Button button) {
+
+        String  noteDescription = intent.getStringExtra("noteDes");
+
+        /*if (noteDescription!=null) {
+            getView().setNotesValue(noteDescription);
+        }*/
     }
 }

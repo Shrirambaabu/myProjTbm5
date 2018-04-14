@@ -11,6 +11,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Created by Shriram on 4/6/2018.
@@ -20,11 +21,11 @@ public interface ApiService {
 
 
 
-    @GET("user/getUserNotes")
-    Observable<List<MyNotes>> getUserNotes();
+    @GET("notes/showAllNotes/{userId}")
+    Observable<List<MyNotes>> getUserNotes(@Path("userId") String userId);
 
-    @GET("user/getUserRemainder")
-    Observable<List<MyRemainder>> getUserRemainder();
+    @GET("remainder/showAllRemainder/{userId}")
+    Observable<List<MyRemainder>> getUserRemainder(@Path("userId") String userId);
 
     @GET("user/getUserLibrary")
     Observable<List<MyLibrary>> getUserLibrary();
@@ -40,6 +41,9 @@ public interface ApiService {
 
     @POST("user/saveRemainder")
     Observable<MyRemainder> saveRemainder(@Body MyRemainder myRemainder);
+
+    @GET("user/getPaymentCurrentFromUserId/{userId}")
+    Observable<List<MyLibrary>> getMyLibrary(@Path("userId") String userId);
 
 
 }

@@ -1,5 +1,7 @@
 package com.forzo.holdMyCard.ui.activities.remainderdetails;
 
+import android.content.Intent;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,10 +23,16 @@ public interface RemainderDetailsContract {
         void showDatePicker();
         void saveRemainder(RemainderDetailsActivity remainderDetailsActivity, EditText editText, TextView dateText,TextView timeText);
 
+        void getIntentValues(Intent intent, Button button);
+
     }
 
     interface View {
 
     void savedSuccessfully();
+
+    void remainderText(String remainder);
+    void remainderDate(String date);
+    void remainderTime(String time);
     }
 }

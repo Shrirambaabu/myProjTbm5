@@ -218,11 +218,11 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         result = intent.getStringExtra("result");
         profile = intent.getStringExtra("profile");
 
-        if (profile!=null){
+       /* if (profile!=null){
             cardLayout.setVisibility(View.GONE);
         }else {
             cardLayout.setVisibility(View.VISIBLE);
-        }
+        }*/
 
         if (result != null) {
             naturalProcess(result);

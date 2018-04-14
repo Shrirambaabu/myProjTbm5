@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class MyRemainder {
 
-    @SerializedName("name")
+    @SerializedName("remainderDesc")
     @Expose
     private String name;
 
@@ -21,15 +21,26 @@ public class MyRemainder {
         this.id = id;
     }
 
-    @SerializedName("id")
+    @SerializedName("remainderId")
     @Expose
-
     private String id;
 
 
-    @SerializedName("date")
+    @SerializedName("remainderdate")
     @Expose
     private String date;
+
+    @SerializedName("remainderStatusId")
+    @Expose
+    private String statusId;
+
+    public String getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(String statusId) {
+        this.statusId = statusId;
+    }
 
     public String getDate() {
         return date;
@@ -47,9 +58,8 @@ public class MyRemainder {
         this.time = time;
     }
 
-    @SerializedName("time")
+    @SerializedName("remainderTime")
     @Expose
-
     private String time;
 
 

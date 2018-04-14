@@ -73,7 +73,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
                 .build()
                 .inject(this);
 
-
+      //  remainderDetailsPresenter.getIntentValues(getIntent(),button);
         backButtonOnToolbar(RemainderDetailsActivity.this);
     }
 
@@ -215,5 +215,21 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     public void savedSuccessfully() {
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    public void remainderText(String remainder) {
+        remainDes.setText(remainder);
+    }
+
+    @Override
+    public void remainderDate(String date) {
+
+        datePickerValue.setText(date);
+    }
+
+    @Override
+    public void remainderTime(String time) {
+        timePickerValue.setText(time);
     }
 }

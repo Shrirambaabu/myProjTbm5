@@ -32,8 +32,11 @@ public class MyRemainderListPresenter implements MyRemainderContract.Presenter {
     public void onItemClick(int adapterPosition) {
 
         Activity activity = (Activity) context;
-        Intent eventDetailsIntent = new Intent(context, RemainderDetailsActivity.class);
-        context.startActivity(eventDetailsIntent);
+        Intent remainderDetailsIntent = new Intent(context, RemainderDetailsActivity.class);
+        remainderDetailsIntent.putExtra("remainDesc",""+myRemainders.get(adapterPosition).getName());
+        remainderDetailsIntent.putExtra("remainTime",""+myRemainders.get(adapterPosition).getTime());
+        remainderDetailsIntent.putExtra("remainDate",""+myRemainders.get(adapterPosition).getDate());
+        context.startActivity(remainderDetailsIntent);
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }
@@ -44,7 +47,8 @@ public class MyRemainderListPresenter implements MyRemainderContract.Presenter {
         MyRemainder notes=myRemainders.get(position);
 
         rowView.setCardName(notes.getName());
-        rowView.setDateTime(notes.getDateTime());
+        rowView.setDateTime(notes.getDate()+""+notes.getTime());
+
 
 
     }

@@ -1,5 +1,7 @@
 package com.forzo.holdMyCard.ui.activities.notesdetail;
 
+import android.content.Intent;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
@@ -11,9 +13,11 @@ import com.forzo.holdMyCard.ui.activities.remainderdetails.RemainderDetailsContr
 
 public interface NotesDetailContract {
 
-    interface Presenter extends BaseMvpPresenter<NotesDetailContract.View> {
+    interface Presenter extends BaseMvpPresenter<View> {
 
-void saveNote(NotesDetailsActivity notesDetailsActivity, EditText editText);
+        void saveNote(NotesDetailsActivity notesDetailsActivity, EditText editText);
+
+        void getIntentValues(Intent intent, Button button);
 
     }
 
@@ -21,5 +25,6 @@ void saveNote(NotesDetailsActivity notesDetailsActivity, EditText editText);
 
         void savedSuccessfully();
 
+        void setNotesValue(String value);
     }
 }

@@ -3,6 +3,7 @@ package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.mynotes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.forzo.holdMyCard.ui.activities.notes.NotesActivity;
 import com.forzo.holdMyCard.ui.activities.notesdetail.NotesDetailsActivity;
@@ -32,9 +33,12 @@ public class MyNotesListPresenter implements MyNotesContract.Presenter {
     @Override
     public void onItemClick(int adapterPosition) {
 
+        Log.e("val",""+myNotes.get(adapterPosition).getNotes());
         Activity activity = (Activity) context;
-        Intent eventDetailsIntent = new Intent(context, NotesDetailsActivity.class);
-        context.startActivity(eventDetailsIntent);
+        Intent noteDetailsIntent = new Intent(context, NotesDetailsActivity.class);
+       // noteDetailsIntent.putExtra("noteId",myNotes.get(adapterPosition).getId());
+        noteDetailsIntent.putExtra("noteDes",myNotes.get(adapterPosition).getNotes());
+        context.startActivity(noteDetailsIntent);
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }

@@ -2,6 +2,9 @@ package com.forzo.holdMyCard.ui.activities.remainderdetails;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -81,6 +84,24 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
                 });
 
 
+
+    }
+
+    @Override
+    public void getIntentValues(Intent intent, Button button) {
+
+        String remainderContent=intent.getStringExtra("remainDesc");
+        String remainderDate=intent.getStringExtra("remainDate");
+        String remainderTime=intent.getStringExtra("remainTime");
+
+
+        Log.e("values",""+remainderContent);
+        Log.e("values",""+remainderDate);
+        Log.e("values",""+remainderTime);
+
+        getView().remainderText(remainderContent);
+        getView().remainderDate(remainderDate);
+        getView().remainderTime(remainderTime);
 
     }
 }

@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class MyNotes {
 
-    @SerializedName("notes")
+    @SerializedName("notesDesc")
     @Expose
     private String notes;
 
@@ -25,9 +25,8 @@ public class MyNotes {
         this.notes = notes;
     }
 
-    @SerializedName("id")
+    @SerializedName("notesId")
     @Expose
-
     private String id;
 
     public String getNotes() {

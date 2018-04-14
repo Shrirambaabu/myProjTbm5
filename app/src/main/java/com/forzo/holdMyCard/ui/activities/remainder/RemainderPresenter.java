@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.RelativeLayout;
 
 import com.forzo.holdMyCard.HmcApplication;
@@ -57,13 +58,15 @@ public class RemainderPresenter extends BasePresenter<RemainderContract.View> im
     @Override
     public void populateRecyclerView(List<MyRemainder> remainders) {
 
+/*
 
         remainders.addAll(DataService.getRemainderList());
         getView().updateAdapter();
 
-/*
+*/
 
-        mApiService.getUserRemainder()
+
+        mApiService.getUserRemainder("1")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<MyRemainder>>() {
@@ -79,9 +82,13 @@ public class RemainderPresenter extends BasePresenter<RemainderContract.View> im
                             MyRemainder myRemainder = new MyRemainder();
 
                             myRemainder.setName(myRemainderList.get(i).getName());
-                            myRemainder.setDateTime(myRemainderList.get(i).getDateTime());
+                            myRemainder.setDate(myRemainderList.get(i).getDate());
+                            myRemainder.setTime(myRemainderList.get(i).getTime());
+                            myRemainder.setId(myRemainderList.get(i).getId());
+                            myRemainder.setStatusId(myRemainderList.get(i).getStatusId());
 
-                            myRemainderList.add(myRemainder);
+                            remainders.add(myRemainder);
+
 
                             getView().updateAdapter();
                         }
@@ -89,6 +96,7 @@ public class RemainderPresenter extends BasePresenter<RemainderContract.View> im
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.e("notes","err "+e.getMessage());
                         // getView().hideLoading();
                     }
 
@@ -98,7 +106,7 @@ public class RemainderPresenter extends BasePresenter<RemainderContract.View> im
                     }
                 });
 
-*/
+
 
 
 

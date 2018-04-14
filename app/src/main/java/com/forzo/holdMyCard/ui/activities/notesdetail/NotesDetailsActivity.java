@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
+import com.forzo.holdMyCard.base.BaseView;
 import com.forzo.holdMyCard.ui.activities.notes.NotesActivity;
 
 import javax.inject.Inject;
@@ -21,7 +22,7 @@ import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 
-public class NotesDetailsActivity extends AppCompatActivity implements NotesDetailContract.View{
+public class NotesDetailsActivity extends AppCompatActivity implements NotesDetailContract.View,BaseView{
 
 
 
@@ -46,6 +47,7 @@ public class NotesDetailsActivity extends AppCompatActivity implements NotesDeta
                 .build()
                 .inject(this);
 
+        //notesDetailsPresenter.getIntentValues(getIntent(),button);
         backButtonOnToolbar(NotesDetailsActivity.this);
     }
 
@@ -96,5 +98,11 @@ public class NotesDetailsActivity extends AppCompatActivity implements NotesDeta
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
+    }
+
+    @Override
+    public void setNotesValue(String value) {
+        noteDes.setText(value);
+        noteDes.setEnabled(false);
     }
 }

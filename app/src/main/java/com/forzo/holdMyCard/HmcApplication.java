@@ -21,7 +21,8 @@ import retrofit2.Retrofit;
 
 public class HmcApplication extends Application {
 
-    public static final String BASE_URL = "http://servicet.jvmhost.net/SwsRest-1.0/";
+   // public static final String BASE_URL = "http://servicet.jvmhost.net/SwsRest-1.0/";
+    public static final String BASE_URL = "http://192.168.43.29:8080/";
 
 
     @Inject

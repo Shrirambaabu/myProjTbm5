@@ -15,6 +15,7 @@
         android:padding="8dp"
         android:textSize="18sp"
         android:gravity="start"
+        android:maxLength="250"
         android:hint="Please enter your content"
         android:layout_margin="16dp"/>
 
