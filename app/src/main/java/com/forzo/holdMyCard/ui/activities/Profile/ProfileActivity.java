@@ -107,6 +107,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @BindView(R.id.card_action)
     RelativeLayout cardLayout;
 
+    @BindView(R.id.action_card)
+    RelativeLayout saveCancel;
+
     private Context mContext = ProfileActivity.this;
 
     @Override
@@ -123,15 +126,13 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
                 .inject(this);
 
 
-
-
         feature = new Feature();
         feature.setType(visionAPI[0]);
         feature.setMaxResults(10);
 
 
         profilePresenter.attach(this);
-        profilePresenter.getIntentValues(getIntent(),cardLayout);
+        profilePresenter.getIntentValues(getIntent(), cardLayout);
         profilePresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
 
 
@@ -222,14 +223,13 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @OnClick(R.id.save_text)
     public void saveToast() {
-        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+        /*Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
 
         Intent intentSave = new Intent(ProfileActivity.this, MyLibraryActivity.class);
         intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intentSave);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
-        //  profilePresenter.saveBusinessCard(nameEditText,companyNameEditText,jobTitleEditText,mobileEditText,emailEditText,websiteEditText);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);*/
+        profilePresenter.saveBusinessCard(nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText);
 
     }
 
@@ -303,5 +303,15 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
+    }
+
+    @Override
+    public void setSaveFalse(Boolean saveFalse) {
+
+        if (!saveFalse) {
+            saveCancel.setVisibility(View.GONE);
+        }else {
+            saveCancel.setVisibility(View.VISIBLE);
+        }
     }
 }

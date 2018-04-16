@@ -72,8 +72,8 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
                 .activityContext(new ActivityContext(mContext))
                 .build()
                 .inject(this);
-
-      //  remainderDetailsPresenter.getIntentValues(getIntent(),button);
+        remainderDetailsPresenter.attach(this);
+        remainderDetailsPresenter.getIntentValues(getIntent(),button);
         backButtonOnToolbar(RemainderDetailsActivity.this);
     }
 
@@ -92,16 +92,12 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
         }
         else {
 
-         //   remainderDetailsPresenter.saveRemainder(RemainderDetailsActivity.this,remainDes,datePickerValue,timePickerValue);
+            remainderDetailsPresenter.saveRemainder(RemainderDetailsActivity.this,remainDes,datePickerValue,timePickerValue);
 
-            finish();
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
 
 
-       /* Intent intent = new Intent(RemainderDetailsActivity.this, RemainderActivity.class);
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);*/
+
 
     }
 
@@ -203,6 +199,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            Log.e("time",""+result);
 
             timePickerValue.setText(result);
 
@@ -213,6 +210,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
     @Override
     public void savedSuccessfully() {
+        Toast.makeText(getApplicationContext(),"Remainder Added Successfully",Toast.LENGTH_LONG).show();
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }

@@ -12,16 +12,29 @@ public class MyLibrary {
    private String cardImage;
 
 
-    @SerializedName("name")
+    @SerializedName("userId")
+    @Expose
+    private String userId;
+
+    @SerializedName("userName")
     @Expose
     private String cardName;
 
-    @SerializedName("description")
+    @SerializedName("image")
+    @Expose
+    private String image;
+
+    @SerializedName("imageType")
+    @Expose
+    private String imageType;
+
+
+    @SerializedName("userEmail")
     @Expose
     private  String cardDescription;
 
 
-    @SerializedName("details")
+    @SerializedName("userContact")
     @Expose
     private String cardDetails;
 
@@ -32,10 +45,31 @@ public class MyLibrary {
         this.cardDetails = cardDetails;
     }
 
+    public String getUserId() {
+        return userId;
+    }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getCardImage() {
         return cardImage;
+    }
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void setCardImage(String cardImage) {

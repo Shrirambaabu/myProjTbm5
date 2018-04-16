@@ -47,7 +47,7 @@ public class MyRemainderListPresenter implements MyRemainderContract.Presenter {
         MyRemainder notes=myRemainders.get(position);
 
         rowView.setCardName(notes.getName());
-        rowView.setDateTime(notes.getDate()+""+notes.getTime());
+        rowView.setDateTime(notes.getDate()+" "+notes.getTime());
 
 
 

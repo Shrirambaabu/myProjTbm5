@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,10 +15,17 @@ import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.forzo.holdMyCard.utils.Utils.dateToDb;
+import static com.forzo.holdMyCard.utils.Utils.timeToDb;
 
 /**
  * Created by Shriram on 4/13/2018.
@@ -28,6 +36,7 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
 
     private Context context;
     private ApiService mApiService;
+
     RemainderDetailsPresenter(Context context) {
         this.context = context;
         mApiService = ApiFactory.create(HmcApplication.get((Activity) context).getRetrofit());
@@ -39,20 +48,25 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
     public void showDatePicker() {
 
 
-
     }
 
     @Override
     public void saveRemainder(RemainderDetailsActivity remainderDetailsActivity, EditText editText, TextView dateText, TextView timeText) {
 
-        String remainderContent=editText.getText().toString();
+        String remainderContent = editText.getText().toString();
 
-        String  date=dateText.getText().toString();
-        String  time=timeText.getText().toString();
+        String date = dateText.getText().toString();
+        String time = timeText.getText().toString();
 
-        MyRemainder myRemainder=new MyRemainder();
 
-        myRemainder.setId("1");
+       date=dateToDb(date);
+       Log.e("CDate",""+date);
+       time=timeToDb(time);
+       Log.e("Ctime",""+time);
+
+        MyRemainder myRemainder = new MyRemainder();
+
+        myRemainder.setUserId("1");
         myRemainder.setName(remainderContent);
         myRemainder.setDate(date);
         myRemainder.setTime(time);
@@ -82,26 +96,34 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
 
                     }
                 });
-
-
-
     }
 
     @Override
     public void getIntentValues(Intent intent, Button button) {
 
-        String remainderContent=intent.getStringExtra("remainDesc");
-        String remainderDate=intent.getStringExtra("remainDate");
-        String remainderTime=intent.getStringExtra("remainTime");
+        String remainderContent = intent.getStringExtra("remainDesc");
+        String remainderDate = intent.getStringExtra("remainDate");
+        String remainderTime = intent.getStringExtra("remainTime");
 
 
-        Log.e("values",""+remainderContent);
-        Log.e("values",""+remainderDate);
-        Log.e("values",""+remainderTime);
+        Log.e("values", "" + remainderContent);
+        Log.e("values", "" + remainderDate);
+        Log.e("values", "" + remainderTime);
 
-        getView().remainderText(remainderContent);
-        getView().remainderDate(remainderDate);
-        getView().remainderTime(remainderTime);
+        if (remainderContent != null || remainderDate != null || remainderTime != null) {
 
+            getView().remainderText(remainderContent);
+            getView().remainderDate(remainderDate);
+            getView().remainderTime(remainderTime);
+            button.setVisibility(View.GONE);
+        }else {
+            button.setVisibility(View.VISIBLE);
+        }
+
+        if (remainderContent.equals("") || remainderDate.equals("") || remainderTime.equals("")) {
+            button.setVisibility(View.VISIBLE);
+        } else {
+            button.setVisibility(View.GONE);
+        }
     }
 }

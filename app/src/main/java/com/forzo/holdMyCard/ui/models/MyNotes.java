@@ -13,6 +13,20 @@ public class MyNotes {
     @Expose
     private String notes;
 
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @SerializedName("userId")
+    @Expose
+    private String userId;
+
+
     public String getId() {
         return id;
     }

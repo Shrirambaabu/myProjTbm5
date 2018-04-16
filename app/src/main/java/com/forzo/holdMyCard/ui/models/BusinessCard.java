@@ -9,41 +9,53 @@ import com.google.gson.annotations.SerializedName;
 
 public class BusinessCard {
 
-    @SerializedName("notes")
+    @SerializedName("userName")
     @Expose
     private String name;
 
 
-    @SerializedName("notes")
+    @SerializedName("address")
+    @Expose
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @SerializedName("libraryUserId")
     @Expose
     private String id;
 
 
-    @SerializedName("notes")
+    @SerializedName("company")
     @Expose
     private String company;
 
 
-    @SerializedName("notes")
+    @SerializedName("jobTitle")
     @Expose
     private String jobTitle;
 
 
-    @SerializedName("notes")
+    @SerializedName("userContact")
     @Expose
     private String phoneNumber;
 
 
-    @SerializedName("notes")
+    @SerializedName("userEmail")
     @Expose
     private String emailId;
 
-    @SerializedName("notes")
+    @SerializedName("userWebsite")
     @Expose
     private String website;
 
 
-    @SerializedName("notes")
+    @SerializedName("userImageId")
     @Expose
     private String image;
 

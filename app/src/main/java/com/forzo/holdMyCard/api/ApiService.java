@@ -27,19 +27,22 @@ public interface ApiService {
     @GET("remainder/showAllRemainder/{userId}")
     Observable<List<MyRemainder>> getUserRemainder(@Path("userId") String userId);
 
-    @GET("user/getUserLibrary")
-    Observable<List<MyLibrary>> getUserLibrary();
+    @GET("profile/showAllLibrary/{userId}")
+    Observable<List<MyLibrary>> getUserLibrary(@Path("userId") String userId);
+
+    @GET("profile/{userId}")
+    Observable<BusinessCard> getUserProfile(@Path("userId") String userId);
 
 
-    @POST("user/saveBusinessCard")
+    @POST("profile/registerProfile")
     Observable<BusinessCard> saveBusinessCard(@Body BusinessCard businessCard);
 
 
 
-    @POST("user/saveNotes")
+    @POST("notes/createNotes")
     Observable<MyNotes> saveNotes(@Body MyNotes myNotes);
 
-    @POST("user/saveRemainder")
+    @POST("remainder/createRemainder")
     Observable<MyRemainder> saveRemainder(@Body MyRemainder myRemainder);
 
     @GET("user/getPaymentCurrentFromUserId/{userId}")

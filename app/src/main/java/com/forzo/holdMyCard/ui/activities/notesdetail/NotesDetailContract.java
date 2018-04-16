@@ -24,7 +24,7 @@ public interface NotesDetailContract {
     interface View {
 
         void savedSuccessfully();
-
+void setNotesValueEnabled();
         void setNotesValue(String value);
     }
 }

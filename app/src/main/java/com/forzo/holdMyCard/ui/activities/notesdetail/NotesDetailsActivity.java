@@ -22,7 +22,7 @@ import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 
-public class NotesDetailsActivity extends AppCompatActivity implements NotesDetailContract.View,BaseView{
+public class NotesDetailsActivity extends AppCompatActivity implements NotesDetailContract.View{
 
 
 
@@ -46,8 +46,8 @@ public class NotesDetailsActivity extends AppCompatActivity implements NotesDeta
                 .activityContext(new ActivityContext(mContext))
                 .build()
                 .inject(this);
-
-        //notesDetailsPresenter.getIntentValues(getIntent(),button);
+        notesDetailsPresenter.attach(this);
+        notesDetailsPresenter.getIntentValues(getIntent(),button);
         backButtonOnToolbar(NotesDetailsActivity.this);
     }
 
@@ -62,7 +62,7 @@ public class NotesDetailsActivity extends AppCompatActivity implements NotesDeta
            return;
        }else {
 
-          // notesDetailsPresenter.saveNote(NotesDetailsActivity.this,noteDes);
+           notesDetailsPresenter.saveNote(NotesDetailsActivity.this,noteDes);
 
            finish();
            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -95,14 +95,21 @@ public class NotesDetailsActivity extends AppCompatActivity implements NotesDeta
 
     @Override
     public void savedSuccessfully() {
+        Toast.makeText(getApplicationContext(),"Note Added Successfully",Toast.LENGTH_LONG).show();
+
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }
 
     @Override
-    public void setNotesValue(String value) {
-        noteDes.setText(value);
+    public void setNotesValueEnabled() {
         noteDes.setEnabled(false);
     }
+
+    @Override
+    public void setNotesValue(String value) {
+        noteDes.setText(value);
+    }
+
 }

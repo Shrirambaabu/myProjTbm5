@@ -81,10 +81,18 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
         notesRecyclerAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    protected void onResume() {
+        notesPresenter.attach(this);
+        notesRecyclerAdapter.notifyDataSetChanged();
+        super.onResume();
+
+    }
     @OnClick(R.id.add_note)
     public void addNoteSection() {
 
         Intent intentSave = new Intent(NotesActivity.this, NotesDetailsActivity.class);
+        intentSave.putExtra("noteDes","");
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

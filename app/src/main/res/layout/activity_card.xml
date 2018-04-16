@@ -141,7 +141,7 @@
                         android:focusableInTouchMode="true"
                         android:hint="@string/name"
                         android:imeOptions="actionNext"
-                        android:inputType="text"
+                        android:inputType="text|textNoSuggestions"
                         android:maxLines="1"
                         android:text="Dheerandra Kumar"
                         android:textColor="@android:color/black" />
@@ -166,7 +166,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Company Name"
                         android:imeOptions="actionNext"
-                        android:inputType="text"
+                        android:inputType="text|textNoSuggestions"
                         android:maxLines="1"
                         android:text="DK Arts"
                         android:textColor="@android:color/black" />
@@ -190,7 +190,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Job Title"
                         android:imeOptions="actionNext"
-                        android:inputType="text"
+                        android:inputType="text|textNoSuggestions"
                         android:maxLines="1"
                         android:text="Designer"
                         android:textColor="@android:color/black" />
@@ -215,7 +215,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Mobile"
                         android:imeOptions="actionNext"
-                        android:inputType="text"
+                        android:inputType="text|textNoSuggestions"
                         android:maxLines="1"
                         android:text="+91 987543211"
                         android:textColor="@android:color/black" />
@@ -239,7 +239,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Email id"
                         android:imeOptions="actionNext"
-                        android:inputType="text"
+                        android:inputType="text|textNoSuggestions"
                         android:maxLines="1"
                         android:text="abcd123@gmail.com"
                         android:textColor="@android:color/black" />
@@ -264,7 +264,7 @@
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:hint="Address"
-                        android:inputType="text"
+                        android:inputType="text|textNoSuggestions"
                         android:text="Chennai "
                         android:textColor="@android:color/black" />
 
@@ -288,7 +288,7 @@
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:hint="Website"
-                        android:inputType="text"
+                        android:inputType="text|textNoSuggestions"
                         android:text="www.google.co.in "
                         android:textColor="@android:color/black" />
 
@@ -296,6 +296,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/action_card"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_below="@+id/textInputLayoutWebsite"

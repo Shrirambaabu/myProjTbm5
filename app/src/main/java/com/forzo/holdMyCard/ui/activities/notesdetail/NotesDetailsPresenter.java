@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -37,11 +38,11 @@ public class NotesDetailsPresenter extends BasePresenter<NotesDetailContract.Vie
     @Override
     public void saveNote(NotesDetailsActivity notesDetailsActivity, EditText editText) {
 
-        String content=editText.getText().toString();
+        String content = editText.getText().toString();
 
 
-        MyNotes myNotes=new MyNotes();
-        myNotes.setId("1");
+        MyNotes myNotes = new MyNotes();
+        myNotes.setUserId("1");
         myNotes.setNotes(content);
 
 
@@ -61,6 +62,7 @@ public class NotesDetailsPresenter extends BasePresenter<NotesDetailContract.Vie
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.e("err",""+e.getMessage());
                         //  progressBar.smoothToHide();
 
                     }
@@ -77,10 +79,23 @@ public class NotesDetailsPresenter extends BasePresenter<NotesDetailContract.Vie
     @Override
     public void getIntentValues(Intent intent, Button button) {
 
-        String  noteDescription = intent.getStringExtra("noteDes");
+        String noteDescription = intent.getStringExtra("noteDes");
 
-        /*if (noteDescription!=null) {
+        Log.e("Value", noteDescription);
+
+
+        if (noteDescription != null ) {
             getView().setNotesValue(noteDescription);
-        }*/
+         //   getView().setNotesValueEnabled();
+            button.setVisibility(View.GONE);
+        } else {
+            button.setVisibility(View.VISIBLE);
+        }
+
+        if (noteDescription.equals("")){
+            button.setVisibility(View.VISIBLE);
+        }else {
+            button.setVisibility(View.GONE);
+        }
     }
 }

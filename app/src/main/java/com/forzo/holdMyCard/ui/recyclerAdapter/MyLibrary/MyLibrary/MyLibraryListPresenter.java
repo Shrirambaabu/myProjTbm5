@@ -33,8 +33,9 @@ public class MyLibraryListPresenter implements MyLibraryContract.Presenter {
     public void onItemClick(int adapterPosition) {
 
         Activity activity = (Activity) context;
-        Intent eventDetailsIntent = new Intent(context, ProfileActivity.class);
-        context.startActivity(eventDetailsIntent);
+        Intent myLibraryIntent = new Intent(context, ProfileActivity.class);
+        myLibraryIntent.putExtra("libraryProfile",""+myLibraries.get(adapterPosition).getUserId());
+        context.startActivity(myLibraryIntent);
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }

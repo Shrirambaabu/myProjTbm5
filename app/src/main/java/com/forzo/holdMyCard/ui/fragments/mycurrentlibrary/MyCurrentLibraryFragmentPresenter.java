@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.RelativeLayout;
 
 import com.forzo.holdMyCard.HmcApplication;
@@ -55,11 +56,11 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
     public void populateRecyclerView(List<MyLibrary> myLibraryList) {
 
 
-        myLibraryList.addAll(DataService.getCurrentCardList());
+      /*  myLibraryList.addAll(DataService.getCurrentCardList());
         getView().updateAdapter();
+*/
 
-
-        /*mApiService.getUserLibrary()
+        mApiService.getUserLibrary("1")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<MyLibrary>>() {
@@ -77,8 +78,11 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
                             myLibrary.setCardName(myLibraryList1.get(i).getCardName());
                             myLibrary.setCardDescription(myLibraryList1.get(i).getCardDescription());
                             myLibrary.setCardDetails(myLibraryList1.get(i).getCardDetails());
+                            myLibrary.setImage(myLibraryList1.get(i).getImage());
+                            myLibrary.setImageType(myLibraryList1.get(i).getImageType());
+                            myLibrary.setUserId(myLibraryList1.get(i).getUserId());
 
-                            myLibraryList1.add(myLibrary);
+                            myLibraryList.add(myLibrary);
 
                             getView().updateAdapter();
                         }
@@ -87,6 +91,7 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
                     @Override
                     public void onError(Throwable e) {
                         // getView().hideLoading();
+                        Log.e("err",""+e.getMessage());
                     }
 
                     @Override
@@ -96,7 +101,6 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
                 });
 
 
-*/
 
     }
 }

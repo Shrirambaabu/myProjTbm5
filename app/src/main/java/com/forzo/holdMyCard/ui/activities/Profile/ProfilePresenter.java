@@ -22,6 +22,7 @@ import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.models.BusinessCard;
+import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.utils.HttpHandler;
 import com.forzo.holdMyCard.utils.NetworkController;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -210,13 +211,29 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         String phoneNumber = "No Phone Number found";
         String result = "null";
 
-        String profile="";
+        String profile = "";
 
         email = intent.getStringExtra("email");
         website = intent.getStringExtra("website");
         phoneNumber = intent.getStringExtra("phoneNumber");
         result = intent.getStringExtra("result");
-        profile = intent.getStringExtra("profile");
+        profile = intent.getStringExtra("libraryProfile");
+        String userProfile = intent.getStringExtra("profileMain");
+
+
+
+        if (userProfile!=null){
+            showProfileData("1");
+           // getView().setSaveFalse(false);
+        }
+
+        if (profile != null) {
+            Log.e("ProfileValue", "" + profile);
+
+            showProfileData(profile);
+
+
+        }
 
        /* if (profile!=null){
             cardLayout.setVisibility(View.GONE);
@@ -276,6 +293,75 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
             getView().setProfileImage(b);
             // imageView.setImageResource(R.drawable.business_card);
         }
+    }
+
+    private void showProfileData(String profile) {
+
+
+        mApiService.getUserProfile(profile)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BusinessCard>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        //  getView().showLoading();
+                    }
+
+                    @Override
+                    public void onNext(BusinessCard businessCardList) {
+
+                        String userNameProfile = businessCardList.getName();
+                        String job = businessCardList.getJobTitle();
+                        String companyNameProfile = businessCardList.getCompany();
+                        String phoneNumberProfile = businessCardList.getPhoneNumber();
+                        String emailIdProfile = businessCardList.getEmailId();
+                        String websiteProfile = businessCardList.getWebsite();
+                        String addressProfile = businessCardList.getAddress();
+
+                        if (job == null) {
+                            job = "No Jobs found";
+                        }
+                        if (userNameProfile == null) {
+                            userNameProfile = "No Name found";
+                        }
+                        if (companyNameProfile == null) {
+                            companyNameProfile = "No Company Name found";
+                        }
+                        if (phoneNumberProfile == null) {
+                            phoneNumberProfile = "No Number found";
+                        }
+                        if (emailIdProfile == null) {
+                            emailIdProfile = "No Email found";
+                        }
+                        if (websiteProfile == null) {
+                            websiteProfile = "No website found";
+                        }
+                        if (addressProfile == null) {
+                            addressProfile = "No website found";
+                        }
+
+                        getView().setUserName(userNameProfile);
+                        getView().setJobTitle(job);
+                        getView().setCompanyName(companyNameProfile);
+                        getView().setPhoneNumber(phoneNumberProfile);
+                        getView().setEmailId(emailIdProfile);
+                        getView().setWebsite(websiteProfile);
+                        getView().setAddress(addressProfile);
+                        getView().setSaveFalse(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // getView().hideLoading();
+                        Log.e("err", "" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        //  getView().hideLoading();
+                    }
+                });
+
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -357,9 +443,11 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 }
                 if (person.equals("")) {
                     person = "No name found";
-                }if (company.equals("")) {
+                }
+                if (company.equals("")) {
                     company = "No Company name found";
-                }if (company.equals("")) {
+                }
+                if (company.equals("")) {
                     address = "No Address found";
                 }
                 getView().setUserName("" + person);
@@ -372,7 +460,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @Override
-    public void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText) {
+    public void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText) {
 
 
         String name = nameTextInputEditText.getText().toString();
@@ -381,7 +469,15 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         String mobileNumber = mobileTextInputEditText.getText().toString();
         String emailId = emailTextInputEditText.getText().toString();
         String website = websiteTextInputEditText.getText().toString();
+        String address = addressTextInputEditText.getText().toString();
 
+        Log.e("name", "" + name);
+        Log.e("name", "" + company);
+        Log.e("name", "" + jobTitle);
+        Log.e("name", "" + mobileNumber);
+        Log.e("name", "" + emailId);
+        Log.e("name", "" + website);
+        Log.e("name", "" + address);
 
         BusinessCard businessCard = new BusinessCard();
 
@@ -392,6 +488,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         businessCard.setPhoneNumber(mobileNumber);
         businessCard.setEmailId(emailId);
         businessCard.setWebsite(website);
+        businessCard.setAddress(address);
+        businessCard.setImage("");
 
         mApiService.saveBusinessCard(businessCard)
                 .subscribeOn(Schedulers.io())
@@ -410,6 +508,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                     @Override
                     public void onError(Throwable e) {
                         //  progressBar.smoothToHide();
+                        Log.e("error", "" + e.getMessage());
 
                     }
 

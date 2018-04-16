@@ -76,6 +76,9 @@ public class RemainderActivity extends AppCompatActivity  implements RemainderCo
     public void addNoteSection() {
 
         Intent intentSave = new Intent(RemainderActivity.this, RemainderDetailsActivity.class);
+        intentSave.putExtra("remainDesc","");
+        intentSave.putExtra("remainTime","");
+        intentSave.putExtra("remainDate","");
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

@@ -9,6 +9,7 @@ import com.google.api.services.vision.v1.model.Image;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,15 +23,37 @@ public class Utils {
     public static final String CLOUD_VISION_API_KEY = "AIzaSyCFVBIjD8Vk13VzO980yu_OsVL2-F5itpA";
     public static final String CLOUD_NATURAL_API_KEY = "AIzaSyB7jZrVxOUUagQWwqKe37bvBWDmBd1E7Bc";
 
-   // public static String Base = "http://192.168.43.29:8080";
+    // public static String Base = "http://192.168.43.29:8080";
     public static String Base = "http://52.15.123.231:8080";
 
     public static String BaseUri = Base + "/basic/";
+
     public static void backButtonOnToolbar(AppCompatActivity mActivity) {
         if (mActivity.getSupportActionBar() != null) {
             mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             mActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+    }
+
+    public static Bitmap resizeBitmap(Bitmap bitmap) {
+
+        int maxDimension = 1024;
+        int originalWidth = bitmap.getWidth();
+        int originalHeight = bitmap.getHeight();
+        int resizedWidth = maxDimension;
+        int resizedHeight = maxDimension;
+
+        if (originalHeight > originalWidth) {
+            resizedHeight = maxDimension;
+            resizedWidth = (int) (resizedHeight * (float) originalWidth / (float) originalHeight);
+        } else if (originalWidth > originalHeight) {
+            resizedWidth = maxDimension;
+            resizedHeight = (int) (resizedWidth * (float) originalHeight / (float) originalWidth);
+        } else if (originalHeight == originalWidth) {
+            resizedHeight = maxDimension;
+            resizedWidth = maxDimension;
+        }
+        return Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, false);
     }
 
     public static ArrayList<String> convertToHourMinuteTimeSet(int hourOfDay, int minute) {
@@ -50,9 +73,9 @@ public class Utils {
         } else {
             timeSet = "AM";
         }
-        String hourFinal="";
-        if (hour<10){
-            hourFinal="0"+hour;
+        String hourFinal = "";
+        if (hour < 10) {
+            hourFinal = "0" + hour;
         }
 
         String min = "";
@@ -97,6 +120,7 @@ public class Utils {
         base64EncodedImage.encodeContent(imageBytes);
         return base64EncodedImage;
     }
+
     public static Bitmap getImageCompressImage(Bitmap bitmap) {
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -105,11 +129,57 @@ public class Utils {
         return decoded;
     }
 
+    public static String dateToDb(String date) {
+        String ActDate = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");//set format of date you receiving from db
+        try {
+            Date dateFotmat = (Date) sdf.parse(date);
+            SimpleDateFormat newDate = new SimpleDateFormat("yyyy-MM-dd");
+            ActDate = newDate.format(dateFotmat);// here is your new date !
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e("err", "" + e.getMessage());
+        }
+
+        return ActDate;
+
+    }
+
+    public static String timeToDb(String time) {
+
+
+        String timeMeridian = "";
+
+        String hour = "";
+
+        hour = time.substring(0, 2);
+
+        int hourValue = Integer.parseInt(hour);
+        String minute = time.substring(3, 5);
+
+
+        timeMeridian = time.substring(6, 8);
+
+        if (timeMeridian.equals("PM")) {
+
+            hourValue = Integer.parseInt(hour) + 12;
+
+        }
+
+        String timeInDbFormat = "" + hourValue + ":" + minute + ":" + "00";
+
+
+
+        return timeInDbFormat;
+
+    }
+
     public static Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        float bitmapRatio = (float)width / (float) height;
+        float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 1) {
             width = maxSize;
             height = (int) (width / bitmapRatio);
