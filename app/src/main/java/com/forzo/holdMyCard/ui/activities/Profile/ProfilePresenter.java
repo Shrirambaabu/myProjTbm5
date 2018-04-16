@@ -224,6 +224,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
         if (userProfile!=null){
             showProfileData("1");
+
            // getView().setSaveFalse(false);
         }
 
