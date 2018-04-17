@@ -228,7 +228,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
             protected void onPostExecute(String result) {
 
-                Log.e("result", "" + result);
 
                 String userName = "null";
                 String companyName = "null";

@@ -295,7 +295,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
             getView().setUserName("");
             getView().setCompanyName("");
-            getView().setAddress("No Address found");
+            getView().setAddress("");
         }
         getView().setJobTitle("");
         if (email == null) {
@@ -464,8 +464,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
             protected void onPostExecute(AnnotateTextResponse response) {
 
 
-                Log.e("result", "" + result);
-
                 final List<Entity> entityList = response.getEntities();
                 // final float sentiment = response.getDocumentSentiment().getScore();
 
@@ -474,6 +472,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 String person = "";
                 String company = "";
                 String address = "";
+
 
                 for (Entity entity : entityList) {
                     entities += "\n" + entity.getName() + " " + entity.getType();
@@ -618,16 +617,16 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 }
 
                 if (userName.equals("null")) {
-                    userName = "No name found";
+                    userName = "";
                 }
                 if (companyName.equals("null")) {
-                    companyName = "No name found";
+                    companyName = "";
                 }
                 if (jobTitle.equals("null")) {
-                    jobTitle = "No Jobs Found";
+                    jobTitle = "";
                 }
                 if (address.equals("null")) {
-                    address = "Address not found";
+                    address = "";
                 }
                 getView().setUserName(userName);
                 getView().setJobTitle(jobTitle);
@@ -671,7 +670,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     private String parseEmail(String results) {
         String EMAIL_REGEX = "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+";
         Matcher m = Pattern.compile(EMAIL_REGEX).matcher(results);
-        String parsedEmail = "No Email Id found";
+        String parsedEmail = "";
         while (m.find()) {
             parsedEmail = m.group();
         }
@@ -680,7 +679,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     private String parseWebsite(String results) {
         String URL_REGEX = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$";
-        String parsedUrl = "No website found";
+        String parsedUrl = "";
         String[] words = results.split(" ");
         for (String word : words) {
             Matcher m = Pattern.compile(URL_REGEX).matcher(word);
