@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     private Bitmap bitmap;
 
-
+    File image=null;
     private Feature feature;
     private String[] visionAPI = new String[]{"TEXT_DETECTION"};
 
@@ -131,7 +131,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         String imageName = cal.getTimeInMillis() + ".png";
 
         // Creating image here
-        File image = new File(imageFolderPath, imageName);
+         image = new File(imageFolderPath, imageName);
 
        // capturedImageUri = Uri.fromFile(image);
         capturedImageUri =  FileProvider.getUriForFile(HomeActivity.this,
@@ -155,7 +155,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         avLoadingIndicatorView.show();
         relativeLayout.setVisibility(View.VISIBLE);
         relativeLayoutMain.setVisibility(View.GONE);
-        homePresenter.callVisionApi(HomeActivity.this, b, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout,relativeLayoutMain);
+        homePresenter.callVisionApi(HomeActivity.this, b, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout,relativeLayoutMain,image);
 
     }
 
@@ -174,7 +174,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             relativeLayoutMain.setVisibility(View.GONE);
             Log.e("HM","Calling Vision");
             Log.e("uri",""+capturedImageUri);
-            homePresenter.callVisionApi(HomeActivity.this, bitmap, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout,relativeLayoutMain);
+            homePresenter.callVisionApi(HomeActivity.this, bitmap, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout,relativeLayoutMain,image);
 
 
         } else {

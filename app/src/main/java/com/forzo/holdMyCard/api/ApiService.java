@@ -5,12 +5,18 @@ import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.models.MyNotes;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
 
+import java.io.File;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 /**
@@ -34,8 +40,12 @@ public interface ApiService {
     Observable<BusinessCard> getUserProfile(@Path("userId") String userId);
 
 
-    @POST("profile/registerProfile")
+    @POST("profile/registerProfileToLibrary")
     Observable<BusinessCard> saveBusinessCard(@Body BusinessCard businessCard);
+
+    @Multipart
+    @POST("profile/postImage ")
+    Observable<BusinessCard> postUserImage (@Part("image")RequestBody  file,@Part("userId")String userId,@Part("imageType")String imageType);
 
 
 

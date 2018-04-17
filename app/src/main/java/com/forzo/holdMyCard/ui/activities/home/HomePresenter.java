@@ -77,7 +77,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
     @SuppressLint("StaticFieldLeak")
     @Override
-    public void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout,RelativeLayout relativeLayoutMain) {
+    public void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout,RelativeLayout relativeLayoutMain,File image) {
         Log.e("HM", "Vision called");
 
         if (uri != null) {
@@ -143,11 +143,11 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                 Log.e("result", "" + result);
 
 
-                String email = "";
-                String website = "";
-                ArrayList<String> phone = new ArrayList<>();
+                String email ;
+                String website ;
+                ArrayList<String> phone;
 
-                String phoneNumber = "";
+                String phoneNumber ;
 
                 email = parseEmail(result);
                 website = parseWebsite(result);
@@ -156,9 +156,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                 //  makeJsonRequest(result);
                 phoneNumber = phone.toString().replaceAll("\\[", "").replaceAll("\\]", "");
 
-                if (phoneNumber.equals("")) {
-                    phoneNumber = "No number found";
-                }
 
                 Intent intent = new Intent(homeActivity, ProfileActivity.class);
 
@@ -172,6 +169,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                 intent.putExtra("website", website);
                 intent.putExtra("phoneNumber", phoneNumber);
                 intent.putExtra("result", result);
+                intent.putExtra("imageFile", image);
                 homeActivity.startActivity(intent);
                 homeActivity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -277,7 +275,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     private String parseEmail(String results) {
         String EMAIL_REGEX = "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+";
         Matcher m = Pattern.compile(EMAIL_REGEX).matcher(results);
-        String parsedEmail = "No Email Id found";
+        String parsedEmail = "";
         while (m.find()) {
             parsedEmail = m.group();
         }
@@ -286,7 +284,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
     private String parseWebsite(String results) {
         String URL_REGEX = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$";
-        String parsedUrl = "No website found";
+        String parsedUrl = "";
         String[] words = results.split(" ");
         for (String word : words) {
             Matcher m = Pattern.compile(URL_REGEX).matcher(word);

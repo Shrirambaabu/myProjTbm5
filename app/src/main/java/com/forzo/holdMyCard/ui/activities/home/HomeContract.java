@@ -11,6 +11,8 @@ import com.google.api.services.vision.v1.model.Feature;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.io.File;
+
 /**
  * Created by Shriram on 3/29/2018.
  */
@@ -22,7 +24,7 @@ public interface HomeContract {
 
     void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
 
-    void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout,RelativeLayout relativeLayoutTwo);
+    void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout,RelativeLayout relativeLayoutTwo,File image);
     void onBackPress();
 
 }

@@ -13,18 +13,26 @@ public class BusinessCard {
     @Expose
     private String name;
 
+    @SerializedName("userId")
+    @Expose
+
+    private String userId;
+
+
+    @SerializedName("imageType")
+    @Expose
+    private String imageType;
+
+
+    @SerializedName("image")
+    @Expose
+    private String postImage;
+
+
 
     @SerializedName("address")
     @Expose
     private String address;
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     @SerializedName("libraryUserId")
     @Expose
@@ -108,6 +116,14 @@ public class BusinessCard {
     }
 
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getId() {
         return id;
     }
@@ -122,6 +138,31 @@ public class BusinessCard {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
+
+    public String getPostImage() {
+        return postImage;
+    }
+
+    public void setPostImage(String postImage) {
+        this.postImage = postImage;
     }
 
     public BusinessCard(String id,String name, String company, String jobTitle, String phoneNumber, String emailId, String website, String image) {

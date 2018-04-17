@@ -57,8 +57,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -69,6 +71,8 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
 import static com.forzo.holdMyCard.utils.Utils.BaseUri;
@@ -176,7 +180,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 email = parseEmail(result);
                 website = parseWebsite(result);
                 phone = parseMobile(result);
-                makeJsonRequest(result, avLoadingIndicatorView, relativeProgress);
+             //   makeJsonRequest(result, avLoadingIndicatorView, relativeProgress);
                 phoneNumber = phone.toString().replaceAll("\\[", "").replaceAll("\\]", "");
 
                 if (phoneNumber.equals("")) {
@@ -206,12 +210,12 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         Bitmap bitmap;
 
 
-        String email = "No email found";
-        String website = "No website found";
-        String phoneNumber = "No Phone Number found";
-        String result = "null";
+        String email;
+        String website ;
+        String phoneNumber ;
+        String result;
 
-        String profile = "";
+        String profile;
 
         email = intent.getStringExtra("email");
         website = intent.getStringExtra("website");
@@ -219,7 +223,49 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         result = intent.getStringExtra("result");
         profile = intent.getStringExtra("libraryProfile");
         String userProfile = intent.getStringExtra("profileMain");
+        File imageFile = intent.getParcelableExtra("imageFile");
 
+/*
+        if (imageFile!=null){
+
+            Calendar cal = Calendar.getInstance();
+
+            String fileNameBody=""+cal.getTimeInMillis()+"_"+"1";
+
+            RequestBody fbody = RequestBody.create(MediaType.parse("image*//*"), imageFile);
+           *//* RequestBody name = RequestBody.create(MediaType.parse("text/plain"), fileNameBody);
+            RequestBody id = RequestBody.create(MediaType.parse("text/plain"), AZUtils.getUserId(this));
+*//*
+
+            mApiService.postUserImage(fbody,"1","BCF")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<BusinessCard>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            // progressBar.smoothToShow();
+                        }
+
+                        @Override
+                        public void onNext(BusinessCard userChangePassword) {
+                            getView().savedSuccessfully();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            //  progressBar.smoothToHide();
+                            Log.e("error", "" + e.getMessage());
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+
+
+        }*/
 
 
         if (userProfile!=null){
@@ -247,19 +293,19 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         } else {
             Log.e("intent", "" + intent.getStringExtra("result"));
 
-            getView().setUserName("No Name found");
-            getView().setCompanyName("No Company name found");
+            getView().setUserName("");
+            getView().setCompanyName("");
             getView().setAddress("No Address found");
         }
-        getView().setJobTitle("No Jobs found");
+        getView().setJobTitle("");
         if (email == null) {
-            email = "No email found";
+            email = "";
         }
         if (website == null) {
-            website = "No website found";
+            website = "";
         }
         if (phoneNumber == null) {
-            phoneNumber = "No email found";
+            phoneNumber = "";
         }
 
 
@@ -320,25 +366,25 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         String addressProfile = businessCardList.getAddress();
 
                         if (job == null) {
-                            job = "No Jobs found";
+                            job = "";
                         }
                         if (userNameProfile == null) {
-                            userNameProfile = "No Name found";
+                            userNameProfile = "";
                         }
                         if (companyNameProfile == null) {
-                            companyNameProfile = "No Company Name found";
+                            companyNameProfile = "";
                         }
                         if (phoneNumberProfile == null) {
-                            phoneNumberProfile = "No Number found";
+                            phoneNumberProfile = "";
                         }
                         if (emailIdProfile == null) {
-                            emailIdProfile = "No Email found";
+                            emailIdProfile = "";
                         }
                         if (websiteProfile == null) {
-                            websiteProfile = "No website found";
+                            websiteProfile = "";
                         }
                         if (addressProfile == null) {
-                            addressProfile = "No website found";
+                            addressProfile = "";
                         }
 
                         getView().setUserName(userNameProfile);
@@ -442,7 +488,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         address += " " + entity.getName();
                     }
                 }
-                if (person.equals("")) {
+             /*   if (person.equals("")) {
                     person = "No name found";
                 }
                 if (company.equals("")) {
@@ -450,7 +496,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 }
                 if (company.equals("")) {
                     address = "No Address found";
-                }
+                }*/
                 getView().setUserName("" + person);
                 getView().setCompanyName("" + company);
                 getView().setAddress("" + address);
@@ -490,7 +536,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         businessCard.setEmailId(emailId);
         businessCard.setWebsite(website);
         businessCard.setAddress(address);
-        businessCard.setImage("");
 
         mApiService.saveBusinessCard(businessCard)
                 .subscribeOn(Schedulers.io())
