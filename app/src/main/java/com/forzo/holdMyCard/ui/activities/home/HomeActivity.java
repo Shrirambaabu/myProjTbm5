@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -104,7 +105,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         homePresenter.attach(this);
         homePresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
-
 
         feature = new Feature();
         feature.setType(visionAPI[0]);

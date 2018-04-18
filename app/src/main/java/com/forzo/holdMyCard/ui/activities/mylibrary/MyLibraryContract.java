@@ -19,6 +19,7 @@ public interface MyLibraryContract {
         void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
         void setupViewPager(ViewPager viewPager, SectionsStatePagerAdapter adapter, MyCurrentLibraryFragment myCurrentLibraryFragment, MyGroupsFragment myGroupsFragment);
 
+        void setUuid();
     }
 
     // Action callbacks. Activity/Fragment will implement

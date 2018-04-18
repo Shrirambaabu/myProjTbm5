@@ -71,7 +71,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                 .inject(this);
 
         myLibraryPresenter.attach(this);
-
+        myLibraryPresenter.setUuid();
         myLibraryPresenter.setupViewPager(pager, adapter, myCurrentLibraryFragment, myGroupsFragment);
 
         myLibraryPresenter.bottomNavigationViewSetup(bottomNavigationView);

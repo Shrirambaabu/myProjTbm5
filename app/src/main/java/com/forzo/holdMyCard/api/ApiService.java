@@ -4,6 +4,7 @@ import com.forzo.holdMyCard.ui.models.BusinessCard;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.models.MyNotes;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
+import com.forzo.holdMyCard.ui.models.User;
 
 import java.io.File;
 import java.util.List;
@@ -42,6 +43,9 @@ public interface ApiService {
 
     @POST("profile/registerProfileToLibrary")
     Observable<BusinessCard> saveBusinessCard(@Body BusinessCard businessCard);
+
+    @POST("profile/checkUIUDExists")
+    Observable<User> checkUuid(@Body User user);
 
     @Multipart
     @POST("profile/postImage ")
