@@ -83,12 +83,13 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
                 .subscribe(new Observer<User>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        // progressBar.smoothToShow();
                     }
 
                     @Override
                     public void onNext(User userUuid) {
 
+
+                        Log.e("s","s");
                         Log.e("nextLib",""+userUuid.toString());
                       //  getView().savedSuccessfully();
                     }

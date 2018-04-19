@@ -72,6 +72,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
@@ -223,21 +224,14 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         result = intent.getStringExtra("result");
         profile = intent.getStringExtra("libraryProfile");
         String userProfile = intent.getStringExtra("profileMain");
-        File imageFile = intent.getParcelableExtra("imageFile");
+        File imageFile = (File) intent.getSerializableExtra("imageFile");
 
-/*
         if (imageFile!=null){
 
-            Calendar cal = Calendar.getInstance();
+            Log.e("imageUpload"," doing..");
 
-            String fileNameBody=""+cal.getTimeInMillis()+"_"+"1";
 
-            RequestBody fbody = RequestBody.create(MediaType.parse("image*//*"), imageFile);
-           *//* RequestBody name = RequestBody.create(MediaType.parse("text/plain"), fileNameBody);
-            RequestBody id = RequestBody.create(MediaType.parse("text/plain"), AZUtils.getUserId(this));
-*//*
-
-            mApiService.postUserImage(fbody,"1","BCF")
+            mApiService.postUserImage(imageFile,"1","BCF")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<BusinessCard>() {
@@ -265,7 +259,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                     });
 
 
-        }*/
+        }
 
 
         if (userProfile!=null){

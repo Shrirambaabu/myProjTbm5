@@ -31,6 +31,11 @@
             android:text="Example Image"
             android:visibility="visible" />
 
+        <ImageView
+            android:id="@+id/image_crop"
+            android:layout_width="match_parent"
+            android:layout_height="180dp" />
+
 
         <include layout="@layout/layout_bottom_navigation_view" />
 

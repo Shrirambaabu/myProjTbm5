@@ -27,7 +27,6 @@ import retrofit2.http.Path;
 public interface ApiService {
 
 
-
     @GET("notes/showAllNotes/{userId}")
     Observable<List<MyNotes>> getUserNotes(@Path("userId") String userId);
 
@@ -47,11 +46,6 @@ public interface ApiService {
     @POST("profile/checkUIUDExists")
     Observable<User> checkUuid(@Body User user);
 
-    @Multipart
-    @POST("profile/postImage ")
-    Observable<BusinessCard> postUserImage (@Part("image")RequestBody  file,@Part("userId")String userId,@Part("imageType")String imageType);
-
-
 
     @POST("notes/createNotes")
     Observable<MyNotes> saveNotes(@Body MyNotes myNotes);
@@ -59,8 +53,10 @@ public interface ApiService {
     @POST("remainder/createRemainder")
     Observable<MyRemainder> saveRemainder(@Body MyRemainder myRemainder);
 
-    @GET("user/getPaymentCurrentFromUserId/{userId}")
-    Observable<List<MyLibrary>> getMyLibrary(@Path("userId") String userId);
+
+    @Multipart
+    @POST("profile/postImage ")
+    Observable<BusinessCard> postUserImage(@Part("image")File file, @Part("userId") String userId, @Part("imageType") String imageType);
 
 
 }

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -56,8 +57,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private final int requestCode = 20;
     private Context mContext = HomeActivity.this;
     private static final int ACTIVITY_NUM = 0;
-
-
+    public static final String OPEN_CAMERA_OR_GALLERY_TO_CHOOSE_AN_IMAGE = "Open Camera or Gallery to choose an Image";
+    public static final int TYPE = 1001;
+    private static final String TAG = "HomeActivity";
     static Uri capturedImageUri = null;
 
     private Bitmap bitmap;
@@ -91,6 +93,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     @BindView(R.id.avi)
     AVLoadingIndicatorView avLoadingIndicatorView;
 
+    @BindView(R.id.image_crop)
+    ImageView imageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +119,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @OnClick(R.id.button)
     public void captureImage() {
-
+       // EasyImage.openChooserWithGallery(HomeActivity.this, OPEN_CAMERA_OR_GALLERY_TO_CHOOSE_AN_IMAGE, TYPE);
         Calendar cal = Calendar.getInstance();
 
 
@@ -128,7 +133,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         imagesFolder.mkdirs();
 
         // Generating file name
-        String imageName = cal.getTimeInMillis() + ".png";
+        String imageName = cal.getTimeInMillis()+"1"+ ".png";
 
         // Creating image here
          image = new File(imageFolderPath, imageName);
@@ -145,7 +150,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri);
 
         startActivityForResult(takePictureIntent, requestCode);
-
     }
 
     @OnClick(R.id.emul_button)
@@ -162,6 +166,32 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+       /* EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                //Some error handling
+            }
+
+            @Override
+            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+                onPhotosReturned(imageFile);
+            }
+
+        });
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                Glide.with(this)
+                        .load(resultUri)
+                        .into(imageView);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+//                Exception error = result.getError();
+                Log.e(TAG, "onActivityResult: ", result.getError());
+            }
+        }*/
+
         if (this.requestCode == requestCode && resultCode == RESULT_OK) {
 
             //     bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), capturedImageUri);
@@ -182,6 +212,19 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             Toast.makeText(getApplicationContext(), "Action Cancelled", Toast.LENGTH_LONG).show();
         }
     }
+/*
+    private void onPhotosReturned(File imageFile) {
+        CropImage.activity(Uri.fromFile(imageFile))
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .setActivityMenuIconColor(Color.WHITE)
+                .setAllowRotation(true)
+                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                .setOutputCompressQuality(50)
+                .setAutoZoomEnabled(true)
+                .setActivityTitle("Crop Image")
+                .start(this);
+    }*/
 
 
     @Override
