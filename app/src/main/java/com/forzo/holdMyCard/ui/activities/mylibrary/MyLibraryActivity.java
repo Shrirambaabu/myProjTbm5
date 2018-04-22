@@ -93,6 +93,24 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     }
 
 
+    @Override
+    public boolean onSupportNavigateUp() {
+
+        super.onSupportNavigateUp();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
+
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+
+
    /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

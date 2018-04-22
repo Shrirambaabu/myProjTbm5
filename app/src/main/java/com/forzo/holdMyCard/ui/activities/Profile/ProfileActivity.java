@@ -200,13 +200,20 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+
+        Intent intent = new Intent(ProfileActivity.this, MyLibraryActivity.class);
+        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+        startActivity(intent);
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
+
+        Intent intent = new Intent(ProfileActivity.this, MyLibraryActivity.class);
+        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+        startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 

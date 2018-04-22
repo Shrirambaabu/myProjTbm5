@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -155,11 +156,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
 
                 Intent intent = new Intent(homeActivity, ProfileActivity.class);
-
-                avLoadingIndicatorView.setVisibility(View.GONE);
-                avLoadingIndicatorView.hide();
-                relativeLayout.setVisibility(View.GONE);
-                relativeLayoutMain.setVisibility(View.VISIBLE);
+                intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
 
                 intent.putExtra("email", email);
                 intent.putExtra("image", uri);
@@ -169,7 +166,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                 intent.putExtra("imageFile", image);
                 homeActivity.startActivity(intent);
                 homeActivity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
             }
         }.execute();
 
