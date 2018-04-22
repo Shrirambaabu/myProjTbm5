@@ -21,6 +21,7 @@ import com.forzo.holdMyCard.ui.activities.remainder.ReminderActivity;
 import com.forzo.holdMyCard.utils.DatePickerFragment;
 import com.forzo.holdMyCard.utils.TimePickerFragment;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 import static com.forzo.holdMyCard.utils.Utils.convertToHourMinuteTimeSet;
 import static com.forzo.holdMyCard.utils.Utils.formatDate;
 
-public class RemainderDetailsActivity extends AppCompatActivity implements RemainderDetailsContract.View{
+public class RemainderDetailsActivity extends AppCompatActivity implements RemainderDetailsContract.View {
 
     static final int DATE_PICKER_ID = 1111;
 
@@ -55,6 +56,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     @Inject
     RemainderDetailsPresenter remainderDetailsPresenter;
 
+    private String result;
 
     @BindView(R.id.date_layout)
     LinearLayout datePickerLayout;
@@ -71,30 +73,29 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
                 .build()
                 .inject(this);
         remainderDetailsPresenter.attach(this);
-        remainderDetailsPresenter.getIntentValues(getIntent(),button);
+        remainderDetailsPresenter.getIntentValues(getIntent(), button);
         backButtonOnToolbar(RemainderDetailsActivity.this);
     }
 
     @OnClick(R.id.save_remainder)
     public void remainderSection() {
 
-        if (remainDes.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(),"Please enter your content",Toast.LENGTH_LONG).show();
-            return;
-        }if (datePickerValue.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(),"Please select the Date",Toast.LENGTH_LONG).show();
-            return;
-        }if (timePickerValue.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(),"Please select the time",Toast.LENGTH_LONG).show();
+        if (remainDes.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "Please enter your content", Toast.LENGTH_LONG).show();
             return;
         }
-        else {
+        if (datePickerValue.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "Please select the Date", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (timePickerValue.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "Please select the time", Toast.LENGTH_LONG).show();
+            return;
+        } else {
 
-            remainderDetailsPresenter.saveRemainder(RemainderDetailsActivity.this,remainDes,datePickerValue,timePickerValue);
+            remainderDetailsPresenter.saveRemainder(RemainderDetailsActivity.this, remainDes, datePickerValue, timePickerValue);
 
         }
-
-
 
 
     }
@@ -115,7 +116,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
     @OnClick(R.id.time_layout)
     public void showTimePicker() {
-
+        result = null;
         // remainderDetailsPresenter.showDatePicker();
         TimePickerFragment timeStart = new TimePickerFragment();
         timeStart.setArguments(timePickerDialog());
@@ -175,7 +176,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
         }
     };
 
-    String result;
+
     TimePickerDialog.OnTimeSetListener ontime = new TimePickerDialog.OnTimeSetListener() {
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -184,21 +185,31 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
             String timeStart = String.valueOf(timeArrayList.get(0) + timeArrayList.get(1) + timeArrayList.get(2));
 
 
-
             SimpleDateFormat dateFormat = new SimpleDateFormat("hhmmaa");
 
             try {
                 Date date = dateFormat.parse(timeStart);
 
                 SimpleDateFormat df = new SimpleDateFormat("hh:mm aa");
-                 result = df.format(date);
+                result = df.format(date);
 
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Log.e("time",""+result);
+            Log.e("time", "" + result);
 
+            if (result == null) {
+
+                Toast.makeText(getApplicationContext(),"Please set the correct time",Toast.LENGTH_LONG).show();
+
+                Calendar cal = Calendar.getInstance();
+                Date currentLocalTime = cal.getTime();
+                DateFormat date = new SimpleDateFormat("hh:mm a");
+
+                result = date.format(currentLocalTime);
+
+            }
             timePickerValue.setText(result);
 
 
@@ -208,8 +219,8 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
     @Override
     public void savedSuccessfully() {
-        Toast.makeText(getApplicationContext(),"Remainder Added Successfully",Toast.LENGTH_LONG).show();
-        Intent intent=new Intent(RemainderDetailsActivity.this,ReminderActivity.class);
+        Toast.makeText(getApplicationContext(), "Remainder Added Successfully", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(RemainderDetailsActivity.this, ReminderActivity.class);
 
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
