@@ -97,7 +97,9 @@ public class NotesDetailsActivity extends AppCompatActivity implements NotesDeta
     public void savedSuccessfully() {
         Toast.makeText(getApplicationContext(),"Note Added Successfully",Toast.LENGTH_LONG).show();
 
-        finish();
+        Intent intent=new Intent(NotesDetailsActivity.this,NotesActivity.class);
+
+        startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }

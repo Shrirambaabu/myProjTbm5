@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -56,7 +57,7 @@ public interface ApiService {
 
     @Multipart
     @POST("profile/postImage ")
-    Observable<BusinessCard> postUserImage(@Part("image")File file, @Part("userId") String userId, @Part("imageType") String imageType);
+    Observable<BusinessCard> postUserImage(@Part MultipartBody.Part  file, @Part("userId") String userId, @Part("imageType") String imageType);
 
 
 }

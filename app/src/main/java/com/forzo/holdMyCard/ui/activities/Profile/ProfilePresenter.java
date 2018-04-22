@@ -230,9 +230,10 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
             Log.e("imageUpload",""+imageFile.getName());
 
+            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("image", imageFile.getName(), reqFile);
 
-
-            mApiService.postUserImage(imageFile,"1","BCF")
+            mApiService.postUserImage(body,"1","BCF")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<BusinessCard>() {
@@ -514,13 +515,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         String website = websiteTextInputEditText.getText().toString();
         String address = addressTextInputEditText.getText().toString();
 
-        Log.e("name", "" + name);
-        Log.e("name", "" + company);
-        Log.e("name", "" + jobTitle);
-        Log.e("name", "" + mobileNumber);
-        Log.e("name", "" + emailId);
-        Log.e("name", "" + website);
-        Log.e("name", "" + address);
 
         BusinessCard businessCard = new BusinessCard();
 

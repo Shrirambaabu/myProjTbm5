@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
+import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.activities.remainderdetails.RemainderDetailsActivity;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
 import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.remainder.MyRemainderRecyclerAdapter;
@@ -85,15 +86,18 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
     }
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        Intent intent = new Intent(ReminderActivity.this, ProfileActivity.class);
+        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+        startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
     }
 
     @Override
     public void onBackPressed() {
-
-        finish();
+        Intent intent = new Intent(ReminderActivity.this, ProfileActivity.class);
+        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+        startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 

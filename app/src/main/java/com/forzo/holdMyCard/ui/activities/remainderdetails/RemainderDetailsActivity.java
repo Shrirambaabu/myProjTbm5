@@ -3,6 +3,7 @@ package com.forzo.holdMyCard.ui.activities.remainderdetails;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
+import com.forzo.holdMyCard.ui.activities.remainder.ReminderActivity;
 import com.forzo.holdMyCard.utils.DatePickerFragment;
 import com.forzo.holdMyCard.utils.TimePickerFragment;
 
@@ -207,7 +209,9 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     @Override
     public void savedSuccessfully() {
         Toast.makeText(getApplicationContext(),"Remainder Added Successfully",Toast.LENGTH_LONG).show();
-        finish();
+        Intent intent=new Intent(RemainderDetailsActivity.this,ReminderActivity.class);
+
+        startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 

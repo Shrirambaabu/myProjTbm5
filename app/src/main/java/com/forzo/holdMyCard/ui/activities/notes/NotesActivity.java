@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
+import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.activities.notesdetail.NotesDetailsActivity;
 import com.forzo.holdMyCard.ui.models.MyNotes;
 import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.mynotes.MyNotesRecyclerAdapter;
@@ -100,15 +101,19 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        Intent intent = new Intent(NotesActivity.this, ProfileActivity.class);
+        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+        startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
     }
 
     @Override
     public void onBackPressed() {
-
-        finish();
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);    }
+        Intent intent = new Intent(NotesActivity.this, ProfileActivity.class);
+        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
 
 }
