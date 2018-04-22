@@ -44,7 +44,7 @@
         <activity android:name=".ui.activities.forgetpassword.ForgetPasswordActivity" />
         <activity android:name=".ui.activities.notes.NotesActivity" />
         <activity android:name=".ui.activities.notesdetail.NotesDetailsActivity" />
-        <activity android:name=".ui.activities.remainder.RemainderActivity" />
+        <activity android:name=".ui.activities.remainder.ReminderActivity" />
         <activity android:name=".ui.activities.remainderdetails.RemainderDetailsActivity"></activity>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
     </application>

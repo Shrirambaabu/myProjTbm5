@@ -203,7 +203,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             relativeLayout.setVisibility(View.VISIBLE);
             relativeLayoutMain.setVisibility(View.GONE);
             Log.e("HM","Calling Vision");
-            Log.e("uri",""+capturedImageUri);
             homePresenter.callVisionApi(HomeActivity.this, bitmap, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout,relativeLayoutMain,image);
 
 

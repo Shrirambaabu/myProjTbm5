@@ -79,7 +79,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     @Override
     public void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout, RelativeLayout relativeLayoutMain, File image) {
         Log.e("HM", "Vision called");
-        Log.e("HM", "" + image.getName());
         if (uri != null) {
 
             try {
@@ -105,7 +104,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             @Override
             protected String doInBackground(Object... params) {
                 try {
-                    Log.e(TAG, "doInBackground: sending Request ");
+
 
                     HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
                     JsonFactory jsonFactory = GsonFactory.getDefaultInstance();

@@ -14,10 +14,10 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="email_notice">Enter you Email address below and we will help log you in</string>
     <string name="submit">Submit</string>
-    <string name="remainder">Remainder</string>
+    <string name="remainder">Reminder</string>
     <string name="note">Note</string>
     <string name="calender">Calender</string>
     <string name="add_note">Add Note</string>
-    <string name="add_remainder">Add Remainder</string>
+    <string name="add_remainder">Add Reminder</string>
     <string name="date">Date</string>
 </resources>

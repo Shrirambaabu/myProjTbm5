@@ -3,7 +3,6 @@ package com.forzo.holdMyCard.ui.activities.remainderdetails;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,9 +16,6 @@ import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
-import com.forzo.holdMyCard.ui.activities.remainder.DaggerRemainderComponent;
-import com.forzo.holdMyCard.ui.activities.remainder.RemainderActivity;
-import com.forzo.holdMyCard.ui.activities.remainder.RemainderPresenter;
 import com.forzo.holdMyCard.utils.DatePickerFragment;
 import com.forzo.holdMyCard.utils.TimePickerFragment;
 

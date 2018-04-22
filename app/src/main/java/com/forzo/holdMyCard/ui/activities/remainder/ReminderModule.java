@@ -19,12 +19,12 @@ import dagger.Provides;
 
 @Module(includes = {ActivityContext.class})
 @PerActivityScope
-public class RemainderModule {
+public class ReminderModule {
 
     @Provides
     @PerActivityScope
-    RemainderPresenter remainderPresenter(Context context) {
-        return new RemainderPresenter(context);
+    ReminderPresenter remainderPresenter(Context context) {
+        return new ReminderPresenter(context);
     }
 
 

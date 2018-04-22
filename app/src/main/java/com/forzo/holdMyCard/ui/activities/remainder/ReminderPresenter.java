@@ -13,7 +13,6 @@ import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
-import com.forzo.holdMyCard.ui.services.DataService;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
 
 import java.util.List;
@@ -27,13 +26,13 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Shriram on 4/5/2018.
  */
 
-public class RemainderPresenter extends BasePresenter<RemainderContract.View> implements RemainderContract.Presenter{
+public class ReminderPresenter extends BasePresenter<ReminderContract.View> implements ReminderContract.Presenter{
 
     private ApiService mApiService;
 
     private Context context;
 
-    RemainderPresenter(Context context) {
+    ReminderPresenter(Context context) {
         this.context = context;
         mApiService = ApiFactory.create(HmcApplication.get((Activity) context).getRetrofit());
 

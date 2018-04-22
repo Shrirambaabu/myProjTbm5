@@ -4,35 +4,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.provider.CalendarContract;
-import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
-import com.forzo.holdMyCard.ui.activities.home.HomeActivity;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.activities.notes.NotesActivity;
-import com.forzo.holdMyCard.ui.activities.remainder.RemainderActivity;
+import com.forzo.holdMyCard.ui.activities.remainder.ReminderActivity;
 import com.google.api.services.vision.v1.model.Feature;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.wang.avi.AVLoadingIndicatorView;
 
-import java.io.IOException;
 import java.util.Calendar;
 
 import javax.inject.Inject;
@@ -43,7 +34,6 @@ import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation;
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
-import static com.forzo.holdMyCard.utils.Utils.getResizedBitmap;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileContract.View {
 
@@ -152,7 +142,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @OnClick(R.id.remaindar_rel)
     public void remainderSection() {
 
-        Intent intent = new Intent(ProfileActivity.this, RemainderActivity.class);
+        Intent intent = new Intent(ProfileActivity.this, ReminderActivity.class);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

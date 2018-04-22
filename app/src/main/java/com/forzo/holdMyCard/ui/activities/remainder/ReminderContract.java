@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Shriram on 4/5/2018.
  */
 
-public interface RemainderContract {
+public interface ReminderContract {
 
     interface Presenter extends BaseMvpPresenter<View> {
 

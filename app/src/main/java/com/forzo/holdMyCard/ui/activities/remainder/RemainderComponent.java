@@ -8,8 +8,8 @@ import dagger.Component;
  * Created by Shriram on 4/5/2018.
  */
 
-@Component(modules = {RemainderModule.class})
+@Component(modules = {ReminderModule.class})
 @PerActivityScope
 public interface RemainderComponent {
-    void inject(RemainderActivity remainderActivity);
+    void inject(ReminderActivity reminderActivity);
 }

@@ -228,7 +228,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
         if (imageFile!=null){
 
-            Log.e("imageUpload"," doing..");
+            Log.e("imageUpload",""+imageFile.getName());
+
 
 
             mApiService.postUserImage(imageFile,"1","BCF")
@@ -468,6 +469,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 String address = "";
 
 
+
+                Log.e("GoogleNlp ",""+entityList.toString());
                 for (Entity entity : entityList) {
                     entities += "\n" + entity.getName() + " " + entity.getType();
 

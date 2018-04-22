@@ -24,12 +24,12 @@ import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 
-public class RemainderActivity extends AppCompatActivity  implements RemainderContract.View{
+public class ReminderActivity extends AppCompatActivity  implements ReminderContract.View{
 
 
 
     @Inject
-    RemainderPresenter remainderPresenter;
+    ReminderPresenter reminderPresenter;
 
     @Inject
     MyRemainderRecyclerAdapter myRemainderRecyclerAdapter;
@@ -47,7 +47,7 @@ public class RemainderActivity extends AppCompatActivity  implements RemainderCo
     @BindView(R.id.add_remainder)
     Button button;
 
-    private Context mContext = RemainderActivity.this;
+    private Context mContext = ReminderActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +62,11 @@ public class RemainderActivity extends AppCompatActivity  implements RemainderCo
 
 
 
-        backButtonOnToolbar(RemainderActivity.this);
+        backButtonOnToolbar(ReminderActivity.this);
 
 
-        remainderPresenter.attach(this);
-        remainderPresenter.setupShowsRecyclerView(recyclerView, emptyView);
+        reminderPresenter.attach(this);
+        reminderPresenter.setupShowsRecyclerView(recyclerView, emptyView);
 
     }
 
@@ -75,7 +75,7 @@ public class RemainderActivity extends AppCompatActivity  implements RemainderCo
     @OnClick(R.id.add_remainder)
     public void addNoteSection() {
 
-        Intent intentSave = new Intent(RemainderActivity.this, RemainderDetailsActivity.class);
+        Intent intentSave = new Intent(ReminderActivity.this, RemainderDetailsActivity.class);
         intentSave.putExtra("remainDesc","");
         intentSave.putExtra("remainTime","");
         intentSave.putExtra("remainDate","");
@@ -100,7 +100,7 @@ public class RemainderActivity extends AppCompatActivity  implements RemainderCo
     @Override
     public void showRecyclerView() {
         recyclerView.setAdapter(myRemainderRecyclerAdapter);
-        remainderPresenter.populateRecyclerView(myRemainderArrayList);
+        reminderPresenter.populateRecyclerView(myRemainderArrayList);
     }
 
     @Override
