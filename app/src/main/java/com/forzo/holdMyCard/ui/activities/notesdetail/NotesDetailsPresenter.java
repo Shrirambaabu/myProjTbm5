@@ -62,7 +62,7 @@ public class NotesDetailsPresenter extends BasePresenter<NotesDetailContract.Vie
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("err",""+e.getMessage());
+                        Log.e("err", "" + e.getMessage());
                         //  progressBar.smoothToHide();
 
                     }
@@ -80,22 +80,100 @@ public class NotesDetailsPresenter extends BasePresenter<NotesDetailContract.Vie
     public void getIntentValues(Intent intent, Button button) {
 
         String noteDescription = intent.getStringExtra("noteDes");
+        String notesId = intent.getStringExtra("noteId");
 
-        Log.e("Value", noteDescription);
 
-
-        if (noteDescription != null ) {
-            getView().setNotesValue(noteDescription);
-         //   getView().setNotesValueEnabled();
+        if (noteDescription != null && notesId != null) {
+            Log.e("Value", notesId);
+            getView().setNotesValue(noteDescription,notesId);
+            //   getView().setNotesValueEnabled();
             button.setVisibility(View.GONE);
         } else {
             button.setVisibility(View.VISIBLE);
+            getView().setSaveButton();
         }
 
-        if (noteDescription.equals("")){
+        if (noteDescription.equals("")) {
             button.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             button.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    public void updateNotes(String notesId,String noteDescp) {
+
+
+
+        MyNotes myNotes = new MyNotes();
+        myNotes.setId(notesId);
+        myNotes.setNotes(noteDescp);
+
+
+
+
+        mApiService.updateNotes(myNotes)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MyNotes>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        // progressBar.smoothToShow();
+                    }
+
+                    @Override
+                    public void onNext(MyNotes myNotes1) {
+                        getView().updatedSuccessfully();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("err", "" + e.getMessage());
+                        //  progressBar.smoothToHide();
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
+    }
+
+    @Override
+    public void deleteNotes(String notesId) {
+
+        mApiService.deleteUserNotes(notesId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MyNotes>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        //  getView().showLoading();
+                    }
+
+                    @Override
+                    public void onNext(MyNotes myNotes) {
+
+getView().deletedSuccessfully();
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // getView().hideLoading();
+                        Log.e("err", "" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        //  getView().hideLoading();
+                    }
+                });
+
+    }
+
+
 }

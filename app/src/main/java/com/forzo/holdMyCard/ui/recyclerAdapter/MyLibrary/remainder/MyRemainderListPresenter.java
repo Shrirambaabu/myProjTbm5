@@ -36,6 +36,7 @@ public class MyRemainderListPresenter implements MyRemainderContract.Presenter {
         remainderDetailsIntent.putExtra("remainDesc",""+myRemainders.get(adapterPosition).getName());
         remainderDetailsIntent.putExtra("remainTime",""+myRemainders.get(adapterPosition).getTime());
         remainderDetailsIntent.putExtra("remainDate",""+myRemainders.get(adapterPosition).getDate());
+        remainderDetailsIntent.putExtra("remainId",""+myRemainders.get(adapterPosition).getId());
         context.startActivity(remainderDetailsIntent);
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -52,10 +53,19 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
     @BindView(R.id.remain_des)
     EditText remainDes;
+    @BindView(R.id.update_delete)
+    LinearLayout linearLayout;
+    @BindView(R.id.update_button)
+    Button buttonUpdate;
+    @BindView(R.id.delete_button)
+    Button buttonDelete;
 
     @Inject
     RemainderDetailsPresenter remainderDetailsPresenter;
 
+    private String reminderDetailId = "";
+    private String reminderDetailDate = "";
+    private String reminderDetailTime = "";
     private String result;
 
     @BindView(R.id.date_layout)
@@ -111,6 +121,20 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
         //Set Call back to capture selected date
         dateStart.setCallBack(onStartDateSetListener);
         dateStart.show(getSupportFragmentManager(), "Date Picker");
+
+    }
+
+    @OnClick(R.id.update_button)
+    public void updateReminderSection() {
+
+        remainderDetailsPresenter.updateReminder(reminderDetailId, remainDes.getText().toString(), timePickerValue.getText().toString(), datePickerValue.getText().toString());
+
+    }
+
+    @OnClick(R.id.delete_button)
+    public void deleteReminderSection() {
+
+        remainderDetailsPresenter.deleteReminder(reminderDetailId);
 
     }
 
@@ -172,7 +196,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
             Log.e("Date", "" + dateSet);
 
             datePickerValue.setText(dateSet);
-
+            reminderDetailDate = dateSet;
         }
     };
 
@@ -201,7 +225,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
             if (result == null) {
 
-                Toast.makeText(getApplicationContext(),"Please set the correct time",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Please set the correct time", Toast.LENGTH_LONG).show();
 
                 Calendar cal = Calendar.getInstance();
                 Date currentLocalTime = cal.getTime();
@@ -211,7 +235,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
             }
             timePickerValue.setText(result);
-
+            reminderDetailTime = result;
 
         }
 
@@ -224,6 +248,32 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    public void updatedSuccessfully() {
+
+        Toast.makeText(getApplicationContext(), "Remainder Updated Successfully", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(RemainderDetailsActivity.this, ReminderActivity.class);
+
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    public void deletedSuccessfully() {
+
+        Toast.makeText(getApplicationContext(), "Remainder Deleted Successfully", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(RemainderDetailsActivity.this, ReminderActivity.class);
+
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    public void setSaveVisible() {
+        linearLayout.setVisibility(View.GONE);
+        button.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -240,5 +290,13 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     @Override
     public void remainderTime(String time) {
         timePickerValue.setText(time);
+    }
+
+    @Override
+    public void remainderDetails(String id, String datePickerValues, String timePickerValue) {
+        reminderDetailId = id;
+        button.setVisibility(View.GONE);
+        linearLayout.setVisibility(View.VISIBLE);
+
     }
 }

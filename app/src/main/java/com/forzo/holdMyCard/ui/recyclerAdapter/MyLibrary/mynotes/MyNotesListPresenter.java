@@ -33,10 +33,10 @@ public class MyNotesListPresenter implements MyNotesContract.Presenter {
     @Override
     public void onItemClick(int adapterPosition) {
 
-        Log.e("val",""+myNotes.get(adapterPosition).getNotes());
+        Log.e("val",""+myNotes.get(adapterPosition).getId());
         Activity activity = (Activity) context;
         Intent noteDetailsIntent = new Intent(context, NotesDetailsActivity.class);
-       // noteDetailsIntent.putExtra("noteId",myNotes.get(adapterPosition).getId());
+        noteDetailsIntent.putExtra("noteId",myNotes.get(adapterPosition).getId());
         noteDetailsIntent.putExtra("noteDes",myNotes.get(adapterPosition).getNotes());
         context.startActivity(noteDetailsIntent);
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

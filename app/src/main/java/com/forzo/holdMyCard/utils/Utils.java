@@ -146,6 +146,23 @@ public class Utils {
 
     }
 
+    public static String dateToUI(String date) {
+        String ActDate = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//set format of date you receiving from db
+        try {
+            Date dateFotmat = (Date) sdf.parse(date);
+            SimpleDateFormat newDate = new SimpleDateFormat("dd-MM-yyyy");
+            ActDate = newDate.format(dateFotmat);// here is your new date !
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e("err", "" + e.getMessage());
+        }
+
+        return ActDate;
+
+    }
+
     public static String timeToDb(String time) {
 
 
@@ -170,6 +187,34 @@ public class Utils {
         String timeInDbFormat = "" + hourValue + ":" + minute + ":" + "00";
 
 
+        return timeInDbFormat;
+
+    }
+
+    public static String timeToUi(String time) {
+
+
+        String timeInDbFormat = "";
+
+        String timeMeridaian = "AM";
+        String timeHour = time.substring(0, 2);
+
+        int timeInHour = Integer.parseInt(timeHour);
+        String finalHour = ""+timeInHour;
+
+        if (timeInHour > 12) {
+
+            timeInHour = timeInHour - 12;
+            timeMeridaian = "PM";
+
+            if (timeInHour < 10) {
+                finalHour = "0" + timeInHour;
+            }
+        }
+
+        String minute = time.substring(3, 5);
+
+        timeInDbFormat = "" + finalHour + ":" + minute + " " + timeMeridaian;
 
         return timeInDbFormat;
 

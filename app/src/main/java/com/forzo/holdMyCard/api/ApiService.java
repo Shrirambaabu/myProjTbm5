@@ -51,9 +51,27 @@ public interface ApiService {
     @POST("notes/createNotes")
     Observable<MyNotes> saveNotes(@Body MyNotes myNotes);
 
+    @POST("notes/updateNotes")
+    Observable<MyNotes> updateNotes(@Body MyNotes myNotes);
+
+
+    @GET("notes/deleteNotes/{notesId}")
+    Observable<MyNotes> deleteUserNotes(@Path("notesId") String userId);
+
+
+
     @POST("remainder/createRemainder")
     Observable<MyRemainder> saveRemainder(@Body MyRemainder myRemainder);
 
+
+
+    @POST("remainder/updateRemainder")
+    Observable<MyRemainder> updateReminder(@Body MyRemainder myRemainder);
+
+
+
+    @GET("remainder/deleteRemainder/{remainderId}")
+    Observable<MyRemainder> deleteUserReminder(@Path("remainderId") String userId);
 
     @Multipart
     @POST("profile/postImage ")

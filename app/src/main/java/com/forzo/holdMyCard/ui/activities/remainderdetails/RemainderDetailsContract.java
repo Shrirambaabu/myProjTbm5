@@ -25,14 +25,22 @@ public interface RemainderDetailsContract {
 
         void getIntentValues(Intent intent, Button button);
 
+
+        void updateReminder(String reminderId,String reminderDesc,String timePicker,String datePicker);
+        void deleteReminder(String reminderId);
+
     }
 
     interface View {
 
     void savedSuccessfully();
+    void updatedSuccessfully();
+    void deletedSuccessfully();
+    void setSaveVisible();
 
     void remainderText(String remainder);
     void remainderDate(String date);
     void remainderTime(String time);
+    void remainderDetails(String id,String date,String time);
     }
 }

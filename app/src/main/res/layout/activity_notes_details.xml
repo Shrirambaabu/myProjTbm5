@@ -33,6 +33,7 @@
         android:text="Save note"
         android:textAllCaps="false" />
 
+    <include layout="@layout/snippet_update_delete" />
 
     
 </RelativeLayout>

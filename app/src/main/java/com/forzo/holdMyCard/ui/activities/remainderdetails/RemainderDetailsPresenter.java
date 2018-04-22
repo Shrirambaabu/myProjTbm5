@@ -25,7 +25,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.forzo.holdMyCard.utils.Utils.dateToDb;
+import static com.forzo.holdMyCard.utils.Utils.dateToUI;
 import static com.forzo.holdMyCard.utils.Utils.timeToDb;
+import static com.forzo.holdMyCard.utils.Utils.timeToUi;
 
 /**
  * Created by Shriram on 4/13/2018.
@@ -104,20 +106,24 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
         String remainderContent = intent.getStringExtra("remainDesc");
         String remainderDate = intent.getStringExtra("remainDate");
         String remainderTime = intent.getStringExtra("remainTime");
+        String remainderId = intent.getStringExtra("remainId");
 
 
-        Log.e("values", "" + remainderContent);
-        Log.e("values", "" + remainderDate);
-        Log.e("values", "" + remainderTime);
+        if (remainderContent != null || remainderDate != null || remainderTime != null||remainderId!=null) {
 
-        if (remainderContent != null || remainderDate != null || remainderTime != null) {
+            Log.e("intentRemain",""+remainderDate);
+            remainderDate=dateToUI(remainderDate);
+
+            remainderTime=timeToUi(remainderTime);
 
             getView().remainderText(remainderContent);
             getView().remainderDate(remainderDate);
             getView().remainderTime(remainderTime);
+            getView().remainderDetails(remainderId,remainderDate,remainderTime);
             button.setVisibility(View.GONE);
         }else {
             button.setVisibility(View.VISIBLE);
+            getView().setSaveVisible();
         }
 
         if (remainderContent.equals("") || remainderDate.equals("") || remainderTime.equals("")) {
@@ -125,5 +131,84 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
         } else {
             button.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void updateReminder(String reminderId, String reminderDesc, String timePicker, String datePicker) {
+
+        Log.e("dateUp",""+datePicker);
+        datePicker=dateToDb(datePicker);
+        Log.e("dateUp2",""+datePicker);
+        Log.e("timePick",""+timePicker);
+        timePicker=timeToDb(timePicker);
+
+        MyRemainder myRemainder = new MyRemainder();
+        myRemainder.setId(reminderId);
+        myRemainder.setName(reminderDesc);
+        myRemainder.setDate(datePicker);
+        myRemainder.setTime(timePicker);
+
+
+        mApiService.updateReminder(myRemainder)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MyRemainder>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        // progressBar.smoothToShow();
+                    }
+
+                    @Override
+                    public void onNext(MyRemainder myNotes1) {
+                        getView().updatedSuccessfully();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("err", "" + e.getMessage());
+                        //  progressBar.smoothToHide();
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    @Override
+    public void deleteReminder(String reminderId) {
+
+
+        mApiService.deleteUserReminder(reminderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MyRemainder>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        //  getView().showLoading();
+                    }
+
+                    @Override
+                    public void onNext(MyRemainder myRemainder) {
+
+                        getView().deletedSuccessfully();
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // getView().hideLoading();
+                        Log.e("err", "" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        //  getView().hideLoading();
+                    }
+                });
+
+
     }
 }

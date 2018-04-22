@@ -82,6 +82,8 @@ public class MyNotesPresenter extends BasePresenter<NotesContract.View> implemen
 
                             myNotes1.setNotes(myNotesList.get(i).getNotes());
 
+                            myNotes1.setId(myNotesList.get(i).getId());
+
                             myNotes.add(myNotes1);
 
                             getView().updateAdapter();

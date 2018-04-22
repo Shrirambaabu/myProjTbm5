@@ -19,12 +19,22 @@ public interface NotesDetailContract {
 
         void getIntentValues(Intent intent, Button button);
 
+        void updateNotes(String notesId,String noteDescp);
+        void deleteNotes(String notesId);
+
     }
 
     interface View {
 
         void savedSuccessfully();
-void setNotesValueEnabled();
-        void setNotesValue(String value);
+
+        void updatedSuccessfully();
+        void deletedSuccessfully();
+
+        void setNotesValueEnabled();
+
+        void setNotesValue(String value,String notesId);
+
+        void setSaveButton();
     }
 }

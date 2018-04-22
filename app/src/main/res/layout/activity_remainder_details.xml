@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="96dp"
         android:layout_margin="16dp"
-        android:gravity="start"
         android:background="@drawable/mylibrary_bg"
         android:elevation="8dp"
+        android:gravity="start"
         android:hint="Please enter your content"
         android:padding="8dp"
         android:textSize="18sp"
@@ -114,7 +114,8 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/button_bg"
         android:text="Save"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"/>
 
+    <include layout="@layout/snippet_update_delete" />
 
 </RelativeLayout>
