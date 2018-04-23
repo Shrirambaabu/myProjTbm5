@@ -112,10 +112,12 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
         if (remainderContent != null || remainderDate != null || remainderTime != null||remainderId!=null) {
 
             Log.e("intentRemain",""+remainderDate);
-            remainderDate=dateToUI(remainderDate);
-
-            remainderTime=timeToUi(remainderTime);
-
+            if (!remainderDate.equals("")) {
+                remainderDate = dateToUI(remainderDate);
+            }
+            if (!remainderTime.equals("")) {
+                remainderTime = timeToUi(remainderTime);
+            }
             getView().remainderText(remainderContent);
             getView().remainderDate(remainderDate);
             getView().remainderTime(remainderTime);
