@@ -31,10 +31,18 @@
             android:text="Example Image"
             android:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/image_crop"
-            android:layout_width="match_parent"
-            android:layout_height="180dp" />
+
+        <Button
+            android:id="@+id/new_contact_button"
+            android:layout_below="@+id/emul_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/button_bg"
+            android:text="New Contact"
+            android:visibility="visible" />
+
 
 
         <include layout="@layout/layout_bottom_navigation_view" />

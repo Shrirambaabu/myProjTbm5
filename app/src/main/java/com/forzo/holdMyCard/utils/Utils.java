@@ -236,4 +236,7 @@ public class Utils {
 
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
+
+
+
 }

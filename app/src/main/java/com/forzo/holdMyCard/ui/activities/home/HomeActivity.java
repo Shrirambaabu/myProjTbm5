@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     private Bitmap bitmap;
 
-    File image=null;
+    File image = null;
     private Feature feature;
     private String[] visionAPI = new String[]{"TEXT_DETECTION"};
 
@@ -83,6 +83,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @BindView(R.id.emul_button)
     Button buttonEmulator;
+    @BindView(R.id.new_contact_button)
+    Button newContact;
 
     @BindView(R.id.relative_progress)
     RelativeLayout relativeLayout;
@@ -92,9 +94,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @BindView(R.id.avi)
     AVLoadingIndicatorView avLoadingIndicatorView;
-
-    @BindView(R.id.image_crop)
-    ImageView imageView;
 
 
     @Override
@@ -117,9 +116,20 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     }
 
+
+    @OnClick(R.id.new_contact_button)
+    public void newContact() {
+
+
+        Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
     @OnClick(R.id.button)
     public void captureImage() {
-       // EasyImage.openChooserWithGallery(HomeActivity.this, OPEN_CAMERA_OR_GALLERY_TO_CHOOSE_AN_IMAGE, TYPE);
+        // EasyImage.openChooserWithGallery(HomeActivity.this, OPEN_CAMERA_OR_GALLERY_TO_CHOOSE_AN_IMAGE, TYPE);
         Calendar cal = Calendar.getInstance();
 
 
@@ -133,13 +143,13 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         imagesFolder.mkdirs();
 
         // Generating file name
-        String imageName = cal.getTimeInMillis()+"1"+ ".png";
+        String imageName = cal.getTimeInMillis() + "1" + ".png";
 
         // Creating image here
-         image = new File(imageFolderPath, imageName);
+        image = new File(imageFolderPath, imageName);
 
-       // capturedImageUri = Uri.fromFile(image);
-        capturedImageUri =  FileProvider.getUriForFile(HomeActivity.this,
+        // capturedImageUri = Uri.fromFile(image);
+        capturedImageUri = FileProvider.getUriForFile(HomeActivity.this,
                 BuildConfig.APPLICATION_ID + ".provider",
                 image);
 
@@ -159,7 +169,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         avLoadingIndicatorView.show();
         relativeLayout.setVisibility(View.VISIBLE);
         relativeLayoutMain.setVisibility(View.GONE);
-        homePresenter.callVisionApi(HomeActivity.this, b, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout,relativeLayoutMain,image);
+        homePresenter.callVisionApi(HomeActivity.this, b, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout, relativeLayoutMain, image);
 
     }
 
@@ -202,8 +212,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             avLoadingIndicatorView.show();
             relativeLayout.setVisibility(View.VISIBLE);
             relativeLayoutMain.setVisibility(View.GONE);
-            Log.e("HM","Calling Vision");
-            homePresenter.callVisionApi(HomeActivity.this, bitmap, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout,relativeLayoutMain,image);
+            Log.e("HM", "Calling Vision");
+            homePresenter.callVisionApi(HomeActivity.this, bitmap, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout, relativeLayoutMain, image);
 
 
         } else {

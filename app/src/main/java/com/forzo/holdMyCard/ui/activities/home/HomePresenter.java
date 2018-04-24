@@ -138,22 +138,27 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             protected void onPostExecute(String result) {
 
 
-                Log.e("result", "" + result);
+
 
 
                 String email;
                 String website;
                 ArrayList<String> phone;
 
-                String phoneNumber;
+                String phoneNumber="";
 
                 email = parseEmail(result);
                 website = parseWebsite(result);
                 phone = parseMobile(result);
 
-                //  makeJsonRequest(result);
-                phoneNumber = phone.toString().replaceAll("\\[", "").replaceAll("\\]", "");
 
+
+                //  makeJsonRequest(result);
+               // phoneNumber = phone.toString().replaceAll("\\[", "").replaceAll("\\]", "");
+
+                if (!phone.isEmpty()) {
+                    phoneNumber = phone.get(0);
+                }
 
                 Intent intent = new Intent(homeActivity, ProfileActivity.class);
                 intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );

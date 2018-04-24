@@ -15,8 +15,10 @@ import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import io.reactivex.Observer;
@@ -61,10 +63,10 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
         String time = timeText.getText().toString();
 
 
-       date=dateToDb(date);
-       Log.e("CDate",""+date);
-       time=timeToDb(time);
-       Log.e("Ctime",""+time);
+        date = dateToDb(date);
+        Log.e("CDate", "" + date);
+        time = timeToDb(time);
+        Log.e("Ctime", "" + time);
 
         MyRemainder myRemainder = new MyRemainder();
 
@@ -109,9 +111,10 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
         String remainderId = intent.getStringExtra("remainId");
 
 
-        if (remainderContent != null || remainderDate != null || remainderTime != null||remainderId!=null) {
 
-            Log.e("intentRemain",""+remainderDate);
+        if (remainderContent != null || remainderDate != null || remainderTime != null || remainderId != null) {
+
+            Log.e("intentRemain", "" + remainderDate);
             if (!remainderDate.equals("")) {
                 remainderDate = dateToUI(remainderDate);
             }
@@ -121,11 +124,33 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
             getView().remainderText(remainderContent);
             getView().remainderDate(remainderDate);
             getView().remainderTime(remainderTime);
-            getView().remainderDetails(remainderId,remainderDate,remainderTime);
+            getView().remainderDetails(remainderId, remainderDate, remainderTime);
             button.setVisibility(View.GONE);
-        }else {
+        } else {
             button.setVisibility(View.VISIBLE);
             getView().setSaveVisible();
+
+        }
+
+        if (remainderTime.equals("")) {
+
+            Calendar cal = Calendar.getInstance();
+            Date currentLocalTime = cal.getTime();
+            DateFormat date = new SimpleDateFormat("hh:mm a");
+
+            String localTime = date.format(currentLocalTime);
+            Log.e("else", "ss "+localTime);
+            getView().remainderTime(localTime);
+        }
+
+        if (remainderDate.equals("")) {
+            Date c = Calendar.getInstance().getTime();
+           Log.e("else" ,""+ c);
+
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            String formattedDate = df.format(c);
+
+            getView().remainderDate(formattedDate);
         }
 
         if (remainderContent.equals("") || remainderDate.equals("") || remainderTime.equals("")) {
@@ -138,11 +163,11 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
     @Override
     public void updateReminder(String reminderId, String reminderDesc, String timePicker, String datePicker) {
 
-        Log.e("dateUp",""+datePicker);
-        datePicker=dateToDb(datePicker);
-        Log.e("dateUp2",""+datePicker);
-        Log.e("timePick",""+timePicker);
-        timePicker=timeToDb(timePicker);
+        Log.e("dateUp", "" + datePicker);
+        datePicker = dateToDb(datePicker);
+        Log.e("dateUp2", "" + datePicker);
+        Log.e("timePick", "" + timePicker);
+        timePicker = timeToDb(timePicker);
 
         MyRemainder myRemainder = new MyRemainder();
         myRemainder.setId(reminderId);

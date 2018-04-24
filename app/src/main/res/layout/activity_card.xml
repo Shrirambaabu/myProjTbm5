@@ -143,7 +143,6 @@
                         android:imeOptions="actionNext"
                         android:inputType="text|textNoSuggestions"
                         android:maxLines="1"
-                        android:text="Dheerandra Kumar"
                         android:textColor="@android:color/black" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -168,7 +167,6 @@
                         android:imeOptions="actionNext"
                         android:inputType="text|textNoSuggestions"
                         android:maxLines="1"
-                        android:text="DK Arts"
                         android:textColor="@android:color/black" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -192,7 +190,6 @@
                         android:imeOptions="actionNext"
                         android:inputType="text|textNoSuggestions"
                         android:maxLines="1"
-                        android:text="Designer"
                         android:textColor="@android:color/black" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -217,7 +214,6 @@
                         android:imeOptions="actionNext"
                         android:inputType="text|textNoSuggestions"
                         android:maxLines="1"
-                        android:text="+91 987543211"
                         android:textColor="@android:color/black" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -230,6 +226,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    app:counterMaxLength="13"
                     android:focusableInTouchMode="true"
                     app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
@@ -241,7 +238,6 @@
                         android:imeOptions="actionNext"
                         android:inputType="text|textNoSuggestions"
                         android:maxLines="1"
-                        android:text="abcd123@gmail.com"
                         android:textColor="@android:color/black" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -265,7 +261,6 @@
                         android:focusableInTouchMode="true"
                         android:hint="Address"
                         android:inputType="text|textNoSuggestions"
-                        android:text="Chennai "
                         android:textColor="@android:color/black" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -289,7 +284,6 @@
                         android:focusableInTouchMode="true"
                         android:hint="Website"
                         android:inputType="text|textNoSuggestions"
-                        android:text="www.google.co.in "
                         android:textColor="@android:color/black" />
 
                 </android.support.design.widget.TextInputLayout>

@@ -185,7 +185,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 phoneNumber = phone.toString().replaceAll("\\[", "").replaceAll("\\]", "");
 
                 if (phoneNumber.equals("")) {
-                    phoneNumber = "No number found";
+                    phoneNumber = "";
                 }
 
                 getView().setEmailId(email);
@@ -228,7 +228,21 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
         if (imageFile!=null){
 
-            Log.e("imageUpload",""+imageFile.getName());
+            Log.e("imageUpload",""+imageFile.length());
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageCaptured);
+                int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
+                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
 
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
             MultipartBody.Part body = MultipartBody.Part.createFormData("image", imageFile.getName(), reqFile);
@@ -244,7 +258,9 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                         @Override
                         public void onNext(BusinessCard userChangePassword) {
-                            getView().savedSuccessfully();
+                          //  getView().savedSuccessfully();
+
+                            Log.e("Succ","image");
                         }
 
                         @Override
@@ -506,6 +522,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     @Override
     public void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText) {
 
+
+        Log.e("businessCard","save");
 
         String name = nameTextInputEditText.getText().toString();
         String company = companyTextInputEditText.getText().toString();
