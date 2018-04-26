@@ -15,7 +15,7 @@ public interface NotesDetailContract {
 
     interface Presenter extends BaseMvpPresenter<View> {
 
-        void saveNote(NotesDetailsActivity notesDetailsActivity, EditText editText);
+        void saveNote(NotesDetailsActivity notesDetailsActivity, EditText editText,String  notePrimaryValue);
 
         void getIntentValues(Intent intent, Button button);
 
@@ -30,7 +30,7 @@ public interface NotesDetailContract {
 
         void updatedSuccessfully();
         void deletedSuccessfully();
-
+void setNotesPrimaryValue(String value,String libraryImageValue);
         void setNotesValueEnabled();
 
         void setNotesValue(String value,String notesId);

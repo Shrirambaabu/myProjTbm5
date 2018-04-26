@@ -68,9 +68,12 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     private String reminderDetailTime = "";
     private String result;
 
+    private String libraryImageValue;
     @BindView(R.id.date_layout)
     LinearLayout datePickerLayout;
     private Context mContext = RemainderDetailsActivity.this;
+
+    private String remainderKey="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +106,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
             return;
         } else {
 
-            remainderDetailsPresenter.saveRemainder(RemainderDetailsActivity.this, remainDes, datePickerValue, timePickerValue);
+            remainderDetailsPresenter.saveRemainder(RemainderDetailsActivity.this, remainDes, datePickerValue, timePickerValue,remainderKey);
 
         }
 
@@ -245,7 +248,8 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     public void savedSuccessfully() {
         Toast.makeText(getApplicationContext(), "Remainder Added Successfully", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(RemainderDetailsActivity.this, ReminderActivity.class);
-
+        intent.putExtra("libraryProfile",""+remainderKey);
+        intent.putExtra("libraryProfileImage",""+libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -255,7 +259,8 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
         Toast.makeText(getApplicationContext(), "Remainder Updated Successfully", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(RemainderDetailsActivity.this, ReminderActivity.class);
-
+        intent.putExtra("libraryProfile",""+remainderKey);
+        intent.putExtra("libraryProfileImage",""+libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -265,7 +270,8 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
         Toast.makeText(getApplicationContext(), "Remainder Deleted Successfully", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(RemainderDetailsActivity.this, ReminderActivity.class);
-
+        intent.putExtra("libraryProfile",""+remainderKey);
+        intent.putExtra("libraryProfileImage",""+libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -274,6 +280,12 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     public void setSaveVisible() {
         linearLayout.setVisibility(View.GONE);
         button.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setReminderPrimaryValue(String profile,String image) {
+        libraryImageValue=image;
+        remainderKey=profile;
     }
 
     @Override

@@ -36,13 +36,13 @@ public class NotesDetailsPresenter extends BasePresenter<NotesDetailContract.Vie
     }
 
     @Override
-    public void saveNote(NotesDetailsActivity notesDetailsActivity, EditText editText) {
+    public void saveNote(NotesDetailsActivity notesDetailsActivity, EditText editText, String notePrimaryValue) {
 
         String content = editText.getText().toString();
 
 
         MyNotes myNotes = new MyNotes();
-        myNotes.setUserId("1");
+        myNotes.setUserId(notePrimaryValue);
         myNotes.setNotes(content);
 
 
@@ -81,11 +81,17 @@ public class NotesDetailsPresenter extends BasePresenter<NotesDetailContract.Vie
 
         String noteDescription = intent.getStringExtra("noteDes");
         String notesId = intent.getStringExtra("noteId");
+        String profile = intent.getStringExtra("libraryProfile");
+        String libraryImageValue = intent.getStringExtra("libraryProfileImage");
 
+
+        if (profile != null&&libraryImageValue!=null) {
+            getView().setNotesPrimaryValue(profile,libraryImageValue);
+        }
 
         if (noteDescription != null && notesId != null) {
             Log.e("Value", notesId);
-            getView().setNotesValue(noteDescription,notesId);
+            getView().setNotesValue(noteDescription, notesId);
             //   getView().setNotesValueEnabled();
             button.setVisibility(View.GONE);
         } else {
@@ -101,15 +107,12 @@ public class NotesDetailsPresenter extends BasePresenter<NotesDetailContract.Vie
     }
 
     @Override
-    public void updateNotes(String notesId,String noteDescp) {
-
+    public void updateNotes(String notesId, String noteDescp) {
 
 
         MyNotes myNotes = new MyNotes();
         myNotes.setId(notesId);
         myNotes.setNotes(noteDescp);
-
-
 
 
         mApiService.updateNotes(myNotes)
@@ -157,7 +160,7 @@ public class NotesDetailsPresenter extends BasePresenter<NotesDetailContract.Vie
                     @Override
                     public void onNext(MyNotes myNotes) {
 
-getView().deletedSuccessfully();
+                        getView().deletedSuccessfully();
 
                     }
 

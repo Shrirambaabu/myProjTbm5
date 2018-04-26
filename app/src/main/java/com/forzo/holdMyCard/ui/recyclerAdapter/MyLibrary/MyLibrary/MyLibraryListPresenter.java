@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 
 import java.util.ArrayList;
+
+import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
 
 /**
  * Created by Shriram on 3/31/2018.
@@ -34,18 +38,28 @@ public class MyLibraryListPresenter implements MyLibraryContract.Presenter {
 
         Activity activity = (Activity) context;
         Intent myLibraryIntent = new Intent(context, ProfileActivity.class);
-        myLibraryIntent.putExtra("libraryProfile",""+myLibraries.get(adapterPosition).getUserId());
+        myLibraryIntent.putExtra("libraryProfile", "" + myLibraries.get(adapterPosition).getUserId());
+        myLibraryIntent.putExtra("libraryProfileImage", "" + myLibraries.get(adapterPosition).getImage());
         context.startActivity(myLibraryIntent);
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }
 
     @Override
+    public void setImage(String image, ImageView imageView) {
+
+        Glide.with(context)
+                .load(IMAGE_URL + image)
+                .into(imageView);
+    }
+
+    @Override
     public void bindEventRow(int position, MyLibraryContract.MyLibraryRowView rowView) {
 
-        MyLibrary myLibrary=myLibraries.get(position);
+        MyLibrary myLibrary = myLibraries.get(position);
 
 
+        rowView.setCardImage(myLibrary.getImage());
         rowView.setCardName(myLibrary.getCardName());
         rowView.setCardDescription(myLibrary.getCardDescription());
         rowView.setCardDetails(myLibrary.getCardDetails());

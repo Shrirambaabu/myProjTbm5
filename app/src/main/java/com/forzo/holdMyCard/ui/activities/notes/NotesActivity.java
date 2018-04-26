@@ -47,7 +47,9 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
     @BindView(R.id.add_note)
     Button button;
 
+    private String libraryImageValue="";
 
+private String notesPrimaryValue="";
     private Context mContext = NotesActivity.this;
 
     @Override
@@ -67,6 +69,7 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
 
 
         notesPresenter.attach(this);
+        notesPresenter.getIntentValues(getIntent());
         notesPresenter.setupShowsRecyclerView(recyclerView, emptyView);
 
     }
@@ -74,7 +77,13 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
     @Override
     public void showRecyclerView() {
         recyclerView.setAdapter(notesRecyclerAdapter);
-        notesPresenter.populateRecyclerView(myNotesArrayList);
+        notesPresenter.populateRecyclerView(myNotesArrayList,notesPrimaryValue);
+    }
+
+    @Override
+    public void setNotesPrimaryValue(String profile,String profileImage) {
+        libraryImageValue=profileImage;
+        notesPrimaryValue=profile;
     }
 
     @Override
@@ -94,6 +103,8 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
 
         Intent intentSave = new Intent(NotesActivity.this, NotesDetailsActivity.class);
         intentSave.putExtra("noteDes","");
+        intentSave.putExtra("libraryProfile",""+notesPrimaryValue);
+        intentSave.putExtra("libraryProfileImage",""+libraryImageValue);
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -103,6 +114,8 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
     public boolean onSupportNavigateUp() {
         Intent intent = new Intent(NotesActivity.this, ProfileActivity.class);
         intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+        intent.putExtra("libraryProfile",""+notesPrimaryValue);
+        intent.putExtra("libraryProfileImage",""+libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
@@ -112,6 +125,8 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
     public void onBackPressed() {
         Intent intent = new Intent(NotesActivity.this, ProfileActivity.class);
         intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+        intent.putExtra("libraryProfile",""+notesPrimaryValue);
+        intent.putExtra("libraryProfileImage",""+libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }

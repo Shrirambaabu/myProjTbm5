@@ -21,7 +21,7 @@ public interface RemainderDetailsContract {
     interface Presenter extends BaseMvpPresenter<View> {
 
         void showDatePicker();
-        void saveRemainder(RemainderDetailsActivity remainderDetailsActivity, EditText editText, TextView dateText,TextView timeText);
+        void saveRemainder(RemainderDetailsActivity remainderDetailsActivity, EditText editText, TextView dateText,TextView timeText,String key);
 
         void getIntentValues(Intent intent, Button button);
 
@@ -37,7 +37,7 @@ public interface RemainderDetailsContract {
     void updatedSuccessfully();
     void deletedSuccessfully();
     void setSaveVisible();
-
+void setReminderPrimaryValue(String profile,String image);
     void remainderText(String remainder);
     void remainderDate(String date);
     void remainderTime(String time);

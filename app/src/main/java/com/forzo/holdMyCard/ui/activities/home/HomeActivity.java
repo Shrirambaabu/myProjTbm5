@@ -31,6 +31,7 @@ import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.base.BaseView;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
+import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
@@ -120,11 +121,15 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     @OnClick(R.id.new_contact_button)
     public void newContact() {
 
+        String imageType="BCF";
 
-        Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+        Log.e("img",""+imageType.replaceAll("^\"|\"$", ""));
+
+       /* Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("newContact","new");
         startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);*/
     }
 
     @OnClick(R.id.button)
@@ -143,7 +148,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         imagesFolder.mkdirs();
 
         // Generating file name
-        String imageName = cal.getTimeInMillis() + "1" + ".png";
+        String imageName = cal.getTimeInMillis() + ""+ PreferencesAppHelper.getUserId() + ".png";
 
         // Creating image here
         image = new File(imageFolderPath, imageName);

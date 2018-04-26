@@ -2,6 +2,7 @@ package com.forzo.holdMyCard.ui.activities.remainder;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,7 +56,7 @@ public class ReminderPresenter extends BasePresenter<ReminderContract.View> impl
     }
 
     @Override
-    public void populateRecyclerView(List<MyRemainder> remainders) {
+    public void populateRecyclerView(List<MyRemainder> remainders,String remainderKey) {
 
 /*
 
@@ -65,7 +66,7 @@ public class ReminderPresenter extends BasePresenter<ReminderContract.View> impl
 */
 
 
-        mApiService.getUserRemainder("1")
+        mApiService.getUserRemainder(remainderKey)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<MyRemainder>>() {
@@ -108,6 +109,17 @@ public class ReminderPresenter extends BasePresenter<ReminderContract.View> impl
 
 
 
+
+    }
+
+    @Override
+    public void getIntentValues(Intent intent) {
+
+        String profile = intent.getStringExtra("libraryProfile");
+        String profileImage = intent.getStringExtra("libraryProfileImage");
+        if (profile!=null&&profileImage!=null){
+            getView().setReminderPrimaryValue(profile,profileImage);
+        }
 
     }
 

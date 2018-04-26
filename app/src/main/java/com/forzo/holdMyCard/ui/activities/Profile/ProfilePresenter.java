@@ -10,21 +10,25 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
+import com.bumptech.glide.Glide;
 import com.forzo.holdMyCard.HmcApplication;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
+import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.models.BusinessCard;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.utils.HttpHandler;
 import com.forzo.holdMyCard.utils.NetworkController;
+import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -75,11 +79,15 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
+import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
 import static com.forzo.holdMyCard.utils.Utils.BaseUri;
 import static com.forzo.holdMyCard.utils.Utils.CLOUD_NATURAL_API_KEY;
 import static com.forzo.holdMyCard.utils.Utils.CLOUD_VISION_API_KEY;
+import static com.forzo.holdMyCard.utils.Utils.getBitmapLowFile;
 import static com.forzo.holdMyCard.utils.Utils.getImageEncodeImage;
+import static com.forzo.holdMyCard.utils.Utils.getResizedBitmapFile;
+import static com.forzo.holdMyCard.utils.Utils.savebitmap;
 
 /**
  * Created by Shriram on 3/29/2018.
@@ -90,7 +98,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     private static final String TAG = "ProfileActivity";
     private ApiService mApiService;
-
+    Uri imageCaptured;
 
     private RequestQueue queue;
 
@@ -181,7 +189,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 email = parseEmail(result);
                 website = parseWebsite(result);
                 phone = parseMobile(result);
-             //   makeJsonRequest(result, avLoadingIndicatorView, relativeProgress);
+                //   makeJsonRequest(result, avLoadingIndicatorView, relativeProgress);
                 phoneNumber = phone.toString().replaceAll("\\[", "").replaceAll("\\]", "");
 
                 if (phoneNumber.equals("")) {
@@ -204,16 +212,17 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     }
 
+
     @Override
     public void getIntentValues(Intent intent, RelativeLayout cardLayout) {
-        Uri imageCaptured = intent.getParcelableExtra("image");
+        imageCaptured = intent.getParcelableExtra("image");
 
-        Bitmap bitmap;
+        Bitmap bitmap = null;
 
 
         String email;
-        String website ;
-        String phoneNumber ;
+        String website;
+        String phoneNumber;
         String result;
 
         String profile;
@@ -223,74 +232,37 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         phoneNumber = intent.getStringExtra("phoneNumber");
         result = intent.getStringExtra("result");
         profile = intent.getStringExtra("libraryProfile");
+        String profileLibraryImage = intent.getStringExtra("libraryProfileImage");
         String userProfile = intent.getStringExtra("profileMain");
+        String newProfile = intent.getStringExtra("newContact");
         File imageFile = (File) intent.getSerializableExtra("imageFile");
 
-        if (imageFile!=null){
+        if (newProfile != null) {
+            getView().newContact();
+        }
 
-            Log.e("imageUpload",""+imageFile.length());
+        if (profileLibraryImage != null) {
+           getView().setLibraryImage(profileLibraryImage);
+        }
+        if (imageFile != null) {
 
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageCaptured);
-                int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
-                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-
-
-            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("image", imageFile.getName(), reqFile);
-
-            mApiService.postUserImage(body,"1","BCF")
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<BusinessCard>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-                            // progressBar.smoothToShow();
-                        }
-
-                        @Override
-                        public void onNext(BusinessCard userChangePassword) {
-                          //  getView().savedSuccessfully();
-
-                            Log.e("Succ","image");
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            //  progressBar.smoothToHide();
-                            Log.e("error", "" + e.getMessage());
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-
-
+            getView().saveImageFile(imageFile);
+            getView().newContact();
         }
 
 
-        if (userProfile!=null){
-            showProfileData("1");
+        if (userProfile != null) {
 
-           // getView().setSaveFalse(false);
+           getView().setDialog();
+           /* showProfileData(PreferencesAppHelper.getUserId());
+
+            getView().setSaveFalse(false);*/
         }
 
         if (profile != null) {
             Log.e("ProfileValue", "" + profile);
-
+            getView().setUserPrimaryValue(profile);
             showProfileData(profile);
-
 
         }
 
@@ -343,15 +315,10 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
             // profilePresenter.callCloudVision(bitmap, feature, avLoadingIndicatorView, relativeProgress);
 
-        } else {
+        } /*else {
             Bitmap b = BitmapFactory.decodeResource(context.getResources(), R.drawable.abc_d);
-/*
-            getView().setEmailId(email);
-            getView().setPhoneNumber(phoneNumber);
-            getView().setWebsite(website);*/
             getView().setProfileImage(b);
-            // imageView.setImageResource(R.drawable.business_card);
-        }
+        }*/
     }
 
     private void showProfileData(String profile) {
@@ -406,7 +373,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         getView().setEmailId(emailIdProfile);
                         getView().setWebsite(websiteProfile);
                         getView().setAddress(addressProfile);
-                        getView().setSaveFalse(false);
+
                     }
 
                     @Override
@@ -486,8 +453,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 String address = "";
 
 
-
-                Log.e("GoogleNlp ",""+entityList.toString());
+                Log.e("GoogleNlp ", "" + entityList.toString());
                 for (Entity entity : entityList) {
                     entities += "\n" + entity.getName() + " " + entity.getType();
 
@@ -519,11 +485,69 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     }
 
+
+    @Override
+    public void saveImage(File file, String newId) {
+        Bitmap bitmapS = null;
+
+
+        try {
+            bitmapS = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageCaptured);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap newBitmap = getResizedBitmapFile(bitmapS, 480, 640);
+
+        Log.e("bm", "" + newBitmap.getByteCount());
+
+        File newFile = getBitmapLowFile(newBitmap);
+
+        Log.e("Last", "" + newFile.length());
+        Log.e("LastID", "" + newId);
+
+
+        RequestBody reqFile = RequestBody.create(MediaType.parse("image"), newFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("image", newFile.getName(), reqFile);
+
+        String imageType = "BCF";
+
+        mApiService.postUserImage(body, Integer.parseInt(newId), imageType)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BusinessCard>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+
+                    @Override
+                    public void onNext(BusinessCard userChangePassword) {
+
+                        getView().profileSavedSuccessfully();
+
+                        Log.e("Succ", "image");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //  progressBar.smoothToHide();
+                        Log.e("error", "" + e.getMessage());
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
+
     @Override
     public void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText) {
 
-
-        Log.e("businessCard","save");
 
         String name = nameTextInputEditText.getText().toString();
         String company = companyTextInputEditText.getText().toString();
@@ -536,7 +560,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
         BusinessCard businessCard = new BusinessCard();
 
-        businessCard.setId("1");
+        businessCard.setId(PreferencesAppHelper.getUserId());
         businessCard.setName(name);
         businessCard.setCompany(company);
         businessCard.setJobTitle(jobTitle);
@@ -556,7 +580,10 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                     @Override
                     public void onNext(BusinessCard userChangePassword) {
-                        getView().savedSuccessfully();
+
+                        Log.e("uss", userChangePassword.getUserId());
+
+                        getView().savedSuccessfully(userChangePassword.getUserId());
                     }
 
                     @Override

@@ -13,6 +13,10 @@ public class User {
     @Expose
     private String uuid;
 
+    @SerializedName("userId")
+    @Expose
+    private String newUser;
+
     @SerializedName("userExists")
     @Expose
     private String uuidExists;
@@ -28,6 +32,16 @@ public class User {
     public String getUuid() {
         return uuid;
     }
+
+
+    public String getNewUser() {
+        return newUser;
+    }
+
+    public void setNewUser(String newUser) {
+        this.newUser = newUser;
+    }
+
 
     public void setUuid(String uuid) {
         this.uuid = uuid;

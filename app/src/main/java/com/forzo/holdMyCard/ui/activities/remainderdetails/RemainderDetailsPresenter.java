@@ -55,7 +55,7 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
     }
 
     @Override
-    public void saveRemainder(RemainderDetailsActivity remainderDetailsActivity, EditText editText, TextView dateText, TextView timeText) {
+    public void saveRemainder(RemainderDetailsActivity remainderDetailsActivity, EditText editText, TextView dateText, TextView timeText,String remainderKey) {
 
         String remainderContent = editText.getText().toString();
 
@@ -70,7 +70,7 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
 
         MyRemainder myRemainder = new MyRemainder();
 
-        myRemainder.setUserId("1");
+        myRemainder.setUserId(remainderKey);
         myRemainder.setName(remainderContent);
         myRemainder.setDate(date);
         myRemainder.setTime(time);
@@ -110,6 +110,13 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
         String remainderTime = intent.getStringExtra("remainTime");
         String remainderId = intent.getStringExtra("remainId");
 
+        String profile = intent.getStringExtra("libraryProfile");
+        String libraryImageValue = intent.getStringExtra("libraryProfileImage");
+
+
+        if (profile!=null&&libraryImageValue!=null){
+            getView().setReminderPrimaryValue(profile,libraryImageValue);
+        }
 
 
         if (remainderContent != null || remainderDate != null || remainderTime != null || remainderId != null) {

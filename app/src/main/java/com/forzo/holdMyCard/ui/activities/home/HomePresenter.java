@@ -80,6 +80,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     @Override
     public void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout, RelativeLayout relativeLayoutMain, File image) {
         Log.e("HM", "Vision called");
+
         if (uri != null) {
 
             try {

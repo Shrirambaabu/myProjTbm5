@@ -1,5 +1,6 @@
 package com.forzo.holdMyCard.ui.activities.remainder;
 
+import android.content.Intent;
 import android.widget.RelativeLayout;
 
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
@@ -20,7 +21,8 @@ public interface ReminderContract {
         void setupShowsRecyclerView(EmptyRecyclerView paymentCurrentRecyclerView, RelativeLayout emptyView);
 
 
-        void populateRecyclerView(List<MyRemainder> myRemainders);
+        void populateRecyclerView(List<MyRemainder> myRemainders,String s);
+        void getIntentValues(Intent intent);
     }
 
     // Action callbacks. Activity/Fragment will implement
@@ -29,6 +31,8 @@ public interface ReminderContract {
         void updateAdapter();
 
         void showRecyclerView();
+
+        void setReminderPrimaryValue(String reminderPrimaryValue,String  profileImage);
     }
 
 }

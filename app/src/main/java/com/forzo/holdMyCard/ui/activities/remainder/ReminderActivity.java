@@ -48,8 +48,10 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
     @BindView(R.id.add_remainder)
     Button button;
 
+    private String remainderKey="";
     private Context mContext = ReminderActivity.this;
 
+    private String libraryImageValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +69,7 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
 
 
         reminderPresenter.attach(this);
+        reminderPresenter.getIntentValues(getIntent());
         reminderPresenter.setupShowsRecyclerView(recyclerView, emptyView);
 
     }
@@ -80,6 +83,8 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
         intentSave.putExtra("remainDesc","");
         intentSave.putExtra("remainTime","");
         intentSave.putExtra("remainDate","");
+        intentSave.putExtra("libraryProfile",""+remainderKey);
+        intentSave.putExtra("libraryProfileImage",""+libraryImageValue);
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -88,6 +93,8 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
     public boolean onSupportNavigateUp() {
         Intent intent = new Intent(ReminderActivity.this, ProfileActivity.class);
         intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+        intent.putExtra("libraryProfile",""+remainderKey);
+        intent.putExtra("libraryProfileImage",""+libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
@@ -97,6 +104,8 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
     public void onBackPressed() {
         Intent intent = new Intent(ReminderActivity.this, ProfileActivity.class);
         intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+        intent.putExtra("libraryProfile",""+remainderKey);
+        intent.putExtra("libraryProfileImage",""+libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -104,7 +113,13 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
     @Override
     public void showRecyclerView() {
         recyclerView.setAdapter(myRemainderRecyclerAdapter);
-        reminderPresenter.populateRecyclerView(myRemainderArrayList);
+        reminderPresenter.populateRecyclerView(myRemainderArrayList,remainderKey);
+    }
+
+    @Override
+    public void setReminderPrimaryValue(String reminderPrimaryValue,String image) {
+        libraryImageValue=image;
+        remainderKey=reminderPrimaryValue;
     }
 
     @Override

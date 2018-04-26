@@ -2,8 +2,11 @@ package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibrary;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideContext;
 import com.forzo.holdMyCard.R;
 
 import butterknife.BindView;
@@ -23,6 +26,8 @@ public class MyLibraryHolder extends RecyclerView.ViewHolder implements MyLibrar
     TextView setCardDescription;
     @BindView(R.id.card_details)
     TextView setCardDetails;
+    @BindView(R.id.card_image)
+    ImageView setCardImageValue;
 
 
     MyLibraryHolder(View itemView, MyLibraryListPresenter fragmentListPresenter) {
@@ -34,6 +39,14 @@ public class MyLibraryHolder extends RecyclerView.ViewHolder implements MyLibrar
     @Override
     public void onClick(View v) {
         fragmentListPresenter.onItemClick(getAdapterPosition());
+    }
+
+    @Override
+    public void setCardImage(String image) {
+
+        fragmentListPresenter.setImage(image,setCardImageValue);
+
+
     }
 
     @Override

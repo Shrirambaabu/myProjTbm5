@@ -2,6 +2,8 @@ package com.forzo.holdMyCard.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -9,6 +11,10 @@ import com.google.api.services.vision.v1.model.Image;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -200,7 +206,7 @@ public class Utils {
         String timeHour = time.substring(0, 2);
 
         int timeInHour = Integer.parseInt(timeHour);
-        String finalHour = ""+timeInHour;
+        String finalHour = "" + timeInHour;
 
         if (timeInHour > 12) {
 
@@ -238,5 +244,89 @@ public class Utils {
     }
 
 
+    public static File savebitmap(String filename,Bitmap bitmap) {
+        String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+        OutputStream outStream = null;
+
+        File file = new File(filename);
+        if (file.exists()) {
+            file.delete();
+            file = new File(extStorageDirectory, filename+"_1"+ ".png");
+            Log.e("file exist", "" + file + ",Bitmap= " + filename);
+        }
+        try {
+            // make a new bitmap from your file
+             bitmap = BitmapFactory.decodeFile(file.getName());
+
+            outStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 70, outStream);
+            outStream.flush();
+            outStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e("file", "" + file);
+        return file;
+
+    }
+
+
+    public static Bitmap getResizedBitmapFile(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        return Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+    }
+
+
+    public static File getBitmapLowFile(Bitmap bitmap){
+
+
+        File image=null;
+
+        // EasyImage.openChooserWithGallery(HomeActivity.this, OPEN_CAMERA_OR_GALLERY_TO_CHOOSE_AN_IMAGE, TYPE);
+        Calendar cal = Calendar.getInstance();
+
+
+        // fetching the root directory
+        String root = Environment.getExternalStorageDirectory().toString()
+                + "/HMC";
+
+        // Creating folders for Image
+        String imageFolderPath = root + "/saved_images";
+        File imagesFolder = new File(imageFolderPath);
+        imagesFolder.mkdirs();
+
+        // Generating file name
+        String imageName = cal.getTimeInMillis()+"_" + PreferencesAppHelper.getUserId() + ".png";
+
+        // Creating image here
+        image = new File(imageFolderPath, imageName);
+
+
+        OutputStream outStream = null;
+
+        try {
+            outStream = new FileOutputStream(image);
+
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+            outStream.flush();
+            outStream.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return image;
+    }
 
 }

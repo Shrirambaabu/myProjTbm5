@@ -6,8 +6,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.provider.CalendarContract;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
@@ -24,6 +27,7 @@ import com.google.api.services.vision.v1.model.Feature;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.io.File;
 import java.util.Calendar;
 
 import javax.inject.Inject;
@@ -32,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation;
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 
@@ -102,6 +107,12 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     private Context mContext = ProfileActivity.this;
 
+    private String primaryValue = "";
+
+    private String imageValue="";
+
+    private File file = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,6 +144,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void noteSection() {
 
         Intent intent = new Intent(ProfileActivity.this, NotesActivity.class);
+        intent.putExtra("libraryProfile", "" + primaryValue);
+        intent.putExtra("libraryProfileImage", "" + imageValue);
+        Log.e("NoteIntent", "" + primaryValue);
+
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -143,6 +158,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void remainderSection() {
 
         Intent intent = new Intent(ProfileActivity.this, ReminderActivity.class);
+        intent.putExtra("libraryProfile", "" + primaryValue);
+        intent.putExtra("libraryProfileImage", "" + imageValue);
+        Log.e("ReminIntent", "" + primaryValue);
+
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -202,8 +221,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public boolean onSupportNavigateUp() {
 
         Intent intent = new Intent(ProfileActivity.this, MyLibraryActivity.class);
-        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
     }
 
@@ -212,7 +232,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
 
         Intent intent = new Intent(ProfileActivity.this, MyLibraryActivity.class);
-        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -226,6 +246,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);*/
+
         profilePresenter.saveBusinessCard(nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText);
 
     }
@@ -248,6 +269,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         Menu menu = bottomNavigationViewEx.getMenu();
         MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
         menuItem.setChecked(true);
+    }
+
+    @Override
+    public void newContact() {
+        cardLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -292,14 +318,51 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     }
 
     @Override
-    public void savedSuccessfully() {
-        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+    public void savedSuccessfully(String s) {
+        profilePresenter.saveImage(file, s);
+
+
+    }
+
+    @Override
+    public void saveImageFile(File imageFile) {
+        file = imageFile;
+
+    }
+
+    @Override
+    public void setLibraryImage(String image) {
+
+        imageValue=image;
+        Glide.with(getApplicationContext())
+                .load(IMAGE_URL+image)
+                .into(imageView);
+    }
+
+    @Override
+    public void profileSavedSuccessfully() {
+          Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
 
         Intent intentSave = new Intent(ProfileActivity.this, MyLibraryActivity.class);
         intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
 
+    @Override
+    public void setDialog() {
+        AlertDialog alertDialog = new AlertDialog.Builder(ProfileActivity.this).create();
+        alertDialog.setTitle("Alert !!!");
+        alertDialog.setMessage("Profile Data not found");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                (dialog, which) -> {
+                    dialog.dismiss();
+                    Intent intentMain = new Intent(ProfileActivity.this, MyLibraryActivity.class);
+                    intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intentMain);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                });
+        alertDialog.show();
     }
 
     @Override
@@ -307,8 +370,16 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
         if (!saveFalse) {
             saveCancel.setVisibility(View.GONE);
-        }else {
+            cardLayout.setVisibility(View.GONE);
+        } else {
             saveCancel.setVisibility(View.VISIBLE);
+            cardLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void setUserPrimaryValue(String userPrimaryValue) {
+        primaryValue = userPrimaryValue;
+        saveCancel.setVisibility(View.GONE);
     }
 }

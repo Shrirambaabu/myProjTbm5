@@ -1,5 +1,6 @@
 package com.forzo.holdMyCard.ui.activities.notes;
 
+import android.content.Intent;
 import android.widget.RelativeLayout;
 
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
@@ -20,7 +21,8 @@ public interface NotesContract {
         void setupShowsRecyclerView(EmptyRecyclerView paymentCurrentRecyclerView, RelativeLayout emptyView);
 
 
-        void populateRecyclerView(List<MyNotes> myNotes);
+        void populateRecyclerView(List<MyNotes> myNotes,String primaryValue);
+        void getIntentValues(Intent intent);
     }
 
     // Action callbacks. Activity/Fragment will implement
@@ -29,6 +31,7 @@ public interface NotesContract {
         void updateAdapter();
 
         void showRecyclerView();
+        void setNotesPrimaryValue(String profile,String profileImage);
     }
 
 }

@@ -29,7 +29,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/button_bg"
             android:text="Example Image"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
 
         <Button
@@ -41,7 +41,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/button_bg"
             android:text="New Contact"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
 
 

@@ -15,6 +15,7 @@ import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.services.DataService;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
+import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
         getView().updateAdapter();
 */
 
-        mApiService.getUserLibrary("1")
+        mApiService.getUserLibrary(PreferencesAppHelper.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<MyLibrary>>() {

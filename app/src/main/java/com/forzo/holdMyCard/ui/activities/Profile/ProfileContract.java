@@ -12,6 +12,8 @@ import com.google.api.services.vision.v1.model.Feature;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.io.File;
+
 /**
  * Created by Shriram on 3/29/2018.
  */
@@ -24,6 +26,7 @@ public interface ProfileContract {
 
         void callCloudVision(Bitmap bitmap, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeProgress);
 
+        void saveImage(File file,String s);
         void getIntentValues(Intent intent, RelativeLayout cardLayout);
         void saveBusinessCard( TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText,TextInputEditText addressTextInputEditText);
     }
@@ -33,6 +36,7 @@ public interface ProfileContract {
         void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
 
 
+        void newContact();
         void setUserName(String userName);
 
         void setPhoneNumber(String phoneNumber);
@@ -48,9 +52,15 @@ public interface ProfileContract {
 
         void setAddress(String address);
 
-        void savedSuccessfully();
+        void savedSuccessfully(String s);
 
+        void saveImageFile(File imageFile);
+
+        void setLibraryImage(String image);
+        void profileSavedSuccessfully();
+        void setDialog();
         void setSaveFalse(Boolean saveFalse);
+        void setUserPrimaryValue(String  userPrimaryValue);
 
     }
 

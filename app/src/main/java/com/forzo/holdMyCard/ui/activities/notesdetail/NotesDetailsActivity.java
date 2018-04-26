@@ -44,6 +44,8 @@ public class NotesDetailsActivity extends AppCompatActivity implements NotesDeta
     @Inject
     NotesDetailsPresenter notesDetailsPresenter;
 
+    private String notePrimaryValue="";
+private String libraryImageValue="";
     private Context mContext = NotesDetailsActivity.this;
 
     @Override
@@ -72,7 +74,7 @@ public class NotesDetailsActivity extends AppCompatActivity implements NotesDeta
             return;
         } else {
 
-            notesDetailsPresenter.saveNote(NotesDetailsActivity.this, noteDes);
+            notesDetailsPresenter.saveNote(NotesDetailsActivity.this, noteDes,notePrimaryValue);
 
             finish();
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -124,7 +126,8 @@ public class NotesDetailsActivity extends AppCompatActivity implements NotesDeta
         Toast.makeText(getApplicationContext(), "Note Added Successfully", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(NotesDetailsActivity.this, NotesActivity.class);
-
+        intent.putExtra("libraryProfile",""+notePrimaryValue);
+        intent.putExtra("libraryProfileImage",""+libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -136,7 +139,8 @@ public class NotesDetailsActivity extends AppCompatActivity implements NotesDeta
         Toast.makeText(getApplicationContext(), "Note Updated Successfully", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(NotesDetailsActivity.this, NotesActivity.class);
-
+        intent.putExtra("libraryProfile",""+notePrimaryValue);
+        intent.putExtra("libraryProfileImage",""+libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -147,9 +151,16 @@ public class NotesDetailsActivity extends AppCompatActivity implements NotesDeta
         Toast.makeText(getApplicationContext(), "Note Deleted Successfully", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(NotesDetailsActivity.this, NotesActivity.class);
-
+        intent.putExtra("libraryProfile",""+notePrimaryValue);
+        intent.putExtra("libraryProfileImage",""+libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    public void setNotesPrimaryValue(String value,String image) {
+        libraryImageValue=image;
+        notePrimaryValue=value;
     }
 
     @Override

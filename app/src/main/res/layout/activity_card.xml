@@ -129,7 +129,7 @@
                     android:layout_below="@+id/card_action"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:focusableInTouchMode="true"
                     app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
@@ -156,7 +156,6 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:focusableInTouchMode="true"
                     app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
@@ -179,7 +178,6 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:focusableInTouchMode="true"
                     app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
@@ -203,7 +201,6 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:focusableInTouchMode="true"
                     app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
@@ -212,7 +209,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Mobile"
                         android:imeOptions="actionNext"
-                        android:inputType="text|textNoSuggestions"
+                        android:inputType="number|textNoSuggestions"
                         android:maxLines="1"
                         android:textColor="@android:color/black" />
 
@@ -227,7 +224,6 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     app:counterMaxLength="13"
-                    android:focusableInTouchMode="true"
                     app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
@@ -250,7 +246,6 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:focusableInTouchMode="true"
                     app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
@@ -273,7 +268,6 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:focusableInTouchMode="true"
                     app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                     <android.support.design.widget.TextInputEditText

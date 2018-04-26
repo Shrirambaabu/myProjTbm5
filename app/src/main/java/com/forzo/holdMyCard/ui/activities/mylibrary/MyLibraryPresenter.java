@@ -14,6 +14,7 @@ import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.fragments.mycurrentlibrary.MyCurrentLibraryFragment;
 import com.forzo.holdMyCard.ui.fragments.mygroups.MyGroupsFragment;
 import com.forzo.holdMyCard.ui.models.User;
+import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.forzo.holdMyCard.utils.SectionsStatePagerAdapter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
@@ -57,57 +58,48 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
 
     @Override
     public void setUuid() {
-        uuidGenerate();
-       /* SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (!prefs.getBoolean("firstTime", false)) {
             // <---- run your one time code here
+            mApiService.newUser()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<User>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                        }
+
+                        @Override
+                        public void onNext(User userUuid) {
+
+                            String userIdNew=userUuid.getNewUser();
+
+                            PreferencesAppHelper.setUserId(userIdNew);
+
+                            Log.e("nextLib",""+PreferencesAppHelper.getUserId());
+                            //  getView().savedSuccessfully();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            //  progressBar.smoothToHide();
+                            Log.e("error", "" + e.getMessage());
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
 
 
-            // mark first time has runned.
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("firstTime", true);
             editor.commit();
-        }*/
+        }
 
     }
 
-    private void uuidGenerate() {
-        String uuid = UUID.randomUUID().toString();
-
-        User user=new User();
-        user.setUuid(uuid);
-
-        mApiService.checkUuid(user)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<User>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-
-                    @Override
-                    public void onNext(User userUuid) {
-
-
-                        Log.e("s","s");
-                        Log.e("nextLib",""+userUuid.toString());
-                      //  getView().savedSuccessfully();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        //  progressBar.smoothToHide();
-                        Log.e("error", "" + e.getMessage());
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-
-
-    }
 }

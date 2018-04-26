@@ -14,6 +14,8 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -48,6 +50,10 @@ public interface ApiService {
     Observable<User> checkUuid(@Body User user);
 
 
+    @GET("login/registerNewUser")
+    Observable<User> newUser();
+
+
     @POST("notes/createNotes")
     Observable<MyNotes> saveNotes(@Body MyNotes myNotes);
 
@@ -73,9 +79,10 @@ public interface ApiService {
     @GET("remainder/deleteRemainder/{remainderId}")
     Observable<MyRemainder> deleteUserReminder(@Path("remainderId") String userId);
 
+
+    @POST("profile/postImage")
     @Multipart
-    @POST("profile/postImage ")
-    Observable<BusinessCard> postUserImage(@Part MultipartBody.Part  file, @Part("userId") String userId, @Part("imageType") String imageType);
+    Observable<BusinessCard> postUserImage(@Part MultipartBody.Part  file, @Part("userId") int userId, @Part("imageType") String imageType);
 
 
 }

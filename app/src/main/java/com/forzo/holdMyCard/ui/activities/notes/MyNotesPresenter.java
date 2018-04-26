@@ -2,6 +2,7 @@ package com.forzo.holdMyCard.ui.activities.notes;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,14 +56,14 @@ public class MyNotesPresenter extends BasePresenter<NotesContract.View> implemen
     }
 
     @Override
-    public void populateRecyclerView(List<MyNotes> myNotes) {
+    public void populateRecyclerView(List<MyNotes> myNotes, String primaryUserId) {
 
 
       /*  myNotes.addAll(DataService.getCardNameList());
         getView().updateAdapter();
 */
 
-        mApiService.getUserNotes("1")
+        mApiService.getUserNotes(primaryUserId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<MyNotes>>() {
@@ -92,7 +93,7 @@ public class MyNotesPresenter extends BasePresenter<NotesContract.View> implemen
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("notes","err "+e.getMessage());
+                        Log.e("notes", "err " + e.getMessage());
                         // getView().hideLoading();
                     }
 
@@ -102,6 +103,17 @@ public class MyNotesPresenter extends BasePresenter<NotesContract.View> implemen
                     }
                 });
 
+
+    }
+
+    @Override
+    public void getIntentValues(Intent intent) {
+        String profile = intent.getStringExtra("libraryProfile");
+        String profileImage = intent.getStringExtra("libraryProfileImage");
+
+        if (profile != null && profileImage != null) {
+            getView().setNotesPrimaryValue(profile, profileImage);
+        }
 
     }
 
