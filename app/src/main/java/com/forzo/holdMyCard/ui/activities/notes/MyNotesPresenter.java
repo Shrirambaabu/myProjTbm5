@@ -56,7 +56,7 @@ public class MyNotesPresenter extends BasePresenter<NotesContract.View> implemen
     }
 
     @Override
-    public void populateRecyclerView(List<MyNotes> myNotes, String primaryUserId) {
+    public void populateRecyclerView(List<MyNotes> myNotes, String primaryUserId,String primaryImageId) {
 
 
       /*  myNotes.addAll(DataService.getCardNameList());
@@ -84,6 +84,8 @@ public class MyNotesPresenter extends BasePresenter<NotesContract.View> implemen
                             myNotes1.setNotes(myNotesList.get(i).getNotes());
 
                             myNotes1.setId(myNotesList.get(i).getId());
+                            myNotes1.setLibraryProfileId(primaryUserId);
+                            myNotes1.setLibraryProfileImage(primaryImageId);
 
                             myNotes.add(myNotes1);
 

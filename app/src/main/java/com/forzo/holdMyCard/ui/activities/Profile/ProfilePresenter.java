@@ -546,7 +546,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @Override
-    public void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText) {
+    public void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText,AVLoadingIndicatorView avLoadingIndicatorView) {
 
 
         String name = nameTextInputEditText.getText().toString();
@@ -575,7 +575,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 .subscribe(new Observer<BusinessCard>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        // progressBar.smoothToShow();
+                        avLoadingIndicatorView.smoothToShow();
+                        avLoadingIndicatorView.setVisibility(View.VISIBLE);
                     }
 
                     @Override

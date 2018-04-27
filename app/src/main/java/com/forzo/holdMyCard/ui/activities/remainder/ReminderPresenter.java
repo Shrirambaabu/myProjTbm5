@@ -56,7 +56,7 @@ public class ReminderPresenter extends BasePresenter<ReminderContract.View> impl
     }
 
     @Override
-    public void populateRecyclerView(List<MyRemainder> remainders,String remainderKey) {
+    public void populateRecyclerView(List<MyRemainder> remainders,String remainderKey,String libraryImageValue) {
 
 /*
 
@@ -86,6 +86,9 @@ public class ReminderPresenter extends BasePresenter<ReminderContract.View> impl
                             myRemainder.setTime(myRemainderList.get(i).getTime());
                             myRemainder.setId(myRemainderList.get(i).getId());
                             myRemainder.setStatusId(myRemainderList.get(i).getStatusId());
+
+                            myRemainder.setLibraryProfileId(remainderKey);
+                            myRemainder.setLibraryProfileImage(libraryImageValue);
 
                             remainders.add(myRemainder);
 

@@ -13,6 +13,16 @@ public class MyRemainder {
     @Expose
     private String name;
 
+
+
+    @SerializedName("libraryProfile")
+    @Expose
+    private String libraryProfileId;
+
+    @SerializedName("libraryProfileImage")
+    @Expose
+    private String libraryProfileImage;
+
     @SerializedName("userId")
     @Expose
     private String userId;
@@ -45,6 +55,22 @@ public class MyRemainder {
     @SerializedName("remainderStatusId")
     @Expose
     private String statusId;
+
+    public String getLibraryProfileId() {
+        return libraryProfileId;
+    }
+
+    public void setLibraryProfileId(String libraryProfileId) {
+        this.libraryProfileId = libraryProfileId;
+    }
+
+    public String getLibraryProfileImage() {
+        return libraryProfileImage;
+    }
+
+    public void setLibraryProfileImage(String libraryProfileImage) {
+        this.libraryProfileImage = libraryProfileImage;
+    }
 
     public String getStatusId() {
         return statusId;

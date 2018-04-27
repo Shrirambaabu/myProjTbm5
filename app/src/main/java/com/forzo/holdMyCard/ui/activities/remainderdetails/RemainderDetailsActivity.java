@@ -246,7 +246,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
     @Override
     public void savedSuccessfully() {
-        Toast.makeText(getApplicationContext(), "Remainder Added Successfully", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Reminder Added Successfully", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(RemainderDetailsActivity.this, ReminderActivity.class);
         intent.putExtra("libraryProfile",""+remainderKey);
         intent.putExtra("libraryProfileImage",""+libraryImageValue);
@@ -257,7 +257,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     @Override
     public void updatedSuccessfully() {
 
-        Toast.makeText(getApplicationContext(), "Remainder Updated Successfully", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Reminder Updated Successfully", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(RemainderDetailsActivity.this, ReminderActivity.class);
         intent.putExtra("libraryProfile",""+remainderKey);
         intent.putExtra("libraryProfileImage",""+libraryImageValue);
@@ -268,7 +268,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     @Override
     public void deletedSuccessfully() {
 
-        Toast.makeText(getApplicationContext(), "Remainder Deleted Successfully", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Reminder Deleted Successfully", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(RemainderDetailsActivity.this, ReminderActivity.class);
         intent.putExtra("libraryProfile",""+remainderKey);
         intent.putExtra("libraryProfileImage",""+libraryImageValue);

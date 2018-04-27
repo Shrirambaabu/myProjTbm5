@@ -28,7 +28,7 @@ public interface ProfileContract {
 
         void saveImage(File file,String s);
         void getIntentValues(Intent intent, RelativeLayout cardLayout);
-        void saveBusinessCard( TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText,TextInputEditText addressTextInputEditText);
+        void saveBusinessCard( TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText,TextInputEditText addressTextInputEditText,AVLoadingIndicatorView avLoadingIndicatorView);
     }
 
     interface View {

@@ -13,6 +13,15 @@ public class MyNotes {
     @Expose
     private String notes;
 
+    @SerializedName("libraryProfile")
+    @Expose
+    private String libraryProfileId;
+
+
+    @SerializedName("libraryProfileImage")
+    @Expose
+    private String libraryProfileImage;
+
 
     public String getUserId() {
         return userId;
@@ -43,6 +52,21 @@ public class MyNotes {
     @Expose
     private String id;
 
+    public String getLibraryProfileId() {
+        return libraryProfileId;
+    }
+
+    public void setLibraryProfileId(String libraryProfileId) {
+        this.libraryProfileId = libraryProfileId;
+    }
+
+    public String getLibraryProfileImage() {
+        return libraryProfileImage;
+    }
+
+    public void setLibraryProfileImage(String libraryProfileImage) {
+        this.libraryProfileImage = libraryProfileImage;
+    }
     public String getNotes() {
         return notes;
     }

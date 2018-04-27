@@ -38,6 +38,8 @@ public class MyNotesListPresenter implements MyNotesContract.Presenter {
         Intent noteDetailsIntent = new Intent(context, NotesDetailsActivity.class);
         noteDetailsIntent.putExtra("noteId",myNotes.get(adapterPosition).getId());
         noteDetailsIntent.putExtra("noteDes",myNotes.get(adapterPosition).getNotes());
+        noteDetailsIntent.putExtra("libraryProfile", "" + myNotes.get(adapterPosition).getLibraryProfileId());
+        noteDetailsIntent.putExtra("libraryProfileImage", "" + myNotes.get(adapterPosition).getLibraryProfileImage());
         context.startActivity(noteDetailsIntent);
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

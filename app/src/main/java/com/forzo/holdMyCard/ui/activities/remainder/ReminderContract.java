@@ -21,7 +21,7 @@ public interface ReminderContract {
         void setupShowsRecyclerView(EmptyRecyclerView paymentCurrentRecyclerView, RelativeLayout emptyView);
 
 
-        void populateRecyclerView(List<MyRemainder> myRemainders,String s);
+        void populateRecyclerView(List<MyRemainder> myRemainders,String s,String  libraryImageValue);
         void getIntentValues(Intent intent);
     }
 

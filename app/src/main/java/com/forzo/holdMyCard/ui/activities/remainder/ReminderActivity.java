@@ -113,7 +113,7 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
     @Override
     public void showRecyclerView() {
         recyclerView.setAdapter(myRemainderRecyclerAdapter);
-        reminderPresenter.populateRecyclerView(myRemainderArrayList,remainderKey);
+        reminderPresenter.populateRecyclerView(myRemainderArrayList,remainderKey,libraryImageValue);
     }
 
     @Override
