@@ -168,6 +168,22 @@ public class Utils {
         return ActDate;
 
     }
+    public static String dateReminderToUI(String date) {
+        String ActDate = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//set format of date you receiving from db
+        try {
+            Date dateFotmat = (Date) sdf.parse(date);
+            SimpleDateFormat newDate = new SimpleDateFormat("dd MMMM, yyyy ");
+            ActDate = newDate.format(dateFotmat);// here is your new date !
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e("err", "" + e.getMessage());
+        }
+
+        return ActDate;
+
+    }
 
     public static String timeToDb(String time) {
 

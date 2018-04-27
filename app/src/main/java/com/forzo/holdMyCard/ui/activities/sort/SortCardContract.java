@@ -1,5 +1,7 @@
 package com.forzo.holdMyCard.ui.activities.sort;
 
+import android.content.Intent;
+
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
@@ -13,11 +15,13 @@ public interface SortCardContract {
 
         void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
 
+        void getIntentValues(Intent intent);
     }
 
     interface View {
         void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
 
+        void showDialog();
     }
 
 }

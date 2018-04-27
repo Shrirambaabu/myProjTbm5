@@ -9,6 +9,9 @@ import com.forzo.holdMyCard.ui.models.MyRemainder;
 
 import java.util.ArrayList;
 
+import static com.forzo.holdMyCard.utils.Utils.dateReminderToUI;
+import static com.forzo.holdMyCard.utils.Utils.timeToUi;
+
 /**
  * Created by Shriram on 4/5/2018.
  */
@@ -49,8 +52,14 @@ public class MyRemainderListPresenter implements MyRemainderContract.Presenter {
 
         MyRemainder notes=myRemainders.get(position);
 
+        String time=notes.getTime();
+
+        time=timeToUi(time);
+
+        String date=dateReminderToUI(notes.getDate());
+
         rowView.setCardName(notes.getName());
-        rowView.setDateTime(notes.getDate()+" "+notes.getTime());
+        rowView.setDateTime(date+" "+time);
 
 
 

@@ -247,7 +247,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);*/
 
-        profilePresenter.saveBusinessCard(nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText,avLoadingIndicatorView);
+        profilePresenter.saveBusinessCard(nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText,avLoadingIndicatorView,relativeProgress);
 
     }
 
@@ -353,7 +353,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void setDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(ProfileActivity.this).create();
         alertDialog.setTitle("Alert !!!");
-        alertDialog.setMessage("Profile Data not found");
+        alertDialog.setMessage("Module disabled for Milestone 1 release");
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
                 (dialog, which) -> {
                     dialog.dismiss();

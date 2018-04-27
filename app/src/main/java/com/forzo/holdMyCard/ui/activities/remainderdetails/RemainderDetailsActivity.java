@@ -181,7 +181,8 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
         Calendar calender = Calendar.getInstance();
         Bundle args = new Bundle();
-        args.putInt("hour", Calendar.HOUR_OF_DAY);
+
+        args.putInt("hour",calender.get(Calendar.HOUR_OF_DAY));
         args.putInt("month", calender.get(Calendar.MONTH));
         args.putInt("minute", calender.get(Calendar.MINUTE));
         return args;

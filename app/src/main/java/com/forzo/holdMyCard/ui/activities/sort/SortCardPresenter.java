@@ -1,6 +1,7 @@
 package com.forzo.holdMyCard.ui.activities.sort;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
@@ -24,5 +25,15 @@ public class SortCardPresenter  extends BasePresenter<SortCardContract.View> imp
     public void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx) {
         setupBottomNavigationSetUp(bottomNavigationViewEx);
         getView().viewBottomNavigation(bottomNavigationViewEx);
+    }
+
+    @Override
+    public void getIntentValues(Intent intent) {
+        String sortDisable=intent.getStringExtra("sortMain");
+
+        if (sortDisable!=null){
+
+            getView().showDialog();
+        }
     }
 }

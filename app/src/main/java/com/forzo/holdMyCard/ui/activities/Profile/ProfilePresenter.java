@@ -546,7 +546,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @Override
-    public void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText,AVLoadingIndicatorView avLoadingIndicatorView) {
+    public void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText,AVLoadingIndicatorView avLoadingIndicatorView,RelativeLayout relativeLayout) {
 
 
         String name = nameTextInputEditText.getText().toString();
@@ -569,14 +569,17 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         businessCard.setWebsite(website);
         businessCard.setAddress(address);
 
+        relativeLayout.setVisibility(View.VISIBLE);
+        avLoadingIndicatorView.setVisibility(View.VISIBLE);
+        avLoadingIndicatorView.show();
+
+
         mApiService.saveBusinessCard(businessCard)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BusinessCard>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        avLoadingIndicatorView.smoothToShow();
-                        avLoadingIndicatorView.setVisibility(View.VISIBLE);
                     }
 
                     @Override
