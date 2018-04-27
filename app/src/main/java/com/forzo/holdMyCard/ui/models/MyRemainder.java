@@ -13,8 +13,6 @@ public class MyRemainder {
     @Expose
     private String name;
 
-
-
     @SerializedName("libraryProfile")
     @Expose
     private String libraryProfileId;
@@ -23,9 +21,40 @@ public class MyRemainder {
     @Expose
     private String libraryProfileImage;
 
+    @SerializedName("token")
+    @Expose
+    private String token;
     @SerializedName("userId")
     @Expose
     private String userId;
+    @SerializedName("remainderId")
+    @Expose
+    private String id;
+    @SerializedName("remainderdate")
+    @Expose
+    private String date;
+    @SerializedName("remainderStatusId")
+    @Expose
+    private String statusId;
+    @SerializedName("remainderTime")
+    @Expose
+    private String time;
+
+    public MyRemainder(String name, String dateTime) {
+        this.name = name;
+        this.date = dateTime;
+    }
+
+    public MyRemainder() {
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getUserId() {
         return userId;
@@ -42,19 +71,6 @@ public class MyRemainder {
     public void setId(String id) {
         this.id = id;
     }
-
-    @SerializedName("remainderId")
-    @Expose
-    private String id;
-
-
-    @SerializedName("remainderdate")
-    @Expose
-    private String date;
-
-    @SerializedName("remainderStatusId")
-    @Expose
-    private String statusId;
 
     public String getLibraryProfileId() {
         return libraryProfileId;
@@ -96,12 +112,6 @@ public class MyRemainder {
         this.time = time;
     }
 
-    @SerializedName("remainderTime")
-    @Expose
-    private String time;
-
-
-
     public String getName() {
         return name;
     }
@@ -116,15 +126,5 @@ public class MyRemainder {
 
     public void setDateTime(String dateTime) {
         this.date = dateTime;
-    }
-
-
-
-    public MyRemainder(String name, String dateTime) {
-        this.name = name;
-        this.date = dateTime;
-    }
-
-    public MyRemainder() {
     }
 }

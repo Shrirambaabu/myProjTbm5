@@ -4,15 +4,25 @@ package com.forzo.holdMyCard.service;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.forzo.holdMyCard.HmcApplication;
 import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
+import com.forzo.holdMyCard.ui.models.MyRemainder;
 import com.forzo.holdMyCard.utils.Constants;
+import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 
 /**
@@ -27,7 +37,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     @Override
     public void onCreate() {
         super.onCreate();
-        mApiService = ApiFactory.create(HmcApplication.get((FirebaseInstanceIdService) this).getRetrofit());
+        mApiService = ApiFactory.create(HmcApplication.getApplication(getApplication()).getRetrofit());
     }
 
     @Override
@@ -50,7 +60,34 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     private void sendRegistrationToServer(final String token) {
         // sending gcm token to server
+        Log.e(TAG, "sendRegistrationToServer: " + PreferencesAppHelper.getUserId());
 
+        mApiService.updateFcm(PreferencesAppHelper.getUserId(),token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<MyRemainder>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Response<MyRemainder> myRemainderResponse) {
+                        Log.e(TAG, "onNext: " + myRemainderResponse.code());
+                        if (myRemainderResponse.code()!=200)
+                            Toast.makeText(getApplicationContext(),"FCM token Error!!!",Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
 
         Log.e(TAG, "sendRegistrationToServer: " + token);
     }

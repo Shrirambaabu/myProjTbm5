@@ -15,7 +15,7 @@ public class ErrorInterceptor implements Interceptor {
         Response response = chain.proceed(chain.request());
 
         if (!response.isSuccessful()) {
-            throw new SwsError(
+            throw new HMCError(
                     response.code(),
                     response.message()
             );

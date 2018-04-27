@@ -40,10 +40,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
+            Log.e(TAG, "Data Payload: " + String.valueOf(remoteMessage.getData()));
 
             try {
-                JSONObject json = new JSONObject(remoteMessage.getData().toString());
+                JSONObject json = new JSONObject(remoteMessage.getData());
                 handleDataMessage(json);
             } catch (Exception e) {
                 Log.e(TAG, "Exception: " + e.getMessage());
@@ -70,36 +70,36 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.e(TAG, "push json: " + json.toString());
 
         try {
-            JSONObject data = json.getJSONObject("data");
 
-            String title = data.getString("title");
-            String message = data.getString("message");
-            boolean isBackground = data.getBoolean("is_background");
-            String imageUrl = data.getString("image");
-            String timestamp = data.getString("timestamp");
-            JSONObject payload = data.getJSONObject("payload");
+            String title = json.get("title").toString();
+            String message = json.get("message").toString();
+            String remainderId = json.get("remainderStatusId").toString();
+            String imageUrl = json.get("image").toString();
+            String timestamp = json.get("timestamp").toString();
 
+            Log.e(TAG, "remainderStatusId: " + remainderId);
             Log.e(TAG, "title: " + title);
             Log.e(TAG, "message: " + message);
-            Log.e(TAG, "isBackground: " + isBackground);
-            Log.e(TAG, "payload: " + payload.toString());
-            Log.e(TAG, "imageUrl: " + imageUrl);
             Log.e(TAG, "timestamp: " + timestamp);
 
 
             if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
                 // app is in foreground, broadcast the push message
                 Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
-                pushNotification.putExtra("remainId", message);
+                pushNotification.putExtra("remainId", remainderId);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
 
                 // play notification sound
                 NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
                 notificationUtils.playNotificationSound();
             } else {
+                Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
+                pushNotification.putExtra("remainId", remainderId);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+
                 // app is in background, show the notification in notification tray
                 Intent resultIntent = new Intent(getApplicationContext(), RemainderDetailsActivity.class);
-                resultIntent.putExtra("remainId", message);
+                resultIntent.putExtra("remainId", remainderId);
 
                 // check for image attachment
                 if (TextUtils.isEmpty(imageUrl)) {
@@ -108,6 +108,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     // image is present, show notification with image
                     showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
                 }
+
             }
         } catch (JSONException e) {
             Log.e(TAG, "Json Exception: " + e.getMessage());

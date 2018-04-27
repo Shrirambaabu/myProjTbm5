@@ -24,12 +24,12 @@ import retrofit2.Retrofit;
 
 public class HmcApplication extends Application {
 
-   // public static final String BASE_URL = "http://192.168.43.29:8080/";
+//     public static final String BASE_URL = "http://192.168.42.200:8080/";
     public static final String BASE_URL = "http://52.14.81.16:8080/holdmycard-0.1/";
 
-   // public static final  String IMAGE_URL="http://52.14.81.16:8080/holdmycard-0.1/upload-dir/";
-    public static final  String IMAGE_URL="http://52.14.81.16:8080/holdmycard-0.1/upload-dir/";
-
+    // public static final  String IMAGE_URL="http://52.14.81.16:8080/holdmycard-0.1/upload-dir/";
+    public static final String IMAGE_URL = "http://52.14.81.16:8080/holdmycard-0.1/upload-dir/";
+    private static Context context;
     @Inject
     Retrofit retrofit;
     @Inject
@@ -38,12 +38,14 @@ public class HmcApplication extends Application {
     SharedPreferences sharedPreferences;
     @Inject
     OkHttpClient okHttpClient;
-
     private HmcComponent hmcComponent;
-    private static Context context;
 
     public static HmcApplication get(Activity activity) {
         return (HmcApplication) activity.getApplication();
+    }
+
+    public static HmcApplication getApplication(Application application) {
+        return (HmcApplication) application;
     }
 
     public static Context getAppContext() {
@@ -54,7 +56,7 @@ public class HmcApplication extends Application {
     public void onCreate() {
         super.onCreate();
         // LeakCanary.install(this);
-       // JodaTimeAndroid.init(this);
+        // JodaTimeAndroid.init(this);
 
         context = this;
 

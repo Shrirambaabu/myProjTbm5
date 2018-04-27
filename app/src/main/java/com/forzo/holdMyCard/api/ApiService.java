@@ -13,6 +13,7 @@ import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -66,8 +67,9 @@ public interface ApiService {
 
 
 
-    @POST("remainder/updateFcmToken ")
-    Observable<MyRemainder> updateFcm(@Body MyRemainder myRemainder);
+    @POST("remainder/updateFcmToken")
+    @FormUrlEncoded
+    Observable<Response<MyRemainder>> updateFcm(@Field("userId") String userId,@Field("token") String token);
 
     @POST("remainder/createRemainder")
     Observable<MyRemainder> saveRemainder(@Body MyRemainder myRemainder);

@@ -1,13 +1,19 @@
 package com.forzo.holdMyCard.ui.activities.mylibrary;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +26,8 @@ import com.forzo.holdMyCard.ui.activities.creategroup.CreateGroupActivity;
 import com.forzo.holdMyCard.ui.activities.home.HomeActivity;
 import com.forzo.holdMyCard.ui.fragments.mycurrentlibrary.MyCurrentLibraryFragment;
 import com.forzo.holdMyCard.ui.fragments.mygroups.MyGroupsFragment;
+import com.forzo.holdMyCard.utils.Constants;
+import com.forzo.holdMyCard.utils.NotificationUtils;
 import com.forzo.holdMyCard.utils.SectionsStatePagerAdapter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
@@ -33,8 +41,7 @@ import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation
 public class MyLibraryActivity extends AppCompatActivity implements MyLibraryContract.View {
 
 
-    private SearchView mSearchView;
-
+    private static final int ACTIVITY_NUM = 1;
     @BindView(R.id.bottomNavigationView)
     BottomNavigationViewEx bottomNavigationView;
     @BindView(R.id.tabLayout)
@@ -51,11 +58,9 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     MyCurrentLibraryFragment myCurrentLibraryFragment;
     @Inject
     MyGroupsFragment myGroupsFragment;
-
-
+    private SearchView mSearchView;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
     private Context mContext = MyLibraryActivity.this;
-
-    private static final int ACTIVITY_NUM = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +68,30 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
         setContentView(R.layout.activity_library);
         ButterKnife.bind(this);
 
-
         DaggerMyLibraryComponent.builder()
                 .activityContext(new ActivityContext(mContext))
                 .myLibraryModule(new MyLibraryModule(this))
                 .build()
                 .inject(this);
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                if (intent.getAction().equals(Constants.PUSH_NOTIFICATION)) {
+                    // new push notification is received
+
+                    String message = intent.getStringExtra("remainId");
+                    if (message != null){
+                        Log.e("tag", "onReceive: "+message );
+                        MediaPlayer mMediaPlayer;
+                        mMediaPlayer = MediaPlayer.create(MyLibraryActivity.this, R.raw.notification);
+                        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                        mMediaPlayer.setLooping(false);
+                        mMediaPlayer.start();
+                    }
+                }
+            }
+        };
 
         myLibraryPresenter.attach(this);
         myLibraryPresenter.setUuid();
@@ -175,5 +198,23 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // register new push message receiver
+        // by doing this, the activity will be notified each time a new message arrives
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Constants.PUSH_NOTIFICATION));
+
+        // clear the notification area when the app is opened
+        NotificationUtils.clearNotifications(getApplicationContext());
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        super.onPause();
     }
 }
