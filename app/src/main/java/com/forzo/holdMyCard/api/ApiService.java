@@ -66,6 +66,9 @@ public interface ApiService {
 
 
 
+    @POST("remainder/updateFcmToken ")
+    Observable<MyRemainder> updateFcm(@Body MyRemainder myRemainder);
+
     @POST("remainder/createRemainder")
     Observable<MyRemainder> saveRemainder(@Body MyRemainder myRemainder);
 
