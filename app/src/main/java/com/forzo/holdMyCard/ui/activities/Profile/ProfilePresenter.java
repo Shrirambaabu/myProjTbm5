@@ -573,6 +573,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         avLoadingIndicatorView.setVisibility(View.VISIBLE);
         avLoadingIndicatorView.show();
 
+        Log.e("id","ss"+PreferencesAppHelper.getUserId());
 
         mApiService.saveBusinessCard(businessCard)
                 .subscribeOn(Schedulers.io())

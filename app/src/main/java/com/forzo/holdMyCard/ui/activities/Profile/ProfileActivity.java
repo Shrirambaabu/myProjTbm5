@@ -43,7 +43,7 @@ import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 public class ProfileActivity extends AppCompatActivity implements ProfileContract.View {
 
 
-    private static final int ACTIVITY_NUM = 2;
+    private static int ACTIVITY_NUM = 2;
 
     private Feature feature;
     private String[] visionAPI = new String[]{"TEXT_DETECTION"};
@@ -264,6 +264,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @Override
     public void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx) {
+
+
+        if (file!=null){
+            ACTIVITY_NUM=1;
+        }
 
         enableNavigation(mContext, this, bottomNavigationViewEx);
         Menu menu = bottomNavigationViewEx.getMenu();

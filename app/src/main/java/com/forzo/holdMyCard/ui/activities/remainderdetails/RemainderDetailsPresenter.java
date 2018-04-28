@@ -119,15 +119,16 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
         }
 
 
+
+        if (!remainderDate.equals("")) {
+            remainderDate = dateToUI(remainderDate);
+        }
+        if (!remainderTime.equals("")) {
+            remainderTime = timeToUi(remainderTime);
+        }
+
         if (remainderContent != null || remainderDate != null || remainderTime != null || remainderId != null) {
 
-
-            if (!remainderDate.equals("")) {
-                remainderDate = dateToUI(remainderDate);
-            }
-            if (!remainderTime.equals("")) {
-                remainderTime = timeToUi(remainderTime);
-            }
             getView().remainderText(remainderContent);
             getView().remainderDate(remainderDate);
             getView().remainderTime(remainderTime);
