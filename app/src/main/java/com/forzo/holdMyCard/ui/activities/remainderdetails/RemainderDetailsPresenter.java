@@ -121,7 +121,7 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
 
         if (remainderContent != null || remainderDate != null || remainderTime != null || remainderId != null) {
 
-            Log.e("intentRemain", "" + remainderDate);
+
             if (!remainderDate.equals("")) {
                 remainderDate = dateToUI(remainderDate);
             }
@@ -146,13 +146,12 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
             DateFormat date = new SimpleDateFormat("hh:mm a");
 
             String localTime = date.format(currentLocalTime);
-            Log.e("else", "ss "+localTime);
             getView().remainderTime(localTime);
         }
 
         if (remainderDate.equals("")) {
             Date c = Calendar.getInstance().getTime();
-           Log.e("else" ,""+ c);
+
 
             SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
             String formattedDate = df.format(c);
@@ -170,10 +169,7 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
     @Override
     public void updateReminder(String reminderId, String reminderDesc, String timePicker, String datePicker) {
 
-        Log.e("dateUp", "" + datePicker);
         datePicker = dateToDb(datePicker);
-        Log.e("dateUp2", "" + datePicker);
-        Log.e("timePick", "" + timePicker);
         timePicker = timeToDb(timePicker);
 
         MyRemainder myRemainder = new MyRemainder();
