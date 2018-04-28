@@ -1,6 +1,7 @@
 package com.forzo.holdMyCard.ui.activities.creategroup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,6 +56,17 @@ public class CreateGroupPresenter extends BasePresenter<CreateGroupContract.View
 
         myLibraryList.addAll(DataService.getCurrentCardList());
         getView().updateAdapter();
+
+    }
+
+    @Override
+    public void getIntentValues(Intent intent) {
+
+        String disabled=intent.getStringExtra("module");
+
+        if (disabled!=null){
+            getView().showDialog();
+        }
 
     }
 

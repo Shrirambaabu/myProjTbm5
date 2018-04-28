@@ -1,5 +1,6 @@
 package com.forzo.holdMyCard.ui.activities.creategroup;
 
+import android.content.Intent;
 import android.widget.RelativeLayout;
 
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
@@ -21,13 +22,15 @@ public interface CreateGroupContract {
         void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
 
         void populateRecyclerView(List<MyLibrary> events);
+
+        void getIntentValues(Intent intent);
     }
 
     // Action callbacks. Activity/Fragment will implement
     interface View {
 
         void updateAdapter();
-
+void showDialog();
         void showRecyclerView();
         void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
     }

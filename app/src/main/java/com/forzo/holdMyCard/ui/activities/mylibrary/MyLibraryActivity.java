@@ -191,6 +191,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
             case R.id.action_create:
 
                 Intent intentSave = new Intent(MyLibraryActivity.this, CreateGroupActivity.class);
+                intentSave.putExtra("module","disabled");
                 startActivity(intentSave);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

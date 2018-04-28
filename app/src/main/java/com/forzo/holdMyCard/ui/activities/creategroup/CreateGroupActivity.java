@@ -1,6 +1,8 @@
 package com.forzo.holdMyCard.ui.activities.creategroup;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -70,6 +72,7 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
 
         searchView.setQueryHint("Search for people to add");
         createGroupPresenter.attach(this);
+        createGroupPresenter.getIntentValues(getIntent());
         createGroupPresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
         createGroupPresenter.setupShowsRecyclerView(recyclerView, emptyView);
     }
@@ -83,6 +86,22 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
     @Override
     public void updateAdapter() {
         createGroupRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showDialog() {
+        AlertDialog alertDialog = new AlertDialog.Builder(CreateGroupActivity.this).create();
+        alertDialog.setTitle("Alert !!!");
+        alertDialog.setMessage("Module disabled for Milestone 1 release");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                (dialog, which) -> {
+                    dialog.dismiss();
+                    Intent intentMain = new Intent(CreateGroupActivity.this, MyLibraryActivity.class);
+                    intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intentMain);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                });
+        alertDialog.show();
     }
 
     @Override
