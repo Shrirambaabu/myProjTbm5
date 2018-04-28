@@ -66,6 +66,7 @@ public class Utils {
 
         ArrayList<String> integerArrayList = new ArrayList<>();
 
+
         int hour = hourOfDay;
         String timeSet = "";
         if (hour > 12) {
@@ -82,6 +83,8 @@ public class Utils {
         String hourFinal = "";
         if (hour < 10) {
             hourFinal = "0" + hour;
+        }else {
+            hourFinal=""+hour;
         }
 
         String min = "";
