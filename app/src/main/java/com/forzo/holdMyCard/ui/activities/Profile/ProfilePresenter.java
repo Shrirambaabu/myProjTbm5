@@ -595,6 +595,10 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         //  progressBar.smoothToHide();
                         Log.e("error", "" + e.getMessage());
 
+
+                        relativeLayout.setVisibility(View.GONE);
+                        avLoadingIndicatorView.setVisibility(View.GONE);
+                        avLoadingIndicatorView.hide();
                     }
 
                     @Override
