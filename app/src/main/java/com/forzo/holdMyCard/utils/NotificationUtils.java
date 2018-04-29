@@ -97,35 +97,28 @@ public class NotificationUtils {
         showNotificationMessage(title, message, timeStamp, intent, null);
     }
 
-    public void showNotificationMessage(final String title, final String message, final String timeStamp, Intent intent, String imageUrl) {
+    public void showNotificationMessage(final String title, final String message, final String timeStamp,
+                                        Intent intent, String imageUrl) {
         // Check for empty push message
         if (TextUtils.isEmpty(message))
             return;
-
 
         // notification icon
         final int icon = R.mipmap.ic_launcher;
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         final PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
-                        mContext,
-                        0,
-                        intent,
-                        PendingIntent.FLAG_CANCEL_CURRENT
-                );
+                PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext, "");
 
         final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                 + "://" + mContext.getPackageName() + "/raw/notification");
-      //  Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
         if (!TextUtils.isEmpty(imageUrl)) {
 
             if (imageUrl != null && imageUrl.length() > 4 && Patterns.WEB_URL.matcher(imageUrl).matches()) {
-
                 Bitmap bitmap = getBitmapFromURL(imageUrl);
-
                 if (bitmap != null) {
                     showBigNotification(bitmap, mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
                 } else {
