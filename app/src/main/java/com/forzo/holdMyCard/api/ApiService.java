@@ -34,6 +34,9 @@ public interface ApiService {
     @GET("notes/showAllNotes/{userId}")
     Observable<List<MyNotes>> getUserNotes(@Path("userId") String userId);
 
+    @GET("remainder/showRemainderDetail/{remainderId}")
+    Observable<MyRemainder> getUserRemainderDetails(@Path("remainderId") String userId);
+
     @GET("remainder/showAllRemainder/{userId}")
     Observable<List<MyRemainder>> getUserRemainder(@Path("userId") String userId);
 

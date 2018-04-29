@@ -40,12 +40,36 @@ public class MyRemainder {
     @Expose
     private String time;
 
+    @SerializedName("createdUserId")
+    @Expose
+    private String createdUserId;
+
+    @SerializedName("remainderCd")
+    @Expose
+    private String reminderCd;
+
+    public String getReminderCd() {
+        return reminderCd;
+    }
+
+    public void setReminderCd(String reminderCd) {
+        this.reminderCd = reminderCd;
+    }
+
     public MyRemainder(String name, String dateTime) {
         this.name = name;
         this.date = dateTime;
     }
 
     public MyRemainder() {
+    }
+
+    public String getCreatedUserId() {
+        return createdUserId;
+    }
+
+    public void setCreatedUserId(String createdUserId) {
+        this.createdUserId = createdUserId;
     }
 
     public String getToken() {

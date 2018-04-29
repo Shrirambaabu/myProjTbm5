@@ -14,12 +14,14 @@ import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
+import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -64,13 +66,14 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
 
 
         date = dateToDb(date);
-        Log.e("CDate", "" + date);
+
         time = timeToDb(time);
-        Log.e("Ctime", "" + time);
+
 
         MyRemainder myRemainder = new MyRemainder();
 
         myRemainder.setUserId(remainderKey);
+        myRemainder.setCreatedUserId(PreferencesAppHelper.getUserId());
         myRemainder.setName(remainderContent);
         myRemainder.setDate(date);
         myRemainder.setTime(time);
@@ -118,8 +121,31 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
             getView().setReminderPrimaryValue(profile,libraryImageValue);
         }
 
+        if (remainderId!=null){
+
+            getView().reminderDetails(remainderId);
+        }
+
+        if (remainderId.equals("")) {
+
+            Calendar cal = Calendar.getInstance();
+            Date currentLocalTime = cal.getTime();
+            DateFormat date = new SimpleDateFormat("hh:mm a");
+
+            String localTime = date.format(currentLocalTime);
+            getView().remainderTime(localTime);
+
+            Date c = Calendar.getInstance().getTime();
 
 
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            String formattedDate = df.format(c);
+
+            getView().remainderDate(formattedDate);
+        }
+
+
+/*
         if (!remainderDate.equals("")) {
             remainderDate = dateToUI(remainderDate);
         }
@@ -164,12 +190,63 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
             button.setVisibility(View.VISIBLE);
         } else {
             button.setVisibility(View.GONE);
-        }
+        }*/
+    }
+
+    @Override
+    public void callReminderDetails(String s) {
+
+
+
+        mApiService.getUserRemainderDetails(s)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MyRemainder>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        //  getView().showLoading();
+                    }
+
+                    @Override
+                    public void onNext(MyRemainder myRemainderList) {
+
+
+                        MyRemainder myRemainder = new MyRemainder();
+
+                        myRemainder.setName(myRemainderList.getName());
+                        myRemainder.setDate(myRemainderList.getDate());
+                        myRemainder.setTime(myRemainderList.getTime());
+                        myRemainder.setId(myRemainderList.getId());
+                        myRemainder.setReminderCd(myRemainderList.getReminderCd());
+
+                        String reminderDate= dateToUI(myRemainderList.getDate());
+                        String reminderTime= timeToUi(myRemainderList.getTime());
+
+
+                        getView().remainderText(myRemainderList.getName());
+                        getView().remainderDate(reminderDate);
+                        getView().remainderTime(reminderTime);
+
+                        getView().remainderDetails(s,myRemainderList.getDate(),myRemainderList.getTime());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("notes","err "+e.getMessage());
+                        // getView().hideLoading();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        //  getView().hideLoading();
+                    }
+                });
+
+
     }
 
     @Override
     public void updateReminder(String reminderId, String reminderDesc, String timePicker, String datePicker) {
-
         datePicker = dateToDb(datePicker);
         timePicker = timeToDb(timePicker);
 

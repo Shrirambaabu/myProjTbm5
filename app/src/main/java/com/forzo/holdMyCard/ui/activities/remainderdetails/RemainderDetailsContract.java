@@ -25,6 +25,7 @@ public interface RemainderDetailsContract {
 
         void getIntentValues(Intent intent, Button button);
 
+        void callReminderDetails(String s);
 
         void updateReminder(String reminderId,String reminderDesc,String timePicker,String datePicker);
         void deleteReminder(String reminderId);
@@ -36,6 +37,7 @@ public interface RemainderDetailsContract {
     void savedSuccessfully();
     void updatedSuccessfully();
     void deletedSuccessfully();
+    void reminderDetails(String s);
     void setSaveVisible();
 void setReminderPrimaryValue(String profile,String image);
     void remainderText(String remainder);

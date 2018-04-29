@@ -227,15 +227,17 @@ public class Utils {
         int timeInHour = Integer.parseInt(timeHour);
         String finalHour = "" + timeInHour;
 
+
         if (timeInHour > 12) {
 
             timeInHour = timeInHour - 12;
             timeMeridaian = "PM";
-
-            if (timeInHour < 10) {
-                finalHour = "0" + timeInHour;
-            }
         }
+
+        if (timeInHour < 10) {
+            finalHour = "0" + timeInHour;
+        }
+
 
         String minute = time.substring(3, 5);
 

@@ -36,9 +36,9 @@ public class MyRemainderListPresenter implements MyRemainderContract.Presenter {
 
         Activity activity = (Activity) context;
         Intent remainderDetailsIntent = new Intent(context, RemainderDetailsActivity.class);
-        remainderDetailsIntent.putExtra("remainDesc",""+myRemainders.get(adapterPosition).getName());
+       /* remainderDetailsIntent.putExtra("remainDesc",""+myRemainders.get(adapterPosition).getName());
         remainderDetailsIntent.putExtra("remainTime",""+myRemainders.get(adapterPosition).getTime());
-        remainderDetailsIntent.putExtra("remainDate",""+myRemainders.get(adapterPosition).getDate());
+        remainderDetailsIntent.putExtra("remainDate",""+myRemainders.get(adapterPosition).getDate());*/
         remainderDetailsIntent.putExtra("remainId",""+myRemainders.get(adapterPosition).getId());
         remainderDetailsIntent.putExtra("libraryProfile", "" + myRemainders.get(adapterPosition).getLibraryProfileId());
         remainderDetailsIntent.putExtra("libraryProfileImage", "" + myRemainders.get(adapterPosition).getLibraryProfileImage());

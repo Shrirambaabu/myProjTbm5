@@ -278,6 +278,11 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     }
 
     @Override
+    public void reminderDetails(String s) {
+        remainderDetailsPresenter.callReminderDetails(s);
+    }
+
+    @Override
     public void setSaveVisible() {
         linearLayout.setVisibility(View.GONE);
         button.setVisibility(View.VISIBLE);
@@ -302,9 +307,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
     @Override
     public void remainderTime(String time) {
-        Log.e("Main",""+time);
         timePickerValue.setText(time);
-        Log.e("MainAfter",""+timePickerValue.getText().toString());
     }
 
     @Override
