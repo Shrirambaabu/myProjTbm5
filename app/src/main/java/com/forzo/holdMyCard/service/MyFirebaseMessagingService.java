@@ -73,11 +73,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             String title = json.get("title").toString();
             String message = json.get("message").toString();
-            String remainderId = json.get("remainderStatusId").toString();
+            String remainderId = json.get("remainderId").toString();
             String imageUrl = json.get("image").toString();
             String timestamp = json.get("timestamp").toString();
 
-            Log.e(TAG, "remainderStatusId: " + remainderId);
+            Log.e(TAG, "remainderId: " + remainderId);
             Log.e(TAG, "title: " + title);
             Log.e(TAG, "message: " + message);
             Log.e(TAG, "timestamp: " + timestamp);
@@ -87,7 +87,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 // app is in foreground, broadcast the push message
                 Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
                 pushNotification.putExtra("remainId", remainderId);
-                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+
+                // check for image attachment
+                if (TextUtils.isEmpty(imageUrl)) {
+                    showNotificationMessage(getApplicationContext(), title, message, timestamp, pushNotification);
+                } else {
+                    // image is present, show notification with image
+                    showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, pushNotification, imageUrl);
+                }
+
+//                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
 
                 // play notification sound
                 NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
@@ -95,7 +104,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else {
                 Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
                 pushNotification.putExtra("remainId", remainderId);
-                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+//                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
 
                 // app is in background, show the notification in notification tray
                 Intent resultIntent = new Intent(getApplicationContext(), RemainderDetailsActivity.class);
