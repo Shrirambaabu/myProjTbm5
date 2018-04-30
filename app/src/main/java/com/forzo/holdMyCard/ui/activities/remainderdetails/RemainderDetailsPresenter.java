@@ -30,6 +30,10 @@ import io.reactivex.schedulers.Schedulers;
 
 import static com.forzo.holdMyCard.utils.Utils.dateToDb;
 import static com.forzo.holdMyCard.utils.Utils.dateToUI;
+import static com.forzo.holdMyCard.utils.Utils.gmtToLocal;
+import static com.forzo.holdMyCard.utils.Utils.localToGMT;
+import static com.forzo.holdMyCard.utils.Utils.newUtcFormat;
+import static com.forzo.holdMyCard.utils.Utils.newUtcTimeFormat;
 import static com.forzo.holdMyCard.utils.Utils.timeToDb;
 import static com.forzo.holdMyCard.utils.Utils.timeToUi;
 
@@ -57,18 +61,31 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
     }
 
     @Override
-    public void saveRemainder(RemainderDetailsActivity remainderDetailsActivity, EditText editText, TextView dateText, TextView timeText,String remainderKey) {
+    public void saveRemainder(RemainderDetailsActivity remainderDetailsActivity, EditText editText, TextView dateText, TextView timeText, String remainderKey) {
 
         String remainderContent = editText.getText().toString();
 
         String date = dateText.getText().toString();
         String time = timeText.getText().toString();
 
+        Log.e("saveDate", "" + date);
+        Log.e("saveTime", "" + time);
 
-        date = dateToDb(date);
 
-        time = timeToDb(time);
+        Date convertUtc = localToGMT(date + " " + time);
 
+
+        String dateFinal = newUtcFormat(convertUtc);
+
+        String timeFinal = newUtcTimeFormat(convertUtc);
+
+        date = dateToDb(dateFinal);
+
+        time = timeToDb(timeFinal);
+
+
+        Log.e("saveDateDB", "" + date);
+        Log.e("saveTimeDB", "" + time);
 
         MyRemainder myRemainder = new MyRemainder();
 
@@ -84,7 +101,6 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
                 .subscribe(new Observer<MyRemainder>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        // progressBar.smoothToShow();
                     }
 
                     @Override
@@ -94,7 +110,6 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
 
                     @Override
                     public void onError(Throwable e) {
-                        //  progressBar.smoothToHide();
 
                     }
 
@@ -112,18 +127,23 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
         String remainderDate = intent.getStringExtra("remainDate");
         String remainderTime = intent.getStringExtra("remainTime");
         String remainderId = intent.getStringExtra("remainId");
+        String remainderAction = intent.getStringExtra("remainAction");
 
         String profile = intent.getStringExtra("libraryProfile");
         String libraryImageValue = intent.getStringExtra("libraryProfileImage");
 
-
-        if (profile!=null&&libraryImageValue!=null){
-            getView().setReminderPrimaryValue(profile,libraryImageValue);
+        if (remainderAction != null) {
+            getView().notifyPush();
+        }else {
+            remainderAction="";
+        }
+        if (profile != null && libraryImageValue != null) {
+            getView().setReminderPrimaryValue(profile, libraryImageValue);
         }
 
-        if (remainderId!=null){
+        if (remainderId != null) {
 
-            getView().reminderDetails(remainderId);
+            getView().reminderDetails(remainderId,remainderAction);
         }
 
         if (remainderId.equals("")) {
@@ -194,8 +214,7 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
     }
 
     @Override
-    public void callReminderDetails(String s) {
-
+    public void callReminderDetails(String s,String remainderAction) {
 
 
         mApiService.getUserRemainderDetails(s)
@@ -219,20 +238,31 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
                         myRemainder.setId(myRemainderList.getId());
                         myRemainder.setReminderCd(myRemainderList.getReminderCd());
 
-                        String reminderDate= dateToUI(myRemainderList.getDate());
-                        String reminderTime= timeToUi(myRemainderList.getTime());
+                        String reminderDate = dateToUI(myRemainderList.getDate());
+                        String reminderTime = timeToUi(myRemainderList.getTime());
 
+
+                        Date convertUtc = gmtToLocal(reminderDate + " " + reminderTime);
+
+                        Log.e("Get", "" + convertUtc);
+                        String dateFinal = newUtcFormat(convertUtc);
+
+                        String timeFinal = newUtcTimeFormat(convertUtc);
 
                         getView().remainderText(myRemainderList.getName());
-                        getView().remainderDate(reminderDate);
-                        getView().remainderTime(reminderTime);
+                        getView().remainderDate(dateFinal);
+                        getView().remainderTime(timeFinal);
 
-                        getView().remainderDetails(s,myRemainderList.getDate(),myRemainderList.getTime());
+                        getView().remainderDetails(s, myRemainderList.getDate(), myRemainderList.getTime());
+
+                        if (!remainderAction.equals("")){
+                            getView().notifyPush();
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("notes","err "+e.getMessage());
+                        Log.e("notes", "err " + e.getMessage());
                         // getView().hideLoading();
                     }
 
@@ -247,8 +277,15 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
 
     @Override
     public void updateReminder(String reminderId, String reminderDesc, String timePicker, String datePicker) {
-        datePicker = dateToDb(datePicker);
-        timePicker = timeToDb(timePicker);
+
+        Date convertUtc = localToGMT(datePicker + " " + timePicker);
+
+        String dateFinal = newUtcFormat(convertUtc);
+
+        String timeFinal = newUtcTimeFormat(convertUtc);
+
+        datePicker = dateToDb(dateFinal);
+        timePicker = timeToDb(timeFinal);
 
         MyRemainder myRemainder = new MyRemainder();
         myRemainder.setId(reminderId);

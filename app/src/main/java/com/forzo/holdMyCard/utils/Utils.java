@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by Shriram on 4/4/2018.
@@ -83,8 +85,8 @@ public class Utils {
         String hourFinal = "";
         if (hour < 10) {
             hourFinal = "0" + hour;
-        }else {
-            hourFinal=""+hour;
+        } else {
+            hourFinal = "" + hour;
         }
 
         String min = "";
@@ -171,6 +173,7 @@ public class Utils {
         return ActDate;
 
     }
+
     public static String dateReminderToUI(String date) {
         String ActDate = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//set format of date you receiving from db
@@ -191,25 +194,26 @@ public class Utils {
     public static String timeToDb(String time) {
 
 
-        String timeMeridian = "";
 
         String hour = "";
 
         hour = time.substring(0, 2);
 
+
         int hourValue = Integer.parseInt(hour);
+
         String minute = time.substring(3, 5);
 
+        String hourString = "";
 
-        timeMeridian = time.substring(6, 8);
-
-        if (timeMeridian.equals("PM")) {
-
-            hourValue = Integer.parseInt(hour) + 12;
-
+        if (hourValue < 10) {
+            hourString = "0" + hourValue;
+        } else {
+            hourString = "" + hourValue;
         }
 
-        String timeInDbFormat = "" + hourValue + ":" + minute + ":" + "00";
+
+        String timeInDbFormat = "" + hourString + ":" + minute + ":" + "00";
 
 
         return timeInDbFormat;
@@ -247,6 +251,116 @@ public class Utils {
 
     }
 
+    public static String newUtcFormat(Date date) {
+
+        Date d1 = null;
+        String finalTime = "";
+
+        SimpleDateFormat sdf3 = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+
+        try {
+            d1 = sdf3.parse(String.valueOf(date));
+
+            SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
+
+            finalTime = sdf2.format(d1);
+
+            Log.e("newStr", "" + finalTime);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return finalTime;
+    }
+
+    public static String newUtcTimeFormat(Date date) {
+
+        Date d1 = null;
+        String finalTime = "";
+
+        SimpleDateFormat sdf3 = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+
+        try {
+            d1 = sdf3.parse(String.valueOf(date));
+
+            SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm aa");
+
+            finalTime = sdf2.format(d1);
+
+            Log.e("newStr", "" + finalTime);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return finalTime;
+    }
+
+    public static Date localToGMT(String dateTime) {
+
+        Log.e("dateL", "" + dateTime);
+
+        Date newDate = null;
+        Date fromGmt = null;
+        Date utcToLocal = null;
+        String finalUtcTime = "";
+        try {
+            newDate = new SimpleDateFormat("dd-MM-yyyy hh:mm aa").parse(dateTime);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e("localGMT", "" + e.getMessage());
+        }
+
+        if (newDate != null) {
+            fromGmt = new Date(newDate.getTime() - TimeZone.getDefault().getOffset(newDate.getTime()));
+            utcToLocal = new Date(fromGmt.getTime() + Calendar.getInstance().getTimeZone().getOffset(fromGmt.getTime()));
+           /* Log.e("GtoLoc","Local time: " + newDate.toString() +" --> UTC time::" + fromGmt.toString() );
+            Log.e("GMT loc","UTC-Loc "+new Date(fromGmt.getTime() + Calendar.getInstance().getTimeZone().getOffset(fromGmt.getTime())));
+*/
+            finalUtcTime = fromGmt.toString();
+            Log.e("newGmtTOLocal", "" + fromGmt);
+            Log.e("newLocalToGmt", "" + utcToLocal);
+        }
+
+
+        return fromGmt;
+    }
+
+
+    public static Date gmtToLocal(String date) {
+
+
+        Log.e("dateL", "" + date);
+
+        Date newDate = null;
+        Date fromGmt = null;
+        Date utcToLocal = null;
+        String finalUtcTime = "";
+        try {
+            newDate = new SimpleDateFormat("dd-MM-yyyy hh:mm aa").parse(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e("localGMT", "" + e.getMessage());
+        }
+
+        if (newDate != null) {
+            fromGmt = new Date(newDate.getTime() + TimeZone.getDefault().getOffset(newDate.getTime()));
+            utcToLocal = new Date(fromGmt.getTime() + Calendar.getInstance().getTimeZone().getOffset(fromGmt.getTime()));
+           /* Log.e("GtoLoc","Local time: " + newDate.toString() +" --> UTC time::" + fromGmt.toString() );
+            Log.e("GMT loc","UTC-Loc "+new Date(fromGmt.getTime() + Calendar.getInstance().getTimeZone().getOffset(fromGmt.getTime())));
+*/
+            finalUtcTime = fromGmt.toString();
+            Log.e("newGmtTOLocal", "" + fromGmt);
+            Log.e("newLocalToGmt", "" + utcToLocal);
+        }
+
+
+        return fromGmt;
+    }
+
     public static Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
@@ -265,19 +379,19 @@ public class Utils {
     }
 
 
-    public static File savebitmap(String filename,Bitmap bitmap) {
+    public static File savebitmap(String filename, Bitmap bitmap) {
         String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
         OutputStream outStream = null;
 
         File file = new File(filename);
         if (file.exists()) {
             file.delete();
-            file = new File(extStorageDirectory, filename+"_1"+ ".png");
+            file = new File(extStorageDirectory, filename + "_1" + ".png");
             Log.e("file exist", "" + file + ",Bitmap= " + filename);
         }
         try {
             // make a new bitmap from your file
-             bitmap = BitmapFactory.decodeFile(file.getName());
+            bitmap = BitmapFactory.decodeFile(file.getName());
 
             outStream = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.PNG, 70, outStream);
@@ -308,10 +422,10 @@ public class Utils {
     }
 
 
-    public static File getBitmapLowFile(Bitmap bitmap){
+    public static File getBitmapLowFile(Bitmap bitmap) {
 
 
-        File image=null;
+        File image = null;
 
         // EasyImage.openChooserWithGallery(HomeActivity.this, OPEN_CAMERA_OR_GALLERY_TO_CHOOSE_AN_IMAGE, TYPE);
         Calendar cal = Calendar.getInstance();
@@ -327,7 +441,7 @@ public class Utils {
         imagesFolder.mkdirs();
 
         // Generating file name
-        String imageName = cal.getTimeInMillis()+"_" + PreferencesAppHelper.getUserId() + ".png";
+        String imageName = cal.getTimeInMillis() + "_" + PreferencesAppHelper.getUserId() + ".png";
 
         // Creating image here
         image = new File(imageFolderPath, imageName);

@@ -87,7 +87,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 // app is in foreground, broadcast the push message
                 Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
                 pushNotification.putExtra("remainId", remainderId);
-
+                pushNotification.putExtra("remainAction", "del");
                 // check for image attachment
                 if (TextUtils.isEmpty(imageUrl)) {
                     showNotificationMessage(getApplicationContext(), title, message, timestamp, pushNotification);
@@ -104,11 +104,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else {
                 Intent pushNotification = new Intent(Constants.PUSH_NOTIFICATION);
                 pushNotification.putExtra("remainId", remainderId);
+                pushNotification.putExtra("remainAction", "del");
 //                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
 
                 // app is in background, show the notification in notification tray
                 Intent resultIntent = new Intent(getApplicationContext(), RemainderDetailsActivity.class);
                 resultIntent.putExtra("remainId", remainderId);
+                resultIntent.putExtra("remainAction", "del");
 
                 // check for image attachment
                 if (TextUtils.isEmpty(imageUrl)) {

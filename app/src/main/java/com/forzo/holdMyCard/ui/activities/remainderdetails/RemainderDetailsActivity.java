@@ -246,6 +246,13 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     };
 
     @Override
+    public void notifyPush() {
+
+        linearLayout.setVisibility(View.GONE);
+        button.setVisibility(View.GONE);
+    }
+
+    @Override
     public void savedSuccessfully() {
         Toast.makeText(getApplicationContext(), "Reminder Added Successfully", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(RemainderDetailsActivity.this, ReminderActivity.class);
@@ -278,8 +285,8 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     }
 
     @Override
-    public void reminderDetails(String s) {
-        remainderDetailsPresenter.callReminderDetails(s);
+    public void reminderDetails(String s,String remainderAction) {
+        remainderDetailsPresenter.callReminderDetails(s,remainderAction);
     }
 
     @Override

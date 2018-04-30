@@ -8,8 +8,12 @@ import com.forzo.holdMyCard.ui.activities.remainderdetails.RemainderDetailsActiv
 import com.forzo.holdMyCard.ui.models.MyRemainder;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.forzo.holdMyCard.utils.Utils.dateReminderToUI;
+import static com.forzo.holdMyCard.utils.Utils.dateToUI;
+import static com.forzo.holdMyCard.utils.Utils.gmtToLocal;
+import static com.forzo.holdMyCard.utils.Utils.newUtcTimeFormat;
 import static com.forzo.holdMyCard.utils.Utils.timeToUi;
 
 /**
@@ -57,9 +61,14 @@ public class MyRemainderListPresenter implements MyRemainderContract.Presenter {
         time=timeToUi(time);
 
         String date=dateReminderToUI(notes.getDate());
+        String reminderDate= dateToUI(notes.getDate());
+
+        Date convertUtc= gmtToLocal(reminderDate+" "+time);
+
+        String timeFinal=newUtcTimeFormat(convertUtc);
 
         rowView.setCardName(notes.getName());
-        rowView.setDateTime(date+" "+time);
+        rowView.setDateTime(date+" "+timeFinal);
 
 
 
