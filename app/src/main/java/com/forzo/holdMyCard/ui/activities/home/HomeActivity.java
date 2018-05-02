@@ -182,30 +182,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-       /* EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
-            @Override
-            public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
-                //Some error handling
-            }
-
-            @Override
-            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
-                onPhotosReturned(imageFile);
-            }
-
-        });
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                Uri resultUri = result.getUri();
-                Glide.with(this)
-                        .load(resultUri)
-                        .into(imageView);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-//                Exception error = result.getError();
-                Log.e(TAG, "onActivityResult: ", result.getError());
-            }
-        }*/
 
         if (this.requestCode == requestCode && resultCode == RESULT_OK) {
 

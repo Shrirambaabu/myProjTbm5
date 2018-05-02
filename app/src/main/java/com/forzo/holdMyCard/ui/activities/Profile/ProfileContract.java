@@ -25,8 +25,6 @@ public interface ProfileContract {
 
         void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
 
-        void callCloudVision(Bitmap bitmap, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeProgress);
-
         void showProfileData(String profileData);
         void naturalProcess(String result);
         void saveContactToPhone(EditText name, EditText mobileNumber);

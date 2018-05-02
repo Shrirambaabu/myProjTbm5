@@ -138,10 +138,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
             protected void onPostExecute(String result) {
 
-
-
-
-
                 String email;
                 String website;
                 ArrayList<String> phone;
@@ -152,10 +148,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                 website = parseWebsite(result);
                 phone = parseMobile(result);
 
-
-
-                //  makeJsonRequest(result);
-               // phoneNumber = phone.toString().replaceAll("\\[", "").replaceAll("\\]", "");
+                // phoneNumber = phone.toString().replaceAll("\\[", "").replaceAll("\\]", "");
 
                 if (!phone.isEmpty()) {
                     phoneNumber = phone.get(0);
@@ -200,76 +193,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
         return textResult;
 
     }
-
-    @SuppressLint("StaticFieldLeak")
-    private void makeJsonRequest(String result) {
-
-        new AsyncTask<Object, Void, String>() {
-            @Override
-            protected String doInBackground(Object... params) {
-
-                HttpHandler sh = new HttpHandler();
-                String jsonStr = "";
-
-                if (result.equals("No Data")) {
-                    jsonStr = "null";
-                } else {
-
-                    String url = BaseUri + result.replaceAll("\\s", "%20");
-
-                    Log.e("url ", "" + url);
-                    // Making a request to url and getting response
-                    jsonStr = sh.makeServiceCall(url);
-                }
-
-                return jsonStr;
-            }
-
-            protected void onPostExecute(String result) {
-
-
-                String userName = "null";
-                String companyName = "null";
-                String jobTitle = "null";
-                String address = "null";
-
-                if (result != null) {
-                    try {
-                        JSONObject jsonObj = new JSONObject(result);
-
-                        userName = jsonObj.getString("name");
-                        companyName = jsonObj.getString("organisation");
-                        jobTitle = jsonObj.getString("title");
-                        address = jsonObj.getString("address");
-
-                        Log.e("web", "" + jsonObj.getString("name"));
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                if (userName.equals("null")) {
-                    userName = "No name found";
-                }
-                if (companyName.equals("null")) {
-                    companyName = "No name found";
-                }
-                if (jobTitle.equals("null")) {
-                    jobTitle = "No Jobs Found";
-                }
-                if (address.equals("null")) {
-                    address = "Address not found";
-                }
-
-
-            }
-        }.execute();
-
-
-    }
-
     private String parseEmail(String results) {
         String EMAIL_REGEX = "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+";
         Matcher m = Pattern.compile(EMAIL_REGEX).matcher(results);
