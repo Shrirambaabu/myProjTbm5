@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.design.widget.TextInputEditText;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
@@ -26,6 +27,7 @@ public interface ProfileContract {
 
         void callCloudVision(Bitmap bitmap, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeProgress);
 
+        void saveContactToPhone(EditText name, EditText mobileNumber);
         void saveImage(File file,String s);
         void getIntentValues(Intent intent, RelativeLayout cardLayout);
         void saveBusinessCard( TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText,TextInputEditText addressTextInputEditText,AVLoadingIndicatorView avLoadingIndicatorView,RelativeLayout relativeLayout);

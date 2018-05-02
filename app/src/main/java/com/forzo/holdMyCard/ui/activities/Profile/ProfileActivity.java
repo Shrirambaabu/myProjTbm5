@@ -240,14 +240,15 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @OnClick(R.id.save_text)
     public void saveToast() {
-        /*Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
-
-        Intent intentSave = new Intent(ProfileActivity.this, MyLibraryActivity.class);
-        intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intentSave);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);*/
 
         profilePresenter.saveBusinessCard(nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText,avLoadingIndicatorView,relativeProgress);
+
+    }
+    @OnClick(R.id.new_contact_rel)
+    public void saveContactToPhone() {
+
+        profilePresenter.saveContactToPhone(nameEditText,mobileEditText);
+        //profilePresenter.saveBusinessCard(nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText,avLoadingIndicatorView,relativeProgress);
 
     }
 

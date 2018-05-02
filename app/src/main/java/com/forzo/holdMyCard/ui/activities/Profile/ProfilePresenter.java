@@ -8,11 +8,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -208,6 +210,23 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 */
             }
         }.execute();
+
+
+    }
+
+    @Override
+    public void saveContactToPhone(EditText name, EditText mobileNumber) {
+
+        String contactName=name.getText().toString();
+        String contactNumber=mobileNumber.getText().toString();
+
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        intent.putExtra(ContactsContract.Intents.Insert.NAME, contactName);
+        intent.putExtra(ContactsContract.Intents.Insert.PHONE, contactNumber);
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
 
 
     }
