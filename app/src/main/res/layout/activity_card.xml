@@ -66,6 +66,36 @@
 
                         </RelativeLayout>
 
+
+
+                        <RelativeLayout
+                            android:id="@+id/new_contact_rel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/new_contact_image"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_centerInParent="true"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_new_contact_image" />
+
+                            <TextView
+                                android:id="@+id/text_new_contact"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/new_contact_image"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="8dp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="Save Contact" />
+
+                        </RelativeLayout>
+
                         <RelativeLayout
                             android:id="@+id/remaindar_rel"
                             android:layout_width="0dp"
@@ -117,34 +147,6 @@
 
                         </RelativeLayout>
 
-
-                        <RelativeLayout
-                            android:id="@+id/new_contact_rel"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="4dp"
-                            android:layout_weight="1">
-
-                            <ImageView
-                                android:id="@+id/new_contact_image"
-                                android:layout_width="60dp"
-                                android:layout_height="60dp"
-                                android:layout_centerInParent="true"
-                                android:scaleType="centerInside"
-                                android:src="@drawable/ic_new_contact_image" />
-
-                            <TextView
-                                android:id="@+id/text_new_contact"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/new_contact_image"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginBottom="8dp"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:text="Save Contact" />
-
-                        </RelativeLayout>
 
                     </LinearLayout>
 

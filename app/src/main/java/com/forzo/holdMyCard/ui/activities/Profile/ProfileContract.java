@@ -27,6 +27,8 @@ public interface ProfileContract {
 
         void callCloudVision(Bitmap bitmap, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeProgress);
 
+        void showProfileData(String profileData);
+        void naturalProcess(String result);
         void saveContactToPhone(EditText name, EditText mobileNumber);
         void saveImage(File file,String s);
         void getIntentValues(Intent intent, RelativeLayout cardLayout);

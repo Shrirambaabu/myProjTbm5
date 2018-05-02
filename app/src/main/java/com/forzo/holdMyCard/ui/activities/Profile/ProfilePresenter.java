@@ -100,14 +100,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     private static final String TAG = "ProfileActivity";
     private ApiService mApiService;
-    Uri imageCaptured;
-
-    private RequestQueue queue;
-
-    private String[] visionAPI = new String[]{"TEXT_DETECTION"};
-
-    private String api = visionAPI[0];
-
+    private Uri imageCaptured;
     private Context context;
 
     ProfilePresenter(Context context) {
@@ -191,7 +184,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 email = parseEmail(result);
                 website = parseWebsite(result);
                 phone = parseMobile(result);
-                //   makeJsonRequest(result, avLoadingIndicatorView, relativeProgress);
                 phoneNumber = phone.toString().replaceAll("\\[", "").replaceAll("\\]", "");
 
                 if (phoneNumber.equals("")) {
@@ -202,145 +194,13 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 getView().setPhoneNumber(phoneNumber);
                 getView().setWebsite(website);
 
-/*
-
-                avLoadingIndicatorView.hide();
-                avLoadingIndicatorView.setVisibility(View.GONE);
-                relativeProgress.setVisibility(View.GONE);
-*/
             }
         }.execute();
 
-
     }
 
     @Override
-    public void saveContactToPhone(EditText name, EditText mobileNumber) {
-
-        String contactName=name.getText().toString();
-        String contactNumber=mobileNumber.getText().toString();
-
-        Intent intent = new Intent(Intent.ACTION_INSERT);
-        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-        intent.putExtra(ContactsContract.Intents.Insert.NAME, contactName);
-        intent.putExtra(ContactsContract.Intents.Insert.PHONE, contactNumber);
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
-            context.startActivity(intent);
-        }
-
-
-    }
-
-
-    @Override
-    public void getIntentValues(Intent intent, RelativeLayout cardLayout) {
-        imageCaptured = intent.getParcelableExtra("image");
-
-        Bitmap bitmap = null;
-
-
-        String email;
-        String website;
-        String phoneNumber;
-        String result;
-
-        String profile;
-
-        email = intent.getStringExtra("email");
-        website = intent.getStringExtra("website");
-        phoneNumber = intent.getStringExtra("phoneNumber");
-        result = intent.getStringExtra("result");
-        profile = intent.getStringExtra("libraryProfile");
-        String profileLibraryImage = intent.getStringExtra("libraryProfileImage");
-        String userProfile = intent.getStringExtra("profileMain");
-        String newProfile = intent.getStringExtra("newContact");
-        File imageFile = (File) intent.getSerializableExtra("imageFile");
-
-        if (newProfile != null) {
-            getView().newContact();
-        }
-
-        if (profileLibraryImage != null) {
-           getView().setLibraryImage(profileLibraryImage);
-        }
-        if (imageFile != null) {
-
-            getView().saveImageFile(imageFile);
-            getView().newContact();
-        }
-
-
-        if (userProfile != null) {
-
-           getView().setDialog();
-           /* showProfileData(PreferencesAppHelper.getUserId());
-
-            getView().setSaveFalse(false);*/
-        }
-
-        if (profile != null) {
-            Log.e("ProfileValue", "" + profile);
-            getView().setUserPrimaryValue(profile);
-            showProfileData(profile);
-
-        }
-
-       /* if (profile!=null){
-            cardLayout.setVisibility(View.GONE);
-        }else {
-            cardLayout.setVisibility(View.VISIBLE);
-        }*/
-
-        if (result != null) {
-            naturalProcess(result);
-        } else {
-            Log.e("intent", "" + intent.getStringExtra("result"));
-
-            getView().setUserName("");
-            getView().setCompanyName("");
-            getView().setAddress("");
-        }
-        getView().setJobTitle("");
-        if (email == null) {
-            email = "";
-        }
-        if (website == null) {
-            website = "";
-        }
-        if (phoneNumber == null) {
-            phoneNumber = "";
-        }
-
-
-        getView().setEmailId(email);
-        getView().setPhoneNumber(phoneNumber);
-        getView().setWebsite(website);
-
-
-        if (imageCaptured != null) {
-
-            Log.e("Profile", "Called");
-
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageCaptured);
-
-                int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
-                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-
-                getView().setProfileImage(scaled);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            // profilePresenter.callCloudVision(bitmap, feature, avLoadingIndicatorView, relativeProgress);
-
-        } /*else {
-            Bitmap b = BitmapFactory.decodeResource(context.getResources(), R.drawable.abc_d);
-            getView().setProfileImage(b);
-        }*/
-    }
-
-    private void showProfileData(String profile) {
+    public void showProfileData(String profile) {
 
 
         mApiService.getUserProfile(profile)
@@ -349,7 +209,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 .subscribe(new Observer<BusinessCard>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        //  getView().showLoading();
                     }
 
                     @Override
@@ -397,20 +256,18 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                     @Override
                     public void onError(Throwable e) {
-                        // getView().hideLoading();
                         Log.e("err", "" + e.getMessage());
                     }
 
                     @Override
                     public void onComplete() {
-                        //  getView().hideLoading();
                     }
                 });
-
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void naturalProcess(String result) {
+    @Override
+    public void naturalProcess(String result) {
 
         Log.e("natural", "doing");
         final CloudNaturalLanguage naturalLanguageService =
@@ -486,23 +343,126 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         address += " " + entity.getName();
                     }
                 }
-             /*   if (person.equals("")) {
-                    person = "No name found";
-                }
-                if (company.equals("")) {
-                    company = "No Company name found";
-                }
-                if (company.equals("")) {
-                    address = "No Address found";
-                }*/
                 getView().setUserName("" + person);
                 getView().setCompanyName("" + company);
                 getView().setAddress("" + address);
             }
         }.execute();
 
+    }
+
+    @Override
+    public void saveContactToPhone(EditText name, EditText mobileNumber) {
+
+        String contactName=name.getText().toString();
+        String contactNumber=mobileNumber.getText().toString();
+
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        intent.putExtra(ContactsContract.Intents.Insert.NAME, contactName);
+        intent.putExtra(ContactsContract.Intents.Insert.PHONE, contactNumber);
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
+
 
     }
+
+
+    @Override
+    public void getIntentValues(Intent intent, RelativeLayout cardLayout) {
+        imageCaptured = intent.getParcelableExtra("image");
+
+        Bitmap bitmap = null;
+
+
+        String email;
+        String website;
+        String phoneNumber;
+        String result;
+
+        String profile;
+
+        email = intent.getStringExtra("email");
+        website = intent.getStringExtra("website");
+        phoneNumber = intent.getStringExtra("phoneNumber");
+        result = intent.getStringExtra("result");
+        profile = intent.getStringExtra("libraryProfile");
+        String profileLibraryImage = intent.getStringExtra("libraryProfileImage");
+        String userProfile = intent.getStringExtra("profileMain");
+        String newProfile = intent.getStringExtra("newContact");
+        File imageFile = (File) intent.getSerializableExtra("imageFile");
+
+        if (newProfile != null) {
+            getView().newContact();
+        }
+
+        if (profileLibraryImage != null) {
+           getView().setLibraryImage(profileLibraryImage);
+        }
+        if (imageFile != null) {
+
+            getView().saveImageFile(imageFile);
+            getView().newContact();
+        }
+
+
+        if (userProfile != null) {
+           getView().setDialog();
+        }
+
+        if (profile != null) {
+            Log.e("ProfileValue", "" + profile);
+            getView().setUserPrimaryValue(profile);
+            showProfileData(profile);
+
+        }
+
+
+        if (result != null) {
+            naturalProcess(result);
+        } else {
+            Log.e("intent", "" + intent.getStringExtra("result"));
+
+            getView().setUserName("");
+            getView().setCompanyName("");
+            getView().setAddress("");
+        }
+        getView().setJobTitle("");
+        if (email == null) {
+            email = "";
+        }
+        if (website == null) {
+            website = "";
+        }
+        if (phoneNumber == null) {
+            phoneNumber = "";
+        }
+
+
+        getView().setEmailId(email);
+        getView().setPhoneNumber(phoneNumber);
+        getView().setWebsite(website);
+
+
+        if (imageCaptured != null) {
+
+            Log.e("Profile", "Called");
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageCaptured);
+
+                int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
+                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+
+                getView().setProfileImage(scaled);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
 
 
     @Override
@@ -629,84 +589,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private void makeJsonRequest(String result, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeProgress) {
-
-
-        new AsyncTask<Object, Void, String>() {
-            @Override
-            protected String doInBackground(Object... params) {
-
-                HttpHandler sh = new HttpHandler();
-                String jsonStr = "";
-
-                if (result.equals("No Data")) {
-                    jsonStr = "null";
-                } else {
-
-                    String url = BaseUri + result.replaceAll("\\s", "%20");
-
-                    Log.e("url ", "" + url);
-                    // Making a request to url and getting response
-                    jsonStr = sh.makeServiceCall(url);
-                }
-
-                return jsonStr;
-            }
-
-            protected void onPostExecute(String result) {
-
-                Log.e("result", "" + result);
-
-                String userName = "null";
-                String companyName = "null";
-                String jobTitle = "null";
-                String address = "null";
-
-                if (result != null) {
-                    try {
-                        JSONObject jsonObj = new JSONObject(result);
-
-                        userName = jsonObj.getString("name");
-                        companyName = jsonObj.getString("organisation");
-                        jobTitle = jsonObj.getString("title");
-                        address = jsonObj.getString("address");
-
-                        Log.e("web", "" + jsonObj.getString("name"));
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                if (userName.equals("null")) {
-                    userName = "";
-                }
-                if (companyName.equals("null")) {
-                    companyName = "";
-                }
-                if (jobTitle.equals("null")) {
-                    jobTitle = "";
-                }
-                if (address.equals("null")) {
-                    address = "";
-                }
-                getView().setUserName(userName);
-                getView().setJobTitle(jobTitle);
-                getView().setCompanyName(companyName);
-                getView().setAddress(address);
-
-
-                avLoadingIndicatorView.hide();
-                avLoadingIndicatorView.setVisibility(View.GONE);
-                relativeProgress.setVisibility(View.GONE);
-
-            }
-        }.execute();
-
-
-    }
 
 
     private String convertResponseToString(BatchAnnotateImagesResponse response) throws IOException {
