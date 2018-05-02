@@ -7,13 +7,18 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.Image;
+import com.google.api.services.vision.v1.model.TextAnnotation;
+import com.google.i18n.phonenumbers.PhoneNumberMatch;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,6 +27,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Shriram on 4/4/2018.
@@ -42,6 +49,70 @@ public class Utils {
             mActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
+
+
+
+    public static String convertResponseToString(BatchAnnotateImagesResponse response) throws IOException {
+
+        String textResult = "No Data";
+
+        final TextAnnotation text = response.getResponses()
+                .get(0).getFullTextAnnotation();
+
+
+        if (text == null) {
+            Log.e("msg", "nodate");
+        } else {
+
+            Log.e("msg", "" + text.getText());
+
+            textResult = text.getText();
+
+
+        }
+        return textResult;
+
+    }
+    public static String parseEmail(String results) {
+        String EMAIL_REGEX = "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+";
+        Matcher m = Pattern.compile(EMAIL_REGEX).matcher(results);
+        String parsedEmail = "";
+        while (m.find()) {
+            parsedEmail = m.group();
+        }
+        return parsedEmail;
+    }
+
+    public static String parseWebsite(String results) {
+        String URL_REGEX = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$";
+        String parsedUrl = "";
+        String[] words = results.split(" ");
+        for (String word : words) {
+            Matcher m = Pattern.compile(URL_REGEX).matcher(word);
+            if (m.find()) {
+                parsedUrl = m.group();
+            }
+        }
+        return parsedUrl;
+    }
+
+    public static ArrayList<String> parseMobile(String bCardText) {
+        PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
+
+        Iterable<PhoneNumberMatch> numberMatches = phoneNumberUtil.findNumbers(bCardText, Locale.US.getCountry());
+        ArrayList<String> data = new ArrayList<>();
+        String s = "Error";
+        for (PhoneNumberMatch number : numberMatches) {
+
+            s = number.rawString();
+
+            data.add(s);
+
+        }
+        return data;
+    }
+
+
 
     public static Bitmap resizeBitmap(Bitmap bitmap) {
 

@@ -52,7 +52,11 @@ import java.util.regex.Pattern;
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
 import static com.forzo.holdMyCard.utils.Utils.BaseUri;
 import static com.forzo.holdMyCard.utils.Utils.CLOUD_VISION_API_KEY;
+import static com.forzo.holdMyCard.utils.Utils.convertResponseToString;
 import static com.forzo.holdMyCard.utils.Utils.getImageEncodeImage;
+import static com.forzo.holdMyCard.utils.Utils.parseEmail;
+import static com.forzo.holdMyCard.utils.Utils.parseMobile;
+import static com.forzo.holdMyCard.utils.Utils.parseWebsite;
 
 /**
  * Created by Shriram on 3/29/2018.
@@ -169,67 +173,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
         }.execute();
 
 
-    }
-
-
-    private String convertResponseToString(BatchAnnotateImagesResponse response) throws IOException {
-
-        String textResult = "No Data";
-
-        final TextAnnotation text = response.getResponses()
-                .get(0).getFullTextAnnotation();
-
-
-        if (text == null) {
-            Log.e("msg", "nodate");
-        } else {
-
-            Log.e("msg", "" + text.getText());
-
-            textResult = text.getText();
-
-
-        }
-        return textResult;
-
-    }
-    private String parseEmail(String results) {
-        String EMAIL_REGEX = "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+";
-        Matcher m = Pattern.compile(EMAIL_REGEX).matcher(results);
-        String parsedEmail = "";
-        while (m.find()) {
-            parsedEmail = m.group();
-        }
-        return parsedEmail;
-    }
-
-    private String parseWebsite(String results) {
-        String URL_REGEX = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$";
-        String parsedUrl = "";
-        String[] words = results.split(" ");
-        for (String word : words) {
-            Matcher m = Pattern.compile(URL_REGEX).matcher(word);
-            if (m.find()) {
-                parsedUrl = m.group();
-            }
-        }
-        return parsedUrl;
-    }
-
-    private ArrayList<String> parseMobile(String bCardText) {
-        PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
-
-        Iterable<PhoneNumberMatch> numberMatches = phoneNumberUtil.findNumbers(bCardText, Locale.US.getCountry());
-        ArrayList<String> data = new ArrayList<>();
-        String s = "Error";
-        for (PhoneNumberMatch number : numberMatches) {
-
-            s = number.rawString();
-
-            data.add(s);
-
-        }
-        return data;
     }
 
 
