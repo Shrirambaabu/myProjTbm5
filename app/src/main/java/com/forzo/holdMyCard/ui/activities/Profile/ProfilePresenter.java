@@ -116,6 +116,16 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @Override
+    public void updateCard() {
+
+    }
+
+    @Override
+    public void deleteCard() {
+
+    }
+
+    @Override
     public void showProfileData(String profile) {
 
 

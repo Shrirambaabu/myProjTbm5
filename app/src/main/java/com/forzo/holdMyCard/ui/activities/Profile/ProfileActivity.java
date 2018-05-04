@@ -104,12 +104,14 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @BindView(R.id.action_card)
     RelativeLayout saveCancel;
+    @BindView(R.id.update_card)
+    RelativeLayout updateCard;
 
     private Context mContext = ProfileActivity.this;
 
     private String primaryValue = "";
 
-    private String imageValue="";
+    private String imageValue = "";
 
     private File file = null;
 
@@ -181,7 +183,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
                     .putExtra(CalendarContract.Events.DESCRIPTION, "")
                     .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-                    .putExtra(Intent.EXTRA_EMAIL, ""+emailEditText.getText().toString());
+                    .putExtra(Intent.EXTRA_EMAIL, "" + emailEditText.getText().toString());
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Google Calendar not installed.", Toast.LENGTH_LONG).show();
@@ -238,13 +240,26 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @OnClick(R.id.save_text)
     public void saveToast() {
 
-        profilePresenter.saveBusinessCard(nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText,avLoadingIndicatorView,relativeProgress);
+        profilePresenter.saveBusinessCard(nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText, avLoadingIndicatorView, relativeProgress);
 
     }
+
+    @OnClick(R.id.update_text)
+    public void updateCardDetails() {
+
+        profilePresenter.updateCard();
+    }
+
+    @OnClick(R.id.delete_text)
+    public void deleteCard() {
+
+        profilePresenter.deleteCard();
+    }
+
     @OnClick(R.id.new_contact_rel)
     public void saveContactToPhone() {
 
-        profilePresenter.saveContactToPhone(nameEditText,mobileEditText);
+        profilePresenter.saveContactToPhone(nameEditText, mobileEditText);
         //profilePresenter.saveBusinessCard(nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText,avLoadingIndicatorView,relativeProgress);
 
     }
@@ -264,8 +279,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx) {
 
 
-        if (file!=null){
-            ACTIVITY_NUM=1;
+        if (file != null) {
+            ACTIVITY_NUM = 1;
         }
 
         enableNavigation(mContext, this, bottomNavigationViewEx);
@@ -336,15 +351,15 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @Override
     public void setLibraryImage(String image) {
 
-        imageValue=image;
+        imageValue = image;
         Glide.with(getApplicationContext())
-                .load(IMAGE_URL+image)
+                .load(IMAGE_URL + image)
                 .into(imageView);
     }
 
     @Override
     public void profileSavedSuccessfully() {
-          Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
 
         Intent intentSave = new Intent(ProfileActivity.this, MyLibraryActivity.class);
         intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -384,5 +399,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void setUserPrimaryValue(String userPrimaryValue) {
         primaryValue = userPrimaryValue;
         saveCancel.setVisibility(View.GONE);
+        updateCard.setVisibility(View.VISIBLE);
     }
 }

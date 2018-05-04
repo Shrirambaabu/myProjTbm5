@@ -25,12 +25,21 @@ public interface ProfileContract {
 
         void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
 
+        void updateCard();
+
+        void deleteCard();
+
         void showProfileData(String profileData);
+
         void naturalProcess(String result);
+
         void saveContactToPhone(EditText name, EditText mobileNumber);
-        void saveImage(File file,String s);
+
+        void saveImage(File file, String s);
+
         void getIntentValues(Intent intent, RelativeLayout cardLayout);
-        void saveBusinessCard( TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText,TextInputEditText addressTextInputEditText,AVLoadingIndicatorView avLoadingIndicatorView,RelativeLayout relativeLayout);
+
+        void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout);
     }
 
     interface View {
@@ -39,6 +48,7 @@ public interface ProfileContract {
 
 
         void newContact();
+
         void setUserName(String userName);
 
         void setPhoneNumber(String phoneNumber);
@@ -48,6 +58,7 @@ public interface ProfileContract {
         void setWebsite(String website);
 
         void setProfileImage(Bitmap profileImage);
+
         void setCompanyName(String companyName);
 
         void setJobTitle(String jobTitle);
@@ -59,10 +70,14 @@ public interface ProfileContract {
         void saveImageFile(File imageFile);
 
         void setLibraryImage(String image);
+
         void profileSavedSuccessfully();
+
         void setDialog();
+
         void setSaveFalse(Boolean saveFalse);
-        void setUserPrimaryValue(String  userPrimaryValue);
+
+        void setUserPrimaryValue(String userPrimaryValue);
 
     }
 
