@@ -171,20 +171,17 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @OnClick(R.id.calendar_rel)
     public void calenderSection() {
         Calendar beginTime = Calendar.getInstance();
-        beginTime.set(2018, 3, 21, 7, 30);
-        Calendar endTime = Calendar.getInstance();
-        endTime.set(2018, 3, 22, 8, 30);
 
         if (isPackageInstalled("com.google.android.calendar", getApplicationContext())) {
             Intent intent = new Intent(Intent.ACTION_INSERT)
                     .setData(CalendarContract.Events.CONTENT_URI)
                     .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                    .putExtra(CalendarContract.Events.TITLE, "Yoga")
-                    .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
-                    .putExtra(CalendarContract.Events.EVENT_LOCATION, "Chennai")
+                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, beginTime.getTimeInMillis())
+                    .putExtra(CalendarContract.Events.TITLE, "")
+                    .putExtra(CalendarContract.Events.DESCRIPTION, "")
+                    .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-                    .putExtra(Intent.EXTRA_EMAIL, "ashithvl@gmail.com,shriam.baabu@gmail.com");
+                    .putExtra(Intent.EXTRA_EMAIL, ""+emailEditText.getText().toString());
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Google Calendar not installed.", Toast.LENGTH_LONG).show();

@@ -158,7 +158,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
                 BuildConfig.APPLICATION_ID + ".provider",
                 image);
 
-        // imageView.setTag(imageFolderPath + File.separator + imageName);
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -202,19 +201,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             Toast.makeText(getApplicationContext(), "Action Cancelled", Toast.LENGTH_LONG).show();
         }
     }
-/*
-    private void onPhotosReturned(File imageFile) {
-        CropImage.activity(Uri.fromFile(imageFile))
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setCropShape(CropImageView.CropShape.RECTANGLE)
-                .setActivityMenuIconColor(Color.WHITE)
-                .setAllowRotation(true)
-                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
-                .setOutputCompressQuality(50)
-                .setAutoZoomEnabled(true)
-                .setActivityTitle("Crop Image")
-                .start(this);
-    }*/
 
 
     @Override

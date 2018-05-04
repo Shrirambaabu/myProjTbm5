@@ -3,6 +3,7 @@ package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.remainder;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.forzo.holdMyCard.ui.activities.remainderdetails.RemainderDetailsActivity;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
@@ -60,13 +61,14 @@ public class MyRemainderListPresenter implements MyRemainderContract.Presenter {
 
         time=timeToUi(time);
 
+        Log.e("Bind",""+time);
         String date=dateReminderToUI(notes.getDate());
         String reminderDate= dateToUI(notes.getDate());
 
         Date convertUtc= gmtToLocal(reminderDate+" "+time);
 
         String timeFinal=newUtcTimeFormat(convertUtc);
-
+        Log.e("Bind",""+timeFinal);
         rowView.setCardName(notes.getName());
         rowView.setDateTime(date+" "+timeFinal);
 

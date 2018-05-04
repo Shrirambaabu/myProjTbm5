@@ -355,7 +355,7 @@ public class Utils {
         try {
             d1 = sdf3.parse(String.valueOf(date));
 
-            SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm aa");
+            SimpleDateFormat sdf2 = new SimpleDateFormat("hh:mm aa");
 
             finalTime = sdf2.format(d1);
 
