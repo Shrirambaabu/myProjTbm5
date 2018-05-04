@@ -15,7 +15,6 @@ public class BusinessCard {
 
     @SerializedName("userId")
     @Expose
-
     private String userId;
 
 

@@ -246,21 +246,20 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @OnClick(R.id.update_text)
     public void updateCardDetails() {
+        profilePresenter.updateCard(primaryValue,nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText, avLoadingIndicatorView, relativeProgress);
 
-        profilePresenter.updateCard();
     }
 
     @OnClick(R.id.delete_text)
     public void deleteCard() {
 
-        profilePresenter.deleteCard();
+        profilePresenter.deleteCard(primaryValue,avLoadingIndicatorView, relativeProgress);
     }
 
     @OnClick(R.id.new_contact_rel)
     public void saveContactToPhone() {
 
         profilePresenter.saveContactToPhone(nameEditText, mobileEditText);
-        //profilePresenter.saveBusinessCard(nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText,avLoadingIndicatorView,relativeProgress);
 
     }
 
@@ -381,6 +380,28 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 });
         alertDialog.show();
+    }
+
+    @Override
+    public void updateSuccess() {
+
+        Toast.makeText(getApplicationContext(), "Profile Updated", Toast.LENGTH_LONG).show();
+
+        Intent intentSave = new Intent(ProfileActivity.this, MyLibraryActivity.class);
+        intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intentSave);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+    }
+
+    @Override
+    public void deleteProfile() {
+        Toast.makeText(getApplicationContext(), "Profile Deleted", Toast.LENGTH_LONG).show();
+
+        Intent intentSave = new Intent(ProfileActivity.this, MyLibraryActivity.class);
+        intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intentSave);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override

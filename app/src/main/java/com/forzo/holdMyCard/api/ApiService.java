@@ -50,6 +50,12 @@ public interface ApiService {
     @POST("profile/registerProfileToLibrary")
     Observable<BusinessCard> saveBusinessCard(@Body BusinessCard businessCard);
 
+    @POST("profile/updateProfile")
+    Observable<BusinessCard> updateBusinessCard(@Body BusinessCard businessCard);
+
+    @GET("profile/deleteProfile/{profileId}")
+    Observable<BusinessCard> deleteBusinessCard(@Path("profileId") String userId);
+
     @POST("profile/checkUIUDExists")
     Observable<User> checkUuid(@Body User user);
 

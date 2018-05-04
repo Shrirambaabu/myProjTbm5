@@ -25,9 +25,9 @@ public interface ProfileContract {
 
         void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
 
-        void updateCard();
+        void updateCard(String userId, TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout);
 
-        void deleteCard();
+        void deleteCard(String userId, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout);
 
         void showProfileData(String profileData);
 
@@ -74,6 +74,10 @@ public interface ProfileContract {
         void profileSavedSuccessfully();
 
         void setDialog();
+
+        void updateSuccess();
+
+        void deleteProfile();
 
         void setSaveFalse(Boolean saveFalse);
 
