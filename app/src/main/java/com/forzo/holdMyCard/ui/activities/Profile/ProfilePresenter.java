@@ -267,15 +267,17 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @Override
-    public void saveContactToPhone(EditText name, EditText mobileNumber) {
+    public void saveContactToPhone(EditText name, EditText mobileNumber,EditText emailText) {
 
         String contactName=name.getText().toString();
         String contactNumber=mobileNumber.getText().toString();
+        String contactEmail=emailText.getText().toString();
 
         Intent intent = new Intent(Intent.ACTION_INSERT);
         intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
         intent.putExtra(ContactsContract.Intents.Insert.NAME, contactName);
         intent.putExtra(ContactsContract.Intents.Insert.PHONE, contactNumber);
+        intent.putExtra(ContactsContract.Intents.Insert.EMAIL, contactEmail);
         if (intent.resolveActivity(context.getPackageManager()) != null) {
             context.startActivity(intent);
         }

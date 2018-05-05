@@ -174,6 +174,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void calenderSection() {
         Calendar beginTime = Calendar.getInstance();
 
+        Log.e("calEmail:",""+emailEditText.getText().toString());
+
+        String email=emailEditText.getText().toString();
         if (isPackageInstalled("com.google.android.calendar", getApplicationContext())) {
             Intent intent = new Intent(Intent.ACTION_INSERT)
                     .setData(CalendarContract.Events.CONTENT_URI)
@@ -183,7 +186,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
                     .putExtra(CalendarContract.Events.DESCRIPTION, "")
                     .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-                    .putExtra(Intent.EXTRA_EMAIL, "" + emailEditText.getText().toString());
+                    .putExtra(Intent.EXTRA_EMAIL, email);
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Google Calendar not installed.", Toast.LENGTH_LONG).show();
@@ -259,7 +262,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @OnClick(R.id.new_contact_rel)
     public void saveContactToPhone() {
 
-        profilePresenter.saveContactToPhone(nameEditText, mobileEditText);
+        profilePresenter.saveContactToPhone(nameEditText, mobileEditText,emailEditText);
 
     }
 
