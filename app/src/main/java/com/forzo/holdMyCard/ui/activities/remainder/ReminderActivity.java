@@ -80,7 +80,7 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
     public void addNoteSection() {
 
         Intent intentSave = new Intent(ReminderActivity.this, RemainderDetailsActivity.class);
-        intentSave.putExtra("remainId","");
+        intentSave.putExtra("remainId","new");
         intentSave.putExtra("libraryProfile",""+remainderKey);
         intentSave.putExtra("libraryProfileImage",""+libraryImageValue);
         startActivity(intentSave);

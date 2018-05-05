@@ -134,8 +134,8 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
 
         if (remainderAction != null) {
             getView().notifyPush();
-        }else {
-            remainderAction="";
+        } else {
+            remainderAction = "";
         }
         if (profile != null && libraryImageValue != null) {
             getView().setReminderPrimaryValue(profile, libraryImageValue);
@@ -143,25 +143,25 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
 
         if (remainderId != null) {
 
-            getView().reminderDetails(remainderId,remainderAction);
-        }
+            if (remainderId.equals("new")) {
 
-        if (remainderId.equals("")) {
+                Calendar cal = Calendar.getInstance();
+                Date currentLocalTime = cal.getTime();
+                DateFormat date = new SimpleDateFormat("hh:mm a");
 
-            Calendar cal = Calendar.getInstance();
-            Date currentLocalTime = cal.getTime();
-            DateFormat date = new SimpleDateFormat("hh:mm a");
+                String localTime = date.format(currentLocalTime);
+                getView().remainderTime(localTime);
 
-            String localTime = date.format(currentLocalTime);
-            getView().remainderTime(localTime);
-
-            Date c = Calendar.getInstance().getTime();
+                Date c = Calendar.getInstance().getTime();
 
 
-            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-            String formattedDate = df.format(c);
+                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                String formattedDate = df.format(c);
 
-            getView().remainderDate(formattedDate);
+                getView().remainderDate(formattedDate);
+            } else {
+                getView().reminderDetails(remainderId, remainderAction);
+            }
         }
 
 
@@ -214,7 +214,7 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
     }
 
     @Override
-    public void callReminderDetails(String s,String remainderAction) {
+    public void callReminderDetails(String s, String remainderAction) {
 
 
         mApiService.getUserRemainderDetails(s)
@@ -255,7 +255,7 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
 
                         getView().remainderDetails(s, myRemainderList.getDate(), myRemainderList.getTime());
 
-                        if (!remainderAction.equals("")){
+                        if (!remainderAction.equals("")) {
                             getView().notifyPush();
                         }
                     }
