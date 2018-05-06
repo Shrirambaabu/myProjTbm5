@@ -120,6 +120,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
                 }
 
+                // play notification sound
+                NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+                notificationUtils.playNotificationSound();
+
             }
         } catch (JSONException e) {
             Log.e(TAG, "Json Exception: " + e.getMessage());

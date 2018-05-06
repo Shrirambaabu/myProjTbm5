@@ -359,7 +359,7 @@ public class Utils {
 
             finalTime = sdf2.format(d1);
 
-            Log.e("newStr", "" + finalTime);
+
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -370,7 +370,7 @@ public class Utils {
 
     public static Date localToGMT(String dateTime) {
 
-        Log.e("dateL", "" + dateTime);
+
 
         Date newDate = null;
         Date fromGmt = null;
