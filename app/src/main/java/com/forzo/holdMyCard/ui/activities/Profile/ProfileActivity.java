@@ -173,15 +173,17 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @OnClick(R.id.calendar_rel)
     public void calenderSection() {
         Calendar beginTime = Calendar.getInstance();
+        Calendar endTime = Calendar.getInstance();
 
-        Log.e("calEmail:",""+emailEditText.getText().toString());
+        endTime.add(Calendar.HOUR_OF_DAY, 1);
+
 
         String email=emailEditText.getText().toString();
         if (isPackageInstalled("com.google.android.calendar", getApplicationContext())) {
             Intent intent = new Intent(Intent.ACTION_INSERT)
                     .setData(CalendarContract.Events.CONTENT_URI)
                     .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, beginTime.getTimeInMillis())
+                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
                     .putExtra(CalendarContract.Events.TITLE, "")
                     .putExtra(CalendarContract.Events.DESCRIPTION, "")
                     .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
