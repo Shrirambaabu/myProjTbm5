@@ -24,7 +24,7 @@ import retrofit2.Retrofit;
 
 public class HmcApplication extends Application {
 
-     //public static final String BASE_URL = "http://192.168.42.200:8080/";
+     //public static final String BASE_URL = "http://192.168.43.29:8080/";
     public static final String BASE_URL = "http://52.14.81.16:8080/holdmycard-0.1/";
 
     // public static final  String IMAGE_URL="http://52.14.81.16:8080/holdmycard-0.1/upload-dir/";

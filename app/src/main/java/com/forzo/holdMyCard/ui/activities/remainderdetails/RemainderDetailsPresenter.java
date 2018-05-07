@@ -111,6 +111,7 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
                     @Override
                     public void onError(Throwable e) {
 
+                        Log.e("err",""+e.getMessage());
                     }
 
                     @Override
@@ -286,6 +287,7 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
 
         datePicker = dateToDb(dateFinal);
         timePicker = timeToDb(timeFinal);
+
 
         MyRemainder myRemainder = new MyRemainder();
         myRemainder.setId(reminderId);

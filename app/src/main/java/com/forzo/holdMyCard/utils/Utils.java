@@ -51,7 +51,6 @@ public class Utils {
     }
 
 
-
     public static String convertResponseToString(BatchAnnotateImagesResponse response) throws IOException {
 
         String textResult = "No Data";
@@ -73,6 +72,7 @@ public class Utils {
         return textResult;
 
     }
+
     public static String parseEmail(String results) {
         String EMAIL_REGEX = "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+";
         Matcher m = Pattern.compile(EMAIL_REGEX).matcher(results);
@@ -111,7 +111,6 @@ public class Utils {
         }
         return data;
     }
-
 
 
     public static Bitmap resizeBitmap(Bitmap bitmap) {
@@ -264,7 +263,8 @@ public class Utils {
 
     public static String timeToDb(String time) {
 
-
+        String meridian = "";
+        meridian = time.substring(6, 8);
 
         String hour = "";
 
@@ -277,6 +277,12 @@ public class Utils {
 
         String hourString = "";
 
+        if (meridian.equals("PM") && hourValue != 12) {
+            hourValue = hourValue + 12;
+        }
+        if (meridian.equals("AM")&&hourValue==12) {
+            hourValue=0;
+        }
         if (hourValue < 10) {
             hourString = "0" + hourValue;
         } else {
@@ -306,6 +312,9 @@ public class Utils {
         if (timeInHour > 12) {
 
             timeInHour = timeInHour - 12;
+            timeMeridaian = "PM";
+        }
+        if (timeInHour==12){
             timeMeridaian = "PM";
         }
 
@@ -360,7 +369,6 @@ public class Utils {
             finalTime = sdf2.format(d1);
 
 
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -369,7 +377,6 @@ public class Utils {
     }
 
     public static Date localToGMT(String dateTime) {
-
 
 
         Date newDate = null;
