@@ -37,7 +37,11 @@ import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 import static com.forzo.holdMyCard.utils.Utils.convertToHourMinuteTimeSet;
+import static com.forzo.holdMyCard.utils.Utils.dateMonthSelect;
+import static com.forzo.holdMyCard.utils.Utils.dateSelect;
 import static com.forzo.holdMyCard.utils.Utils.formatDate;
+import static com.forzo.holdMyCard.utils.Utils.timeHourSelect;
+import static com.forzo.holdMyCard.utils.Utils.timeMinuteSelect;
 
 public class RemainderDetailsActivity extends AppCompatActivity implements RemainderDetailsContract.View {
 
@@ -73,7 +77,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     LinearLayout datePickerLayout;
     private Context mContext = RemainderDetailsActivity.this;
 
-    private String remainderKey="";
+    private String remainderKey = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +92,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
         remainderDetailsPresenter.attach(this);
         remainderDetailsPresenter.getIntentValues(getIntent(), button);
         backButtonOnToolbar(RemainderDetailsActivity.this);
+
     }
 
     @OnClick(R.id.save_remainder)
@@ -106,7 +111,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
             return;
         } else {
 
-            remainderDetailsPresenter.saveRemainder(RemainderDetailsActivity.this, remainDes, datePickerValue, timePickerValue,remainderKey);
+            remainderDetailsPresenter.saveRemainder(RemainderDetailsActivity.this, remainDes, datePickerValue, timePickerValue, remainderKey);
 
         }
 
@@ -169,11 +174,18 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
     private Bundle dateDialog() {
 
+
         Calendar calender = Calendar.getInstance();
         Bundle args = new Bundle();
-        args.putInt("year", calender.get(Calendar.YEAR));
-        args.putInt("month", calender.get(Calendar.MONTH));
-        args.putInt("day", calender.get(Calendar.DAY_OF_MONTH));
+
+        String yearText = datePickerValue.getText().toString().substring(6, 10);
+
+        String dateText = dateSelect(datePickerValue.getText().toString());
+        String monthText = dateMonthSelect(datePickerValue.getText().toString());
+
+        args.putInt("year", Integer.parseInt(yearText));
+        args.putInt("month", Integer.parseInt(monthText));
+        args.putInt("day", Integer.parseInt(dateText));
         return args;
     }
 
@@ -182,9 +194,12 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
         Calendar calender = Calendar.getInstance();
         Bundle args = new Bundle();
 
-        args.putInt("hour",calender.get(Calendar.HOUR_OF_DAY));
+        String setTimeHour = timeHourSelect(timePickerValue.getText().toString());
+        String setMinute = timeMinuteSelect(timePickerValue.getText().toString());
+
+        args.putInt("hour", Integer.parseInt(setTimeHour));
         args.putInt("month", calender.get(Calendar.MONTH));
-        args.putInt("minute", calender.get(Calendar.MINUTE));
+        args.putInt("minute", Integer.parseInt(setMinute));
         return args;
     }
 
@@ -256,8 +271,8 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     public void savedSuccessfully() {
         Toast.makeText(getApplicationContext(), "Reminder Added Successfully", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(RemainderDetailsActivity.this, ReminderActivity.class);
-        intent.putExtra("libraryProfile",""+remainderKey);
-        intent.putExtra("libraryProfileImage",""+libraryImageValue);
+        intent.putExtra("libraryProfile", "" + remainderKey);
+        intent.putExtra("libraryProfileImage", "" + libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -267,8 +282,8 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
         Toast.makeText(getApplicationContext(), "Reminder Updated Successfully", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(RemainderDetailsActivity.this, ReminderActivity.class);
-        intent.putExtra("libraryProfile",""+remainderKey);
-        intent.putExtra("libraryProfileImage",""+libraryImageValue);
+        intent.putExtra("libraryProfile", "" + remainderKey);
+        intent.putExtra("libraryProfileImage", "" + libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -278,15 +293,15 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
 
         Toast.makeText(getApplicationContext(), "Reminder Deleted Successfully", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(RemainderDetailsActivity.this, ReminderActivity.class);
-        intent.putExtra("libraryProfile",""+remainderKey);
-        intent.putExtra("libraryProfileImage",""+libraryImageValue);
+        intent.putExtra("libraryProfile", "" + remainderKey);
+        intent.putExtra("libraryProfileImage", "" + libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
-    public void reminderDetails(String s,String remainderAction) {
-        remainderDetailsPresenter.callReminderDetails(s,remainderAction);
+    public void reminderDetails(String s, String remainderAction) {
+        remainderDetailsPresenter.callReminderDetails(s, remainderAction);
     }
 
     @Override
@@ -296,9 +311,9 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     }
 
     @Override
-    public void setReminderPrimaryValue(String profile,String image) {
-        libraryImageValue=image;
-        remainderKey=profile;
+    public void setReminderPrimaryValue(String profile, String image) {
+        libraryImageValue = image;
+        remainderKey = profile;
     }
 
     @Override

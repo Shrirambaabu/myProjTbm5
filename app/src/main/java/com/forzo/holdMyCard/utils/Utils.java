@@ -261,6 +261,61 @@ public class Utils {
 
     }
 
+    public static String timeHourSelect(String time) {
+
+        String meridian = time.substring(6, 8);
+        String newHour = time.substring(0, 2);
+
+        int finalTimeHour = Integer.parseInt(newHour);
+
+
+        if (meridian.equals("PM") && !newHour.equals("12")) {
+
+            finalTimeHour = Integer.parseInt(newHour) + 12;
+        }
+
+        if (meridian.equals("AM") && newHour.equals("12")) {
+            finalTimeHour = 0;
+        }
+
+        String timeDone = String.valueOf(finalTimeHour);
+
+        return timeDone;
+
+    }
+
+    public static String timeMinuteSelect(String time) {
+
+
+        String newMinute = time.substring(3, 5);
+
+
+        return newMinute;
+
+    }
+
+    public static String dateSelect(String date) {
+        String newDate = date.substring(0, 2);
+        if (Integer.parseInt(newDate) < 10) {
+            newDate = newDate.substring(1, 2);
+        }
+        return newDate;
+    }
+
+    public static String dateMonthSelect(String date) {
+        String newDate = date.substring(3, 5);
+
+
+        int integerDate = Integer.parseInt(newDate);
+
+        integerDate = integerDate - 1;
+
+        newDate= String.valueOf(integerDate);
+
+
+        return newDate;
+    }
+
     public static String timeToDb(String time) {
 
         String meridian = "";
@@ -280,8 +335,8 @@ public class Utils {
         if (meridian.equals("PM") && hourValue != 12) {
             hourValue = hourValue + 12;
         }
-        if (meridian.equals("AM")&&hourValue==12) {
-            hourValue=0;
+        if (meridian.equals("AM") && hourValue == 12) {
+            hourValue = 0;
         }
         if (hourValue < 10) {
             hourString = "0" + hourValue;
@@ -314,7 +369,7 @@ public class Utils {
             timeInHour = timeInHour - 12;
             timeMeridaian = "PM";
         }
-        if (timeInHour==12){
+        if (timeInHour == 12) {
             timeMeridaian = "PM";
         }
 
