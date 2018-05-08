@@ -17,9 +17,30 @@ public class User {
     @Expose
     private String newUser;
 
+    @SerializedName("userName")
+    @Expose
+    private String userName;
+    @SerializedName("userEmail")
+    @Expose
+    private String userEmail;
+    @SerializedName("password")
+    @Expose
+    private String userPassword;
+
     @SerializedName("userExists")
     @Expose
     private String uuidExists;
+    @SerializedName("Registration Successful")
+    @Expose
+    private String regStatus;
+
+    public String getRegStatus() {
+        return regStatus;
+    }
+
+    public void setRegStatus(String regStatus) {
+        this.regStatus = regStatus;
+    }
 
     public String getUuidExists() {
         return uuidExists;
@@ -42,6 +63,30 @@ public class User {
         this.newUser = newUser;
     }
 
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
 
     public void setUuid(String uuid) {
         this.uuid = uuid;

@@ -33,7 +33,7 @@ public interface ProfileContract {
 
         void naturalProcess(String result);
 
-        void saveContactToPhone(EditText name, EditText mobileNumber , EditText emailText);
+        void saveContactToPhone(EditText name, EditText mobileNumber , EditText emailText,EditText companyEditText,EditText jobEditText,EditText addressEditText);
 
         void saveImage(File file, String s);
 

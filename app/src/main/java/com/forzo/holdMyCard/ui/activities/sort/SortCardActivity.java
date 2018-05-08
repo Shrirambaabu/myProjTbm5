@@ -25,7 +25,6 @@ import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation
 public class SortCardActivity extends AppCompatActivity implements SortCardContract.View {
 
 
-
     @BindView(R.id.bottomNavigationView)
     BottomNavigationViewEx bottomNavigationView;
 
@@ -49,7 +48,7 @@ public class SortCardActivity extends AppCompatActivity implements SortCardContr
                 .inject(this);
 
         sortCardPresenter.attach(this);
-sortCardPresenter.getIntentValues(getIntent());
+        sortCardPresenter.getIntentValues(getIntent());
         sortCardPresenter.bottomNavigationViewSetup(bottomNavigationView);
     }
 

@@ -57,12 +57,11 @@
                     android:id="@+id/login_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_below="@+id/login_title">
+                    android:layout_below="@+id/login_title"
+                    android:layout_marginTop="24dp">
 
                     <EditText
                         android:id="@+id/email_id"
-                        android:focusableInTouchMode="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
@@ -70,6 +69,7 @@
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="24dp"
                         android:background="@drawable/login_bg"
+                        android:focusableInTouchMode="true"
                         android:hint="@string/email"
                         android:inputType="textEmailAddress" />
 
@@ -160,9 +160,9 @@
                     android:id="@+id/register_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/login_title"
                     android:layout_marginTop="24dp"
-                    android:visibility="gone"
-                    android:layout_below="@+id/login_title">
+                    android:visibility="gone">
 
 
                     <EditText
@@ -188,7 +188,7 @@
                         android:layout_marginTop="24dp"
                         android:background="@drawable/login_bg"
                         android:hint="@string/email"
-                        android:inputType="textEmailAddress"/>
+                        android:inputType="textEmailAddress" />
 
                     <EditText
                         android:id="@+id/register_password"
@@ -201,7 +201,7 @@
                         android:layout_marginTop="24dp"
                         android:background="@drawable/login_bg"
                         android:hint="@string/password"
-                        android:inputType="textPassword"/>
+                        android:inputType="textPassword" />
 
                     <EditText
                         android:id="@+id/conform_password"
@@ -214,7 +214,7 @@
                         android:layout_marginTop="24dp"
                         android:background="@drawable/login_bg"
                         android:hint="@string/confirm_password"
-                        android:inputType="textPassword"/>
+                        android:inputType="textPassword" />
 
 
                     <Button
@@ -228,7 +228,7 @@
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
                         android:background="@drawable/button_bg"
-                        android:text="@string/login"
+                        android:text="@string/register"
                         android:textAllCaps="false" />
 
                     <TextView
@@ -277,5 +277,7 @@
         </ScrollView>
 
     </RelativeLayout>
+
+    <include layout="@layout/activity_loader" />
 
 </RelativeLayout>

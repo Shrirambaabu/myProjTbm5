@@ -264,7 +264,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @OnClick(R.id.new_contact_rel)
     public void saveContactToPhone() {
 
-        profilePresenter.saveContactToPhone(nameEditText, mobileEditText,emailEditText);
+        profilePresenter.saveContactToPhone(nameEditText, mobileEditText,emailEditText,companyNameEditText,jobTitleEditText,addressEditText);
 
     }
 

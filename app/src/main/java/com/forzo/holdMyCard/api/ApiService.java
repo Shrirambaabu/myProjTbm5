@@ -47,6 +47,13 @@ public interface ApiService {
     Observable<BusinessCard> getUserProfile(@Path("userId") String userId);
 
 
+    @POST("login/registerUserUsingUserId")
+    Observable<User> registerToHmc(@Body User user);
+
+    @POST("login/loginUsingUserId")
+    @FormUrlEncoded
+    Observable<User> loginToHmc(@Field("userId") String userId,@Field("email") String email,@Field("password") String password);
+
     @POST("profile/registerProfileToLibrary")
     Observable<BusinessCard> saveBusinessCard(@Body BusinessCard businessCard);
 
