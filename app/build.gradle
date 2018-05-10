@@ -44,11 +44,11 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     //butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-implementationr:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //dependency Injection
     implementation 'com.google.dagger:dagger-android:2.13'
     implementation 'com.google.dagger:dagger-android-support:2.13'
-    annotationProcessor 'com.google.dagger:dagger-implementationr:2.13'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.13'
     //Infinite View Pager with indicator
     implementation 'com.github.hanihashemi:InfiniteViewPagerWithIndicator:1.1.8'
@@ -71,14 +71,13 @@ dependencies {
     implementation 'com.wang.avi:library:2.1.3'
     implementation 'com.android.volley:volley:1.0.0'
     implementation 'com.google.firebase:firebase-crash:15.0.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.1'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.2'
     //Glide image loading
     implementation 'com.github.bumptech.glide:glide:4.4.0'
-    annotationProcessor 'com.github.bumptech.glide:implementationr:4.4.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
     //Image Cropper
-    implementation ('com.theartofdev.edmodo:android-image-cropper:2.6.0'){
-        exclude group: 'com.android.support', module: '*'
-    }
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.6.0'
+
 //    //resize image or bitmap
     implementation 'com.github.hkk595:Resizer:v1.5'
 

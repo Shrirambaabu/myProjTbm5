@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.CalendarContract;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
@@ -426,5 +427,13 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         primaryValue = userPrimaryValue;
         saveCancel.setVisibility(View.GONE);
         updateCard.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setProfileImageUri(Uri profileImageUri) {
+
+        Glide.with(this)
+                .load(profileImageUri)
+                .into(imageView);
     }
 }

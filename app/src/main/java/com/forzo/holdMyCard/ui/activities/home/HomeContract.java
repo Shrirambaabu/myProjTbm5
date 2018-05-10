@@ -6,6 +6,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.RelativeLayout;
 
+import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
 import com.google.api.services.vision.v1.model.Feature;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
@@ -24,6 +25,7 @@ public interface HomeContract {
 
     void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
 
+    void callGoogleCloudVision(Uri uri, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, Uri intentUri, RelativeLayout relativeLayout,RelativeLayout relativeLayoutMain);
     void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout,RelativeLayout relativeLayoutTwo,File image);
     void onBackPress();
 

@@ -1,13 +1,17 @@
 package com.forzo.holdMyCard.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.google.api.services.vision.v1.model.AnnotateImageResponse;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
+import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Image;
 import com.google.api.services.vision.v1.model.TextAnnotation;
 import com.google.i18n.phonenumbers.PhoneNumberMatch;
@@ -25,10 +29,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import me.echodev.resizer.Resizer;
 
 /**
  * Created by Shriram on 4/4/2018.
@@ -173,6 +180,18 @@ public class Utils {
 
     }
 
+    public static Bitmap resize(Uri uri, Context context) {
+        Bitmap bitmap = null;
+        try {
+            bitmap = new Resizer(context)
+//                    .setTargetLength(1080)
+                    .setSourceImage(new File(uri.getPath()))
+                    .getResizedBitmap();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
 
     public static String formatDate(int year, int monthOfYear, int dayOfMonth) {
 
@@ -194,7 +213,7 @@ public class Utils {
         // Convert the bitmap to a JPEG
         // Just in case it's a format that Android understands but Cloud Vision
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] imageBytes = byteArrayOutputStream.toByteArray();
 
         // Base64 encode the JPEG

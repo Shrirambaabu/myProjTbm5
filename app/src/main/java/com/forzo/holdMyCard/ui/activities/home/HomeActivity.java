@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -26,15 +27,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.forzo.holdMyCard.BuildConfig;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.base.BaseView;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
+import com.forzo.holdMyCard.utils.CameraUtils;
+import com.forzo.holdMyCard.utils.ImagePath_MarshMallow;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
@@ -62,7 +68,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     public static final int TYPE = 1001;
     private static final String TAG = "HomeActivity";
     static Uri capturedImageUri = null;
-
+    private static Uri intentUri = null;
     private Bitmap bitmap;
 
     File image = null;
@@ -95,7 +101,10 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @BindView(R.id.avi)
     AVLoadingIndicatorView avLoadingIndicatorView;
+    @BindView(R.id.image_view)
+    ImageView imageView;
 
+    private String getImageUrl = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,9 +130,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     @OnClick(R.id.new_contact_button)
     public void newContact() {
 
-        String imageType="BCF";
+        String imageType = "BCF";
 
-        Log.e("img",""+imageType.replaceAll("^\"|\"$", ""));
+        Log.e("img", "" + imageType.replaceAll("^\"|\"$", ""));
 
        /* Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -135,9 +144,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     @OnClick(R.id.button)
     public void captureImage() {
         // EasyImage.openChooserWithGallery(HomeActivity.this, OPEN_CAMERA_OR_GALLERY_TO_CHOOSE_AN_IMAGE, TYPE);
-        Calendar cal = Calendar.getInstance();
-
-
+       /* Calendar cal = Calendar.getInstance();
         // fetching the root directory
         String root = Environment.getExternalStorageDirectory().toString()
                 + "/HMC";
@@ -146,10 +153,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         String imageFolderPath = root + "/saved_images";
         File imagesFolder = new File(imageFolderPath);
         imagesFolder.mkdirs();
-
         // Generating file name
         String imageName = cal.getTimeInMillis() + ""+ PreferencesAppHelper.getUserId() + ".png";
-
         // Creating image here
         image = new File(imageFolderPath, imageName);
 
@@ -157,13 +162,21 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         capturedImageUri = FileProvider.getUriForFile(HomeActivity.this,
                 BuildConfig.APPLICATION_ID + ".provider",
                 image);
-
-
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri);
 
-        startActivityForResult(takePictureIntent, requestCode);
+        startActivityForResult(takePictureIntent, requestCode);*/
+
+
+        Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (pictureIntent.resolveActivity(getPackageManager()) != null) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); //Start intent with Action_Image_Capture
+            capturedImageUri = CameraUtils.getOutputMediaFileUri(this); //get fileUri from CameraUtils
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri); //Send fileUri with intent
+            startActivityForResult(intent, requestCode); //start activity for result with CAMERA_REQUEST_CODE
+        }
+
     }
 
     @OnClick(R.id.emul_button)
@@ -184,22 +197,61 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         if (this.requestCode == requestCode && resultCode == RESULT_OK) {
 
-            //     bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), capturedImageUri);
-
-            //  bitmap = BitmapFactory.decodeFile(capturedImageUri.getPath());
-
-            avLoadingIndicatorView.setVisibility(View.VISIBLE);
+          /*  avLoadingIndicatorView.setVisibility(View.VISIBLE);
             avLoadingIndicatorView.show();
             relativeLayout.setVisibility(View.VISIBLE);
             relativeLayoutMain.setVisibility(View.GONE);
             Log.e("HM", "Calling Vision");
             homePresenter.callVisionApi(HomeActivity.this, bitmap, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout, relativeLayoutMain, image);
 
+*/
 
-        } else {
+            try {
+                if (Build.VERSION.SDK_INT > 22)
+                    getImageUrl = ImagePath_MarshMallow.getPath(HomeActivity.this, capturedImageUri);
+                else
+                    getImageUrl = capturedImageUri.getPath();
+            } catch (Exception e) {
+                Log.e(TAG, "onActivityResult: " + e.getMessage());
+            }
+            onPhotosReturned(Uri.parse("file://" + getImageUrl));
 
-            Toast.makeText(getApplicationContext(), "Action Cancelled", Toast.LENGTH_LONG).show();
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            Log.e(TAG, "onActivityResult: here");
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                intentUri = result.getUri();
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
+                    homePresenter.callGoogleCloudVision(resultUri, feature,avLoadingIndicatorView,intentUri,relativeLayout,relativeLayoutMain);
+                } catch (IOException e) {
+                    Log.e(TAG, "onActivityResult: " + e.getMessage());
+                }
+               /* Glide.with(this)
+                        .load(resultUri)
+                        .into(imageView);*/
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Log.e(TAG, "onActivityResult: ", result.getError());
+            }
         }
+    }
+
+
+    private void onPhotosReturned(Uri imageFile) {
+        Log.e(TAG, "onPhotosReturned: " + imageFile.getPath());
+        CropImage.activity(imageFile)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .setActivityMenuIconColor(Color.WHITE)
+                .setAllowRotation(true)
+                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                .setOutputCompressQuality(100)
+                .setAutoZoomEnabled(true)
+                .setActivityTitle("Crop Image")
+                .start(this);
+
     }
 
 

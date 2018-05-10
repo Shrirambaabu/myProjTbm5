@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
@@ -56,6 +57,11 @@ import com.google.api.services.vision.v1.model.Image;
 import com.google.api.services.vision.v1.model.TextAnnotation;
 import com.google.i18n.phonenumbers.PhoneNumberMatch;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.NaturalLanguageUnderstanding;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalysisResults;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalyzeOptions;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.EntitiesOptions;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.EntitiesResult;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -101,7 +107,12 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     private static final String TAG = "ProfileActivity";
     private ApiService mApiService;
     private Uri imageCaptured;
+    private Uri  imageUri ;
     private Context context;
+
+    private NaturalLanguageUnderstanding service;
+    private AnalyzeOptions parameters;
+    private String send;
 
     ProfilePresenter(Context context) {
         this.context = context;
@@ -114,6 +125,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         setupBottomNavigationSetUp(bottomNavigationViewEx);
         getView().viewBottomNavigation(bottomNavigationViewEx);
     }
+
     @Override
     public void showProfileData(String profile) {
 
@@ -267,14 +279,14 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @Override
-    public void saveContactToPhone(EditText name, EditText mobileNumber,EditText emailText,EditText companyEditText,EditText jobEditText,EditText addressEditText) {
+    public void saveContactToPhone(EditText name, EditText mobileNumber, EditText emailText, EditText companyEditText, EditText jobEditText, EditText addressEditText) {
 
-        String contactName=name.getText().toString();
-        String contactNumber=mobileNumber.getText().toString();
-        String contactEmail=emailText.getText().toString();
-        String contactCompanyName=companyEditText.getText().toString();
-        String contactJobTitle=jobEditText.getText().toString();
-        String contactAddressText=addressEditText.getText().toString();
+        String contactName = name.getText().toString();
+        String contactNumber = mobileNumber.getText().toString();
+        String contactEmail = emailText.getText().toString();
+        String contactCompanyName = companyEditText.getText().toString();
+        String contactJobTitle = jobEditText.getText().toString();
+        String contactAddressText = addressEditText.getText().toString();
 
         Intent intent = new Intent(Intent.ACTION_INSERT);
         intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
@@ -294,7 +306,35 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     @Override
     public void getIntentValues(Intent intent, RelativeLayout cardLayout) {
-        imageCaptured = intent.getParcelableExtra("image");
+
+
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+//            inputEmail.setText(bundle.getString("email"));
+            if (!Objects.equals(bundle.getString("website"), "Error"))
+                getView().setWebsite(bundle.getString("website"));
+            int size = bundle.getInt("phone_size", 0);
+            if (size > 0) {
+                for (int i = 0; i < size; i++) {
+                    getView().setPhoneNumber(bundle.getString("phone" + i));
+
+                }
+            }
+            if (bundle.getString("intentUri")!=null) {
+                imageUri = Uri.parse(bundle.getString("intentUri"));
+                if (imageUri != null) {
+                    getView().setProfileImageUri(imageUri);
+                    getView().newContact();
+                }
+            }
+            send = bundle.getString("parse");
+
+            if (send!=null){
+                callWatsonApi(send);
+            }
+        }
+
+      //  imageCaptured = intent.getParcelableExtra("image");
 
         Bitmap bitmap = null;
 
@@ -307,8 +347,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         String profile;
 
         email = intent.getStringExtra("email");
-        website = intent.getStringExtra("website");
-        phoneNumber = intent.getStringExtra("phoneNumber");
+        // website = intent.getStringExtra("website");
+        //  phoneNumber = intent.getStringExtra("phoneNumber");
         result = intent.getStringExtra("result");
         profile = intent.getStringExtra("libraryProfile");
         String profileLibraryImage = intent.getStringExtra("libraryProfileImage");
@@ -321,7 +361,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         }
 
         if (profileLibraryImage != null) {
-           getView().setLibraryImage(profileLibraryImage);
+            getView().setLibraryImage(profileLibraryImage);
         }
         if (imageFile != null) {
 
@@ -331,7 +371,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
 
         if (userProfile != null) {
-           getView().setDialog();
+            getView().setDialog();
         }
 
         if (profile != null) {
@@ -351,22 +391,22 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
             getView().setCompanyName("");
             getView().setAddress("");
         }
-        getView().setJobTitle("");
+        //getView().setJobTitle("");
         if (email == null) {
             email = "";
         }
-        if (website == null) {
+      /*  if (website == null) {
             website = "";
         }
         if (phoneNumber == null) {
             phoneNumber = "";
-        }
+        }*/
 
 
         getView().setEmailId(email);
-        getView().setPhoneNumber(phoneNumber);
-        getView().setWebsite(website);
-
+        //  getView().setPhoneNumber(phoneNumber);
+        //  getView().setWebsite(website);
+/*
 
         if (imageCaptured != null) {
 
@@ -383,9 +423,89 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 e.printStackTrace();
             }
 
-        }
+        }*/
     }
 
+    @SuppressLint("StaticFieldLeak")
+    @Override
+    public void callWatsonApi(String send) {
+
+
+        service = new NaturalLanguageUnderstanding("2018-03-16");
+        service.setUsernameAndPassword("e7c2b904-2645-4b07-91bb-583f4997f066", "wxrTNDqJjGBn");
+
+        EntitiesOptions entities = new EntitiesOptions.Builder()
+                .sentiment(true)
+                .build();
+
+        com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features features
+                = new com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features.Builder()
+                .entities(entities)
+                .build();
+
+        parameters = new AnalyzeOptions.Builder()
+                .text(send)
+                .features(features)
+                .build();
+
+        new AsyncTask<Object, Void, AnalysisResults>(){
+
+            @Override
+            protected AnalysisResults doInBackground(Object... objects) {
+                return service.analyze(parameters).execute();
+            }
+
+            @Override
+            protected void onPostExecute(AnalysisResults results) {
+                Log.e(TAG, "getEntities: " + results.getEntities().size());
+
+                List<EntitiesResult> entitiesResults = results.getEntities();
+
+                boolean person = false;
+                boolean company = false;
+                boolean jobTitle = false;
+                boolean emailAddress = false;
+                boolean location = false;
+                for (EntitiesResult result : entitiesResults) {
+//                        Log.e(TAG, "Type: "+result.getType() + " And text: "+result.getText());
+                    if (result.getType().equals("Person") && !person) {
+                        Log.e(TAG, "Type: "+result.getType() + " And text: "+result.getText());
+                        //inputName.setText(result.getText());
+                        getView().setUserName(result.getText());
+                        person = true;
+                    }
+                    if (result.getType().equals("Company") && !company) {
+                        Log.e(TAG, "Type: "+result.getType() + " And text: "+result.getText());
+                       // inputCompanyName.setText(result.getText());
+                        getView().setCompanyName(result.getText());
+                        company = true;
+                    }
+                    if (result.getType().equals("JobTitle") && !jobTitle) {
+                        Log.e(TAG, "Type: "+result.getType() + " And text: "+result.getText());
+                       // inputJobTitle.setText(result.getText());
+                        getView().setJobTitle(result.getText());
+                        jobTitle = true;
+                    }
+                    if (result.getType().equals("EmailAddress") && !emailAddress) {
+                        Log.e(TAG, "Type: "+result.getType() + " And text: "+result.getText());
+                        //inputEmail.setText(result.getText());
+                        getView().setEmailId(result.getText());
+                        emailAddress = true;
+                    }
+                    if (result.getType().equals("Location") && !location) {
+                        Log.e(TAG, "Type: "+result.getType() + " And text: "+result.getText());
+                      //  inputAddress.setText(result.getText());
+                        getView().setAddress(result.getText());
+                        location = true;
+                    }
+                }
+
+//                    Log.e(TAG, "onCreate: " + results);
+            }
+        }.execute();
+
+
+    }
 
 
     @Override
@@ -394,7 +514,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
 
         try {
-            bitmapS = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageCaptured);
+            bitmapS = MediaStore.Images.Media.getBitmap(context.getContentResolver(),  imageUri );
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -448,7 +568,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @Override
-    public void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText,AVLoadingIndicatorView avLoadingIndicatorView,RelativeLayout relativeLayout) {
+    public void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout) {
 
 
         String name = nameTextInputEditText.getText().toString();
@@ -475,7 +595,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         avLoadingIndicatorView.setVisibility(View.VISIBLE);
         avLoadingIndicatorView.show();
 
-        Log.e("id","ss"+PreferencesAppHelper.getUserId());
+        Log.e("id", "ss" + PreferencesAppHelper.getUserId());
 
         mApiService.saveBusinessCard(businessCard)
                 .subscribeOn(Schedulers.io())
@@ -513,9 +633,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
 
-
     @Override
-    public void updateCard(String userId,TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText,AVLoadingIndicatorView avLoadingIndicatorView,RelativeLayout relativeLayout) {
+    public void updateCard(String userId, TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout) {
 
 
         String name = nameTextInputEditText.getText().toString();
@@ -527,7 +646,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         String address = addressTextInputEditText.getText().toString();
 
 
-        BusinessCard businessCard=new BusinessCard();
+        BusinessCard businessCard = new BusinessCard();
 
         businessCard.setUserId(userId);
         businessCard.setName(name);
@@ -581,7 +700,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     @Override
     public void deleteCard(String userId, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout) {
-
 
 
         mApiService.deleteBusinessCard(userId)

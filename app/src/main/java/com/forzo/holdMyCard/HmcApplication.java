@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
@@ -67,7 +68,8 @@ public class HmcApplication extends Application {
                 .build();
 
         hmcComponent.inject(this);
-
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
     }
 

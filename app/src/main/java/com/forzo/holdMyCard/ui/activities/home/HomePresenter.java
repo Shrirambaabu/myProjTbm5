@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
@@ -25,8 +26,10 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.vision.v1.Vision;
 import com.google.api.services.vision.v1.VisionRequestInitializer;
 import com.google.api.services.vision.v1.model.AnnotateImageRequest;
+import com.google.api.services.vision.v1.model.AnnotateImageResponse;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesRequest;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
+import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.TextAnnotation;
 import com.google.i18n.phonenumbers.PhoneNumberMatch;
@@ -37,13 +40,16 @@ import com.wang.avi.AVLoadingIndicatorView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -52,11 +58,13 @@ import java.util.regex.Pattern;
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
 import static com.forzo.holdMyCard.utils.Utils.BaseUri;
 import static com.forzo.holdMyCard.utils.Utils.CLOUD_VISION_API_KEY;
+
 import static com.forzo.holdMyCard.utils.Utils.convertResponseToString;
 import static com.forzo.holdMyCard.utils.Utils.getImageEncodeImage;
 import static com.forzo.holdMyCard.utils.Utils.parseEmail;
 import static com.forzo.holdMyCard.utils.Utils.parseMobile;
 import static com.forzo.holdMyCard.utils.Utils.parseWebsite;
+import static com.forzo.holdMyCard.utils.Utils.resize;
 
 /**
  * Created by Shriram on 3/29/2018.
@@ -65,7 +73,7 @@ import static com.forzo.holdMyCard.utils.Utils.parseWebsite;
 public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
     private Context mContext;
     private static final String TAG = "HomeActivity";
-
+    Uri intentUri = null;
     static Uri capturedImageUri = null;
     private final int requestCode = 20;
     private Bitmap bitmap;
@@ -80,6 +88,166 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
         getView().viewBottomNavigation(bottomNavigationViewEx);
     }
 
+    @SuppressLint("StaticFieldLeak")
+    @Override
+    public void callGoogleCloudVision(Uri uri, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, Uri intentUri,RelativeLayout relativeLayout,RelativeLayout relativeLayoutMain) {
+        this.intentUri = intentUri;
+
+        final List<Feature> featureList = new ArrayList<>();
+        featureList.add(feature);
+
+        final List<AnnotateImageRequest> annotateImageRequests = new ArrayList<>();
+
+        AnnotateImageRequest annotateImageReq = new AnnotateImageRequest();
+        annotateImageReq.setFeatures(featureList);
+//        annotateImageReq.setImage(getImageEncodeImage(resizeBitmap(bitmap)));
+        annotateImageReq.setImage(getImageEncodeImage(resize(uri, mContext)));
+        annotateImageRequests.add(annotateImageReq);
+
+        avLoadingIndicatorView.show();
+        avLoadingIndicatorView.setVisibility(View.VISIBLE);
+        relativeLayout.setVisibility(View.VISIBLE);
+        relativeLayoutMain.setVisibility(View.GONE);
+        new AsyncTask<Object, Void, String>() {
+            @Override
+            protected String doInBackground(Object... params) {
+                try {
+
+                    Log.d(TAG, "doInBackground: sending Request ");
+
+                    HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
+                    JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
+
+                    VisionRequestInitializer requestInitializer = new VisionRequestInitializer(CLOUD_VISION_API_KEY);
+
+                    Vision.Builder builder = new Vision.Builder(httpTransport, jsonFactory, null);
+                    builder.setVisionRequestInitializer(requestInitializer);
+
+                    Vision vision = builder.build();
+
+                    BatchAnnotateImagesRequest batchAnnotateImagesRequest = new BatchAnnotateImagesRequest();
+                    batchAnnotateImagesRequest.setRequests(annotateImageRequests);
+
+                    Vision.Images.Annotate annotateRequest = vision.images().annotate(batchAnnotateImagesRequest);
+                    annotateRequest.setDisableGZipContent(true);
+                    BatchAnnotateImagesResponse response = annotateRequest.execute();
+                    return convertGoogleResponseToString(response);
+                } catch (GoogleJsonResponseException e) {
+                    Log.d(TAG, "failed to connect because " + e.getContent());
+                } catch (IOException e) {
+                    Log.d(TAG, "failed to connect because of other IOException " + e.getMessage());
+                }
+                return "Request failed. Check logs for details.";
+            }
+
+            protected void onPostExecute(String result) {
+                Log.e(TAG, "onPostExecute: " + result);
+                avLoadingIndicatorView.hide();
+                avLoadingIndicatorView.setVisibility(View.GONE);
+                relativeLayout.setVisibility(View.GONE);
+                relativeLayoutMain.setVisibility(View.VISIBLE);
+                if (result.equals("Nothing Found")){
+                    Toast.makeText(mContext,"No Data Found",Toast.LENGTH_LONG).show();
+                }
+            }
+        }.execute();
+
+    }
+
+
+    public String convertGoogleResponseToString(BatchAnnotateImagesResponse response) throws IOException {
+
+
+        AnnotateImageResponse imageResponses = response.getResponses().get(0);
+        List<EntityAnnotation> entityAnnotations;
+        entityAnnotations = imageResponses.getTextAnnotations();
+        return formatAnnotation(entityAnnotations);
+
+    }
+
+    private String formatAnnotation(List<EntityAnnotation> entityAnnotation) {
+
+        StringBuilder message;
+
+        if (entityAnnotation != null) {
+            EntityAnnotation entity = entityAnnotation.get(0);
+            message = new StringBuilder(entity.getDescription());
+            Log.d(TAG, "formatAnnotation: " + message);
+            if (message.toString().contains("\n")) {
+                BufferedReader bufReader = new BufferedReader(new StringReader(message.toString()));
+                String line = "";
+                String email = "";
+                String website = "";
+                LinkedHashSet<String> phoneList = new LinkedHashSet<>();
+                try {
+                    while ((line = bufReader.readLine()) != null) {
+                        if (!parseEmail(line).equals("Error")) {
+                            email = parseEmail(line);
+                            message.append("email : ")
+                                    .append(email)
+                                    .append("\n");
+                            Log.e(TAG, "email: " + email);
+                        }
+                        if (!parseWebsite(line).equals("Error")) {
+                            website = parseEmail(line);
+                            message.append("website : ")
+                                    .append(website)
+                                    .append("\n");
+                            Log.e(TAG, "website: " + website);
+                        }
+                        phoneList.addAll(parseMobile(line));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (!phoneList.isEmpty()) {
+                    for (String phone : phoneList) {
+                        message.append("Phone Number :")
+                                .append(phone)
+                                .append("\n");
+                    }
+                }
+
+                Intent intent = new Intent(mContext, ProfileActivity.class);
+//                intent.putExtra("email", email);
+                if (!website.equals("error"))
+                    intent.putExtra("website", website);
+                if (!phoneList.isEmpty()) {
+                    String phone[] = phoneList.toArray(new String[phoneList.size()]);
+                    intent.putExtra("phone_size", phone.length);
+                    for (int i = 0; i < phone.length; i++) {
+                        intent.putExtra("phone" + i, phone[i]);
+                    }
+                }
+                String intentMessage = entity.getDescription();
+//                if (intentMessage.contains(email)) {
+//                    intentMessage = intentMessage.replace(email, "");
+//                }
+                if (intentMessage.contains(website)) {
+                    intentMessage = intentMessage.replace(website, "");
+                }
+                if (!phoneList.isEmpty()) {
+                    for (String phone : phoneList) {
+                        if (intentMessage.contains(email)) {
+                            intentMessage = intentMessage.replace(phone, "");
+                        }
+                    }
+                }
+                intent.putExtra("parse", intentMessage);
+                intent.putExtra("intentUri", intentUri.toString());
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+
+            }
+        } else {
+            message = new StringBuilder("Nothing Found");
+        }
+        Log.e(TAG, "String: " + message);
+        return message.toString();
+
+    }
+
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout, RelativeLayout relativeLayoutMain, File image) {
         Log.e("HM", "Vision called");
@@ -145,7 +313,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                 String website;
                 ArrayList<String> phone;
 
-                String phoneNumber="";
+                String phoneNumber = "";
 
                 email = parseEmail(result);
                 website = parseWebsite(result);
@@ -158,7 +326,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                 }
 
                 Intent intent = new Intent(homeActivity, ProfileActivity.class);
-                intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 intent.putExtra("email", email);
                 intent.putExtra("image", uri);

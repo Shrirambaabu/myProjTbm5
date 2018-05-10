@@ -3,6 +3,7 @@ package com.forzo.holdMyCard.ui.activities.Profile;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.design.widget.TextInputEditText;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -39,6 +40,7 @@ public interface ProfileContract {
 
         void getIntentValues(Intent intent, RelativeLayout cardLayout);
 
+        void callWatsonApi(String send);
         void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout);
     }
 
@@ -83,6 +85,7 @@ public interface ProfileContract {
 
         void setUserPrimaryValue(String userPrimaryValue);
 
+        void setProfileImageUri(Uri profileImageUri);
     }
 
 }
