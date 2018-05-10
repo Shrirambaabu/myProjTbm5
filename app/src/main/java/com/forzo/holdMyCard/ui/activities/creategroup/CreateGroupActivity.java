@@ -8,13 +8,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
-import android.widget.SearchView;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
-import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.creategroup.CreateGroupRecyclerAdapter;
+import com.forzo.holdMyCard.ui.recyclerAdapter.creategroup.CreateGroupRecyclerAdapter;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 

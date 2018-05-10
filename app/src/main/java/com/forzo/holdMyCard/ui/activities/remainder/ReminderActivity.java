@@ -12,7 +12,7 @@ import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.activities.remainderdetails.RemainderDetailsActivity;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
-import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.remainder.MyRemainderRecyclerAdapter;
+import com.forzo.holdMyCard.ui.recyclerAdapter.remainder.MyRemainderRecyclerAdapter;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
 
 import java.util.ArrayList;

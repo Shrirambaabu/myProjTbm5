@@ -4,10 +4,9 @@ import android.content.Context;
 
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.base.PerActivityScope;
-import com.forzo.holdMyCard.ui.activities.home.HomePresenter;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
-import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.creategroup.CreateGroupListPresenter;
-import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.creategroup.CreateGroupRecyclerAdapter;
+import com.forzo.holdMyCard.ui.recyclerAdapter.creategroup.CreateGroupListPresenter;
+import com.forzo.holdMyCard.ui.recyclerAdapter.creategroup.CreateGroupRecyclerAdapter;
 
 import java.util.ArrayList;
 

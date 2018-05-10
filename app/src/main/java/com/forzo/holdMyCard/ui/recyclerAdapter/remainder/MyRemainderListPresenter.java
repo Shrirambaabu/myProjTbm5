@@ -1,9 +1,8 @@
-package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.remainder;
+package com.forzo.holdMyCard.ui.recyclerAdapter.remainder;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.forzo.holdMyCard.ui.activities.remainderdetails.RemainderDetailsActivity;
 import com.forzo.holdMyCard.ui.models.MyRemainder;

@@ -1,4 +1,4 @@
-package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.creategroup;
+package com.forzo.holdMyCard.ui.recyclerAdapter.creategroup;
 
 /**
  * Created by Shriram on 4/3/2018.

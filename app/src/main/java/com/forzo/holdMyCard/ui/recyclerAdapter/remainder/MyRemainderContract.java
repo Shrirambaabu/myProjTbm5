@@ -1,4 +1,4 @@
-package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.remainder;
+package com.forzo.holdMyCard.ui.recyclerAdapter.remainder;
 
 /**
  * Created by Shriram on 4/5/2018.

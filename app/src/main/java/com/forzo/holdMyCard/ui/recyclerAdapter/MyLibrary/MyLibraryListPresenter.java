@@ -1,9 +1,8 @@
-package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibrary;
+package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;

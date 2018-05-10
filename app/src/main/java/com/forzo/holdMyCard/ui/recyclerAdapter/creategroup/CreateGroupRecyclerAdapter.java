@@ -1,4 +1,4 @@
-package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.creategroup;
+package com.forzo.holdMyCard.ui.recyclerAdapter.creategroup;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibrary;
+package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary;
 
 import android.widget.ImageView;
 

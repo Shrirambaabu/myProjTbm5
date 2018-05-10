@@ -12,7 +12,7 @@ import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.activities.notesdetail.NotesDetailsActivity;
 import com.forzo.holdMyCard.ui.models.MyNotes;
-import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.mynotes.MyNotesRecyclerAdapter;
+import com.forzo.holdMyCard.ui.recyclerAdapter.mynotes.MyNotesRecyclerAdapter;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
 
 import java.util.ArrayList;

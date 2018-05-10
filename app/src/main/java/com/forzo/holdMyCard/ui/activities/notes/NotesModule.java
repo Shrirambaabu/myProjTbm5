@@ -5,8 +5,8 @@ import android.content.Context;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.base.PerActivityScope;
 import com.forzo.holdMyCard.ui.models.MyNotes;
-import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.mynotes.MyNotesListPresenter;
-import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.mynotes.MyNotesRecyclerAdapter;
+import com.forzo.holdMyCard.ui.recyclerAdapter.mynotes.MyNotesListPresenter;
+import com.forzo.holdMyCard.ui.recyclerAdapter.mynotes.MyNotesRecyclerAdapter;
 
 import java.util.ArrayList;
 

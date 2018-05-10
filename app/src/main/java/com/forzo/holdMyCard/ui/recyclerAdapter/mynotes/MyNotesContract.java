@@ -1,4 +1,4 @@
-package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.mynotes;
+package com.forzo.holdMyCard.ui.recyclerAdapter.mynotes;
 
 /**
  * Created by Shriram on 4/4/2018.

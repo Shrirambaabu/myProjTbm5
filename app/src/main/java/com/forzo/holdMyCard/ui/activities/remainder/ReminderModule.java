@@ -5,8 +5,8 @@ import android.content.Context;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.base.PerActivityScope;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
-import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.remainder.MyRemainderListPresenter;
-import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.remainder.MyRemainderRecyclerAdapter;
+import com.forzo.holdMyCard.ui.recyclerAdapter.remainder.MyRemainderListPresenter;
+import com.forzo.holdMyCard.ui.recyclerAdapter.remainder.MyRemainderRecyclerAdapter;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.mynotes;
+package com.forzo.holdMyCard.ui.recyclerAdapter.mynotes;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

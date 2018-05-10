@@ -1,11 +1,10 @@
-package com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.mynotes;
+package com.forzo.holdMyCard.ui.recyclerAdapter.mynotes;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.forzo.holdMyCard.ui.activities.notes.NotesActivity;
 import com.forzo.holdMyCard.ui.activities.notesdetail.NotesDetailsActivity;
 import com.forzo.holdMyCard.ui.models.MyNotes;
 
