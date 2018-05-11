@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
@@ -107,7 +108,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     private static final String TAG = "ProfileActivity";
     private ApiService mApiService;
     private Uri imageCaptured;
-    private Uri  imageUri ;
+    private Uri imageUri;
     private Context context;
 
     private NaturalLanguageUnderstanding service;
@@ -279,6 +280,27 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @Override
+    public void addToCalendar(String email) {
+
+        Calendar beginTime = Calendar.getInstance();
+        Calendar endTime = Calendar.getInstance();
+
+        endTime.add(Calendar.HOUR_OF_DAY, 1);
+
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                .putExtra(CalendarContract.Events.TITLE, "")
+                .putExtra(CalendarContract.Events.DESCRIPTION, "")
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
+                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+                .putExtra(Intent.EXTRA_EMAIL, email);
+        context.startActivity(intent);
+
+    }
+
+    @Override
     public void saveContactToPhone(EditText name, EditText mobileNumber, EditText emailText, EditText companyEditText, EditText jobEditText, EditText addressEditText) {
 
         String contactName = name.getText().toString();
@@ -320,7 +342,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                 }
             }
-            if (bundle.getString("intentUri")!=null) {
+            if (bundle.getString("intentUri") != null) {
                 imageUri = Uri.parse(bundle.getString("intentUri"));
                 if (imageUri != null) {
                     getView().setProfileImageUri(imageUri);
@@ -329,12 +351,12 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
             }
             send = bundle.getString("parse");
 
-            if (send!=null){
+            if (send != null) {
                 callWatsonApi(send);
             }
         }
 
-      //  imageCaptured = intent.getParcelableExtra("image");
+        //  imageCaptured = intent.getParcelableExtra("image");
 
         Bitmap bitmap = null;
 
@@ -448,7 +470,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 .features(features)
                 .build();
 
-        new AsyncTask<Object, Void, AnalysisResults>(){
+        new AsyncTask<Object, Void, AnalysisResults>() {
 
             @Override
             protected AnalysisResults doInBackground(Object... objects) {
@@ -469,32 +491,32 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 for (EntitiesResult result : entitiesResults) {
 //                        Log.e(TAG, "Type: "+result.getType() + " And text: "+result.getText());
                     if (result.getType().equals("Person") && !person) {
-                        Log.e(TAG, "Type: "+result.getType() + " And text: "+result.getText());
+                        Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
                         //inputName.setText(result.getText());
                         getView().setUserName(result.getText());
                         person = true;
                     }
                     if (result.getType().equals("Company") && !company) {
-                        Log.e(TAG, "Type: "+result.getType() + " And text: "+result.getText());
-                       // inputCompanyName.setText(result.getText());
+                        Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
+                        // inputCompanyName.setText(result.getText());
                         getView().setCompanyName(result.getText());
                         company = true;
                     }
                     if (result.getType().equals("JobTitle") && !jobTitle) {
-                        Log.e(TAG, "Type: "+result.getType() + " And text: "+result.getText());
-                       // inputJobTitle.setText(result.getText());
+                        Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
+                        // inputJobTitle.setText(result.getText());
                         getView().setJobTitle(result.getText());
                         jobTitle = true;
                     }
                     if (result.getType().equals("EmailAddress") && !emailAddress) {
-                        Log.e(TAG, "Type: "+result.getType() + " And text: "+result.getText());
+                        Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
                         //inputEmail.setText(result.getText());
                         getView().setEmailId(result.getText());
                         emailAddress = true;
                     }
                     if (result.getType().equals("Location") && !location) {
-                        Log.e(TAG, "Type: "+result.getType() + " And text: "+result.getText());
-                      //  inputAddress.setText(result.getText());
+                        Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
+                        //  inputAddress.setText(result.getText());
                         getView().setAddress(result.getText());
                         location = true;
                     }
@@ -514,7 +536,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
 
         try {
-            bitmapS = MediaStore.Images.Media.getBitmap(context.getContentResolver(),  imageUri );
+            bitmapS = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
         } catch (IOException e) {
             e.printStackTrace();
         }

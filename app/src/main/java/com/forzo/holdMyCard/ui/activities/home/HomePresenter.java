@@ -142,12 +142,17 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
             protected void onPostExecute(String result) {
                 Log.e(TAG, "onPostExecute: " + result);
-                avLoadingIndicatorView.hide();
-                avLoadingIndicatorView.setVisibility(View.GONE);
-                relativeLayout.setVisibility(View.GONE);
-                relativeLayoutMain.setVisibility(View.VISIBLE);
                 if (result.equals("Nothing Found")){
-                    Toast.makeText(mContext,"No Data Found",Toast.LENGTH_LONG).show();
+/*
+                    avLoadingIndicatorView.hide();
+                    avLoadingIndicatorView.setVisibility(View.GONE);
+                    relativeLayout.setVisibility(View.GONE);
+                    relativeLayoutMain.setVisibility(View.VISIBLE);*/
+
+                    Intent intent=new Intent(mContext,ProfileActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("intentUri",intentUri.toString());
+                    mContext.startActivity(intent);
                 }
             }
         }.execute();

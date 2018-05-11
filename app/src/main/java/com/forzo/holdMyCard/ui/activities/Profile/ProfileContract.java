@@ -34,13 +34,16 @@ public interface ProfileContract {
 
         void naturalProcess(String result);
 
-        void saveContactToPhone(EditText name, EditText mobileNumber , EditText emailText,EditText companyEditText,EditText jobEditText,EditText addressEditText);
+        void addToCalendar(String email);
+
+        void saveContactToPhone(EditText name, EditText mobileNumber, EditText emailText, EditText companyEditText, EditText jobEditText, EditText addressEditText);
 
         void saveImage(File file, String s);
 
         void getIntentValues(Intent intent, RelativeLayout cardLayout);
 
         void callWatsonApi(String send);
+
         void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout);
     }
 
