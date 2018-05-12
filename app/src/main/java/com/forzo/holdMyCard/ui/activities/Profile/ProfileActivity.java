@@ -136,7 +136,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
 
         profilePresenter.attach(this);
-        profilePresenter.getIntentValues(getIntent(), cardLayout);
+        profilePresenter.getIntentValues(getIntent(), cardLayout,emailEditText,companyNameEditText,nameEditText);
         profilePresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
 
 

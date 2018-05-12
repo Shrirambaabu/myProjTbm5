@@ -80,6 +80,16 @@ public class Utils {
 
     }
 
+
+    public static String parseNameFromEmail(String email) {
+        return email.substring(0, email.indexOf("@"));
+    }
+
+    public static String parseCompanyNameFromEmail(String email) {
+        return email.substring(email.indexOf("@") + 1, email.indexOf("."));
+    }
+
+
     public static String parseEmail(String results) {
         String EMAIL_REGEX = "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+";
         Matcher m = Pattern.compile(EMAIL_REGEX).matcher(results);

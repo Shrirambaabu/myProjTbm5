@@ -194,7 +194,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                             Log.e(TAG, "email: " + email);
                         }
                         if (!parseWebsite(line).equals("Error")) {
-                            website = parseEmail(line);
+                            website = parseWebsite(line);
                             message.append("website : ")
                                     .append(website)
                                     .append("\n");
@@ -215,6 +215,8 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
                 Intent intent = new Intent(mContext, ProfileActivity.class);
 //                intent.putExtra("email", email);
+                if (!email.equals("error"))
+                    intent.putExtra("email", email);
                 if (!website.equals("error"))
                     intent.putExtra("website", website);
                 if (!phoneList.isEmpty()) {

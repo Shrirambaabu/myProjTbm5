@@ -96,6 +96,8 @@ import static com.forzo.holdMyCard.utils.Utils.CLOUD_VISION_API_KEY;
 import static com.forzo.holdMyCard.utils.Utils.getBitmapLowFile;
 import static com.forzo.holdMyCard.utils.Utils.getImageEncodeImage;
 import static com.forzo.holdMyCard.utils.Utils.getResizedBitmapFile;
+import static com.forzo.holdMyCard.utils.Utils.parseCompanyNameFromEmail;
+import static com.forzo.holdMyCard.utils.Utils.parseNameFromEmail;
 import static com.forzo.holdMyCard.utils.Utils.savebitmap;
 
 /**
@@ -114,6 +116,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     private NaturalLanguageUnderstanding service;
     private AnalyzeOptions parameters;
     private String send;
+    private String intentEmail;
 
     ProfilePresenter(Context context) {
         this.context = context;
@@ -327,7 +330,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
 
     @Override
-    public void getIntentValues(Intent intent, RelativeLayout cardLayout) {
+    public void getIntentValues(Intent intent, RelativeLayout cardLayout, TextInputEditText emailTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText nameTextInputEditText) {
 
 
         Bundle bundle = intent.getExtras();
@@ -335,6 +338,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 //            inputEmail.setText(bundle.getString("email"));
             if (!Objects.equals(bundle.getString("website"), "Error"))
                 getView().setWebsite(bundle.getString("website"));
+            if (!Objects.equals(bundle.getString("email"), "Error"))
+                intentEmail = bundle.getString("email");
             int size = bundle.getInt("phone_size", 0);
             if (size > 0) {
                 for (int i = 0; i < size; i++) {
@@ -352,7 +357,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
             send = bundle.getString("parse");
 
             if (send != null) {
-                callWatsonApi(send);
+                callWatsonApi(send, emailTextInputEditText, companyTextInputEditText, nameTextInputEditText);
             }
         }
 
@@ -450,7 +455,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     @SuppressLint("StaticFieldLeak")
     @Override
-    public void callWatsonApi(String send) {
+    public void callWatsonApi(String send, TextInputEditText emailTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText nameTextInputEditText) {
 
 
         service = new NaturalLanguageUnderstanding("2018-03-16");
@@ -521,6 +526,23 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         location = true;
                     }
                 }
+
+                if (!emailAddress && intentEmail != null) {
+
+                    // inputEmail.setText(intentEmail);
+                    getView().setEmailId(intentEmail);
+                }
+
+                if (!emailTextInputEditText.getText().toString().isEmpty()) {
+                    if (companyTextInputEditText.getText().toString().isEmpty())
+                        // inputCompanyName.setText(parseCompanyNameFromEmail(emailTextInputEditText.getText().toString()));
+                        getView().setCompanyName(parseCompanyNameFromEmail(emailTextInputEditText.getText().toString()));
+                    if (nameTextInputEditText.getText().toString().isEmpty()) {
+                       // inputName.setText(parseNameFromEmail(emailTextInputEditText.getText().toString()));
+                        getView().setUserName(parseNameFromEmail(emailTextInputEditText.getText().toString()));
+                    }
+                }
+
 
 //                    Log.e(TAG, "onCreate: " + results);
             }

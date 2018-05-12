@@ -40,9 +40,9 @@ public interface ProfileContract {
 
         void saveImage(File file, String s);
 
-        void getIntentValues(Intent intent, RelativeLayout cardLayout);
+        void getIntentValues(Intent intent, RelativeLayout cardLayout,TextInputEditText emailTextInputEditText,TextInputEditText companyTextInputEditText,TextInputEditText nameTextInputEditText);
 
-        void callWatsonApi(String send);
+        void callWatsonApi(String send,TextInputEditText emailTextInputEditText,TextInputEditText companyTextInputEditText,TextInputEditText nameTextInputEditText);
 
         void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout);
     }
