@@ -21,13 +21,15 @@ public interface RemainderDetailsContract {
     interface Presenter extends BaseMvpPresenter<View> {
 
         void showDatePicker();
-        void saveRemainder(RemainderDetailsActivity remainderDetailsActivity, EditText editText, TextView dateText,TextView timeText,String key);
+
+        void saveRemainder(RemainderDetailsActivity remainderDetailsActivity, EditText editText, TextView dateText, TextView timeText, String key);
 
         void getIntentValues(Intent intent, Button button);
 
-        void callReminderDetails(String s,String remainderAction);
+        void callReminderDetails(String s, String remainderAction);
 
-        void updateReminder(String reminderId,String reminderDesc,String timePicker,String datePicker);
+        void updateReminder(String reminderId, String reminderDesc, String timePicker, String datePicker);
+
         void deleteReminder(String reminderId);
 
     }
@@ -35,15 +37,27 @@ public interface RemainderDetailsContract {
     interface View {
 
         void notifyPush();
-    void savedSuccessfully();
-    void updatedSuccessfully();
-    void deletedSuccessfully();
-    void reminderDetails(String s,String remainderAction);
-    void setSaveVisible();
-void setReminderPrimaryValue(String profile,String image);
-    void remainderText(String remainder);
-    void remainderDate(String date);
-    void remainderTime(String time);
-    void remainderDetails(String id,String date,String time);
+
+        void savedSuccessfully();
+
+        void updatedSuccessfully();
+
+        void deletedSuccessfully();
+
+        void reminderDetails(String s, String remainderAction);
+
+        void setSaveVisible();
+
+        void setReminderPrimaryValue(String profile, String image);
+
+        void remainderText(String remainder);
+
+        void remainderDate(String date);
+
+        void remainderTime(String time);
+
+        void remainderDetails(String id, String date, String time);
+
+        void setReminderCd(String reminderCd);
     }
 }

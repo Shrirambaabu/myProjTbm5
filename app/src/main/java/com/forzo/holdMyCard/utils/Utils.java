@@ -93,7 +93,7 @@ public class Utils {
     public static String parseEmail(String results) {
         String EMAIL_REGEX = "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+";
         Matcher m = Pattern.compile(EMAIL_REGEX).matcher(results);
-        String parsedEmail = "";
+        String parsedEmail = "Error";
         while (m.find()) {
             parsedEmail = m.group();
         }
@@ -102,7 +102,7 @@ public class Utils {
 
     public static String parseWebsite(String results) {
         String URL_REGEX = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$";
-        String parsedUrl = "";
+        String parsedUrl = "Error";
         String[] words = results.split(" ");
         for (String word : words) {
             Matcher m = Pattern.compile(URL_REGEX).matcher(word);
@@ -118,7 +118,7 @@ public class Utils {
 
         Iterable<PhoneNumberMatch> numberMatches = phoneNumberUtil.findNumbers(bCardText, Locale.US.getCountry());
         ArrayList<String> data = new ArrayList<>();
-        String s = "Error";
+        String s = "";
         for (PhoneNumberMatch number : numberMatches) {
 
             s = number.rawString();

@@ -86,6 +86,7 @@ public class ReminderPresenter extends BasePresenter<ReminderContract.View> impl
                             myRemainder.setTime(myRemainderList.get(i).getTime());
                             myRemainder.setId(myRemainderList.get(i).getId());
                             myRemainder.setStatusId(myRemainderList.get(i).getStatusId());
+                            myRemainder.setReminderCd(myRemainderList.get(i).getReminderCd());
 
                             myRemainder.setLibraryProfileId(remainderKey);
                             myRemainder.setLibraryProfileImage(libraryImageValue);

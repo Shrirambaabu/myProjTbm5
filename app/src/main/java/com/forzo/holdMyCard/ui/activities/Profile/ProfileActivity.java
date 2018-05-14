@@ -138,7 +138,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
 
         profilePresenter.attach(this);
-        profilePresenter.getIntentValues(getIntent(), cardLayout, emailEditText, companyNameEditText, nameEditText);
+        profilePresenter.getIntentValues(getIntent(), emailEditText.getText().toString(), companyNameEditText.getText().toString(), nameEditText.getText().toString());
         profilePresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
 
 
@@ -236,20 +236,20 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @OnClick(R.id.save_text)
     public void saveToast() {
 
-        profilePresenter.saveBusinessCard(nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText, avLoadingIndicatorView, relativeProgress);
+        profilePresenter.saveBusinessCard(nameEditText.getText().toString(), companyNameEditText.getText().toString(), jobTitleEditText.getText().toString(), mobileEditText.getText().toString(), emailEditText.getText().toString(), websiteEditText.getText().toString(), addressEditText.getText().toString());
 
     }
 
     @OnClick(R.id.update_text)
     public void updateCardDetails() {
-        profilePresenter.updateCard(primaryValue, nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText, avLoadingIndicatorView, relativeProgress);
+        profilePresenter.updateCard(primaryValue, nameEditText.getText().toString(), companyNameEditText.getText().toString(), jobTitleEditText.getText().toString(), mobileEditText.getText().toString(), emailEditText.getText().toString(), websiteEditText.getText().toString(), addressEditText.getText().toString());
 
     }
 
     @OnClick(R.id.delete_text)
     public void deleteCard() {
 
-        profilePresenter.deleteCard(primaryValue, avLoadingIndicatorView, relativeProgress);
+        profilePresenter.deleteCard(primaryValue);
     }
 
     @OnClick(R.id.new_contact_rel)
@@ -274,10 +274,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx) {
 
 
-        if (file != null||imageUri!=null) {
+        if (file != null || imageUri != null) {
             ACTIVITY_NUM = 1;
         }
-        if (!primaryValue.equals("")||primaryValue!=null){
+        if (!primaryValue.equals("") || primaryValue != null) {
             ACTIVITY_NUM = 1;
         }
 
@@ -429,5 +429,20 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         Glide.with(this)
                 .load(profileImageUri)
                 .into(imageView);
+    }
+
+    @Override
+    public void activityLoader(String loader) {
+        if (loader.equals("show")) {
+
+            relativeProgress.setVisibility(View.VISIBLE);
+            avLoadingIndicatorView.setVisibility(View.VISIBLE);
+            avLoadingIndicatorView.show();
+        } else if (loader.equals("hide")) {
+
+            relativeProgress.setVisibility(View.GONE);
+            avLoadingIndicatorView.setVisibility(View.GONE);
+            avLoadingIndicatorView.hide();
+        }
     }
 }

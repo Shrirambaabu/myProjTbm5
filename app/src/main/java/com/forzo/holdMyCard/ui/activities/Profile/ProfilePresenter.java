@@ -330,7 +330,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
 
     @Override
-    public void getIntentValues(Intent intent, RelativeLayout cardLayout, TextInputEditText emailTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText nameTextInputEditText) {
+    public void getIntentValues(Intent intent,  String  emailTextInputEditText, String companyTextInputEditText, String nameTextInputEditText) {
 
 
         String email;
@@ -460,7 +460,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
     @SuppressLint("StaticFieldLeak")
     @Override
-    public void callWatsonApi(String send, TextInputEditText emailTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText nameTextInputEditText) {
+    public void callWatsonApi(String send, String emailTextInputEditText, String companyTextInputEditText, String nameTextInputEditText) {
 
 
         service = new NaturalLanguageUnderstanding("2018-03-16");
@@ -538,13 +538,13 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                     getView().setEmailId(intentEmail);
                 }
 
-                if (!emailTextInputEditText.getText().toString().isEmpty()) {
-                    if (companyTextInputEditText.getText().toString().isEmpty())
+                if (!emailTextInputEditText.equals("")) {
+                    if (companyTextInputEditText.equals(""))
                         // inputCompanyName.setText(parseCompanyNameFromEmail(emailTextInputEditText.getText().toString()));
-                        getView().setCompanyName(parseCompanyNameFromEmail(emailTextInputEditText.getText().toString()));
-                    if (nameTextInputEditText.getText().toString().isEmpty()) {
+                        getView().setCompanyName(parseCompanyNameFromEmail(emailTextInputEditText));
+                    if (nameTextInputEditText.equals("")) {
                        // inputName.setText(parseNameFromEmail(emailTextInputEditText.getText().toString()));
-                        getView().setUserName(parseNameFromEmail(emailTextInputEditText.getText().toString()));
+                        getView().setUserName(parseNameFromEmail(emailTextInputEditText));
                     }
                 }
 
@@ -570,13 +570,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
         Bitmap newBitmap = getResizedBitmapFile(bitmapS, 480, 640);
 
-        Log.e("bm", "" + newBitmap.getByteCount());
-
         File newFile = getBitmapLowFile(newBitmap);
-
-        Log.e("Last", "" + newFile.length());
-        Log.e("LastID", "" + newId);
-
 
         RequestBody reqFile = RequestBody.create(MediaType.parse("image"), newFile);
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", newFile.getName(), reqFile);
@@ -617,16 +611,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @Override
-    public void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout) {
+    public void saveBusinessCard( String name, String company,  String jobTitle ,String mobileNumber, String emailId ,String website , String address) {
 
-
-        String name = nameTextInputEditText.getText().toString();
-        String company = companyTextInputEditText.getText().toString();
-        String jobTitle = jobTitleTextInputEditText.getText().toString();
-        String mobileNumber = mobileTextInputEditText.getText().toString();
-        String emailId = emailTextInputEditText.getText().toString();
-        String website = websiteTextInputEditText.getText().toString();
-        String address = addressTextInputEditText.getText().toString();
 
 
         BusinessCard businessCard = new BusinessCard();
@@ -640,9 +626,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         businessCard.setWebsite(website);
         businessCard.setAddress(address);
 
-        relativeLayout.setVisibility(View.VISIBLE);
-        avLoadingIndicatorView.setVisibility(View.VISIBLE);
-        avLoadingIndicatorView.show();
+
+        getView().activityLoader("show");
 
         Log.e("id", "ss" + PreferencesAppHelper.getUserId());
 
@@ -667,10 +652,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         //  progressBar.smoothToHide();
                         Log.e("error", "" + e.getMessage());
 
-
-                        relativeLayout.setVisibility(View.GONE);
-                        avLoadingIndicatorView.setVisibility(View.GONE);
-                        avLoadingIndicatorView.hide();
+                        getView().activityLoader("hide");
                     }
 
                     @Override
@@ -683,16 +665,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
 
     @Override
-    public void updateCard(String userId, TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout) {
-
-
-        String name = nameTextInputEditText.getText().toString();
-        String company = companyTextInputEditText.getText().toString();
-        String jobTitle = jobTitleTextInputEditText.getText().toString();
-        String mobileNumber = mobileTextInputEditText.getText().toString();
-        String emailId = emailTextInputEditText.getText().toString();
-        String website = websiteTextInputEditText.getText().toString();
-        String address = addressTextInputEditText.getText().toString();
+    public void updateCard(String userId, String name, String company,  String jobTitle ,String mobileNumber, String emailId ,String website , String address) {
 
 
         BusinessCard businessCard = new BusinessCard();
@@ -714,10 +687,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                     @Override
                     public void onSubscribe(Disposable d) {
 
-
-                        relativeLayout.setVisibility(View.VISIBLE);
-                        avLoadingIndicatorView.setVisibility(View.VISIBLE);
-                        avLoadingIndicatorView.show();
+                        getView().activityLoader("show");
                     }
 
                     @Override
@@ -733,10 +703,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                     public void onError(Throwable e) {
                         Log.e("error", "" + e.getMessage());
 
-
-                        relativeLayout.setVisibility(View.GONE);
-                        avLoadingIndicatorView.setVisibility(View.GONE);
-                        avLoadingIndicatorView.hide();
+                        getView().activityLoader("hide");
                     }
 
                     @Override
@@ -748,7 +715,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @Override
-    public void deleteCard(String userId, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout) {
+    public void deleteCard(String userId) {
 
 
         mApiService.deleteBusinessCard(userId)
@@ -757,11 +724,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 .subscribe(new Observer<BusinessCard>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
-
-                        relativeLayout.setVisibility(View.VISIBLE);
-                        avLoadingIndicatorView.setVisibility(View.VISIBLE);
-                        avLoadingIndicatorView.show();
+                        getView().activityLoader("show");
                     }
 
                     @Override
@@ -777,11 +740,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                     public void onError(Throwable e) {
                         //  progressBar.smoothToHide();
                         Log.e("error", "" + e.getMessage());
-
-
-                        relativeLayout.setVisibility(View.GONE);
-                        avLoadingIndicatorView.setVisibility(View.GONE);
-                        avLoadingIndicatorView.hide();
+                        getView().activityLoader("hide");
                     }
 
                     @Override

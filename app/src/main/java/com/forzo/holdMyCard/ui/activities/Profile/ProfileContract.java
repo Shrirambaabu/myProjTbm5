@@ -26,10 +26,6 @@ public interface ProfileContract {
 
         void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
 
-        void updateCard(String userId, TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout);
-
-        void deleteCard(String userId, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout);
-
         void showProfileData(String profileData);
 
         void naturalProcess(String result);
@@ -40,11 +36,16 @@ public interface ProfileContract {
 
         void saveImage(File file, String s);
 
-        void getIntentValues(Intent intent, RelativeLayout cardLayout,TextInputEditText emailTextInputEditText,TextInputEditText companyTextInputEditText,TextInputEditText nameTextInputEditText);
+        void getIntentValues(Intent intent, String emailTextInputEditText, String companyTextInputEditText, String nameTextInputEditText);
 
-        void callWatsonApi(String send,TextInputEditText emailTextInputEditText,TextInputEditText companyTextInputEditText,TextInputEditText nameTextInputEditText);
+        void callWatsonApi(String send, String emailTextInputEditText, String companyTextInputEditText, String nameTextInputEditText);
 
-        void saveBusinessCard(TextInputEditText nameTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText jobTitleTextInputEditText, TextInputEditText mobileTextInputEditText, TextInputEditText emailTextInputEditText, TextInputEditText websiteTextInputEditText, TextInputEditText addressTextInputEditText, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout);
+        void saveBusinessCard(String nameTextInputEditText, String companyTextInputEditText, String jobTitleTextInputEditText, String mobileTextInputEditText, String emailTextInputEditText, String websiteTextInputEditText, String addressTextInputEditText);
+
+        void updateCard(String userId, String nameTextInputEditText, String companyTextInputEditText, String jobTitleTextInputEditText, String mobileTextInputEditText, String emailTextInputEditText, String websiteTextInputEditText, String addressTextInputEditText);
+
+        void deleteCard(String userId);
+
     }
 
     interface View {
@@ -72,7 +73,7 @@ public interface ProfileContract {
 
         void savedSuccessfully(String s);
 
-        void saveImageFile(File imageFile,Uri imageUri);
+        void saveImageFile(File imageFile, Uri imageUri);
 
         void setLibraryImage(String image);
 
@@ -89,6 +90,8 @@ public interface ProfileContract {
         void setUserPrimaryValue(String userPrimaryValue);
 
         void setProfileImageUri(Uri profileImageUri);
+
+        void activityLoader(String loader);
     }
 
 }

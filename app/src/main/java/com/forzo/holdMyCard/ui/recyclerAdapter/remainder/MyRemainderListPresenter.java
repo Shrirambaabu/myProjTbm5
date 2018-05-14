@@ -3,6 +3,7 @@ package com.forzo.holdMyCard.ui.recyclerAdapter.remainder;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.forzo.holdMyCard.ui.activities.remainderdetails.RemainderDetailsActivity;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
@@ -43,7 +44,9 @@ public class MyRemainderListPresenter implements MyRemainderContract.Presenter {
        /* remainderDetailsIntent.putExtra("remainDesc",""+myRemainders.get(adapterPosition).getName());
         remainderDetailsIntent.putExtra("remainTime",""+myRemainders.get(adapterPosition).getTime());
         remainderDetailsIntent.putExtra("remainDate",""+myRemainders.get(adapterPosition).getDate());*/
+        Log.e("reminderCD",""+myRemainders.get(adapterPosition).getReminderCd());
         remainderDetailsIntent.putExtra("remainId",""+myRemainders.get(adapterPosition).getId());
+        remainderDetailsIntent.putExtra("reminderCD",""+myRemainders.get(adapterPosition).getReminderCd());
         remainderDetailsIntent.putExtra("libraryProfile", "" + myRemainders.get(adapterPosition).getLibraryProfileId());
         remainderDetailsIntent.putExtra("libraryProfileImage", "" + myRemainders.get(adapterPosition).getLibraryProfileImage());
         context.startActivity(remainderDetailsIntent);

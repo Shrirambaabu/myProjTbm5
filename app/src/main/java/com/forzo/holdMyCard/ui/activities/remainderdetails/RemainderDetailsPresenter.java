@@ -129,6 +129,8 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
         String remainderTime = intent.getStringExtra("remainTime");
         String remainderId = intent.getStringExtra("remainId");
         String remainderAction = intent.getStringExtra("remainAction");
+        String reminderCD = intent.getStringExtra("reminderCD");
+
 
         String profile = intent.getStringExtra("libraryProfile");
         String libraryImageValue = intent.getStringExtra("libraryProfileImage");
@@ -163,6 +165,9 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
             } else {
                 getView().reminderDetails(remainderId, remainderAction);
             }
+        }
+        if (reminderCD!=null){
+            getView().setReminderCd(reminderCD);
         }
 
 
@@ -254,7 +259,7 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
                         getView().remainderDate(dateFinal);
                         getView().remainderTime(timeFinal);
 
-                        getView().remainderDetails(s, myRemainderList.getDate(), myRemainderList.getTime());
+                        getView().remainderDetails(s, myRemainderList.getReminderCd(), myRemainderList.getTime());
 
                         if (!remainderAction.equals("")) {
                             getView().notifyPush();

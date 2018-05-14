@@ -4,6 +4,7 @@ package com.forzo.holdMyCard.ui.activities.home;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -103,6 +105,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     AVLoadingIndicatorView avLoadingIndicatorView;
     @BindView(R.id.image_view)
     ImageView imageView;
+    @BindView(R.id.version_number)
+    TextView versionNumber;
 
     private String getImageUrl = "";
 
@@ -123,6 +127,16 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         feature = new Feature();
         feature.setType(visionAPI[0]);
         feature.setMaxResults(10);
+
+
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pInfo.versionName;
+            Log.e("versionName", "" + version);
+            versionNumber.setText("Version: "+version);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -224,7 +238,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
                 intentUri = result.getUri();
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
-                    homePresenter.callGoogleCloudVision(resultUri, feature,avLoadingIndicatorView,intentUri,relativeLayout,relativeLayoutMain);
+                    homePresenter.callGoogleCloudVision(resultUri, feature, avLoadingIndicatorView, intentUri, relativeLayout, relativeLayoutMain);
                 } catch (IOException e) {
                     Log.e(TAG, "onActivityResult: " + e.getMessage());
                 }

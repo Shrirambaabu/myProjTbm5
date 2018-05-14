@@ -7,9 +7,9 @@
     tools:context="com.forzo.holdMyCard.ui.activities.home.HomeActivity">
 
     <RelativeLayout
+        android:id="@+id/relative_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/relative_main">
+        android:layout_height="match_parent">
 
         <Button
             android:id="@+id/button"
@@ -19,6 +19,17 @@
             android:background="@drawable/button_bg"
             android:text="Click Here to capture image" />
 
+        <TextView
+            android:id="@+id/version_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="8dp"
+            android:paddingBottom="60dp"
+            android:text="avavava"
+            android:textSize="16sp" />
+
         <ImageView
             android:id="@+id/image_view"
             android:layout_width="match_parent"
@@ -26,9 +37,9 @@
 
         <Button
             android:id="@+id/emul_button"
-            android:layout_below="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/button"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:background="@drawable/button_bg"
@@ -38,15 +49,14 @@
 
         <Button
             android:id="@+id/new_contact_button"
-            android:layout_below="@+id/emul_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/emul_button"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:background="@drawable/button_bg"
             android:text="New Contact"
             android:visibility="gone" />
-
 
 
         <include layout="@layout/layout_bottom_navigation_view" />

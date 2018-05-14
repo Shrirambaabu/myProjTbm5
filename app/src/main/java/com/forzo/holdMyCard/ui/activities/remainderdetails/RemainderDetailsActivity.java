@@ -59,6 +59,10 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     EditText remainDes;
     @BindView(R.id.update_delete)
     LinearLayout linearLayout;
+    @BindView(R.id.date_layout)
+    LinearLayout dateLayout;
+    @BindView(R.id.time_layout)
+    LinearLayout timeLayout;
     @BindView(R.id.update_button)
     Button buttonUpdate;
     @BindView(R.id.delete_button)
@@ -73,8 +77,6 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     private String result;
 
     private String libraryImageValue;
-    @BindView(R.id.date_layout)
-    LinearLayout datePickerLayout;
     private Context mContext = RemainderDetailsActivity.this;
 
     private String remainderKey = "";
@@ -333,10 +335,34 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
     }
 
     @Override
-    public void remainderDetails(String id, String datePickerValues, String timePickerValue) {
+    public void remainderDetails(String id, String statusValues, String timePickerValue) {
         reminderDetailId = id;
         button.setVisibility(View.GONE);
         linearLayout.setVisibility(View.VISIBLE);
+        if (statusValues.equals("Notified")){
+            notifyPush();
+        }
+
+    }
+
+    @Override
+    public void setReminderCd(String reminderCd) {
+
+        if (reminderCd.equals("Notified")) {
+
+            Log.e("notified ","Called");
+            notifyPush();
+            remainDes.setEnabled(false);
+            dateLayout.setEnabled(false);
+            timeLayout.setEnabled(false);
+
+        } else {
+            Log.e("other ","Called");
+            linearLayout.setVisibility(View.VISIBLE);
+            remainDes.setEnabled(true);
+            dateLayout.setEnabled(true);
+            timeLayout.setEnabled(true);
+        }
 
     }
 }
