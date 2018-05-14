@@ -20,6 +20,7 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 
 import com.forzo.holdMyCard.R;
@@ -110,7 +111,9 @@ public class NotificationUtils {
         final PendingIntent resultPendingIntent =
                 PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext, "");
+
+
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext, "default");
 
        /* final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                 + "://" + mContext.getPackageName() + "/raw/notification");*/
@@ -128,7 +131,7 @@ public class NotificationUtils {
             }
         } else {
             showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
-            playNotificationSound();
+          //  playNotificationSound();
         }
     }
 
@@ -153,6 +156,8 @@ public class NotificationUtils {
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Log.e("Oreo","Enters");
+
             NotificationChannel channel = new NotificationChannel("default",
                     "HMC",
                     NotificationManager.IMPORTANCE_DEFAULT);
