@@ -53,7 +53,7 @@ public class BottomNavigationHelper {
                 case R.id.ic_sort_card:
 
                     Intent sortIntent = new Intent(context, SortCardActivity.class);
-                    //sortIntent.putExtra("sortMain","userSort");
+                    sortIntent.putExtra("sortMain","userSort");
                     context.startActivity(sortIntent);
                     callingActivity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

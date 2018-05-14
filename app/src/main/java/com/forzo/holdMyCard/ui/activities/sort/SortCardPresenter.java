@@ -29,11 +29,11 @@ public class SortCardPresenter  extends BasePresenter<SortCardContract.View> imp
 
     @Override
     public void getIntentValues(Intent intent) {
-       /* String sortDisable=intent.getStringExtra("sortMain");
+        String sortDisable=intent.getStringExtra("sortMain");
 
         if (sortDisable!=null){
 
             getView().showDialog();
-        }*/
+        }
     }
 }

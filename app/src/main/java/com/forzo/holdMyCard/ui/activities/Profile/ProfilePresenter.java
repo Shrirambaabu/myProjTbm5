@@ -110,7 +110,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     private static final String TAG = "ProfileActivity";
     private ApiService mApiService;
     private Uri imageCaptured;
-    private Uri imageUri;
+    private Uri imageUri=null;
     private Context context;
 
     private NaturalLanguageUnderstanding service;
@@ -333,6 +333,25 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     public void getIntentValues(Intent intent, RelativeLayout cardLayout, TextInputEditText emailTextInputEditText, TextInputEditText companyTextInputEditText, TextInputEditText nameTextInputEditText) {
 
 
+        String email;
+        String website;
+        String phoneNumber;
+        String result;
+
+        String profile;
+
+        email = intent.getStringExtra("email");
+        // website = intent.getStringExtra("website");
+        //  phoneNumber = intent.getStringExtra("phoneNumber");
+        result = intent.getStringExtra("result");
+        profile = intent.getStringExtra("libraryProfile");
+        String profileLibraryImage = intent.getStringExtra("libraryProfileImage");
+        String userProfile = intent.getStringExtra("profileMain");
+        String newProfile = intent.getStringExtra("newContact");
+        File imageFile = (File) intent.getSerializableExtra("imageFile");
+
+
+
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
 //            inputEmail.setText(bundle.getString("email"));
@@ -352,6 +371,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 if (imageUri != null) {
                     getView().setProfileImageUri(imageUri);
                     getView().newContact();
+                    getView().saveImageFile(imageFile,imageUri);
                 }
             }
             send = bundle.getString("parse");
@@ -366,22 +386,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         Bitmap bitmap = null;
 
 
-        String email;
-        String website;
-        String phoneNumber;
-        String result;
 
-        String profile;
-
-        email = intent.getStringExtra("email");
-        // website = intent.getStringExtra("website");
-        //  phoneNumber = intent.getStringExtra("phoneNumber");
-        result = intent.getStringExtra("result");
-        profile = intent.getStringExtra("libraryProfile");
-        String profileLibraryImage = intent.getStringExtra("libraryProfileImage");
-        String userProfile = intent.getStringExtra("profileMain");
-        String newProfile = intent.getStringExtra("newContact");
-        File imageFile = (File) intent.getSerializableExtra("imageFile");
 
         if (newProfile != null) {
             getView().newContact();
@@ -392,7 +397,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         }
         if (imageFile != null) {
 
-            getView().saveImageFile(imageFile);
+            getView().saveImageFile(imageFile,imageUri);
             getView().newContact();
         }
 

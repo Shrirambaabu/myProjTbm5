@@ -72,7 +72,7 @@ public interface ProfileContract {
 
         void savedSuccessfully(String s);
 
-        void saveImageFile(File imageFile);
+        void saveImageFile(File imageFile,Uri imageUri);
 
         void setLibraryImage(String image);
 

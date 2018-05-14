@@ -116,6 +116,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     private File file = null;
 
+    private Uri imageUri = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +138,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
 
         profilePresenter.attach(this);
-        profilePresenter.getIntentValues(getIntent(), cardLayout,emailEditText,companyNameEditText,nameEditText);
+        profilePresenter.getIntentValues(getIntent(), cardLayout, emailEditText, companyNameEditText, nameEditText);
         profilePresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
 
 
@@ -173,7 +175,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @OnClick(R.id.calendar_rel)
     public void calenderSection() {
-        String email=emailEditText.getText().toString();
+        String email = emailEditText.getText().toString();
 
         if (isPackageInstalled("com.google.android.calendar", getApplicationContext())) {
 
@@ -240,20 +242,20 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @OnClick(R.id.update_text)
     public void updateCardDetails() {
-        profilePresenter.updateCard(primaryValue,nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText, avLoadingIndicatorView, relativeProgress);
+        profilePresenter.updateCard(primaryValue, nameEditText, companyNameEditText, jobTitleEditText, mobileEditText, emailEditText, websiteEditText, addressEditText, avLoadingIndicatorView, relativeProgress);
 
     }
 
     @OnClick(R.id.delete_text)
     public void deleteCard() {
 
-        profilePresenter.deleteCard(primaryValue,avLoadingIndicatorView, relativeProgress);
+        profilePresenter.deleteCard(primaryValue, avLoadingIndicatorView, relativeProgress);
     }
 
     @OnClick(R.id.new_contact_rel)
     public void saveContactToPhone() {
 
-        profilePresenter.saveContactToPhone(nameEditText, mobileEditText,emailEditText,companyNameEditText,jobTitleEditText,addressEditText);
+        profilePresenter.saveContactToPhone(nameEditText, mobileEditText, emailEditText, companyNameEditText, jobTitleEditText, addressEditText);
 
     }
 
@@ -272,9 +274,13 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx) {
 
 
-        if (file != null) {
+        if (file != null||imageUri!=null) {
             ACTIVITY_NUM = 1;
         }
+        if (!primaryValue.equals("")||primaryValue!=null){
+            ACTIVITY_NUM = 1;
+        }
+
 
         enableNavigation(mContext, this, bottomNavigationViewEx);
         Menu menu = bottomNavigationViewEx.getMenu();
@@ -336,9 +342,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     }
 
     @Override
-    public void saveImageFile(File imageFile) {
+    public void saveImageFile(File imageFile, Uri uri) {
         file = imageFile;
-
+        imageUri = uri;
     }
 
     @Override
