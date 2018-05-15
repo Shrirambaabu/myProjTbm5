@@ -18,15 +18,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-       <!-- <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider>-->
+        <!-- <provider
+             android:name="android.support.v4.content.FileProvider"
+             android:authorities="${applicationId}.provider"
+             android:exported="false"
+             android:grantUriPermissions="true">
+             <meta-data
+                 android:name="android.support.FILE_PROVIDER_PATHS"
+                 android:resource="@xml/provider_paths" />
+         </provider>-->
 
 
         <provider
@@ -57,7 +57,7 @@
         <activity android:name=".ui.activities.notes.NotesActivity" />
         <activity android:name=".ui.activities.notesdetail.NotesDetailsActivity" />
         <activity android:name=".ui.activities.remainder.ReminderActivity" />
-        <activity android:name=".ui.activities.remainderdetails.RemainderDetailsActivity"/>
+        <activity android:name=".ui.activities.remainderdetails.RemainderDetailsActivity" />
 
 
         <service android:name=".service.MyFirebaseInstanceIDService">
@@ -65,7 +65,9 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/icon_notify" />
         <service android:name=".service.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
