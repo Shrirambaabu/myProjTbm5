@@ -340,7 +340,9 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
         button.setVisibility(View.GONE);
         linearLayout.setVisibility(View.VISIBLE);
         if (statusValues.equals("Notified")){
-            notifyPush();
+            buttonUpdate.setEnabled(false);
+        }else {
+            buttonUpdate.setEnabled(true);
         }
 
     }
@@ -351,7 +353,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
         if (reminderCd.equals("Notified")) {
 
             Log.e("notified ","Called");
-            notifyPush();
+            buttonUpdate.setEnabled(false);
             remainDes.setEnabled(false);
             dateLayout.setEnabled(false);
             timeLayout.setEnabled(false);
@@ -359,6 +361,7 @@ public class RemainderDetailsActivity extends AppCompatActivity implements Remai
         } else {
             Log.e("other ","Called");
             linearLayout.setVisibility(View.VISIBLE);
+            buttonUpdate.setEnabled(true);
             remainDes.setEnabled(true);
             dateLayout.setEnabled(true);
             timeLayout.setEnabled(true);
