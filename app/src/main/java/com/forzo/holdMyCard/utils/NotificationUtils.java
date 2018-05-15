@@ -104,6 +104,7 @@ public class NotificationUtils {
         if (TextUtils.isEmpty(message))
             return;
 
+        final NotificationCompat.Builder mBuilder;
         // notification icon
         final int icon = R.mipmap.ic_launcher;
 
@@ -111,13 +112,15 @@ public class NotificationUtils {
         final PendingIntent resultPendingIntent =
                 PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+             mBuilder = new NotificationCompat.Builder(mContext, "default");
+        } else {
 
-
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext, "default");
-
+             mBuilder = new NotificationCompat.Builder(mContext, "");
+        }
        /* final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                 + "://" + mContext.getPackageName() + "/raw/notification");*/
-        final Uri alarmSound =RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        final Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         if (!TextUtils.isEmpty(imageUrl)) {
 
@@ -131,7 +134,7 @@ public class NotificationUtils {
             }
         } else {
             showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
-          //  playNotificationSound();
+            //  playNotificationSound();
         }
     }
 
@@ -156,7 +159,7 @@ public class NotificationUtils {
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            Log.e("Oreo","Enters");
+            Log.e("Oreo", "Enters");
 
             NotificationChannel channel = new NotificationChannel("default",
                     "HMC",
