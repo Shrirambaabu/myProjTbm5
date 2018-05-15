@@ -96,6 +96,7 @@ import static com.forzo.holdMyCard.utils.Utils.CLOUD_VISION_API_KEY;
 import static com.forzo.holdMyCard.utils.Utils.getBitmapLowFile;
 import static com.forzo.holdMyCard.utils.Utils.getImageEncodeImage;
 import static com.forzo.holdMyCard.utils.Utils.getResizedBitmapFile;
+import static com.forzo.holdMyCard.utils.Utils.isPackageInstalled;
 import static com.forzo.holdMyCard.utils.Utils.parseCompanyNameFromEmail;
 import static com.forzo.holdMyCard.utils.Utils.parseNameFromEmail;
 import static com.forzo.holdMyCard.utils.Utils.savebitmap;
@@ -110,7 +111,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     private static final String TAG = "ProfileActivity";
     private ApiService mApiService;
     private Uri imageCaptured;
-    private Uri imageUri=null;
+    private Uri imageUri = null;
     private Context context;
 
     private NaturalLanguageUnderstanding service;
@@ -285,33 +286,33 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     @Override
     public void addToCalendar(String email) {
 
-        Calendar beginTime = Calendar.getInstance();
-        Calendar endTime = Calendar.getInstance();
+        if (isPackageInstalled("com.google.android.calendar", context)) {
 
-        endTime.add(Calendar.HOUR_OF_DAY, 1);
+            Calendar beginTime = Calendar.getInstance();
+            Calendar endTime = Calendar.getInstance();
 
-        Intent intent = new Intent(Intent.ACTION_INSERT)
-                .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                .putExtra(CalendarContract.Events.TITLE, "")
-                .putExtra(CalendarContract.Events.DESCRIPTION, "")
-                .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
-                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-                .putExtra(Intent.EXTRA_EMAIL, email);
-        context.startActivity(intent);
+            endTime.add(Calendar.HOUR_OF_DAY, 1);
+
+            Intent intent = new Intent(Intent.ACTION_INSERT)
+                    .setData(CalendarContract.Events.CONTENT_URI)
+                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                    .putExtra(CalendarContract.Events.TITLE, "")
+                    .putExtra(CalendarContract.Events.DESCRIPTION, "")
+                    .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
+                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+                    .putExtra(Intent.EXTRA_EMAIL, email);
+            context.startActivity(intent);
+
+        } else {
+            Toast.makeText(context, "Google Calendar not installed.", Toast.LENGTH_LONG).show();
+        }
 
     }
 
     @Override
-    public void saveContactToPhone(EditText name, EditText mobileNumber, EditText emailText, EditText companyEditText, EditText jobEditText, EditText addressEditText) {
+    public void saveContactToPhone(String contactName, String contactNumber, String contactEmail, String contactCompanyName, String contactJobTitle, String contactAddressText) {
 
-        String contactName = name.getText().toString();
-        String contactNumber = mobileNumber.getText().toString();
-        String contactEmail = emailText.getText().toString();
-        String contactCompanyName = companyEditText.getText().toString();
-        String contactJobTitle = jobEditText.getText().toString();
-        String contactAddressText = addressEditText.getText().toString();
 
         Intent intent = new Intent(Intent.ACTION_INSERT);
         intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
@@ -330,7 +331,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
 
     @Override
-    public void getIntentValues(Intent intent,  String  emailTextInputEditText, String companyTextInputEditText, String nameTextInputEditText) {
+    public void getIntentValues(Intent intent, String emailTextInputEditText, String companyTextInputEditText, String nameTextInputEditText) {
 
 
         String email;
@@ -349,7 +350,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         String userProfile = intent.getStringExtra("profileMain");
         String newProfile = intent.getStringExtra("newContact");
         File imageFile = (File) intent.getSerializableExtra("imageFile");
-
 
 
         Bundle bundle = intent.getExtras();
@@ -371,7 +371,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 if (imageUri != null) {
                     getView().setProfileImageUri(imageUri);
                     getView().newContact();
-                    getView().saveImageFile(imageFile,imageUri);
+                    getView().saveImageFile(imageFile, imageUri);
                 }
             }
             send = bundle.getString("parse");
@@ -386,8 +386,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         Bitmap bitmap = null;
 
 
-
-
         if (newProfile != null) {
             getView().newContact();
         }
@@ -397,7 +395,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         }
         if (imageFile != null) {
 
-            getView().saveImageFile(imageFile,imageUri);
+            getView().saveImageFile(imageFile, imageUri);
             getView().newContact();
         }
 
@@ -543,7 +541,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         // inputCompanyName.setText(parseCompanyNameFromEmail(emailTextInputEditText.getText().toString()));
                         getView().setCompanyName(parseCompanyNameFromEmail(emailTextInputEditText));
                     if (nameTextInputEditText.equals("")) {
-                       // inputName.setText(parseNameFromEmail(emailTextInputEditText.getText().toString()));
+                        // inputName.setText(parseNameFromEmail(emailTextInputEditText.getText().toString()));
                         getView().setUserName(parseNameFromEmail(emailTextInputEditText));
                     }
                 }
@@ -611,8 +609,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     }
 
     @Override
-    public void saveBusinessCard( String name, String company,  String jobTitle ,String mobileNumber, String emailId ,String website , String address) {
-
+    public void saveBusinessCard(String name, String company, String jobTitle, String mobileNumber, String emailId, String website, String address) {
 
 
         BusinessCard businessCard = new BusinessCard();
@@ -665,7 +662,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
 
     @Override
-    public void updateCard(String userId, String name, String company,  String jobTitle ,String mobileNumber, String emailId ,String website , String address) {
+    public void updateCard(String userId, String name, String company, String jobTitle, String mobileNumber, String emailId, String website, String address) {
 
 
         BusinessCard businessCard = new BusinessCard();

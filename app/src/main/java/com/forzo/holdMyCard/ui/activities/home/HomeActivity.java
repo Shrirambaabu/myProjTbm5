@@ -133,7 +133,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
             PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
             String version = pInfo.versionName;
             Log.e("versionName", "" + version);
-            versionNumber.setText("Version: "+version);
+            versionNumber.setText("Version: " + version);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

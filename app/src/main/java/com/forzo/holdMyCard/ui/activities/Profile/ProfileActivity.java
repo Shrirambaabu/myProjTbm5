@@ -40,6 +40,7 @@ import butterknife.OnClick;
 import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation;
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
+import static com.forzo.holdMyCard.utils.Utils.isPackageInstalled;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileContract.View {
 
@@ -175,26 +176,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @OnClick(R.id.calendar_rel)
     public void calenderSection() {
-        String email = emailEditText.getText().toString();
 
-        if (isPackageInstalled("com.google.android.calendar", getApplicationContext())) {
+        profilePresenter.addToCalendar(emailEditText.getText().toString());
 
-            profilePresenter.addToCalendar(email);
-
-        } else {
-            Toast.makeText(getApplicationContext(), "Google Calendar not installed.", Toast.LENGTH_LONG).show();
-        }
     }
 
-    public static boolean isPackageInstalled(String packagename, Context context) {
-        PackageManager pm = context.getPackageManager();
-        try {
-            pm.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -255,7 +241,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @OnClick(R.id.new_contact_rel)
     public void saveContactToPhone() {
 
-        profilePresenter.saveContactToPhone(nameEditText, mobileEditText, emailEditText, companyNameEditText, jobTitleEditText, addressEditText);
+        profilePresenter.saveContactToPhone(nameEditText.getText().toString(), mobileEditText.getText().toString(), emailEditText.getText().toString(), companyNameEditText.getText().toString(), jobTitleEditText.getText().toString(), addressEditText.getText().toString());
 
     }
 

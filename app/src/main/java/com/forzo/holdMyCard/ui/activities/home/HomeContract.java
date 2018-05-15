@@ -23,18 +23,20 @@ public interface HomeContract {
     interface Presenter extends BaseMvpPresenter<View> {
 
 
-    void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
+        void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
 
-    void callGoogleCloudVision(Uri uri, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, Uri intentUri, RelativeLayout relativeLayout,RelativeLayout relativeLayoutMain);
-    void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout,RelativeLayout relativeLayoutTwo,File image);
-    void onBackPress();
+        void callGoogleCloudVision(Uri uri, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, Uri intentUri, RelativeLayout relativeLayout, RelativeLayout relativeLayoutMain);
 
-}
+        void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout, RelativeLayout relativeLayoutTwo, File image);
 
-// Action callbacks. Activity/Fragment will implement
-interface View {
+        void onBackPress();
+
+    }
+
+    // Action callbacks. Activity/Fragment will implement
+    interface View {
 
 
-    void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
-}
+        void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
+    }
 }

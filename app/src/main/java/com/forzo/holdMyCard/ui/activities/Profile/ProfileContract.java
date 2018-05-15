@@ -32,7 +32,7 @@ public interface ProfileContract {
 
         void addToCalendar(String email);
 
-        void saveContactToPhone(EditText name, EditText mobileNumber, EditText emailText, EditText companyEditText, EditText jobEditText, EditText addressEditText);
+        void saveContactToPhone(String name, String mobileNumber, String emailText, String companyEditText, String jobEditText, String addressEditText);
 
         void saveImage(File file, String s);
 
