@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             Toast.makeText(getApplicationContext(), "Please Enter the Password", Toast.LENGTH_LONG).show();
             return;
         }
-        loginPresenter.loginToHmc(emailLogin, passwordLogin,relativeProgress,avLoadingIndicatorView);
+        loginPresenter.loginToHmc(emailLogin, passwordLogin, relativeProgress, avLoadingIndicatorView);
 
     }
 
@@ -138,12 +138,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             return;
         }
 
-        if (!userPassword.getText().toString().equals(""+userConformPassword.getText().toString())) {
+        if (!userPassword.getText().toString().equals("" + userConformPassword.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Password and Conform Password Mismatch", Toast.LENGTH_LONG).show();
             return;
         }
 
-        loginPresenter.registerToHmc(userName, userEmail,userPassword,userConformPassword,relativeProgress,avLoadingIndicatorView);
+        loginPresenter.registerToHmc(userName, userEmail, userPassword, userConformPassword, relativeProgress, avLoadingIndicatorView);
     }
 
     @OnClick(R.id.forget_pass)

@@ -83,8 +83,8 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                     // new push notification is received
 
                     String message = intent.getStringExtra("remainId");
-                    if (message != null){
-                        Log.e("tag", "onReceive: "+message );
+                    if (message != null) {
+                        Log.e("tag", "onReceive: " + message);
                         MediaPlayer mMediaPlayer;
                         mMediaPlayer = MediaPlayer.create(MyLibraryActivity.this, R.raw.notification);
                         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -193,7 +193,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
             case R.id.action_create:
 
                 Intent intentSave = new Intent(MyLibraryActivity.this, CreateGroupActivity.class);
-                intentSave.putExtra("module","disabled");
+                intentSave.putExtra("module", "disabled");
                 startActivity(intentSave);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

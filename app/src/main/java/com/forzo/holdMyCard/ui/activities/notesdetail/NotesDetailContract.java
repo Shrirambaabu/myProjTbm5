@@ -15,11 +15,12 @@ public interface NotesDetailContract {
 
     interface Presenter extends BaseMvpPresenter<View> {
 
-        void saveNote(NotesDetailsActivity notesDetailsActivity, EditText editText,String  notePrimaryValue);
+        void saveNote(NotesDetailsActivity notesDetailsActivity, EditText editText, String notePrimaryValue);
 
         void getIntentValues(Intent intent, Button button);
 
-        void updateNotes(String notesId,String noteDescp);
+        void updateNotes(String notesId, String noteDescp);
+
         void deleteNotes(String notesId);
 
     }
@@ -29,11 +30,14 @@ public interface NotesDetailContract {
         void savedSuccessfully();
 
         void updatedSuccessfully();
+
         void deletedSuccessfully();
-void setNotesPrimaryValue(String value,String libraryImageValue);
+
+        void setNotesPrimaryValue(String value, String libraryImageValue);
+
         void setNotesValueEnabled();
 
-        void setNotesValue(String value,String notesId);
+        void setNotesValue(String value, String notesId);
 
         void setSaveButton();
     }

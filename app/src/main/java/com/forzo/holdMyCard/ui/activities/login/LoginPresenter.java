@@ -42,7 +42,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         String password = passwordText.getText().toString();
 
 
-        mApiService.loginToHmc(PreferencesAppHelper.getUserId(),email,password)
+        mApiService.loginToHmc(PreferencesAppHelper.getUserId(), email, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<User>() {
@@ -58,10 +58,10 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                     @Override
                     public void onNext(User user1) {
 
-                        Log.e("Result",""+user1.getNewUser());
-                        Log.e("Result",""+user1.getUserName());
-                        Log.e("Result",""+user1.getUserEmail());
-                        Log.e("Result",""+user1.getUserPassword());
+                        Log.e("Result", "" + user1.getNewUser());
+                        Log.e("Result", "" + user1.getUserName());
+                        Log.e("Result", "" + user1.getUserEmail());
+                        Log.e("Result", "" + user1.getUserPassword());
 
                         relativeLayout.setVisibility(View.GONE);
                         avLoadingIndicatorView.setVisibility(View.GONE);
@@ -87,7 +87,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                 });
 
 
-
     }
 
     @Override
@@ -98,10 +97,10 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         String registerUserPassword = userPassword.getText().toString();
         String registerUserConformPassword = userConformPassword.getText().toString();
 
-        Log.e("RegUserID",""+PreferencesAppHelper.getUserId());
-        Log.e("RegName",""+registerUserName);
-        Log.e("RegEmail",""+registerUserEmail);
-        Log.e("RegPass",""+registerUserPassword);
+        Log.e("RegUserID", "" + PreferencesAppHelper.getUserId());
+        Log.e("RegName", "" + registerUserName);
+        Log.e("RegEmail", "" + registerUserEmail);
+        Log.e("RegPass", "" + registerUserPassword);
 
         User user = new User();
 
@@ -125,7 +124,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                     @Override
                     public void onNext(User user1) {
 
-                        Log.e("Result",""+user1.getRegStatus());
+                        Log.e("Result", "" + user1.getRegStatus());
 
                         relativeLayout.setVisibility(View.GONE);
                         avLoadingIndicatorView.setVisibility(View.GONE);

@@ -7,17 +7,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
-import com.forzo.holdMyCard.utils.HttpHandler;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
@@ -31,34 +27,21 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesRequest;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
-import com.google.api.services.vision.v1.model.TextAnnotation;
-import com.google.i18n.phonenumbers.PhoneNumberMatch;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.wang.avi.AVLoadingIndicatorView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
-import static com.forzo.holdMyCard.utils.Utils.BaseUri;
 import static com.forzo.holdMyCard.utils.Utils.CLOUD_VISION_API_KEY;
-
 import static com.forzo.holdMyCard.utils.Utils.convertResponseToString;
 import static com.forzo.holdMyCard.utils.Utils.getImageEncodeImage;
 import static com.forzo.holdMyCard.utils.Utils.parseEmail;
@@ -71,11 +54,11 @@ import static com.forzo.holdMyCard.utils.Utils.resize;
  */
 
 public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
-    private Context mContext;
     private static final String TAG = "HomeActivity";
-    Uri intentUri = null;
     static Uri capturedImageUri = null;
     private final int requestCode = 20;
+    Uri intentUri = null;
+    private Context mContext;
     private Bitmap bitmap;
 
     HomePresenter(Context mContext) {
@@ -90,7 +73,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
     @SuppressLint("StaticFieldLeak")
     @Override
-    public void callGoogleCloudVision(Uri uri, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, Uri intentUri,RelativeLayout relativeLayout,RelativeLayout relativeLayoutMain) {
+    public void callGoogleCloudVision(Uri uri, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, Uri intentUri, RelativeLayout relativeLayout, RelativeLayout relativeLayoutMain) {
         this.intentUri = intentUri;
 
         final List<Feature> featureList = new ArrayList<>();
@@ -142,23 +125,22 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
             protected void onPostExecute(String result) {
                 Log.e(TAG, "onPostExecute: " + result);
-                if (result.equals("Nothing Found")){
+                if (result.equals("Nothing Found")) {
 /*
                     avLoadingIndicatorView.hide();
                     avLoadingIndicatorView.setVisibility(View.GONE);
                     relativeLayout.setVisibility(View.GONE);
                     relativeLayoutMain.setVisibility(View.VISIBLE);*/
 
-                    Intent intent=new Intent(mContext,ProfileActivity.class);
+                    Intent intent = new Intent(mContext, ProfileActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("intentUri",intentUri.toString());
+                    intent.putExtra("intentUri", intentUri.toString());
                     mContext.startActivity(intent);
                 }
             }
         }.execute();
 
     }
-
 
     public String convertGoogleResponseToString(BatchAnnotateImagesResponse response) throws IOException {
 

@@ -21,7 +21,8 @@ public interface ReminderContract {
         void setupShowsRecyclerView(EmptyRecyclerView paymentCurrentRecyclerView, RelativeLayout emptyView);
 
 
-        void populateRecyclerView(List<MyRemainder> myRemainders,String s,String  libraryImageValue);
+        void populateRecyclerView(List<MyRemainder> myRemainders, String s, String libraryImageValue);
+
         void getIntentValues(Intent intent);
     }
 
@@ -32,7 +33,7 @@ public interface ReminderContract {
 
         void showRecyclerView();
 
-        void setReminderPrimaryValue(String reminderPrimaryValue,String  profileImage);
+        void setReminderPrimaryValue(String reminderPrimaryValue, String profileImage);
     }
 
 }

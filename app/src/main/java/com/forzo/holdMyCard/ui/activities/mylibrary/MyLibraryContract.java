@@ -17,6 +17,7 @@ public interface MyLibraryContract {
     interface Presenter extends BaseMvpPresenter<View> {
 
         void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
+
         void setupViewPager(ViewPager viewPager, SectionsStatePagerAdapter adapter, MyCurrentLibraryFragment myCurrentLibraryFragment, MyGroupsFragment myGroupsFragment);
 
         void setUuid();
@@ -26,6 +27,7 @@ public interface MyLibraryContract {
     interface View {
 
         void showTabLayout();
+
         void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
 
 

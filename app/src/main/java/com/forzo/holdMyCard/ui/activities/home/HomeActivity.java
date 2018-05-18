@@ -75,7 +75,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     File image = null;
     private Feature feature;
-    private String[] visionAPI = new String[]{"TEXT_DETECTION"};
+    private String[] visionAPI = new String[]{"TEXT_DETECTION","LOGO_DETECTION"};
 
     private static final int RECORD_REQUEST_CODE = 101;
     private static final int STORAGE_REQUEST_CODE = 103;
@@ -126,8 +126,8 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
         feature = new Feature();
         feature.setType(visionAPI[0]);
-        feature.setMaxResults(10);
-
+//        feature.setType(visionAPI[1]);
+        feature.setMaxResults(15);
 
         try {
             PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);

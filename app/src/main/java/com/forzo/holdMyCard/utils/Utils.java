@@ -87,7 +87,7 @@ public class Utils {
     }
 
     public static String parseCompanyNameFromEmail(String email) {
-        return email.substring(email.indexOf("@") + 1, email.indexOf("."));
+        return email.substring(email.indexOf("@") + 1, email.lastIndexOf("."));
     }
 
 
@@ -119,10 +119,9 @@ public class Utils {
 
         Iterable<PhoneNumberMatch> numberMatches = phoneNumberUtil.findNumbers(bCardText, Locale.US.getCountry());
         ArrayList<String> data = new ArrayList<>();
-        String s = "";
         for (PhoneNumberMatch number : numberMatches) {
 
-            s = number.rawString();
+            String s = number.rawString();
 
             data.add(s);
 
@@ -350,7 +349,7 @@ public class Utils {
 
         integerDate = integerDate - 1;
 
-        newDate= String.valueOf(integerDate);
+        newDate = String.valueOf(integerDate);
 
 
         return newDate;

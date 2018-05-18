@@ -55,7 +55,7 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
     @Override
     public void setupViewPager(ViewPager viewPager, SectionsStatePagerAdapter adapter, MyCurrentLibraryFragment myCurrentLibraryFragment, MyGroupsFragment myGroupsFragment) {
         adapter.addFragment(myCurrentLibraryFragment, "My Library");
-        adapter.addFragment(myGroupsFragment,"My Groups");
+        adapter.addFragment(myGroupsFragment, "My Groups");
         viewPager.setAdapter(adapter);
         getView().showTabLayout();
     }
@@ -77,11 +77,11 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
                         @Override
                         public void onNext(User userUuid) {
 
-                            String userIdNew=userUuid.getNewUser();
+                            String userIdNew = userUuid.getNewUser();
 
                             PreferencesAppHelper.setUserId(userIdNew);
 
-                            Log.e("nextLib",""+PreferencesAppHelper.getUserId());
+                            Log.e("nextLib", "" + PreferencesAppHelper.getUserId());
 //
 //                            Intent cbIntent =  new Intent();
 //                            cbIntent.setClass(context, FCMTokenService.class);

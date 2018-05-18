@@ -12,7 +12,7 @@ import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavig
  * Created by Shriram on 3/29/2018.
  */
 
-public class SortCardPresenter  extends BasePresenter<SortCardContract.View> implements SortCardContract.Presenter{
+public class SortCardPresenter extends BasePresenter<SortCardContract.View> implements SortCardContract.Presenter {
 
 
     private Context context;
@@ -29,9 +29,9 @@ public class SortCardPresenter  extends BasePresenter<SortCardContract.View> imp
 
     @Override
     public void getIntentValues(Intent intent) {
-        String sortDisable=intent.getStringExtra("sortMain");
+        String sortDisable = intent.getStringExtra("sortMain");
 
-        if (sortDisable!=null){
+        if (sortDisable != null) {
 
             getView().showDialog();
         }

@@ -17,7 +17,8 @@ public interface LoginContract {
     interface Presenter extends BaseMvpPresenter<LoginContract.View> {
 
         void loginToHmc(EditText emailText, EditText passwordText, RelativeLayout relativeLayout, AVLoadingIndicatorView avLoadingIndicatorView);
-        void registerToHmc(EditText userName,EditText userEmail,EditText userPassword,EditText userConformPassword, RelativeLayout relativeLayout, AVLoadingIndicatorView avLoadingIndicatorView);
+
+        void registerToHmc(EditText userName, EditText userEmail, EditText userPassword, EditText userConformPassword, RelativeLayout relativeLayout, AVLoadingIndicatorView avLoadingIndicatorView);
     }
 
     interface View {

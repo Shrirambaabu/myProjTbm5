@@ -21,7 +21,7 @@ import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavig
  * Created by Shriram on 4/3/2018.
  */
 
-public class CreateGroupPresenter extends BasePresenter<CreateGroupContract.View> implements CreateGroupContract.Presenter{
+public class CreateGroupPresenter extends BasePresenter<CreateGroupContract.View> implements CreateGroupContract.Presenter {
 
 
     private Context context;
@@ -62,9 +62,9 @@ public class CreateGroupPresenter extends BasePresenter<CreateGroupContract.View
     @Override
     public void getIntentValues(Intent intent) {
 
-        String disabled=intent.getStringExtra("module");
+        String disabled = intent.getStringExtra("module");
 
-        if (disabled!=null){
+        if (disabled != null) {
             getView().showDialog();
         }
 

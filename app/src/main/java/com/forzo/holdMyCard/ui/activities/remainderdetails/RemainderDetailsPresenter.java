@@ -111,7 +111,7 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
                     @Override
                     public void onError(Throwable e) {
 
-                        Log.e("err",""+e.getMessage());
+                        Log.e("err", "" + e.getMessage());
                     }
 
                     @Override
@@ -166,7 +166,7 @@ public class RemainderDetailsPresenter extends BasePresenter<RemainderDetailsCon
                 getView().reminderDetails(remainderId, remainderAction);
             }
         }
-        if (reminderCD!=null){
+        if (reminderCD != null) {
             getView().setReminderCd(reminderCD);
         }
 

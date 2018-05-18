@@ -27,7 +27,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Shriram on 4/5/2018.
  */
 
-public class ReminderPresenter extends BasePresenter<ReminderContract.View> implements ReminderContract.Presenter{
+public class ReminderPresenter extends BasePresenter<ReminderContract.View> implements ReminderContract.Presenter {
 
     private ApiService mApiService;
 
@@ -38,7 +38,6 @@ public class ReminderPresenter extends BasePresenter<ReminderContract.View> impl
         mApiService = ApiFactory.create(HmcApplication.get((Activity) context).getRetrofit());
 
     }
-
 
 
     @Override
@@ -56,7 +55,7 @@ public class ReminderPresenter extends BasePresenter<ReminderContract.View> impl
     }
 
     @Override
-    public void populateRecyclerView(List<MyRemainder> remainders,String remainderKey,String libraryImageValue) {
+    public void populateRecyclerView(List<MyRemainder> remainders, String remainderKey, String libraryImageValue) {
 
 /*
 
@@ -100,7 +99,7 @@ public class ReminderPresenter extends BasePresenter<ReminderContract.View> impl
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("notes","err "+e.getMessage());
+                        Log.e("notes", "err " + e.getMessage());
                         // getView().hideLoading();
                     }
 
@@ -111,9 +110,6 @@ public class ReminderPresenter extends BasePresenter<ReminderContract.View> impl
                 });
 
 
-
-
-
     }
 
     @Override
@@ -121,8 +117,8 @@ public class ReminderPresenter extends BasePresenter<ReminderContract.View> impl
 
         String profile = intent.getStringExtra("libraryProfile");
         String profileImage = intent.getStringExtra("libraryProfileImage");
-        if (profile!=null&&profileImage!=null){
-            getView().setReminderPrimaryValue(profile,profileImage);
+        if (profile != null && profileImage != null) {
+            getView().setReminderPrimaryValue(profile, profileImage);
         }
 
     }

@@ -19,6 +19,7 @@ public interface CreateGroupContract {
 
 
         void setupShowsRecyclerView(EmptyRecyclerView paymentCurrentRecyclerView, RelativeLayout emptyView);
+
         void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
 
         void populateRecyclerView(List<MyLibrary> events);
@@ -30,8 +31,11 @@ public interface CreateGroupContract {
     interface View {
 
         void updateAdapter();
-void showDialog();
+
+        void showDialog();
+
         void showRecyclerView();
+
         void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
     }
 }

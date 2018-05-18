@@ -85,8 +85,8 @@ public class NotesDetailsPresenter extends BasePresenter<NotesDetailContract.Vie
         String libraryImageValue = intent.getStringExtra("libraryProfileImage");
 
 
-        if (profile != null&&libraryImageValue!=null) {
-            getView().setNotesPrimaryValue(profile,libraryImageValue);
+        if (profile != null && libraryImageValue != null) {
+            getView().setNotesPrimaryValue(profile, libraryImageValue);
         }
 
         if (noteDescription != null && notesId != null) {

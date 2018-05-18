@@ -38,7 +38,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     @OnClick(R.id.submit_button)
     public void submitSection() {
         emailForget.setText("");
-        Toast.makeText(getApplicationContext(),"Check Your Mail",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Check Your Mail", Toast.LENGTH_LONG).show();
 
     }
 

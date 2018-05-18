@@ -132,16 +132,13 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
                 .build()
                 .inject(this);
 
-
         feature = new Feature();
         feature.setType(visionAPI[0]);
         feature.setMaxResults(10);
 
-
         profilePresenter.attach(this);
         profilePresenter.getIntentValues(getIntent(), emailEditText.getText().toString(), companyNameEditText.getText().toString(), nameEditText.getText().toString());
         profilePresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
-
 
     }
 
@@ -157,7 +154,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
-
     }
 
     @OnClick(R.id.remaindar_rel)
@@ -171,14 +167,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
-
     }
 
     @OnClick(R.id.calendar_rel)
     public void calenderSection() {
-
         profilePresenter.addToCalendar(emailEditText.getText().toString());
-
     }
 
 
@@ -200,7 +193,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @Override
     public boolean onSupportNavigateUp() {
-
         Intent intent = new Intent(ProfileActivity.this, MyLibraryActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -210,8 +202,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @Override
     public void onBackPressed() {
-
-
         Intent intent = new Intent(ProfileActivity.this, MyLibraryActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -221,7 +211,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @OnClick(R.id.save_text)
     public void saveToast() {
-
         profilePresenter.saveBusinessCard(nameEditText.getText().toString(), companyNameEditText.getText().toString(), jobTitleEditText.getText().toString(), mobileEditText.getText().toString(), emailEditText.getText().toString(), websiteEditText.getText().toString(), addressEditText.getText().toString());
 
     }
@@ -234,21 +223,17 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @OnClick(R.id.delete_text)
     public void deleteCard() {
-
         profilePresenter.deleteCard(primaryValue);
     }
 
     @OnClick(R.id.new_contact_rel)
     public void saveContactToPhone() {
-
         profilePresenter.saveContactToPhone(nameEditText.getText().toString(), mobileEditText.getText().toString(), emailEditText.getText().toString(), companyNameEditText.getText().toString(), jobTitleEditText.getText().toString(), addressEditText.getText().toString());
-
     }
 
     @OnClick(R.id.cancel_text)
     public void cancelToast() {
         Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
-
         Intent intent = new Intent(ProfileActivity.this, MyLibraryActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -259,14 +244,12 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @Override
     public void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx) {
 
-
         if (file != null || imageUri != null) {
             ACTIVITY_NUM = 1;
         }
         if (!primaryValue.equals("") || primaryValue != null) {
             ACTIVITY_NUM = 1;
         }
-
 
         enableNavigation(mContext, this, bottomNavigationViewEx);
         Menu menu = bottomNavigationViewEx.getMenu();
@@ -281,7 +264,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @Override
     public void setUserName(String userName) {
-
         nameEditText.setText(userName);
     }
 
@@ -323,8 +305,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @Override
     public void savedSuccessfully(String s) {
         profilePresenter.saveImage(file, s);
-
-
     }
 
     @Override
@@ -335,7 +315,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @Override
     public void setLibraryImage(String image) {
-
         imageValue = image;
         Glide.with(getApplicationContext())
                 .load(IMAGE_URL + image)
@@ -370,20 +349,16 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @Override
     public void updateSuccess() {
-
         Toast.makeText(getApplicationContext(), "Profile Updated", Toast.LENGTH_LONG).show();
-
         Intent intentSave = new Intent(ProfileActivity.this, MyLibraryActivity.class);
         intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
     }
 
     @Override
     public void deleteProfile() {
         Toast.makeText(getApplicationContext(), "Profile Deleted", Toast.LENGTH_LONG).show();
-
         Intent intentSave = new Intent(ProfileActivity.this, MyLibraryActivity.class);
         intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intentSave);
@@ -392,7 +367,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @Override
     public void setSaveFalse(Boolean saveFalse) {
-
         if (!saveFalse) {
             saveCancel.setVisibility(View.GONE);
             cardLayout.setVisibility(View.GONE);
@@ -411,7 +385,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @Override
     public void setProfileImageUri(Uri profileImageUri) {
-
         Glide.with(this)
                 .load(profileImageUri)
                 .into(imageView);
@@ -420,12 +393,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @Override
     public void activityLoader(String loader) {
         if (loader.equals("show")) {
-
             relativeProgress.setVisibility(View.VISIBLE);
             avLoadingIndicatorView.setVisibility(View.VISIBLE);
             avLoadingIndicatorView.show();
         } else if (loader.equals("hide")) {
-
             relativeProgress.setVisibility(View.GONE);
             avLoadingIndicatorView.setVisibility(View.GONE);
             avLoadingIndicatorView.hide();

@@ -44,8 +44,8 @@ public class NotesDetailsActivity extends AppCompatActivity implements NotesDeta
     @Inject
     NotesDetailsPresenter notesDetailsPresenter;
 
-    private String notePrimaryValue="";
-private String libraryImageValue="";
+    private String notePrimaryValue = "";
+    private String libraryImageValue = "";
     private Context mContext = NotesDetailsActivity.this;
 
     @Override
@@ -74,7 +74,7 @@ private String libraryImageValue="";
             return;
         } else {
 
-            notesDetailsPresenter.saveNote(NotesDetailsActivity.this, noteDes,notePrimaryValue);
+            notesDetailsPresenter.saveNote(NotesDetailsActivity.this, noteDes, notePrimaryValue);
 
             finish();
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -93,15 +93,16 @@ private String libraryImageValue="";
     @OnClick(R.id.update_button)
     public void updateNotesSection() {
 
-        Log.e("TextNotesIdUpdate", "" +notesDetailId);
+        Log.e("TextNotesIdUpdate", "" + notesDetailId);
 
-        notesDetailsPresenter.updateNotes(notesDetailId,noteDes.getText().toString());
+        notesDetailsPresenter.updateNotes(notesDetailId, noteDes.getText().toString());
 
     }
+
     @OnClick(R.id.delete_button)
     public void deleteNotesSection() {
 
-        Log.e("TextNotesIdUpdate", "" +notesDetailId);
+        Log.e("TextNotesIdUpdate", "" + notesDetailId);
 
         notesDetailsPresenter.deleteNotes(notesDetailId);
 
@@ -126,8 +127,8 @@ private String libraryImageValue="";
         Toast.makeText(getApplicationContext(), "Note Added Successfully", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(NotesDetailsActivity.this, NotesActivity.class);
-        intent.putExtra("libraryProfile",""+notePrimaryValue);
-        intent.putExtra("libraryProfileImage",""+libraryImageValue);
+        intent.putExtra("libraryProfile", "" + notePrimaryValue);
+        intent.putExtra("libraryProfileImage", "" + libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -139,8 +140,8 @@ private String libraryImageValue="";
         Toast.makeText(getApplicationContext(), "Note Updated Successfully", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(NotesDetailsActivity.this, NotesActivity.class);
-        intent.putExtra("libraryProfile",""+notePrimaryValue);
-        intent.putExtra("libraryProfileImage",""+libraryImageValue);
+        intent.putExtra("libraryProfile", "" + notePrimaryValue);
+        intent.putExtra("libraryProfileImage", "" + libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -151,16 +152,16 @@ private String libraryImageValue="";
         Toast.makeText(getApplicationContext(), "Note Deleted Successfully", Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(NotesDetailsActivity.this, NotesActivity.class);
-        intent.putExtra("libraryProfile",""+notePrimaryValue);
-        intent.putExtra("libraryProfileImage",""+libraryImageValue);
+        intent.putExtra("libraryProfile", "" + notePrimaryValue);
+        intent.putExtra("libraryProfileImage", "" + libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
-    public void setNotesPrimaryValue(String value,String image) {
-        libraryImageValue=image;
-        notePrimaryValue=value;
+    public void setNotesPrimaryValue(String value, String image) {
+        libraryImageValue = image;
+        notePrimaryValue = value;
     }
 
     @Override

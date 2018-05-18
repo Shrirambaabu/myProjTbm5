@@ -14,12 +14,12 @@ import dagger.Provides;
 
 @Module(includes = {ActivityContext.class})
 @PerActivityScope
-public class RemainderDetailsModule{
+public class RemainderDetailsModule {
 
 
-        @Provides
-        @PerActivityScope
-        RemainderDetailsPresenter remainderDetailsPresenter(Context context) {
-            return new RemainderDetailsPresenter(context);
-        }
+    @Provides
+    @PerActivityScope
+    RemainderDetailsPresenter remainderDetailsPresenter(Context context) {
+        return new RemainderDetailsPresenter(context);
+    }
 }

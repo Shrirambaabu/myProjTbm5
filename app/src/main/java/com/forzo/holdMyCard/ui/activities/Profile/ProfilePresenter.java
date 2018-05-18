@@ -119,6 +119,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     private String send;
     private String intentEmail;
 
+    private String email, cName, pName;
+
     ProfilePresenter(Context context) {
         this.context = context;
         mApiService = ApiFactory.create(HmcApplication.get((Activity) context).getRetrofit());
@@ -265,18 +267,19 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 for (Entity entity : entityList) {
                     entities += "\n" + entity.getName() + " " + entity.getType();
 
-                    if (entity.getType().equals("PERSON")) {
-                        person += entity.getName();
-                    }
-                    if (entity.getType().equals("ORGANIZATION")) {
-                        company += entity.getName();
-                    }
+//                    if (entity.getType().equals("PERSON")) {
+//                        person += entity.getName();
+//                    }
+//                    if (entity.getType().equals("ORGANIZATION")) {
+//                        company += entity.getName();
+//                    }
                     if (entity.getType().equals("LOCATION")) {
+                        Log.e(TAG, "onPostExecute: Address " + entity.getType() + " Place " + entity.getName());
                         address += " " + entity.getName();
                     }
                 }
-                getView().setUserName("" + person);
-                getView().setCompanyName("" + company);
+//                getView().setUserName("" + person);
+//                getView().setCompanyName("" + company);
                 getView().setAddress("" + address);
             }
         }.execute();
@@ -502,12 +505,14 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
                         //inputName.setText(result.getText());
                         getView().setUserName(result.getText());
+                        pName = result.getText();
                         person = true;
                     }
                     if (result.getType().equals("Company") && !company) {
                         Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
                         // inputCompanyName.setText(result.getText());
                         getView().setCompanyName(result.getText());
+                        cName = result.getText();
                         company = true;
                     }
                     if (result.getType().equals("JobTitle") && !jobTitle) {
@@ -520,40 +525,38 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
                         //inputEmail.setText(result.getText());
                         getView().setEmailId(result.getText());
+                        email = result.getText();
                         emailAddress = true;
                     }
-                    if (result.getType().equals("Location") && !location) {
-                        Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
-                        //  inputAddress.setText(result.getText());
-                        getView().setAddress(result.getText());
-                        location = true;
-                    }
+//                    if (result.getType().equals("Location") && !location) {
+//                        Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
+//                        //  inputAddress.setText(result.getText());
+//                        getView().setAddress(result.getText());
+//                        location = true;
+//                    }
                 }
 
-                if (!emailAddress && intentEmail != null) {
-
-                    // inputEmail.setText(intentEmail);
+                if (intentEmail != null) {
+                    email = intentEmail;
                     getView().setEmailId(intentEmail);
+                    Log.e(TAG, "email: " + email);
                 }
 
-                if (!emailTextInputEditText.equals("")) {
-                    if (companyTextInputEditText.equals(""))
-                        // inputCompanyName.setText(parseCompanyNameFromEmail(emailTextInputEditText.getText().toString()));
-                        getView().setCompanyName(parseCompanyNameFromEmail(emailTextInputEditText));
-                    if (nameTextInputEditText.equals("")) {
+                if (email != null && !email.isEmpty()) {
+                    Log.e(TAG, "cName: " + parseCompanyNameFromEmail(email));
+                    Log.e(TAG, "pName: " + parseNameFromEmail(email));
+                    if (cName != null && cName.isEmpty())
+                    // inputCompanyName.setText(parseCompanyNameFromEmail(emailTextInputEditText.getText().toString()));
+                    getView().setCompanyName(parseCompanyNameFromEmail(email));
+                    if (pName != null && pName.isEmpty()) {
                         // inputName.setText(parseNameFromEmail(emailTextInputEditText.getText().toString()));
-                        getView().setUserName(parseNameFromEmail(emailTextInputEditText));
+                        getView().setUserName(parseNameFromEmail(email));
                     }
                 }
-
-
-//                    Log.e(TAG, "onCreate: " + results);
+                naturalProcess(send);
             }
         }.execute();
-
-
     }
-
 
     @Override
     public void saveImage(File file, String newId) {

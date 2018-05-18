@@ -25,8 +25,7 @@ import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 
-public class ReminderActivity extends AppCompatActivity  implements ReminderContract.View{
-
+public class ReminderActivity extends AppCompatActivity implements ReminderContract.View {
 
 
     @Inject
@@ -48,10 +47,11 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
     @BindView(R.id.add_remainder)
     Button button;
 
-    private String remainderKey="";
+    private String remainderKey = "";
     private Context mContext = ReminderActivity.this;
 
     private String libraryImageValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +64,6 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
                 .inject(this);
 
 
-
         backButtonOnToolbar(ReminderActivity.this);
 
 
@@ -75,24 +74,24 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
     }
 
 
-
     @OnClick(R.id.add_remainder)
     public void addNoteSection() {
 
         Intent intentSave = new Intent(ReminderActivity.this, RemainderDetailsActivity.class);
-        intentSave.putExtra("remainId","new");
-        intentSave.putExtra("libraryProfile",""+remainderKey);
-        intentSave.putExtra("libraryProfileImage",""+libraryImageValue);
+        intentSave.putExtra("remainId", "new");
+        intentSave.putExtra("libraryProfile", "" + remainderKey);
+        intentSave.putExtra("libraryProfileImage", "" + libraryImageValue);
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         Intent intent = new Intent(ReminderActivity.this, ProfileActivity.class);
-        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
-        intent.putExtra("libraryProfile",""+remainderKey);
-        intent.putExtra("libraryProfileImage",""+libraryImageValue);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("libraryProfile", "" + remainderKey);
+        intent.putExtra("libraryProfileImage", "" + libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
@@ -101,9 +100,9 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(ReminderActivity.this, ProfileActivity.class);
-        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK );
-        intent.putExtra("libraryProfile",""+remainderKey);
-        intent.putExtra("libraryProfileImage",""+libraryImageValue);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("libraryProfile", "" + remainderKey);
+        intent.putExtra("libraryProfileImage", "" + libraryImageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -111,13 +110,13 @@ public class ReminderActivity extends AppCompatActivity  implements ReminderCont
     @Override
     public void showRecyclerView() {
         recyclerView.setAdapter(myRemainderRecyclerAdapter);
-        reminderPresenter.populateRecyclerView(myRemainderArrayList,remainderKey,libraryImageValue);
+        reminderPresenter.populateRecyclerView(myRemainderArrayList, remainderKey, libraryImageValue);
     }
 
     @Override
-    public void setReminderPrimaryValue(String reminderPrimaryValue,String image) {
-        libraryImageValue=image;
-        remainderKey=reminderPrimaryValue;
+    public void setReminderPrimaryValue(String reminderPrimaryValue, String image) {
+        libraryImageValue = image;
+        remainderKey = reminderPrimaryValue;
     }
 
     @Override

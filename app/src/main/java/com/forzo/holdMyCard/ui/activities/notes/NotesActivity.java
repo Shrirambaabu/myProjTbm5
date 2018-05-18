@@ -77,7 +77,7 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
     @Override
     public void showRecyclerView() {
         recyclerView.setAdapter(notesRecyclerAdapter);
-        notesPresenter.populateRecyclerView(myNotesArrayList, notesPrimaryValue,libraryImageValue);
+        notesPresenter.populateRecyclerView(myNotesArrayList, notesPrimaryValue, libraryImageValue);
     }
 
     @Override

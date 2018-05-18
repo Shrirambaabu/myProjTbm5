@@ -27,7 +27,6 @@
             android:layout_alignParentEnd="true"
             android:paddingEnd="8dp"
             android:paddingBottom="60dp"
-            android:text="avavava"
             android:textSize="16sp" />
 
         <ImageView

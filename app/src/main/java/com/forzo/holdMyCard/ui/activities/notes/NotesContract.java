@@ -21,7 +21,8 @@ public interface NotesContract {
         void setupShowsRecyclerView(EmptyRecyclerView paymentCurrentRecyclerView, RelativeLayout emptyView);
 
 
-        void populateRecyclerView(List<MyNotes> myNotes,String primaryValue,String primaryImageId);
+        void populateRecyclerView(List<MyNotes> myNotes, String primaryValue, String primaryImageId);
+
         void getIntentValues(Intent intent);
     }
 
@@ -31,7 +32,8 @@ public interface NotesContract {
         void updateAdapter();
 
         void showRecyclerView();
-        void setNotesPrimaryValue(String profile,String profileImage);
+
+        void setNotesPrimaryValue(String profile, String profileImage);
     }
 
 }

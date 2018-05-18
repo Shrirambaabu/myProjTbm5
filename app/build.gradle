@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
-        versionName "2.1"
+        versionName "2.2 logo,email,address defect fix"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -27,12 +27,12 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.google.firebase:firebase-messaging:15.0.0'
+    implementation 'com.google.firebase:firebase-messaging:15.0.2'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //design support library
     implementation 'com.android.support:design:27.1.1'
     //bottom navigation view
@@ -57,11 +57,11 @@ dependencies {
     //implementation 'com.google.api-client:google-api-client-android:1.20.0' exclude module: 'httpclient'
     implementation 'com.google.http-client:google-http-client-gson:1.20.0' exclude module: 'httpclient'
     implementation 'com.google.apis:google-api-services-vision:v1-rev2-1.21.0' exclude module: 'httpclient'
-    implementation 'com.google.api-client:google-api-client-android:1.22.0'
+    implementation 'com.google.api-client:google-api-client-android:1.23.0'
     implementation 'com.google.apis:google-api-services-vision:v1-rev357-1.22.0'
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
     implementation 'com.google.apis:google-api-services-language:v1beta2-rev6-1.22.0'
-    implementation 'commons-io:commons-io:2.5'
+    implementation 'commons-io:commons-io:2.6'
     // https://mvnrepository.com/artifact/com.googlecode.libphonenumber/libphonenumber
     implementation 'com.googlecode.libphonenumber:libphonenumber:7.0'
     // JSON Parsing
@@ -70,13 +70,13 @@ dependencies {
     //progressbar
     implementation 'com.wang.avi:library:2.1.3'
     implementation 'com.android.volley:volley:1.0.0'
-    implementation 'com.google.firebase:firebase-crash:15.0.0'
+    implementation 'com.google.firebase:firebase-crash:15.0.2'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.2'
     //Glide image loading
-    implementation 'com.github.bumptech.glide:glide:4.4.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
     //Image Cropper
-    compile 'com.theartofdev.edmodo:android-image-cropper:2.6.0'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.6.0'
 
 //    //resize image or bitmap
     implementation 'com.github.hkk595:Resizer:v1.5'
