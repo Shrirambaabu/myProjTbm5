@@ -1,6 +1,5 @@
 package com.forzo.holdMyCard.utils;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ public class TimePickerFragment extends DialogFragment {
     public void setCallBack(TimePickerDialog.OnTimeSetListener ontime) {
         onTimeSet = ontime;
     }
-    @SuppressLint("NewApi")
     private int hour, minute;
     public void setArguments(Bundle args) {
         super.setArguments(args);

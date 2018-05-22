@@ -21,6 +21,8 @@ public interface MyLibraryContract {
         void setupViewPager(ViewPager viewPager, SectionsStatePagerAdapter adapter, MyCurrentLibraryFragment myCurrentLibraryFragment, MyGroupsFragment myGroupsFragment);
 
         void setUuid();
+
+        void showExitDialog();
     }
 
     // Action callbacks. Activity/Fragment will implement

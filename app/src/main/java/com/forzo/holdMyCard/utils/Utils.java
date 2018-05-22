@@ -140,27 +140,6 @@ public class Utils {
         }
     }
 
-    public static Bitmap resizeBitmap(Bitmap bitmap) {
-
-        int maxDimension = 1024;
-        int originalWidth = bitmap.getWidth();
-        int originalHeight = bitmap.getHeight();
-        int resizedWidth = maxDimension;
-        int resizedHeight = maxDimension;
-
-        if (originalHeight > originalWidth) {
-            resizedHeight = maxDimension;
-            resizedWidth = (int) (resizedHeight * (float) originalWidth / (float) originalHeight);
-        } else if (originalWidth > originalHeight) {
-            resizedWidth = maxDimension;
-            resizedHeight = (int) (resizedWidth * (float) originalHeight / (float) originalWidth);
-        } else if (originalHeight == originalWidth) {
-            resizedHeight = maxDimension;
-            resizedWidth = maxDimension;
-        }
-        return Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, false);
-    }
-
     public static ArrayList<String> convertToHourMinuteTimeSet(int hourOfDay, int minute) {
 
         ArrayList<String> integerArrayList = new ArrayList<>();
@@ -239,14 +218,6 @@ public class Utils {
         // Base64 encode the JPEG
         base64EncodedImage.encodeContent(imageBytes);
         return base64EncodedImage;
-    }
-
-    public static Bitmap getImageCompressImage(Bitmap bitmap) {
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 50, out);
-        Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
-        return decoded;
     }
 
     public static String dateToDb(String date) {

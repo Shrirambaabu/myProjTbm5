@@ -1,19 +1,26 @@
 package com.forzo.holdMyCard.ui.activities.home;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
+import com.forzo.holdMyCard.utils.ImagePath_MarshMallow;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
@@ -27,7 +34,9 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesRequest;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
+import com.google.api.services.vision.v1.model.Image;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.theartofdev.edmodo.cropper.CropImage;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.BufferedReader;
@@ -40,6 +49,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import me.echodev.resizer.Resizer;
+
+import static android.app.Activity.RESULT_OK;
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
 import static com.forzo.holdMyCard.utils.Utils.CLOUD_VISION_API_KEY;
 import static com.forzo.holdMyCard.utils.Utils.convertResponseToString;
@@ -54,12 +69,12 @@ import static com.forzo.holdMyCard.utils.Utils.resize;
  */
 
 public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
+
     private static final String TAG = "HomeActivity";
-    static Uri capturedImageUri = null;
-    private final int requestCode = 20;
-    Uri intentUri = null;
+    private static Uri capturedImageUri = null;
+    private String getImageUrl;
+    private Uri intentUri;
     private Context mContext;
-    private Bitmap bitmap;
 
     HomePresenter(Context mContext) {
         this.mContext = mContext;
@@ -71,7 +86,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
         getView().viewBottomNavigation(bottomNavigationViewEx);
     }
 
-    @SuppressLint("StaticFieldLeak")
     @Override
     public void callGoogleCloudVision(Uri uri, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, Uri intentUri, RelativeLayout relativeLayout, RelativeLayout relativeLayoutMain) {
         this.intentUri = intentUri;
@@ -327,30 +341,107 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                 homeActivity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         }.execute();
-
-
     }
-
 
     @Override
-    public void onBackPress() {
-        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
-        alertDialog.setTitle("Confirm !!!");
-        alertDialog.setMessage("Are you sure you want to close this application ?");
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
-                (dialog, which) -> {
-                    dialog.dismiss();
-                    Intent startMain = new Intent(Intent.ACTION_MAIN);
-                    startMain.addCategory(Intent.CATEGORY_HOME);
-                    startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(startMain);
-                });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
-                (dialog, which) -> {
-                    dialog.dismiss();
-                });
-        alertDialog.show();
+    public void requestPermissions(String[] permissions, int requestCode) {
+        ActivityCompat.requestPermissions((Activity) mContext, permissions, requestCode);
     }
 
+    @Override
+    public boolean checkPermission(String[] permissions, int requestCode) {
+        ArrayList<String> permissionsList = new ArrayList<>();
+        for (String permission : permissions) {
+            int result = checkPermission(mContext, permission);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                permissionsList.add(permission);
+            }
+        }
+        //If all permissions are granted
+        if (permissionsList.size() == 0)
+            return true;
+        else
+            //if any one of them are not granted then request permission
+            requestPermissions(permissionsList.toArray(new String[permissionsList.size()]), requestCode);
+        return true;
+    }
 
+    @Override
+    public boolean checkPermission(String[] permissions) {
+        boolean permissionResult = false;
+        for (String permission : permissions) {
+            int result = ContextCompat.checkSelfPermission(mContext, permission);
+            permissionResult = result != PackageManager.PERMISSION_GRANTED;
+        }
+        return permissionResult;
+    }
+
+    @Override
+    public int checkPermission(Context context, String permission) {
+        return ContextCompat.checkSelfPermission(context, permission);
+    }
+
+    @Override
+    public void handleResult(int requestCode, int resultCode, Intent data, Uri capturedImageUri) {
+        Log.e(TAG, "handleResult: " + requestCode + " " + resultCode + " " + data);
+        if (requestCode == 20 && resultCode == RESULT_OK) {
+            try {
+                if (Build.VERSION.SDK_INT > 22)
+                    getImageUrl = ImagePath_MarshMallow.getPath(mContext, capturedImageUri);
+                else
+                    getImageUrl = capturedImageUri.getPath();
+                getView().showDialog();
+                Log.e(TAG, "handleResult: startd");
+                final File[] resizedImage = new File[1];
+                new Resizer(mContext)
+                        .setTargetLength(1080)
+                        .setOutputFormat("PNG")
+                        .setSourceImage(new File(getImageUrl))
+                        .getResizedFileAsFlowable()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(file -> {
+                            resizedImage[0] = file;
+                            getView().onPhotosReturned(Uri.fromFile(resizedImage[0]));
+                        }, Throwable::printStackTrace);
+                Log.e(TAG, "handleResult: ends");
+            } catch (Exception e) {
+                Log.e(TAG, "onActivityResult: " + e.getMessage());
+            }
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                intentUri = result.getUri();
+                getView().sendCroppedImage(resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Log.e(TAG, "onActivityResult: ", result.getError());
+            }
+        }
+    }
+
+    @Override
+    public void callGoogleCloudVision(Uri resultUri, Feature feature) {
+        if (intentUri != null) {
+            final List<Feature> featureList = new ArrayList<>();
+            featureList.add(feature);
+
+            final List<AnnotateImageRequest> annotateImageRequests = new ArrayList<>();
+
+            AnnotateImageRequest annotateImageReq = new AnnotateImageRequest();
+            annotateImageReq.setFeatures(featureList);
+            annotateImageReq.setImage(getImageEncodeImage(resize(resultUri, mContext)));
+            annotateImageRequests.add(annotateImageReq);
+        }
+    }
+
+    @Override
+    public void checkVersion() {
+        try {
+            PackageInfo pInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+            getView().setVersionNumber(pInfo.versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }

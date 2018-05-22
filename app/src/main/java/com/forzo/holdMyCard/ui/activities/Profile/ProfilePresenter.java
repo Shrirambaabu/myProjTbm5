@@ -90,6 +90,7 @@ import okhttp3.RequestBody;
 
 import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
+import static com.forzo.holdMyCard.utils.NullUtils.notEmpty;
 import static com.forzo.holdMyCard.utils.Utils.BaseUri;
 import static com.forzo.holdMyCard.utils.Utils.CLOUD_NATURAL_API_KEY;
 import static com.forzo.holdMyCard.utils.Utils.CLOUD_VISION_API_KEY;
@@ -536,20 +537,16 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 //                    }
                 }
 
-                if (intentEmail != null) {
+                if (notEmpty(intentEmail)) {
                     email = intentEmail;
                     getView().setEmailId(intentEmail);
-                    Log.e(TAG, "email: " + email);
                 }
 
-                if (email != null && !email.isEmpty()) {
-                    Log.e(TAG, "cName: " + parseCompanyNameFromEmail(email));
-                    Log.e(TAG, "pName: " + parseNameFromEmail(email));
-                    if (cName != null && cName.isEmpty())
-                    // inputCompanyName.setText(parseCompanyNameFromEmail(emailTextInputEditText.getText().toString()));
-                    getView().setCompanyName(parseCompanyNameFromEmail(email));
-                    if (pName != null && pName.isEmpty()) {
-                        // inputName.setText(parseNameFromEmail(emailTextInputEditText.getText().toString()));
+                if (notEmpty(email)) {
+                    if (!notEmpty(cName)) {
+                        getView().setCompanyName(parseCompanyNameFromEmail(email));
+                    }
+                    if (!notEmpty(pName)) {
                         getView().setUserName(parseNameFromEmail(email));
                     }
                 }

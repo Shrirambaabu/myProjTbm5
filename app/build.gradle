@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
-        versionName "2.2 logo,email,address defect fix"
+        versionName "2.3 crop perfomance improvements"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -78,7 +78,7 @@ dependencies {
     //Image Cropper
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.6.0'
 
-//    //resize image or bitmap
+    //resize image or bitmap
     implementation 'com.github.hkk595:Resizer:v1.5'
 
     implementation 'com.ibm.watson.developer_cloud:java-sdk:5.4.0'
