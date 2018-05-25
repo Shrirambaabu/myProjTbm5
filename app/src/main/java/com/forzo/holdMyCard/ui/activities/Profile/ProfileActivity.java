@@ -7,10 +7,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.transition.ChangeBounds;
+import android.support.transition.ChangeImageTransform;
+import android.support.transition.TransitionManager;
+import android.support.transition.TransitionSet;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.customChooserDialog.CustomChooserDialog;
+import com.forzo.holdMyCard.ui.activities.imageFullScreen.ImageFullScreenActivity;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.activities.notes.NotesActivity;
 import com.forzo.holdMyCard.ui.activities.remainder.ReminderActivity;
@@ -126,6 +130,16 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     }
 
+
+    @OnClick(R.id.image_view_rr)
+    public void onViewClicked() {
+        if (imageValue != null) {
+            Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
+            fullScreenIntent.putExtra("image", IMAGE_URL + imageValue);
+            startActivity(fullScreenIntent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
+    }
 
     @OnClick(R.id.note_rel)
     public void noteSection() {
@@ -420,4 +434,5 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
             avLoadingIndicatorView.hide();
         }
     }
+
 }

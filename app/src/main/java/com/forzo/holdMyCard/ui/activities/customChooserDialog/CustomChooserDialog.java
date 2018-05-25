@@ -75,4 +75,10 @@ public class CustomChooserDialog extends Activity implements CustomChooserDialog
                 break;
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        customChooserDialogPresenter.detach();
+    }
 }
