@@ -29,7 +29,7 @@ public class CameraUtils {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                 Locale.getDefault()).format(new Date());//Get Current timestamp
         File mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                + "IMG_" + timeStamp + PreferencesAppHelper.getUserId()+".jpg");//create image path with system mill and image format
+                + "IMG_" + timeStamp + PreferencesAppHelper.getUserId()+".png");//create image path with system mill and image format
         return Uri.fromFile(mediaFile);
 
     }

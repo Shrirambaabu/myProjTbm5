@@ -2,15 +2,15 @@ package com.forzo.holdMyCard.ui.activities.Profile;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.CalendarContract;
+import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
+import com.forzo.holdMyCard.ui.activities.customChooserDialog.CustomChooserDialog;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.activities.notes.NotesActivity;
 import com.forzo.holdMyCard.ui.activities.remainder.ReminderActivity;
@@ -29,7 +30,6 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
-import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -40,75 +40,59 @@ import butterknife.OnClick;
 import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation;
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
-import static com.forzo.holdMyCard.utils.Utils.isPackageInstalled;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileContract.View {
 
 
     private static int ACTIVITY_NUM = 2;
-
-    private Feature feature;
-    private String[] visionAPI = new String[]{"TEXT_DETECTION"};
-
-
-    private String api = visionAPI[0];
-
-    private Bitmap bitmap;
-
     @BindView(R.id.bottomNavigationView)
     BottomNavigationViewEx bottomNavigationViewEx;
-
     @Inject
     ProfilePresenter profilePresenter;
-
-
     @BindView(R.id.image_view)
     ImageView imageView;
-
     @BindView(R.id.calendar_rel)
     RelativeLayout calendarRelative;
-
     @BindView(R.id.remaindar_rel)
     RelativeLayout remainderRelative;
-
     @BindView(R.id.note_rel)
     RelativeLayout noteRelative;
-
     @BindView(R.id.textInputEditTextName)
     TextInputEditText nameEditText;
-
     @BindView(R.id.textInputEditTextCompanyName)
     TextInputEditText companyNameEditText;
-
     @BindView(R.id.textInputEditTextJobTitle)
     TextInputEditText jobTitleEditText;
-
     @BindView(R.id.textInputEditTextMobile)
     TextInputEditText mobileEditText;
-
+    @BindView(R.id.textInputEditTextMobile2)
+    TextInputEditText mobileEditText2;
+    @BindView(R.id.textInputEditTextMobile3)
+    TextInputEditText mobileEditText3;
     @BindView(R.id.textInputEditTextEmail)
     TextInputEditText emailEditText;
-
     @BindView(R.id.textInputEditTextAddress)
     TextInputEditText addressEditText;
-
     @BindView(R.id.textInputEditTextWebsite)
     TextInputEditText websiteEditText;
-
     @BindView(R.id.avi)
     AVLoadingIndicatorView avLoadingIndicatorView;
-
     @BindView(R.id.relative_progress)
     RelativeLayout relativeProgress;
-
     @BindView(R.id.card_action)
     RelativeLayout cardLayout;
-
     @BindView(R.id.action_card)
     RelativeLayout saveCancel;
     @BindView(R.id.update_card)
     RelativeLayout updateCard;
-
+    @BindView(R.id.textInputLayoutMobile2)
+    TextInputLayout textInputLayoutMobile2;
+    @BindView(R.id.textInputLayoutMobile3)
+    TextInputLayout textInputLayoutMobile3;
+    private Feature feature;
+    private String[] visionAPI = new String[]{"TEXT_DETECTION"};
+    private String api = visionAPI[0];
+    private Bitmap bitmap;
     private Context mContext = ProfileActivity.this;
 
     private String primaryValue = "";
@@ -171,7 +155,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @OnClick(R.id.calendar_rel)
     public void calenderSection() {
-        profilePresenter.addToCalendar(emailEditText.getText().toString());
+
+        Intent calendarIntent = new Intent(mContext, CustomChooserDialog.class);
+        calendarIntent.putExtra("email", emailEditText.getText().toString());
+        startActivity(calendarIntent);
+//        profilePresenter.addToCalendar(emailEditText.getText().toString());
     }
 
 
@@ -211,13 +199,13 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @OnClick(R.id.save_text)
     public void saveToast() {
-        profilePresenter.saveBusinessCard(nameEditText.getText().toString(), companyNameEditText.getText().toString(), jobTitleEditText.getText().toString(), mobileEditText.getText().toString(), emailEditText.getText().toString(), websiteEditText.getText().toString(), addressEditText.getText().toString());
+        profilePresenter.saveBusinessCard(nameEditText.getText().toString(), companyNameEditText.getText().toString(), jobTitleEditText.getText().toString(), mobileEditText.getText().toString(), mobileEditText2.getText().toString(), mobileEditText3.getText().toString(), emailEditText.getText().toString(), websiteEditText.getText().toString(), addressEditText.getText().toString());
 
     }
 
     @OnClick(R.id.update_text)
     public void updateCardDetails() {
-        profilePresenter.updateCard(primaryValue, nameEditText.getText().toString(), companyNameEditText.getText().toString(), jobTitleEditText.getText().toString(), mobileEditText.getText().toString(), emailEditText.getText().toString(), websiteEditText.getText().toString(), addressEditText.getText().toString());
+        profilePresenter.updateCard(primaryValue, nameEditText.getText().toString(), companyNameEditText.getText().toString(), jobTitleEditText.getText().toString(), mobileEditText.getText().toString(), mobileEditText2.getText().toString(), mobileEditText3.getText().toString(), emailEditText.getText().toString(), websiteEditText.getText().toString(), addressEditText.getText().toString());
 
     }
 
@@ -311,6 +299,36 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void saveImageFile(File imageFile, Uri uri) {
         file = imageFile;
         imageUri = uri;
+    }
+
+    @Override
+    public void setPhoneNumber2(String phoneNumber) {
+        mobileEditText2.setText(phoneNumber);
+    }
+
+    @Override
+    public void hideVisibilityPhoneNumber2() {
+        textInputLayoutMobile2.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setPhoneNumber3(String phoneNumber) {
+        mobileEditText3.setText(phoneNumber);
+    }
+
+    @Override
+    public void showVisibilityPhoneNumber2() {
+        textInputLayoutMobile2.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showVisibilityPhoneNumber3() {
+        textInputLayoutMobile3.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideVisibilityPhoneNumber3() {
+        textInputLayoutMobile3.setVisibility(View.GONE);
     }
 
     @Override

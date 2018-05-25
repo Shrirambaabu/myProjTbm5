@@ -52,6 +52,14 @@ public class BusinessCard {
     @Expose
     private String phoneNumber;
 
+    @SerializedName("userContact2")
+    @Expose
+    private String phoneNumber2;
+
+    @SerializedName("userContact3")
+    @Expose
+    private String phoneNumber3;
+
 
     @SerializedName("userEmail")
     @Expose
@@ -164,12 +172,30 @@ public class BusinessCard {
         this.postImage = postImage;
     }
 
-    public BusinessCard(String id,String name, String company, String jobTitle, String phoneNumber, String emailId, String website, String image) {
+    public String getPhoneNumber2() {
+        return phoneNumber2;
+    }
+
+    public void setPhoneNumber2(String phoneNumber2) {
+        this.phoneNumber2 = phoneNumber2;
+    }
+
+    public String getPhoneNumber3() {
+        return phoneNumber3;
+    }
+
+    public void setPhoneNumber3(String phoneNumber3) {
+        this.phoneNumber3 = phoneNumber3;
+    }
+
+    public BusinessCard(String id, String name, String company, String jobTitle, String phoneNumber,String phoneNumber2,String phoneNumber3, String emailId, String website, String image) {
         this.id = id;
         this.name = name;
         this.company = company;
         this.jobTitle = jobTitle;
         this.phoneNumber = phoneNumber;
+        this.phoneNumber2 = phoneNumber2;
+        this.phoneNumber3 = phoneNumber3;
         this.emailId = emailId;
         this.website = website;
         this.image = image;

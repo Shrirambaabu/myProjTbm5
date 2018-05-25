@@ -30,6 +30,7 @@ import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.models.BusinessCard;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
+import com.forzo.holdMyCard.utils.CameraUtils;
 import com.forzo.holdMyCard.utils.HttpHandler;
 import com.forzo.holdMyCard.utils.NetworkController;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
@@ -89,6 +90,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
+import static com.forzo.holdMyCard.HmcApplication.get;
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
 import static com.forzo.holdMyCard.utils.NullUtils.notEmpty;
 import static com.forzo.holdMyCard.utils.Utils.BaseUri;
@@ -137,7 +139,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
     @Override
     public void showProfileData(String profile) {
 
-
         mApiService.getUserProfile(profile)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -153,6 +154,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         String job = businessCardList.getJobTitle();
                         String companyNameProfile = businessCardList.getCompany();
                         String phoneNumberProfile = businessCardList.getPhoneNumber();
+                        String phoneNumberProfile2 = businessCardList.getPhoneNumber2();
+                        String phoneNumberProfile3 = businessCardList.getPhoneNumber3();
                         String emailIdProfile = businessCardList.getEmailId();
                         String websiteProfile = businessCardList.getWebsite();
                         String addressProfile = businessCardList.getAddress();
@@ -169,6 +172,19 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         if (phoneNumberProfile == null) {
                             phoneNumberProfile = "";
                         }
+                        if (phoneNumberProfile2 == null|| phoneNumberProfile2.length() <= 0) {
+                            phoneNumberProfile2 = "";
+                            getView().hideVisibilityPhoneNumber2();
+                        } else {
+                            getView().showVisibilityPhoneNumber2();
+                        }
+                        if (phoneNumberProfile3 == null || phoneNumberProfile3.length() <= 0) {
+                            phoneNumberProfile3 = "";
+                            getView().hideVisibilityPhoneNumber3();
+                        } else {
+                            Log.e(TAG, "onNext: " + phoneNumberProfile3);
+                            getView().showVisibilityPhoneNumber3();
+                        }
                         if (emailIdProfile == null) {
                             emailIdProfile = "";
                         }
@@ -183,10 +199,11 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         getView().setJobTitle(job);
                         getView().setCompanyName(companyNameProfile);
                         getView().setPhoneNumber(phoneNumberProfile);
+                        getView().setPhoneNumber2(phoneNumberProfile2);
+                        getView().setPhoneNumber3(phoneNumberProfile3);
                         getView().setEmailId(emailIdProfile);
                         getView().setWebsite(websiteProfile);
                         getView().setAddress(addressProfile);
-
                     }
 
                     @Override
@@ -214,7 +231,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         new CloudNaturalLanguageRequestInitializer(CLOUD_NATURAL_API_KEY)
                 ).build();
 
-
         Document document = new Document();
         document.setType("PLAIN_TEXT");
         document.setLanguage("en-US");
@@ -228,7 +244,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         request.setDocument(document);
         request.setFeatures(features);
 
-
         new AsyncTask<Object, Void, AnnotateTextResponse>() {
             @Override
             protected AnnotateTextResponse doInBackground(Object... params) {
@@ -236,13 +251,9 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 AnnotateTextResponse response = new AnnotateTextResponse();
                 try {
                     Log.e(TAG, "doInBackground: sending Request ");
-
                     response = naturalLanguageService.documents()
                             .annotateText(request).execute();
-
-
                     return response;
-
                 } catch (GoogleJsonResponseException e) {
                     Log.e(TAG, "failed to connect because " + e.getContent());
                 } catch (IOException e) {
@@ -253,21 +264,16 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
             protected void onPostExecute(AnnotateTextResponse response) {
 
-
                 final List<Entity> entityList = response.getEntities();
                 // final float sentiment = response.getDocumentSentiment().getScore();
-
                 String entities = "";
-
                 String person = "";
                 String company = "";
                 String address = "";
 
-
                 Log.e("GoogleNlp ", "" + entityList.toString());
                 for (Entity entity : entityList) {
                     entities += "\n" + entity.getName() + " " + entity.getType();
-
 //                    if (entity.getType().equals("PERSON")) {
 //                        person += entity.getName();
 //                    }
@@ -284,40 +290,31 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 getView().setAddress("" + address);
             }
         }.execute();
-
     }
 
     @Override
     public void addToCalendar(String email) {
-
-        if (isPackageInstalled("com.google.android.calendar", context)) {
-
-            Calendar beginTime = Calendar.getInstance();
-            Calendar endTime = Calendar.getInstance();
-
-            endTime.add(Calendar.HOUR_OF_DAY, 1);
-
-            Intent intent = new Intent(Intent.ACTION_INSERT)
-                    .setData(CalendarContract.Events.CONTENT_URI)
-                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                    .putExtra(CalendarContract.Events.TITLE, "")
-                    .putExtra(CalendarContract.Events.DESCRIPTION, "")
-                    .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
-                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-                    .putExtra(Intent.EXTRA_EMAIL, email);
-            context.startActivity(intent);
-
-        } else {
-            Toast.makeText(context, "Google Calendar not installed.", Toast.LENGTH_LONG).show();
-        }
-
+//        if (isPackageInstalled("calendar", context)) {
+        Calendar beginTime = Calendar.getInstance();
+        Calendar endTime = Calendar.getInstance();
+        endTime.add(Calendar.HOUR_OF_DAY, 1);
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                .putExtra(CalendarContract.Events.TITLE, "")
+                .putExtra(CalendarContract.Events.DESCRIPTION, "")
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
+                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+                .putExtra(Intent.EXTRA_EMAIL, email);
+        context.startActivity(intent);
+//        } else {
+//            Toast.makeText(context, "Google Calendar not installed.", Toast.LENGTH_LONG).show();
+//        }
     }
 
     @Override
     public void saveContactToPhone(String contactName, String contactNumber, String contactEmail, String contactCompanyName, String contactJobTitle, String contactAddressText) {
-
-
         Intent intent = new Intent(Intent.ACTION_INSERT);
         intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
         intent.putExtra(ContactsContract.Intents.Insert.NAME, contactName);
@@ -329,15 +326,10 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         if (intent.resolveActivity(context.getPackageManager()) != null) {
             context.startActivity(intent);
         }
-
-
     }
-
 
     @Override
     public void getIntentValues(Intent intent, String emailTextInputEditText, String companyTextInputEditText, String nameTextInputEditText) {
-
-
         String email;
         String website;
         String phoneNumber;
@@ -355,7 +347,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         String newProfile = intent.getStringExtra("newContact");
         File imageFile = (File) intent.getSerializableExtra("imageFile");
 
-
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
 //            inputEmail.setText(bundle.getString("email"));
@@ -365,9 +356,27 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 intentEmail = bundle.getString("email");
             int size = bundle.getInt("phone_size", 0);
             if (size > 0) {
-                for (int i = 0; i < size; i++) {
-                    getView().setPhoneNumber(bundle.getString("phone" + i));
+//                for (int i = 0; i <= size; i++)
+//                    getView().setPhoneNumber(bundle.getString("phone" + i));
 
+
+                if (size == 3) {
+                    getView().setPhoneNumber(bundle.getString("phone" + 0));
+                    getView().setPhoneNumber2(bundle.getString("phone" + 1));
+                    getView().setPhoneNumber3(bundle.getString("phone" + 2));
+                    getView().showVisibilityPhoneNumber2();
+                    getView().showVisibilityPhoneNumber3();
+                }
+                if (size == 2) {
+                    getView().setPhoneNumber(bundle.getString("phone" + 0));
+                    getView().setPhoneNumber2(bundle.getString("phone" + 1));
+                    getView().showVisibilityPhoneNumber2();
+                    getView().hideVisibilityPhoneNumber3();
+                }
+                if (size == 1) {
+                    getView().setPhoneNumber(bundle.getString("phone" + 0));
+                    getView().hideVisibilityPhoneNumber2();
+                    getView().hideVisibilityPhoneNumber3();
                 }
             }
             if (bundle.getString("intentUri") != null) {
@@ -384,43 +393,31 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 callWatsonApi(send, emailTextInputEditText, companyTextInputEditText, nameTextInputEditText);
             }
         }
-
         //  imageCaptured = intent.getParcelableExtra("image");
-
         Bitmap bitmap = null;
-
 
         if (newProfile != null) {
             getView().newContact();
         }
-
         if (profileLibraryImage != null) {
             getView().setLibraryImage(profileLibraryImage);
         }
         if (imageFile != null) {
-
             getView().saveImageFile(imageFile, imageUri);
             getView().newContact();
         }
-
-
         if (userProfile != null) {
             getView().setDialog();
         }
-
         if (profile != null) {
             Log.e("ProfileValue", "" + profile);
             getView().setUserPrimaryValue(profile);
             showProfileData(profile);
-
         }
-
-
         if (result != null) {
             naturalProcess(result);
         } else {
             Log.e("intent", "" + intent.getStringExtra("result"));
-
             getView().setUserName("");
             getView().setCompanyName("");
             getView().setAddress("");
@@ -435,35 +432,26 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         if (phoneNumber == null) {
             phoneNumber = "";
         }*/
-
-
         getView().setEmailId(email);
         //  getView().setPhoneNumber(phoneNumber);
         //  getView().setWebsite(website);
 /*
-
         if (imageCaptured != null) {
-
             Log.e("Profile", "Called");
-
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageCaptured);
-
                 int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
                 Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-
                 getView().setProfileImage(scaled);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }*/
     }
 
     @SuppressLint("StaticFieldLeak")
     @Override
     public void callWatsonApi(String send, String emailTextInputEditText, String companyTextInputEditText, String nameTextInputEditText) {
-
 
         service = new NaturalLanguageUnderstanding("2018-03-16");
         service.setUsernameAndPassword("e7c2b904-2645-4b07-91bb-583f4997f066", "wxrTNDqJjGBn");
@@ -476,89 +464,96 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                 = new com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features.Builder()
                 .entities(entities)
                 .build();
+        if (notEmpty(send)) {
 
-        parameters = new AnalyzeOptions.Builder()
-                .text(send)
-                .features(features)
-                .build();
+            parameters = new AnalyzeOptions.Builder()
+                    .text(send)
+                    .features(features)
+                    .build();
 
-        new AsyncTask<Object, Void, AnalysisResults>() {
+            new AsyncTask<Object, Void, AnalysisResults>() {
 
-            @Override
-            protected AnalysisResults doInBackground(Object... objects) {
-                return service.analyze(parameters).execute();
-            }
+                @Override
+                protected AnalysisResults doInBackground(Object... objects) {
+                    return service.analyze(parameters).execute();
+                }
 
-            @Override
-            protected void onPostExecute(AnalysisResults results) {
-                Log.e(TAG, "getEntities: " + results.getEntities().size());
+                @Override
+                protected void onPostExecute(AnalysisResults results) {
+                    Log.e(TAG, "getEntities: " + results.getEntities().size());
 
-                List<EntitiesResult> entitiesResults = results.getEntities();
+                    List<EntitiesResult> entitiesResults = results.getEntities();
 
-                boolean person = false;
-                boolean company = false;
-                boolean jobTitle = false;
-                boolean emailAddress = false;
-                boolean location = false;
-                for (EntitiesResult result : entitiesResults) {
+                    boolean person = false;
+                    boolean company = false;
+                    boolean jobTitle = false;
+                    boolean emailAddress = false;
+                    boolean location = false;
+                    for (EntitiesResult result : entitiesResults) {
 //                        Log.e(TAG, "Type: "+result.getType() + " And text: "+result.getText());
-                    if (result.getType().equals("Person") && !person) {
-                        Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
-                        //inputName.setText(result.getText());
-                        getView().setUserName(result.getText());
-                        pName = result.getText();
-                        person = true;
-                    }
-                    if (result.getType().equals("Company") && !company) {
-                        Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
-                        // inputCompanyName.setText(result.getText());
-                        getView().setCompanyName(result.getText());
-                        cName = result.getText();
-                        company = true;
-                    }
-                    if (result.getType().equals("JobTitle") && !jobTitle) {
-                        Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
-                        // inputJobTitle.setText(result.getText());
-                        getView().setJobTitle(result.getText());
-                        jobTitle = true;
-                    }
-                    if (result.getType().equals("EmailAddress") && !emailAddress) {
-                        Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
-                        //inputEmail.setText(result.getText());
-                        getView().setEmailId(result.getText());
-                        email = result.getText();
-                        emailAddress = true;
-                    }
+                        if (result.getType().equals("Person") && !person) {
+                            Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
+                            //inputName.setText(result.getText());
+                            getView().setUserName(result.getText());
+                            pName = result.getText();
+                            person = true;
+                        }
+                        if (result.getType().equals("Company") && !company) {
+                            Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
+                            // inputCompanyName.setText(result.getText());
+                            getView().setCompanyName(result.getText());
+                            cName = result.getText();
+                            company = true;
+                        }
+                        if (result.getType().equals("JobTitle") && !jobTitle) {
+                            Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
+                            // inputJobTitle.setText(result.getText());
+                            getView().setJobTitle(result.getText());
+                            jobTitle = true;
+                        }
+                        if (result.getType().equals("EmailAddress") && !emailAddress) {
+                            Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
+                            //inputEmail.setText(result.getText());
+                            getView().setEmailId(result.getText());
+                            email = result.getText();
+                            emailAddress = true;
+                        }
 //                    if (result.getType().equals("Location") && !location) {
 //                        Log.e(TAG, "Type: " + result.getType() + " And text: " + result.getText());
 //                        //  inputAddress.setText(result.getText());
 //                        getView().setAddress(result.getText());
 //                        location = true;
 //                    }
-                }
-
-                if (notEmpty(intentEmail)) {
-                    email = intentEmail;
-                    getView().setEmailId(intentEmail);
-                }
-
-                if (notEmpty(email)) {
-                    if (!notEmpty(cName)) {
-                        getView().setCompanyName(parseCompanyNameFromEmail(email));
                     }
-                    if (!notEmpty(pName)) {
-                        getView().setUserName(parseNameFromEmail(email));
+
+                    if (notEmpty(intentEmail)) {
+                        email = intentEmail;
+                        getView().setEmailId(intentEmail);
                     }
+
+                    if (notEmpty(email)) {
+                        if (!notEmpty(cName)) {
+                            if (!parseCompanyNameFromEmail(email).equalsIgnoreCase("gmail") &&
+                                    !parseCompanyNameFromEmail(email).equalsIgnoreCase("yahoo") &&
+                                    !parseCompanyNameFromEmail(email).equalsIgnoreCase("outlook")) {
+                                getView().setCompanyName(parseCompanyNameFromEmail(email));
+                            }
+                        }
+                        if (!notEmpty(pName)) {
+                            if (!parseNameFromEmail(email).equalsIgnoreCase("info")) {
+                                getView().setUserName(parseNameFromEmail(email));
+                            }
+                        }
+                    }
+                    naturalProcess(send);
                 }
-                naturalProcess(send);
-            }
-        }.execute();
+            }.execute();
+        }
     }
 
     @Override
     public void saveImage(File file, String newId) {
         Bitmap bitmapS = null;
-
 
         try {
             bitmapS = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
@@ -584,12 +579,9 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                     }
 
-
                     @Override
                     public void onNext(BusinessCard userChangePassword) {
-
                         getView().profileSavedSuccessfully();
-
                         Log.e("Succ", "image");
                     }
 
@@ -597,7 +589,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                     public void onError(Throwable e) {
                         //  progressBar.smoothToHide();
                         Log.e("error", "" + e.getMessage());
-
                     }
 
                     @Override
@@ -605,12 +596,10 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                     }
                 });
-
     }
 
     @Override
-    public void saveBusinessCard(String name, String company, String jobTitle, String mobileNumber, String emailId, String website, String address) {
-
+    public void saveBusinessCard(String name, String company, String jobTitle, String mobileNumber, String mobileNumber2, String mobileNumber3, String emailId, String website, String address) {
 
         BusinessCard businessCard = new BusinessCard();
 
@@ -619,10 +608,11 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
         businessCard.setCompany(company);
         businessCard.setJobTitle(jobTitle);
         businessCard.setPhoneNumber(mobileNumber);
+        businessCard.setPhoneNumber2(mobileNumber2);
+        businessCard.setPhoneNumber3(mobileNumber3);
         businessCard.setEmailId(emailId);
         businessCard.setWebsite(website);
         businessCard.setAddress(address);
-
 
         getView().activityLoader("show");
 
@@ -638,9 +628,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                     @Override
                     public void onNext(BusinessCard userChangePassword) {
-
                         Log.e("uss", userChangePassword.getUserId());
-
                         getView().savedSuccessfully(userChangePassword.getUserId());
                     }
 
@@ -648,7 +636,6 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                     public void onError(Throwable e) {
                         //  progressBar.smoothToHide();
                         Log.e("error", "" + e.getMessage());
-
                         getView().activityLoader("hide");
                     }
 
@@ -657,25 +644,22 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                     }
                 });
-
     }
 
-
     @Override
-    public void updateCard(String userId, String name, String company, String jobTitle, String mobileNumber, String emailId, String website, String address) {
-
+    public void updateCard(String userId, String name, String company, String jobTitle, String mobileNumber, String mobileNumber2, String mobileNumber3, String emailId, String website, String address) {
 
         BusinessCard businessCard = new BusinessCard();
-
         businessCard.setUserId(userId);
         businessCard.setName(name);
         businessCard.setCompany(company);
         businessCard.setJobTitle(jobTitle);
         businessCard.setPhoneNumber(mobileNumber);
+        businessCard.setPhoneNumber2(mobileNumber2);
+        businessCard.setPhoneNumber3(mobileNumber3);
         businessCard.setEmailId(emailId);
         businessCard.setWebsite(website);
         businessCard.setAddress(address);
-
 
         mApiService.updateBusinessCard(businessCard)
                 .subscribeOn(Schedulers.io())
@@ -689,17 +673,13 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                     @Override
                     public void onNext(BusinessCard userChangePassword) {
-
                         Log.e("uss", "done");
-
                         getView().updateSuccess();
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.e("error", "" + e.getMessage());
-
                         getView().activityLoader("hide");
                     }
 
@@ -708,12 +688,10 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                     }
                 });
-
     }
 
     @Override
     public void deleteCard(String userId) {
-
 
         mApiService.deleteBusinessCard(userId)
                 .subscribeOn(Schedulers.io())
@@ -726,11 +704,8 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                     @Override
                     public void onNext(BusinessCard userChangePassword) {
-
                         Log.e("uss", "deleted");
-
                         getView().deleteProfile();
-
                     }
 
                     @Override
@@ -745,8 +720,5 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
                     }
                 });
-
     }
-
-
 }

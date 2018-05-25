@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
-        versionName "2.3 crop perfomance improvements"
+        versionName "2.5 calender crash fix on Android O"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -27,6 +27,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.google.firebase:firebase-messaging:15.0.2'
@@ -63,7 +64,7 @@ dependencies {
     implementation 'com.google.apis:google-api-services-language:v1beta2-rev6-1.22.0'
     implementation 'commons-io:commons-io:2.6'
     // https://mvnrepository.com/artifact/com.googlecode.libphonenumber/libphonenumber
-    implementation 'com.googlecode.libphonenumber:libphonenumber:7.0'
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.5.2'
     // JSON Parsing
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -77,10 +78,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
     //Image Cropper
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.6.0'
-
     //resize image or bitmap
     implementation 'com.github.hkk595:Resizer:v1.5'
-
     implementation 'com.ibm.watson.developer_cloud:java-sdk:5.4.0'
 }
 

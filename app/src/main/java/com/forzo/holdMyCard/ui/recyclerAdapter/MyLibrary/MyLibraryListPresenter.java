@@ -49,6 +49,7 @@ public class MyLibraryListPresenter implements MyLibraryContract.Presenter {
 
         Glide.with(context)
                 .load(IMAGE_URL + image)
+                .thumbnail(0.1f)
                 .into(imageView);
     }
 

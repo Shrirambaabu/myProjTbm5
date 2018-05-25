@@ -58,7 +58,9 @@
         <activity android:name=".ui.activities.notesdetail.NotesDetailsActivity" />
         <activity android:name=".ui.activities.remainder.ReminderActivity" />
         <activity android:name=".ui.activities.remainderdetails.RemainderDetailsActivity" />
-
+        <activity android:name=".ui.activities.customChooserDialog.CustomChooserDialog"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"
+            android:parentActivityName=".ui.activities.Profile.ProfileActivity"/>
 
         <service android:name=".service.MyFirebaseInstanceIDService">
             <intent-filter>

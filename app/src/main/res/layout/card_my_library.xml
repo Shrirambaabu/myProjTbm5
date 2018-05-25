@@ -3,17 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:elevation="4dp"
-    android:background="@drawable/mylibrary_bg"
-    tools:targetApi="lollipop">
-
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:elevation="2dp"
+    android:background="@drawable/mylibrary_bg">
 
     <ImageView
         android:id="@+id/card_image"
         android:layout_width="150dp"
         android:layout_height="96dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@drawable/business_card" />
 
     <LinearLayout
@@ -22,7 +22,6 @@
         android:layout_height="96dp"
         android:orientation="vertical"
         android:weightSum="3">
-
 
         <TextView
             android:id="@+id/card_name"
@@ -36,7 +35,7 @@
             android:ellipsize="end"
             android:text="John Doe"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/card_description"
@@ -64,9 +63,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/colorCardDetails"
-            android:textSize="16sp"
-
-            />
+            android:textSize="16sp"/>
 
     </LinearLayout>
 

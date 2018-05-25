@@ -74,7 +74,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     private Feature feature;
     private String[] visionAPI = new String[]{"TEXT_DETECTION", "LOGO_DETECTION"};
     private String[] permissionList = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_CALENDAR,Manifest.permission.WRITE_CALENDAR};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

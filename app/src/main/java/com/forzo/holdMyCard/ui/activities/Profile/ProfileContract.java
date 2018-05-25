@@ -40,9 +40,9 @@ public interface ProfileContract {
 
         void callWatsonApi(String send, String emailTextInputEditText, String companyTextInputEditText, String nameTextInputEditText);
 
-        void saveBusinessCard(String nameTextInputEditText, String companyTextInputEditText, String jobTitleTextInputEditText, String mobileTextInputEditText, String emailTextInputEditText, String websiteTextInputEditText, String addressTextInputEditText);
+        void saveBusinessCard(String nameTextInputEditText, String companyTextInputEditText, String jobTitleTextInputEditText, String mobileTextInputEditText,String mobileTextInputEditText2,String mobileTextInputEditText3, String emailTextInputEditText, String websiteTextInputEditText, String addressTextInputEditText);
 
-        void updateCard(String userId, String nameTextInputEditText, String companyTextInputEditText, String jobTitleTextInputEditText, String mobileTextInputEditText, String emailTextInputEditText, String websiteTextInputEditText, String addressTextInputEditText);
+        void updateCard(String userId, String nameTextInputEditText, String companyTextInputEditText, String jobTitleTextInputEditText, String mobileTextInputEditText,String mobileTextInputEditText2,String mobileTextInputEditText3, String emailTextInputEditText, String websiteTextInputEditText, String addressTextInputEditText);
 
         void deleteCard(String userId);
 
@@ -52,12 +52,23 @@ public interface ProfileContract {
 
         void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
 
-
         void newContact();
 
         void setUserName(String userName);
 
         void setPhoneNumber(String phoneNumber);
+
+        void setPhoneNumber2(String phoneNumber);
+
+        void hideVisibilityPhoneNumber2();
+
+        void showVisibilityPhoneNumber2();
+
+        void setPhoneNumber3(String phoneNumber);
+
+        void hideVisibilityPhoneNumber3();
+
+        void showVisibilityPhoneNumber3();
 
         void setEmailId(String emailId);
 

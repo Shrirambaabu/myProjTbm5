@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity">
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,308 +23,388 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/image_view"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/image_view_rr"
                     android:layout_width="match_parent"
-                    android:layout_height="256dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/business_card" />
+                    android:layout_height="200dp"
+                    android:layout_margin="4dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardPreventCornerOverlap="false"
+                    card_view:cardElevation="4dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <ImageView
+                        android:id="@+id/image_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/business_card" />
+                </android.support.v7.widget.CardView>
 
                 <RelativeLayout
                     android:id="@+id/card_action"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/image_view">
+                    android:layout_below="@+id/image_view_rr">
 
-                    <LinearLayout
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/card_action_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="4">
+                        android:layout_margin="8dp"
+                        android:background="@android:color/white"
+                        app:cardCornerRadius="8dp"
+                        app:cardPreventCornerOverlap="false"
+                        card_view:cardElevation="4dp">
 
-                        <RelativeLayout
-                            android:id="@+id/calendar_rel"
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1">
+                            android:weightSum="4">
 
-                            <ImageView
-                                android:id="@+id/cal_image"
-                                android:layout_width="60dp"
+                            <RelativeLayout
+                                android:id="@+id/calendar_rel"
+                                android:layout_width="0dp"
                                 android:layout_height="60dp"
-                                android:layout_centerInParent="true"
-                                android:scaleType="centerInside"
-                                android:src="@drawable/ic_calender" />
+                                android:layout_weight="1"
+                                android:gravity="center">
 
-                            <TextView
-                                android:id="@+id/text_cal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/cal_image"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginBottom="8dp"
-                                android:text="@string/calender" />
+                                <ImageView
+                                    android:id="@+id/cal_image"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/ic_calender" />
 
-                        </RelativeLayout>
+                                <TextView
+                                    android:id="@+id/text_cal"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/cal_image"
+                                    android:layout_centerHorizontal="true"
+                                    android:text="@string/calender" />
 
+                            </RelativeLayout>
 
-
-                        <RelativeLayout
-                            android:id="@+id/new_contact_rel"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="4dp"
-                            android:layout_weight="1">
-
-                            <ImageView
-                                android:id="@+id/new_contact_image"
-                                android:layout_width="60dp"
+                            <RelativeLayout
+                                android:id="@+id/new_contact_rel"
+                                android:layout_width="0dp"
                                 android:layout_height="60dp"
-                                android:layout_centerInParent="true"
-                                android:scaleType="centerInside"
-                                android:src="@drawable/ic_new_contact_image" />
+                                android:layout_marginEnd="4dp"
+                                android:layout_weight="1"
+                                android:gravity="center">
 
-                            <TextView
-                                android:id="@+id/text_new_contact"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/new_contact_image"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginBottom="8dp"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:text="Save Contact" />
+                                <ImageView
+                                    android:id="@+id/new_contact_image"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/ic_new_contact_image" />
 
-                        </RelativeLayout>
+                                <TextView
+                                    android:id="@+id/text_new_contact"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/new_contact_image"
+                                    android:layout_centerHorizontal="true"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="Save Contact" />
 
-                        <RelativeLayout
-                            android:id="@+id/remaindar_rel"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1">
+                            </RelativeLayout>
 
-                            <ImageView
-                                android:id="@+id/remainder_image"
-                                android:layout_width="60dp"
+                            <RelativeLayout
+                                android:id="@+id/remaindar_rel"
+                                android:layout_width="0dp"
                                 android:layout_height="60dp"
-                                android:layout_centerInParent="true"
-                                android:scaleType="centerInside"
-                                android:src="@drawable/ic_reminder" />
+                                android:layout_weight="1"
+                                android:gravity="center">
 
-                            <TextView
-                                android:id="@+id/text_remainder"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/remainder_image"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginBottom="8dp"
-                                android:text="@string/remainder" />
+                                <ImageView
+                                    android:id="@+id/remainder_image"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/ic_reminder" />
 
-                        </RelativeLayout>
+                                <TextView
+                                    android:id="@+id/text_remainder"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/remainder_image"
+                                    android:layout_centerHorizontal="true"
+                                    android:text="@string/remainder" />
 
-                        <RelativeLayout
-                            android:id="@+id/note_rel"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1">
+                            </RelativeLayout>
 
-                            <ImageView
-                                android:id="@+id/note_image"
-                                android:layout_width="60dp"
+                            <RelativeLayout
+                                android:id="@+id/note_rel"
+                                android:layout_width="0dp"
                                 android:layout_height="60dp"
-                                android:layout_centerInParent="true"
-                                android:scaleType="centerInside"
-                                android:src="@drawable/ic_note" />
+                                android:layout_weight="1"
+                                android:gravity="center">
 
-                            <TextView
-                                android:id="@+id/text_note"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/note_image"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginBottom="8dp"
-                                android:text="@string/note" />
+                                <ImageView
+                                    android:id="@+id/note_image"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/ic_note" />
 
+                                <TextView
+                                    android:id="@+id/text_note"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/note_image"
+                                    android:layout_centerHorizontal="true"
+                                    android:text="@string/note" />
 
-                        </RelativeLayout>
+                            </RelativeLayout>
 
+                        </LinearLayout>
 
-                    </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
                 </RelativeLayout>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutName"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/card_action"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:focusableInTouchMode="true"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                    android:layout_margin="8dp"
+                    android:background="@android:color/white"
+                    app:cardCornerRadius="8dp"
+                    app:cardPreventCornerOverlap="false"
+                    card_view:cardElevation="4dp">
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextName"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:hint="@string/name"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:imeOptions="actionNext"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
+                        android:layout_height="wrap_content">
 
-                </android.support.design.widget.TextInputLayout>
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textInputLayoutName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:focusableInTouchMode="true"
+                            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/textInputEditTextName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:hint="@string/name"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="text|textNoSuggestions"
+                                android:maxLines="1"
+                                android:textColor="@android:color/black" />
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutCompanyName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutName"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                        </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextCompanyName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Company Name"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:imeOptions="actionNext"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textInputLayoutCompanyName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textInputLayoutName"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
-                </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/textInputEditTextCompanyName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Company Name"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="text|textNoSuggestions"
+                                android:maxLines="1"
+                                android:textColor="@android:color/black" />
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutJobTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutCompanyName"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                        </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextJobTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Job Title"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:imeOptions="actionNext"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textInputLayoutJobTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textInputLayoutCompanyName"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
-                </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/textInputEditTextJobTitle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Job Title"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="text|textNoSuggestions"
+                                android:maxLines="1"
+                                android:textColor="@android:color/black" />
 
+                        </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutMobile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutJobTitle"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textInputLayoutMobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textInputLayoutJobTitle"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextMobile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Mobile"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:imeOptions="actionNext"
-                        android:inputType="number|textNoSuggestions"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/textInputEditTextMobile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Mobile"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="number|textNoSuggestions"
+                                android:maxLines="1"
+                                android:textColor="@android:color/black" />
+                        </android.support.design.widget.TextInputLayout>
 
-                </android.support.design.widget.TextInputLayout>
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textInputLayoutMobile2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textInputLayoutMobile"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:visibility="gone"
+                            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutMobile"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    app:counterMaxLength="13"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/textInputEditTextMobile2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Mobile"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="number|textNoSuggestions"
+                                android:maxLines="1"
+                                android:textColor="@android:color/black" />
+                        </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Email id"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:imeOptions="actionNext"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textInputLayoutMobile3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textInputLayoutMobile2"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:visibility="gone"
+                            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
-                </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/textInputEditTextMobile3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Mobile"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="number|textNoSuggestions"
+                                android:maxLines="1"
+                                android:textColor="@android:color/black" />
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutEmail"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                        </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:hint="Address"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:inputType="text|textNoSuggestions"
-                        android:textColor="@android:color/black" />
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textInputLayoutEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textInputLayoutMobile3"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:counterMaxLength="13"
+                            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
-                </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/textInputEditTextEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Email id"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="text|textNoSuggestions"
+                                android:maxLines="1"
+                                android:textColor="@android:color/black" />
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutWebsite"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutAddress"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                        </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextWebsite"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:hint="Website"
-                        android:inputType="text|textNoSuggestions"
-                        android:textColor="@android:color/black" />
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textInputLayoutAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textInputLayoutEmail"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
-                </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/textInputEditTextAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:hint="Address"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="text|textNoSuggestions"
+                                android:textColor="@android:color/black" />
 
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textInputLayoutWebsite"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textInputLayoutAddress"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/textInputEditTextWebsite"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:hint="Website"
+                                android:importantForAutofill="noExcludeDescendants"
+                                android:inputType="text|textNoSuggestions"
+                                android:textColor="@android:color/black" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
 
                 <RelativeLayout
                     android:id="@+id/action_card"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_below="@+id/textInputLayoutWebsite"
+                    android:layout_below="@+id/card"
                     android:layout_marginTop="8dp"
                     android:background="@color/colorPrimary">
 
@@ -338,8 +418,8 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
                             android:background="@drawable/button_business"
+                            android:gravity="center"
                             android:text="Cancel"
                             android:textColor="@android:color/black"
                             android:textSize="18sp" />
@@ -349,8 +429,8 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
                             android:background="@drawable/button_business"
+                            android:gravity="center"
                             android:text="Save"
                             android:textColor="@android:color/black"
                             android:textSize="18sp" />
@@ -359,15 +439,14 @@
 
                 </RelativeLayout>
 
-
                 <RelativeLayout
                     android:id="@+id/update_card"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_below="@+id/textInputLayoutWebsite"
+                    android:layout_below="@id/card"
                     android:layout_marginTop="8dp"
-                    android:visibility="gone"
-                    android:background="@color/colorPrimary">
+                    android:background="@color/colorPrimary"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -379,8 +458,8 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
                             android:background="@drawable/button_business"
+                            android:gravity="center"
                             android:text="@string/update"
                             android:textColor="@android:color/black"
                             android:textSize="18sp" />
@@ -390,8 +469,8 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
                             android:background="@drawable/button_business"
+                            android:gravity="center"
                             android:text="@string/delete"
                             android:textColor="@android:color/black"
                             android:textSize="18sp" />
