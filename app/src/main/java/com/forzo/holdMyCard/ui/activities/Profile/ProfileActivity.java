@@ -120,6 +120,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
                 .build()
                 .inject(this);
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null)
+            if (bundle.getString("intentUri") != null)
+                imageUri = Uri.parse(bundle.getString("intentUri"));
+
         feature = new Feature();
         feature.setType(visionAPI[0]);
         feature.setMaxResults(10);
@@ -135,7 +140,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void onViewClicked() {
         if (imageValue != null) {
             Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
-            fullScreenIntent.putExtra("image", IMAGE_URL + imageValue);
+            if (imageValue != null)
+                fullScreenIntent.putExtra("image", IMAGE_URL + imageValue);
+            if (imageUri != null)
+                fullScreenIntent.putExtra("imageUri", imageUri.toString());
             startActivity(fullScreenIntent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }

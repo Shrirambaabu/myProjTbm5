@@ -128,16 +128,16 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         }
     }
 
-    @OnClick(R.id.emul_button)
-    public void emulator() {
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.abc_d);
-        avLoadingIndicatorView.setVisibility(View.VISIBLE);
-        avLoadingIndicatorView.smoothToShow();
-        relativeLayout.setVisibility(View.VISIBLE);
-        relativeLayoutMain.setVisibility(View.GONE);
-        homePresenter.callVisionApi(HomeActivity.this, b, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout, relativeLayoutMain, image);
-
-    }
+//    @OnClick(R.id.emul_button)
+//    public void emulator() {
+//        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.abc_d);
+//        avLoadingIndicatorView.setVisibility(View.VISIBLE);
+//        avLoadingIndicatorView.smoothToShow();
+//        relativeLayout.setVisibility(View.VISIBLE);
+//        relativeLayoutMain.setVisibility(View.GONE);
+//        homePresenter.callVisionApi(HomeActivity.this, b, feature, capturedImageUri, avLoadingIndicatorView, relativeLayout, relativeLayoutMain, image);
+//
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -150,6 +150,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         CropImage.activity(photoUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .setAspectRatio(16,9)
                 .setActivityMenuIconColor(Color.WHITE)
                 .setAllowRotation(true)
                 .setOutputCompressFormat(Bitmap.CompressFormat.PNG)

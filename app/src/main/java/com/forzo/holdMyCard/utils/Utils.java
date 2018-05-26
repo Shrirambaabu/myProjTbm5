@@ -43,12 +43,12 @@ import me.echodev.resizer.Resizer;
  */
 
 public class Utils {
+    private static final String TAG = "Utils";
     public static final String CLOUD_VISION_API_KEY = "AIzaSyCFVBIjD8Vk13VzO980yu_OsVL2-F5itpA";
     public static final String CLOUD_NATURAL_API_KEY = "AIzaSyB7jZrVxOUUagQWwqKe37bvBWDmBd1E7Bc";
 
     // public static String Base = "http://192.168.43.29:8080";
     public static String Base = "http://52.15.123.231:8080";
-
     public static String BaseUri = Base + "/basic/";
 
     public static void backButtonOnToolbar(AppCompatActivity mActivity) {
@@ -60,25 +60,17 @@ public class Utils {
 
 
     public static String convertResponseToString(BatchAnnotateImagesResponse response) throws IOException {
-
+        Log.e(TAG, "convertResponseToString: " + response.toPrettyString());
         String textResult = "No Data";
-
         final TextAnnotation text = response.getResponses()
                 .get(0).getFullTextAnnotation();
-
-
         if (text == null) {
             Log.e("msg", "nodate");
         } else {
-
             Log.e("msg", "" + text.getText());
-
             textResult = text.getText();
-
-
         }
         return textResult;
-
     }
 
 

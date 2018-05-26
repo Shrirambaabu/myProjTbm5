@@ -31,7 +31,8 @@ public class ImageFullScreenActivity extends AppCompatActivity {
     private static final String TAG = "ImageFullScreenActivity";
     @BindView(R.id.imageView)
     ImageView imageView;
-    private String imageUri;
+    private String image;
+    private Uri imageUri;
     private Context mContext = ImageFullScreenActivity.this;
 
     @Override
@@ -40,9 +41,19 @@ public class ImageFullScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image_full_screen);
         ButterKnife.bind(this);
 
-        if (getIntent().getExtras() != null)
-            imageUri = getIntent().getExtras().getString("image");
+        Bundle bundle = getIntent().getExtras();
 
+        if (bundle != null) {
+            if (bundle.getString("image") != null)
+                image = getIntent().getExtras().getString("image");
+            if (bundle.getString("imageUri") != null)
+                imageUri = Uri.parse(getIntent().getExtras().getString("imageUri"));
+        }
+
+        if (image != null)
+            Glide.with(mContext)
+                    .load(image)
+                    .into(imageView);
         if (imageUri != null)
             Glide.with(mContext)
                     .load(imageUri)

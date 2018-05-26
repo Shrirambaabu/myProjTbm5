@@ -35,6 +35,7 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
+import com.google.api.services.vision.v1.model.Vertex;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -86,6 +87,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
         getView().viewBottomNavigation(bottomNavigationViewEx);
     }
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void callGoogleCloudVision(Uri uri, Feature feature, AVLoadingIndicatorView avLoadingIndicatorView, Uri intentUri, RelativeLayout relativeLayout, RelativeLayout relativeLayoutMain) {
         this.intentUri = intentUri;
@@ -140,12 +142,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             protected void onPostExecute(String result) {
                 Log.e(TAG, "onPostExecute: " + result);
                 if (result.equals("Nothing Found")) {
-/*
-                    avLoadingIndicatorView.hide();
-                    avLoadingIndicatorView.setVisibility(View.GONE);
-                    relativeLayout.setVisibility(View.GONE);
-                    relativeLayoutMain.setVisibility(View.VISIBLE);*/
-
                     Intent intent = new Intent(mContext, ProfileActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("intentUri", intentUri.toString());
@@ -153,12 +149,10 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                 }
             }
         }.execute();
-
     }
 
     public String convertGoogleResponseToString(BatchAnnotateImagesResponse response) throws IOException {
-
-
+        Log.e(TAG, "convertGoogleResponseToString: " + response.toPrettyString());
         AnnotateImageResponse imageResponses = response.getResponses().get(0);
         List<EntityAnnotation> entityAnnotations;
         entityAnnotations = imageResponses.getTextAnnotations();
@@ -171,7 +165,14 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
         StringBuilder message;
 
         if (entityAnnotation != null) {
+
             EntityAnnotation entity = entityAnnotation.get(0);
+
+//            List<Vertex> vertexList = entity.getBoundingPoly().getVertices();
+//            for (Vertex vertex : vertexList) {
+//                Log.e(TAG, "formatAnnotation: "+vertex.toString() );
+//            }
+
             message = new StringBuilder(entity.getDescription());
             Log.d(TAG, "formatAnnotation: " + message);
             if (message.toString().contains("\n")) {
@@ -208,7 +209,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                                 .append("\n");
                     }
                 }
-
                 Intent intent = new Intent(mContext, ProfileActivity.class);
 //                intent.putExtra("email", email);
                 if (!email.equals("error"))
@@ -240,30 +240,25 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                 intent.putExtra("intentUri", intentUri.toString());
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
-
             }
         } else {
             message = new StringBuilder("Nothing Found");
         }
         Log.e(TAG, "String: " + message);
         return message.toString();
-
     }
 
     @SuppressLint("StaticFieldLeak")
     @Override
     public void callVisionApi(HomeActivity homeActivity, Bitmap bitmap, Feature feature, Uri uri, AVLoadingIndicatorView avLoadingIndicatorView, RelativeLayout relativeLayout, RelativeLayout relativeLayoutMain, File image) {
         Log.e("HM", "Vision called");
-
         if (uri != null) {
-
             try {
                 InputStream ims = homeActivity.getContentResolver().openInputStream(uri);
                 bitmap = BitmapFactory.decodeStream(ims);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
         }
         final List<Feature> featureList = new ArrayList<>();
         featureList.add(feature);
@@ -275,13 +270,10 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
         annotateImageReq.setImage(getImageEncodeImage(bitmap));
         annotateImageRequests.add(annotateImageReq);
 
-
         new AsyncTask<Object, Void, String>() {
             @Override
             protected String doInBackground(Object... params) {
                 try {
-
-
                     HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
                     JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
 
@@ -299,7 +291,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                     annotateRequest.setDisableGZipContent(true);
                     BatchAnnotateImagesResponse response = annotateRequest.execute();
 
-
                     return convertResponseToString(response);
 
                 } catch (GoogleJsonResponseException e) {
@@ -311,26 +302,19 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             }
 
             protected void onPostExecute(String result) {
-
                 String email;
                 String website;
                 ArrayList<String> phone;
-
                 String phoneNumber = "";
-
                 email = parseEmail(result);
                 website = parseWebsite(result);
                 phone = parseMobile(result);
-
                 // phoneNumber = phone.toString().replaceAll("\\[", "").replaceAll("\\]", "");
-
                 if (!phone.isEmpty()) {
                     phoneNumber = phone.get(0);
                 }
-
                 Intent intent = new Intent(homeActivity, ProfileActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-
                 intent.putExtra("email", email);
                 intent.putExtra("image", uri);
                 intent.putExtra("website", website);

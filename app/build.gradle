@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
-        versionName "2.5 calender crash fix on Android O"
+        versionName "2.6 Image Aspect Ratio fix"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
