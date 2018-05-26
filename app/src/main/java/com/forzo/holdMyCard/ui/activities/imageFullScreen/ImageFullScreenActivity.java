@@ -1,6 +1,7 @@
 package com.forzo.holdMyCard.ui.activities.imageFullScreen;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -60,6 +61,7 @@ public class ImageFullScreenActivity extends AppCompatActivity {
                     .into(imageView);
 
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
 }
