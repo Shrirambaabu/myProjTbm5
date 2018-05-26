@@ -153,10 +153,12 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
                 .setAspectRatio(16,9)
                 .setActivityMenuIconColor(Color.WHITE)
                 .setAllowRotation(true)
+                .setAllowFlipping(false)
                 .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
                 .setOutputCompressQuality(100)
                 .setAutoZoomEnabled(true)
-                .setActivityTitle("Crop Image")
+                .setActivityTitle("Align Card")
+                .setCropMenuCropButtonTitle("Process")
                 .start(this);
     }
 
