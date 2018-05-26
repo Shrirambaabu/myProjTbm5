@@ -61,7 +61,7 @@ public class ImageFullScreenActivity extends AppCompatActivity {
                     .into(imageView);
 
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
 }
