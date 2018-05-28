@@ -83,7 +83,7 @@
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
         <activity android:name=".ui.activities.imageFullScreen.ImageFullScreenActivity"
             android:parentActivityName=".ui.activities.Profile.ProfileActivity"
-            android:theme="@style/Theme_Translucent"
+            android:theme="@style/AppThemeNoAction"
             android:label=""/>
     </application>
 

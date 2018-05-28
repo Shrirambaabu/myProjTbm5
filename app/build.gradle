@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
-        versionName "2.6 Image Aspect Ratio fix"
+        versionName "2.7 Image Aspect Ratio Full Scrren fix"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -81,6 +81,8 @@ dependencies {
     //resize image or bitmap
     implementation 'com.github.hkk595:Resizer:v1.5'
     implementation 'com.ibm.watson.developer_cloud:java-sdk:5.4.0'
+
+    implementation 'com.jsibbold:zoomage:1.2.0-SNAPSHOT'
 }
 
 apply plugin: 'com.google.gms.google-services'
