@@ -37,13 +37,13 @@ import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavig
 
 public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> implements MyLibraryContract.Presenter {
 
+    private static final String TAG = "MyLibraryPresenter";
     private Context context;
     private ApiService mApiService;
 
-    public MyLibraryPresenter(Context context) {
+    MyLibraryPresenter(Context context) {
         this.context = context;
         mApiService = ApiFactory.create(HmcApplication.get((Activity) context).getRetrofit());
-
     }
 
     @Override
@@ -54,7 +54,8 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
 
 
     @Override
-    public void setupViewPager(ViewPager viewPager, SectionsStatePagerAdapter adapter, MyCurrentLibraryFragment myCurrentLibraryFragment, MyGroupsFragment myGroupsFragment) {
+    public void setupViewPager(ViewPager viewPager, SectionsStatePagerAdapter adapter,
+                               MyCurrentLibraryFragment myCurrentLibraryFragment, MyGroupsFragment myGroupsFragment) {
         adapter.addFragment(myCurrentLibraryFragment, "My Library");
         adapter.addFragment(myGroupsFragment, "My Groups");
         viewPager.setAdapter(adapter);
@@ -62,10 +63,9 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
     }
 
     @Override
-    public void setUuid() {
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if (!prefs.getBoolean("firstTime", false)) {
+    public void registerFirstTime() {
+        if (!PreferencesAppHelper.getFirstTime()) {
+            Log.e(TAG, "registerFirstTime: ");
             // <---- run your one time code here
             mApiService.newUser()
                     .subscribeOn(Schedulers.io())
@@ -76,25 +76,14 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
                         }
 
                         @Override
-                        public void onNext(User userUuid) {
-
-                            String userIdNew = userUuid.getNewUser();
-
-                            PreferencesAppHelper.setUserId(userIdNew);
-
-                            Log.e("nextLib", "" + PreferencesAppHelper.getUserId());
-//
-//                            Intent cbIntent =  new Intent();
-//                            cbIntent.setClass(context, FCMTokenService.class);
-//                            context.startService(cbIntent);
-                            //  getView().savedSuccessfully();
+                        public void onNext(User user) {
+                            PreferencesAppHelper.setUserId(user.getNewUser());
+                            PreferencesAppHelper.setFirstTime(true);
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            //  progressBar.smoothToHide();
-                            Log.e("error", "" + e.getMessage());
-
+                            Log.e(TAG,  e.getMessage());
                         }
 
                         @Override
@@ -102,13 +91,7 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
 
                         }
                     });
-
-
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("firstTime", true);
-            editor.commit();
         }
-
     }
 
     @Override

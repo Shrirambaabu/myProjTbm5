@@ -18,9 +18,10 @@ public interface MyLibraryContract {
 
         void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
 
-        void setupViewPager(ViewPager viewPager, SectionsStatePagerAdapter adapter, MyCurrentLibraryFragment myCurrentLibraryFragment, MyGroupsFragment myGroupsFragment);
+        void setupViewPager(ViewPager viewPager, SectionsStatePagerAdapter adapter,
+                            MyCurrentLibraryFragment myCurrentLibraryFragment, MyGroupsFragment myGroupsFragment);
 
-        void setUuid();
+        void registerFirstTime();
 
         void showExitDialog();
     }
@@ -31,7 +32,6 @@ public interface MyLibraryContract {
         void showTabLayout();
 
         void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
-
 
     }
 }

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#C0CA33</color>
     <color name="colorPrimaryDark">#817716</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#515151</color>
     <color name="colorMyLibrary">#F9F9F9</color>
     <color name="colorCardDetails">#BEBEBE</color>
     <color name="colorFadeLogin">#737373</color>

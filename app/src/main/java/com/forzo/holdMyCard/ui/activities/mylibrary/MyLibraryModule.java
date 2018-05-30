@@ -19,10 +19,9 @@ import dagger.Provides;
 @PerActivityScope
 public class MyLibraryModule {
 
+    private MyLibraryActivity libraryActivity;
 
-    MyLibraryActivity libraryActivity;
-
-    public MyLibraryModule(MyLibraryActivity libraryActivity) {
+    MyLibraryModule(MyLibraryActivity libraryActivity) {
         this.libraryActivity = libraryActivity;
     }
 

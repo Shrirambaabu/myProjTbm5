@@ -33,6 +33,8 @@ import com.forzo.holdMyCard.utils.NotificationUtils;
 import com.forzo.holdMyCard.utils.SectionsStatePagerAdapter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -78,10 +80,8 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
-                if (intent.getAction().equals(Constants.PUSH_NOTIFICATION)) {
+                if (Objects.equals(intent.getAction(), Constants.PUSH_NOTIFICATION)) {
                     // new push notification is received
-
                     String message = intent.getStringExtra("remainId");
                     if (message != null) {
                         Log.e("tag", "onReceive: " + message);
@@ -96,9 +96,8 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
         };
 
         myLibraryPresenter.attach(this);
-        myLibraryPresenter.setUuid();
+        myLibraryPresenter.registerFirstTime();
         myLibraryPresenter.setupViewPager(pager, adapter, myCurrentLibraryFragment, myGroupsFragment);
-
         myLibraryPresenter.bottomNavigationViewSetup(bottomNavigationView);
 
     }
@@ -171,7 +170,6 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-
                 mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
@@ -184,16 +182,13 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                         return false;
                     }
                 });
-
                 return true;
 
             case R.id.action_create:
-
                 Intent intentSave = new Intent(MyLibraryActivity.this, CreateGroupActivity.class);
                 intentSave.putExtra("module", "disabled");
                 startActivity(intentSave);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

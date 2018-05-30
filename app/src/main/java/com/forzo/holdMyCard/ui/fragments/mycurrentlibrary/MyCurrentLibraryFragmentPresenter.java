@@ -28,15 +28,16 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Shriram on 3/31/2018.
  */
 
-public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLibraryFragmentContract.View> implements MyCurrentLibraryFragmentContract.Presenter {
+public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLibraryFragmentContract.View>
+        implements MyCurrentLibraryFragmentContract.Presenter {
 
-
+    private static final String TAG = "MyCurrentLibraryFragmen";
     private Context context;
     private ApiService mApiService;
+
     MyCurrentLibraryFragmentPresenter(Context context) {
         this.context = context;
         mApiService = ApiFactory.create(HmcApplication.get((Activity) context).getRetrofit());
-
     }
 
     @Override
@@ -48,60 +49,49 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
         emptyRecyclerView.setHasFixedSize(true);
 
         emptyRecyclerView.setEmptyView(emptyView);
-
         getView().showRecyclerView();
 
     }
 
     @Override
     public void populateRecyclerView(List<MyLibrary> myLibraryList) {
-
-
-      /*  myLibraryList.addAll(DataService.getCurrentCardList());
-        getView().updateAdapter();
-*/
-
-        mApiService.getUserLibrary(PreferencesAppHelper.getUserId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<MyLibrary>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        //  getView().showLoading();
-                    }
-
-                    @Override
-                    public void onNext(List<MyLibrary> myLibraryList1) {
-
-                        for (int i = 0; i < myLibraryList1.size(); i++) {
-                            MyLibrary myLibrary = new MyLibrary();
-
-                            myLibrary.setCardName(myLibraryList1.get(i).getCardName());
-                            myLibrary.setCardDescription(myLibraryList1.get(i).getCardDescription());
-                            myLibrary.setCardDetails(myLibraryList1.get(i).getCardDetails());
-                            myLibrary.setImage(myLibraryList1.get(i).getImage());
-                            myLibrary.setImageType(myLibraryList1.get(i).getImageType());
-                            myLibrary.setUserId(myLibraryList1.get(i).getUserId());
-
-                            myLibraryList.add(myLibrary);
-
-                            getView().updateAdapter();
+        if (PreferencesAppHelper.getUserId() != null) {
+            mApiService.getUserLibrary(PreferencesAppHelper.getUserId())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<List<MyLibrary>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        // getView().hideLoading();
-                        Log.e("err",""+e.getMessage());
-                    }
+                        @Override
+                        public void onNext(List<MyLibrary> myLibraryList1) {
 
-                    @Override
-                    public void onComplete() {
-                        //  getView().hideLoading();
-                    }
-                });
+                            for (int i = 0; i < myLibraryList1.size(); i++) {
+                                MyLibrary myLibrary = new MyLibrary();
 
+                                myLibrary.setCardName(myLibraryList1.get(i).getCardName());
+                                myLibrary.setCardDescription(myLibraryList1.get(i).getCardDescription());
+                                myLibrary.setCardDetails(myLibraryList1.get(i).getCardDetails());
+                                myLibrary.setImage(myLibraryList1.get(i).getImage());
+                                myLibrary.setImageType(myLibraryList1.get(i).getImageType());
+                                myLibrary.setUserId(myLibraryList1.get(i).getUserId());
 
+                                myLibraryList.add(myLibrary);
 
+                                getView().updateAdapter();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e(TAG, e.getMessage());
+                        }
+
+                        @Override
+                        public void onComplete() {
+                        }
+                    });
+        }
     }
 }

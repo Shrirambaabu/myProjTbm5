@@ -130,7 +130,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         feature.setMaxResults(10);
 
         profilePresenter.attach(this);
-        profilePresenter.getIntentValues(getIntent(), emailEditText.getText().toString(), companyNameEditText.getText().toString(), nameEditText.getText().toString());
+        profilePresenter.getIntentValues(getIntent(), emailEditText.getText().toString(),
+                companyNameEditText.getText().toString(), nameEditText.getText().toString());
         profilePresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
 
     }
@@ -172,18 +173,14 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
     }
 
     @OnClick(R.id.calendar_rel)
     public void calenderSection() {
-
         Intent calendarIntent = new Intent(mContext, CustomChooserDialog.class);
         calendarIntent.putExtra("email", emailEditText.getText().toString());
         startActivity(calendarIntent);
-//        profilePresenter.addToCalendar(emailEditText.getText().toString());
     }
-
 
     @Override
     protected void onResume() {
@@ -221,13 +218,19 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @OnClick(R.id.save_text)
     public void saveToast() {
-        profilePresenter.saveBusinessCard(nameEditText.getText().toString(), companyNameEditText.getText().toString(), jobTitleEditText.getText().toString(), mobileEditText.getText().toString(), mobileEditText2.getText().toString(), mobileEditText3.getText().toString(), emailEditText.getText().toString(), websiteEditText.getText().toString(), addressEditText.getText().toString());
+        profilePresenter.saveBusinessCard(nameEditText.getText().toString(), companyNameEditText.getText().toString(),
+                jobTitleEditText.getText().toString(), mobileEditText.getText().toString(), mobileEditText2.getText().toString(),
+                mobileEditText3.getText().toString(), emailEditText.getText().toString(), websiteEditText.getText().toString(),
+                addressEditText.getText().toString());
 
     }
 
     @OnClick(R.id.update_text)
     public void updateCardDetails() {
-        profilePresenter.updateCard(primaryValue, nameEditText.getText().toString(), companyNameEditText.getText().toString(), jobTitleEditText.getText().toString(), mobileEditText.getText().toString(), mobileEditText2.getText().toString(), mobileEditText3.getText().toString(), emailEditText.getText().toString(), websiteEditText.getText().toString(), addressEditText.getText().toString());
+        profilePresenter.updateCard(primaryValue, nameEditText.getText().toString(), companyNameEditText.getText().toString(),
+                jobTitleEditText.getText().toString(), mobileEditText.getText().toString(), mobileEditText2.getText().toString(),
+                mobileEditText3.getText().toString(), emailEditText.getText().toString(), websiteEditText.getText().toString(),
+                addressEditText.getText().toString());
 
     }
 
@@ -238,7 +241,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @OnClick(R.id.new_contact_rel)
     public void saveContactToPhone() {
-        profilePresenter.saveContactToPhone(nameEditText.getText().toString(), mobileEditText.getText().toString(), emailEditText.getText().toString(), companyNameEditText.getText().toString(), jobTitleEditText.getText().toString(), addressEditText.getText().toString());
+        profilePresenter.saveContactToPhone(nameEditText.getText().toString(), mobileEditText.getText().toString(),
+                emailEditText.getText().toString(), companyNameEditText.getText().toString(),
+                jobTitleEditText.getText().toString(), addressEditText.getText().toString());
     }
 
     @OnClick(R.id.cancel_text)

@@ -61,10 +61,7 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         this.context = context;
-
-
         DaggerMyCurrentLibraryFragmentComponent.builder()
                 .fragmentContext(new FragmentContext(context))
                 .build()
@@ -75,7 +72,6 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
     @Override
     public void onDetach() {
         super.onDetach();
-
         myCurrentLibraryFragmentPresenter.detach();
     }
 

@@ -15,7 +15,7 @@ public class User {
 
     @SerializedName("userId")
     @Expose
-    private String newUser;
+    private String userId;
 
     @SerializedName("userName")
     @Expose
@@ -56,11 +56,11 @@ public class User {
 
 
     public String getNewUser() {
-        return newUser;
+        return userId;
     }
 
     public void setNewUser(String newUser) {
-        this.newUser = newUser;
+        this.userId = newUser;
     }
 
 

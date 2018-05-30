@@ -81,8 +81,6 @@ public interface ApiService {
     @GET("notes/deleteNotes/{notesId}")
     Observable<MyNotes> deleteUserNotes(@Path("notesId") String userId);
 
-
-
     @POST("remainder/updateFcmToken")
     @FormUrlEncoded
     Observable<Response<MyRemainder>> updateFcm(@Field("userId") String userId,@Field("token") String token);
