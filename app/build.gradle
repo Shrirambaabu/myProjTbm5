@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
-        versionName "2.8 Save bug fix due to addition of three mobile number and calender crash on device with no calendar fix"
+        versionName "2.9 Watson Language fix and multiline address field"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

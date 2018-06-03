@@ -59,6 +59,7 @@ import com.google.api.services.vision.v1.model.Image;
 import com.google.api.services.vision.v1.model.TextAnnotation;
 import com.google.i18n.phonenumbers.PhoneNumberMatch;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.ibm.watson.developer_cloud.language_translator.v2.util.Language;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.NaturalLanguageUnderstanding;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalysisResults;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalyzeOptions;
@@ -172,7 +173,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
                         if (phoneNumberProfile == null) {
                             phoneNumberProfile = "";
                         }
-                        if (phoneNumberProfile2 == null|| phoneNumberProfile2.length() <= 0) {
+                        if (phoneNumberProfile2 == null || phoneNumberProfile2.length() <= 0) {
                             phoneNumberProfile2 = "";
                             getView().hideVisibilityPhoneNumber2();
                         } else {
@@ -468,6 +469,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.View> implem
 
             parameters = new AnalyzeOptions.Builder()
                     .text(send)
+                    .language(Language.ENGLISH)
                     .features(features)
                     .build();
 
