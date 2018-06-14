@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.login.LoginActivity;
+import com.forzo.holdMyCard.ui.activities.loginregister.LoginRegisterActivity;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
@@ -80,7 +81,7 @@ public class SortCardActivity extends AppCompatActivity implements SortCardContr
     @OnClick(R.id.login_reg)
     public void loginPage() {
 
-        Intent libraryIntent = new Intent(SortCardActivity.this, LoginActivity.class);
+        Intent libraryIntent = new Intent(SortCardActivity.this, LoginRegisterActivity.class);
         startActivity(libraryIntent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }

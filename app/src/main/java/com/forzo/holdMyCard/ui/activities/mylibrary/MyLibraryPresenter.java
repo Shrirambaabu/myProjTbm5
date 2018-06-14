@@ -17,12 +17,15 @@ import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.fragments.mycurrentlibrary.MyCurrentLibraryFragment;
 import com.forzo.holdMyCard.ui.fragments.mygroups.MyGroupsFragment;
+import com.forzo.holdMyCard.ui.models.BusinessCard;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.models.User;
 import com.forzo.holdMyCard.utils.Constants;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.forzo.holdMyCard.utils.SectionsStatePagerAdapter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
+import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -83,7 +86,7 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.e(TAG,  e.getMessage());
+                            Log.e(TAG, e.getMessage());
                         }
 
                         @Override
@@ -110,5 +113,71 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
                 (dialog, which) -> dialog.dismiss());
         alertDialog.show();
+    }
+
+    @Override
+    public void setNavigationHeader() {
+        mApiService.getUserProfile(PreferencesAppHelper.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BusinessCard>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(BusinessCard businessCardList) {
+
+                        String userNameProfile = businessCardList.getName();
+
+                        if (userNameProfile != null) {
+                            Log.e(TAG, userNameProfile);
+                            getView().setUserProfileName(userNameProfile);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("err", "" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
+        mApiService.getUserProfileImages(PreferencesAppHelper.getUserId(), "DP")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<BusinessCard>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(List<BusinessCard> businessCardList) {
+
+                        for (int i = 0; i < businessCardList.size(); i++) {
+
+                            BusinessCard card = new BusinessCard();
+
+
+                            Log.e("userImage", "" + businessCardList.get(i).getImageType());
+                            Log.e("userImage", "" + businessCardList.get(i).getPostImage());
+                            getView().setDpImage(businessCardList.get(i).getPostImage());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("err", "" + e.getMessage());
+                        Log.e("err", "erorr image get");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
     }
 }

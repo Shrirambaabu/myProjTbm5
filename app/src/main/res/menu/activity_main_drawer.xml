@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/library"
+            android:icon="@drawable/ic_library_drawer"
+            android:title="Library" />
+        <item
+            android:id="@+id/new_card"
+            android:icon="@drawable/ic_new_card"
+            android:title="New Card" />
+        <item
+            android:id="@+id/personalized_qr"
+            android:icon="@drawable/ic_personalized_qr"
+            android:title="Personalized QR" />
+        <item
+            android:id="@+id/register"
+            android:icon="@drawable/ic_register"
+            android:title="Register" />
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
+    </group>
+
+</menu>

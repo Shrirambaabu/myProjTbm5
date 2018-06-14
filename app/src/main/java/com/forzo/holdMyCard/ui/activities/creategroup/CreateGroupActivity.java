@@ -2,12 +2,16 @@ package com.forzo.holdMyCard.ui.activities.creategroup;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
@@ -51,7 +55,7 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
     @BindView(R.id.search_groups)
     android.support.v7.widget.SearchView searchView;
 
-
+    TextView mNext;
     private Context mContext = CreateGroupActivity.this;
 
     private static final int ACTIVITY_NUM = 1;
@@ -74,6 +78,32 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
         createGroupPresenter.getIntentValues(getIntent());
         createGroupPresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
         createGroupPresenter.setupShowsRecyclerView(recyclerView, emptyView);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.create_group, menu);//Menu Resource, Menu
+
+        MenuItem searchItem = menu.findItem(R.id.action_next);
+        mNext = (TextView) MenuItemCompat.getActionView(searchItem);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_next:
+
+                Toast.makeText(getApplicationContext(),"Next",Toast.LENGTH_LONG).show();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

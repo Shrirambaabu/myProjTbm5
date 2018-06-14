@@ -24,12 +24,17 @@ public interface MyLibraryContract {
         void registerFirstTime();
 
         void showExitDialog();
+
+        void setNavigationHeader();
     }
 
     // Action callbacks. Activity/Fragment will implement
     interface View {
 
         void showTabLayout();
+
+        void setUserProfileName(String userProfileName);
+        void setDpImage(String imageName);
 
         void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
 

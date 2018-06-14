@@ -17,6 +17,19 @@ public class User {
     @Expose
     private String userId;
 
+    public String getForgetPassword() {
+        return forgetPassword;
+    }
+
+    public void setForgetPassword(String forgetPassword) {
+        this.forgetPassword = forgetPassword;
+    }
+
+    @SerializedName("Forgot Password")
+    @Expose
+
+    private String forgetPassword;
+
     @SerializedName("userName")
     @Expose
     private String userName;
@@ -33,6 +46,19 @@ public class User {
     @SerializedName("Registration Successful")
     @Expose
     private String regStatus;
+
+    public String getExistingUser() {
+        return existingUser;
+    }
+
+    public void setExistingUser(String existingUser) {
+        this.existingUser = existingUser;
+    }
+
+    @SerializedName("Already Registered")
+    @Expose
+
+    private String existingUser;
 
     public String getRegStatus() {
         return regStatus;

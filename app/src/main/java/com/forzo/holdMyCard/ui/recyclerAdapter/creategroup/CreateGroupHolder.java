@@ -2,6 +2,7 @@ package com.forzo.holdMyCard.ui.recyclerAdapter.creategroup;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.forzo.holdMyCard.R;
@@ -24,6 +25,8 @@ public class CreateGroupHolder extends RecyclerView.ViewHolder implements Create
     @BindView(R.id.card_details)
     TextView setCardDetails;
 
+    @BindView(R.id.card_image)
+    ImageView setCardImageValue;
 
     CreateGroupHolder(View itemView, CreateGroupListPresenter createGroupListPresenter) {
         super(itemView);
@@ -52,5 +55,10 @@ public class CreateGroupHolder extends RecyclerView.ViewHolder implements Create
 
 
         setCardDetails.setText(cardDetails);
+    }
+
+    @Override
+    public void setImageCard(String Image) {
+        createGroupListPresenter.setImage(Image,setCardImageValue);
     }
 }

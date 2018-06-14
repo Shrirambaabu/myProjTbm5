@@ -1,15 +1,19 @@
 package com.forzo.holdMyCard.ui.fragments.mycurrentlibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.FragmentContext;
+import com.forzo.holdMyCard.ui.activities.sortDialog.SortDialogActivity;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibraryListPresenter;
 import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibraryRecyclerAdapter;
@@ -21,6 +25,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibraryFragmentContract.View {
 
@@ -37,7 +42,9 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
     @BindView(R.id.recycler_view_empty)
     EmptyRecyclerView recyclerView;
     @BindView(R.id.empty_view)
-    RelativeLayout emptyView;
+    RelativeLayout emptyView;/*
+    @BindView(R.id.fab)
+    FloatingActionButton floatingActionButton;*/
 
     private Context context;
 
@@ -57,6 +64,14 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
         return view;
     }
 
+/*
+
+    @OnClick(R.id.fab)
+    public void fabButton() {
+        Intent sortIntent = new Intent(getActivity(), SortDialogActivity.class);
+        startActivity(sortIntent);
+    }
+*/
 
     @Override
     public void onAttach(Context context) {

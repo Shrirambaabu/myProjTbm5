@@ -83,6 +83,18 @@ dependencies {
     implementation 'com.ibm.watson.developer_cloud:java-sdk:5.4.0'
 
     implementation 'com.jsibbold:zoomage:1.2.0-SNAPSHOT'
+
+    //facebook integration
+    implementation 'com.facebook.android:facebook-login:[4,5)'
+
+    //circular image view
+    implementation 'com.jackandphantom.android:circularimageview:1.2.0'
+    //circular button
+    implementation 'com.github.markushi:circlebutton:1.1'
+    //Easy Image
+    implementation 'com.github.jkwiecien:EasyImage:1.3.1'
+    //QR code library
+    implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

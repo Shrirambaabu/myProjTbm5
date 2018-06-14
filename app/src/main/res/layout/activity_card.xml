@@ -186,36 +186,53 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <android.support.design.widget.TextInputLayout
-                            android:id="@+id/textInputLayoutName"
+                        <RelativeLayout
+                            android:id="@+id/name_rel"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:focusableInTouchMode="true"
-                            app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                            android:layout_height="wrap_content">
 
-                            <android.support.design.widget.TextInputEditText
-                                android:id="@+id/textInputEditTextName"
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/textInputLayoutName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:focusable="true"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
                                 android:focusableInTouchMode="true"
-                                android:hint="@string/name"
-                                android:imeOptions="actionNext"
-                                android:importantForAutofill="noExcludeDescendants"
-                                android:inputType="text|textNoSuggestions"
-                                android:maxLines="1"
-                                android:textColor="@android:color/black" />
+                                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
-                        </android.support.design.widget.TextInputLayout>
+                                <android.support.design.widget.TextInputEditText
+                                    android:id="@+id/textInputEditTextName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
+                                    android:hint="@string/name"
+                                    android:imeOptions="actionNext"
+                                    android:importantForAutofill="noExcludeDescendants"
+                                    android:inputType="text|textNoSuggestions"
+                                    android:maxLines="1"
+                                    android:textColor="@android:color/black" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <ImageView
+                                android:id="@+id/name_edit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:padding="4dp"
+                                android:src="@drawable/ic_sort"
+                                android:layout_marginTop="24dp"
+                                android:layout_marginEnd="24dp"
+                                android:layout_alignParentEnd="true"
+                                />
+                        </RelativeLayout>
 
                         <android.support.design.widget.TextInputLayout
                             android:id="@+id/textInputLayoutCompanyName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/textInputLayoutName"
+                            android:layout_below="@+id/name_rel"
                             android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"

@@ -113,6 +113,7 @@
                         android:layout_marginTop="16dp"
                         android:background="@drawable/button_bg"
                         android:text="@string/login"
+                        android:textColor="@android:color/white"
                         android:textAllCaps="false" />
 
                     <TextView
@@ -138,6 +139,7 @@
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
                         android:background="@drawable/button_bg"
+                        android:textColor="@android:color/white"
                         android:text="@string/facebook"
                         android:textAllCaps="false" />
 
@@ -152,6 +154,7 @@
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
                         android:background="@drawable/button_bg"
+                        android:textColor="@android:color/white"
                         android:text="@string/wechat"
                         android:textAllCaps="false" />
                 </RelativeLayout>
@@ -228,6 +231,7 @@
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
                         android:background="@drawable/button_bg"
+                        android:textColor="@android:color/white"
                         android:text="@string/register"
                         android:textAllCaps="false" />
 
@@ -253,6 +257,7 @@
                         android:layout_marginEnd="24dp"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
+                        android:textColor="@android:color/white"
                         android:background="@drawable/button_bg"
                         android:text="@string/facebook"
                         android:textAllCaps="false" />
@@ -268,6 +273,7 @@
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
                         android:background="@drawable/button_bg"
+                        android:textColor="@android:color/white"
                         android:text="@string/wechat"
                         android:textAllCaps="false" />
 

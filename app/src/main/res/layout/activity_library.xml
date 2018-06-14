@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity">
@@ -9,25 +10,35 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="56dp">
+        android:layout_height="match_parent">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Library"
+            app:titleTextColor="@android:color/white" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
             style="@style/MyCustomTabLayout"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:layout_below="@+id/my_toolbar"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:tabBackground="@android:color/white"
-            app:tabIndicatorColor="@color/colorPrimary"
-            app:tabSelectedTextColor="@android:color/black"
-            app:tabTextColor="@android:color/black" />
+            app:tabBackground="@color/colorPrimary"
+            app:tabIndicatorColor="@color/colorIndicator"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@android:color/white" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize">
+            android:layout_below="@+id/tabLayout">
 
             <include layout="@layout/layout_center_viewpager" />
 
@@ -35,7 +46,25 @@
 
     </RelativeLayout>
 
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer">
 
-    <include layout="@layout/layout_bottom_navigation_view" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Powered by Freshlancers"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="bottom" />
+    </android.support.design.widget.NavigationView>
 
-</RelativeLayout>
+
+</android.support.v4.widget.DrawerLayout>

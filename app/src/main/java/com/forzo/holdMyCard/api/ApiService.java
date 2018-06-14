@@ -46,13 +46,28 @@ public interface ApiService {
     @GET("profile/{userId}")
     Observable<BusinessCard> getUserProfile(@Path("userId") String userId);
 
+    @GET("profile/showProfileImagesByImageType/{userId}/{imageType}")
+    Observable<List<BusinessCard>> getUserProfileImages(@Path("userId") String userId,@Path("imageType") String imageType);
+
 
     @POST("login/registerUserUsingUserId")
     Observable<User> registerToHmc(@Body User user);
 
+    @POST("login/checkRegisteredUsingEmail")
+    @FormUrlEncoded
+    Observable<User> checkExistingUser(@Field("email") String email);
+
+    @POST("login/forgotPassword")
+    @FormUrlEncoded
+    Observable<User> forgetPassword(@Field("email") String email);
+
     @POST("login/loginUsingUserId")
     @FormUrlEncoded
-    Observable<User> loginToHmc(@Field("userId") String userId,@Field("email") String email,@Field("password") String password);
+    Observable<User> loginToHmc(@Field("userId") String userId, @Field("email") String email, @Field("password") String password);
+
+    @POST("login/loginUsingUserEmail")
+    @FormUrlEncoded
+    Observable<User> loginToApp( @Field("email") String email, @Field("password") String password);
 
     @POST("profile/registerProfileToLibrary")
     Observable<BusinessCard> saveBusinessCard(@Body BusinessCard businessCard);
@@ -83,16 +98,14 @@ public interface ApiService {
 
     @POST("remainder/updateFcmToken")
     @FormUrlEncoded
-    Observable<Response<MyRemainder>> updateFcm(@Field("userId") String userId,@Field("token") String token);
+    Observable<Response<MyRemainder>> updateFcm(@Field("userId") String userId, @Field("token") String token);
 
     @POST("remainder/createRemainder")
     Observable<MyRemainder> saveRemainder(@Body MyRemainder myRemainder);
 
 
-
     @POST("remainder/updateRemainder")
     Observable<MyRemainder> updateReminder(@Body MyRemainder myRemainder);
-
 
 
     @GET("remainder/deleteRemainder/{remainderId}")
@@ -101,7 +114,7 @@ public interface ApiService {
 
     @POST("profile/postImage")
     @Multipart
-    Observable<BusinessCard> postUserImage(@Part MultipartBody.Part  file, @Part("userId") int userId, @Part("imageType") String imageType);
+    Observable<BusinessCard> postUserImage(@Part MultipartBody.Part file, @Part("userId") int userId, @Part("imageType") String imageType);
 
 
 }
