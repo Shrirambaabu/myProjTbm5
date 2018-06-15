@@ -3,6 +3,8 @@ package com.forzo.holdMyCard.ui.activities.newcard;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
@@ -22,8 +24,11 @@ import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.activities.notes.DaggerNotesComponent;
 import com.forzo.holdMyCard.utils.CameraUtils;
+import com.google.api.services.vision.v1.model.Feature;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONException;
@@ -90,9 +95,11 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     private Context mContext = NewCardActivity.this;
     private String TAG = "NewCardActivity";
     private static int qrCode = 0;
-
+    private Feature feature;
+    private String[] visionAPI = new String[]{"TEXT_DETECTION", "LOGO_DETECTION"};
     private static int PERMISSION_REQUEST_CODE = 1;
     private final int requestCode = 20;
+    private String intentEmail = "";
     private static Uri capturedImageUri = null;
     private String[] permissionList = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR};
@@ -113,6 +120,11 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
         newCardPresenter.attach(this);
         newCardPresenter.getIntentValues(getIntent());
+
+
+        feature = new Feature();
+        feature.setType(visionAPI[0]);
+        feature.setMaxResults(15);
     }
 
 
@@ -153,17 +165,53 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @Override
     public void onPhotosReturned(Uri photoUri) {
-
+        CropImage.activity(photoUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .setAspectRatio(16, 9)
+                .setActivityMenuIconColor(Color.WHITE)
+                .setAllowRotation(true)
+                .setAllowFlipping(false)
+                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                .setOutputCompressQuality(100)
+                .setAutoZoomEnabled(true)
+                .setActivityTitle("Align Card")
+                .setCropMenuCropButtonTitle("Process")
+                .start(this);
     }
 
     @Override
     public void sendCroppedImage(Uri resultUri) {
 
+        newCardPresenter.callGoogleCloudVision(resultUri, feature, resultUri);
+
     }
 
     @Override
     public void showDialog() {
+        relativeLayout.setVisibility(View.VISIBLE);
+        avLoadingIndicatorView.setVisibility(View.VISIBLE);
+        avLoadingIndicatorView.show();
+    }
 
+    @Override
+    public void setUserName(String userName) {
+        textInputEditTextName.setText(userName);
+    }
+
+    @Override
+    public void setCompanyName(String companyName) {
+        textInputEditTextCompanyName.setText(companyName);
+    }
+
+    @Override
+    public void setJobTitle(String jobTitle) {
+        textInputEditTextJobTitle.setText(jobTitle);
+    }
+
+    @Override
+    public void setAddress(String address) {
+        textInputEditTextAddress.setText(address);
     }
 
     @Override
@@ -176,6 +224,69 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     }
 
     @Override
+    public void setEmailFromAPI(String email) {
+        Log.e("NewActivity", email);
+        if (!email.equals("Error")) {
+            intentEmail = email;
+            textInputEditTextEmail.setText(email);
+        }
+    }
+
+    @Override
+    public void setWebsiteFromAPI(String website) {
+        if (!website.equals("Error")) {
+            textInputEditTextWebsite.setText(website);
+        }
+    }
+
+    @Override
+    public void dataFromAPI(String intentMessage) {
+        newCardPresenter.callWatsonAPI(intentMessage, intentEmail);
+    }
+
+    @Override
+    public void setProfileImageUri(Uri profileImageUri) {
+        previewImage.setVisibility(View.GONE);
+        Glide.with(this)
+                .load(profileImageUri)
+                .into(businessImage);
+    }
+    @Override
+    public void setPhoneFromAPI(int phone, String phoneList) {
+
+        Log.e("PhoneActivity", "" + phone);
+        Log.e("PhoneActivity", "" + phoneList);
+
+        textInputEditTextMobile.setText(phoneList);
+       /* if (phone > 0) {
+//                for (int i = 0; i <= size; i++)
+//                    getView().setPhoneNumber(bundle.getString("phone" + i));
+
+
+            if (phone == 3) {
+
+                Log.e("PhoneActivity",""+phoneList);
+                getView().setPhoneNumber(bundle.getString("phone" + 0));
+                getView().setPhoneNumber2(bundle.getString("phone" + 1));
+                getView().setPhoneNumber3(bundle.getString("phone" + 2));
+                getView().showVisibilityPhoneNumber2();
+                getView().showVisibilityPhoneNumber3();
+            }
+            if (phone == 2) {
+                getView().setPhoneNumber(bundle.getString("phone" + 0));
+                getView().setPhoneNumber2(bundle.getString("phone" + 1));
+                getView().showVisibilityPhoneNumber2();
+                getView().hideVisibilityPhoneNumber3();
+            }
+            if (phone == 1) {
+                getView().setPhoneNumber(bundle.getString("phone" + 0));
+                getView().hideVisibilityPhoneNumber2();
+                getView().hideVisibilityPhoneNumber3();
+            }
+        }*/
+    }
+
+    @Override
     public void hideLoader() {
         relativeLayout.setVisibility(View.GONE);
         avLoadingIndicatorView.setVisibility(View.GONE);
@@ -185,8 +296,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @OnClick(R.id.scan)
     public void captureImage() {
-        Toast.makeText(getApplicationContext(),"In development..",Toast.LENGTH_LONG).show();
-        /*Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (!newCardPresenter.checkPermission(permissionList)) {
             if (pictureIntent.resolveActivity(getPackageManager()) != null) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); //Start intent with Action_Image_Capture
@@ -196,17 +306,17 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
             }
         } else {
             newCardPresenter.checkPermission(permissionList, PERMISSION_REQUEST_CODE);
-        }*/
+        }
     }
 
-    @OnClick(R.id.update_user_profile)
+    @OnClick(R.id.save_user_profile)
     public void saveBusinessCard() {
 /*
         newCardPresenter.saveBusinessCard(textInputEditTextName.getText().toString(), textInputEditTextCompanyName.getText().toString(),
                 textInputEditTextJobTitle.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(),
                 "", textInputEditTextEmail.getText().toString(), textInputEditTextWebsite.getText().toString(),
                 textInputEditTextAddress.getText().toString());*/
-Toast.makeText(getApplicationContext(),"Save disabled currently",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Save disabled currently", Toast.LENGTH_LONG).show();
         if (qrCode == 1) {
             //   newCardPresenter.saveBusiness
         }
