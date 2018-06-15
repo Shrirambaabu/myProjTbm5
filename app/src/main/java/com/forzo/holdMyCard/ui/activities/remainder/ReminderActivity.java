@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
+import com.forzo.holdMyCard.ui.activities.newcard.NewCardActivity;
 import com.forzo.holdMyCard.ui.activities.remainderdetails.RemainderDetailsActivity;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
 import com.forzo.holdMyCard.ui.recyclerAdapter.remainder.MyRemainderRecyclerAdapter;
@@ -88,10 +89,11 @@ public class ReminderActivity extends AppCompatActivity implements ReminderContr
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(ReminderActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(ReminderActivity.this, NewCardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("libraryProfile", "" + remainderKey);
         intent.putExtra("libraryProfileImage", "" + libraryImageValue);
+        intent.putExtra("ActivityAction","MyLibrary");
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
@@ -99,10 +101,11 @@ public class ReminderActivity extends AppCompatActivity implements ReminderContr
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(ReminderActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(ReminderActivity.this, NewCardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("libraryProfile", "" + remainderKey);
         intent.putExtra("libraryProfileImage", "" + libraryImageValue);
+        intent.putExtra("ActivityAction","MyLibrary");
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }

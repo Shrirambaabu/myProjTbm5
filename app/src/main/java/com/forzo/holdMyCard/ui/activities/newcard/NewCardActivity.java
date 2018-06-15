@@ -23,6 +23,8 @@ import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.activities.notes.DaggerNotesComponent;
+import com.forzo.holdMyCard.ui.activities.notes.NotesActivity;
+import com.forzo.holdMyCard.ui.activities.remainder.ReminderActivity;
 import com.forzo.holdMyCard.utils.CameraUtils;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -100,6 +102,11 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     private static int PERMISSION_REQUEST_CODE = 1;
     private final int requestCode = 20;
     private String intentEmail = "";
+
+    private String primaryValue = "";
+
+    private String imageValue = "";
+
     private static Uri capturedImageUri = null;
     private String[] permissionList = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR};
@@ -215,12 +222,25 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     }
 
     @Override
+    public void libraryUserId(String libraryUserId) {
+        primaryValue=libraryUserId;
+    }
+
+    @Override
     public void newCardActivityType() {
         saveButton.setVisibility(View.VISIBLE);
         scanQRLayout.setVisibility(View.VISIBLE);
-        updateButton.setVisibility(View.GONE);
         cardFunctionLayout.setVisibility(View.GONE);
         businessActionButton.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void libraryActivityType() {
+        previewImage.setVisibility(View.GONE);
+        saveButton.setVisibility(View.GONE);
+        scanQRLayout.setVisibility(View.GONE);
+        cardFunctionLayout.setVisibility(View.VISIBLE);
+        businessActionButton.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -251,6 +271,8 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                 .load(profileImageUri)
                 .into(businessImage);
     }
+
+
     @Override
     public void setPhoneFromAPI(int phone, String phoneList) {
 
@@ -284,6 +306,11 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                 getView().hideVisibilityPhoneNumber3();
             }
         }*/
+    }
+
+    @Override
+    public void setMobileNumber(String mobileNumber) {
+        textInputEditTextMobile.setText(mobileNumber);
     }
 
     @Override
@@ -322,6 +349,48 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         }
     }
 
+    @OnClick(R.id.update_user_profile)
+    public void updateBusinessCard() {
+/*
+        newCardPresenter.updateBusinessCard(textInputEditTextName.getText().toString(), textInputEditTextCompanyName.getText().toString(),
+                textInputEditTextJobTitle.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(),
+                "", textInputEditTextEmail.getText().toString(), textInputEditTextWebsite.getText().toString(),
+                textInputEditTextAddress.getText().toString());*/
+        Toast.makeText(getApplicationContext(), "Update disabled currently", Toast.LENGTH_LONG).show();
+
+    }
+    @OnClick(R.id.delete_user_profile)
+    public void deleteBusinessCard() {
+/*
+        newCardPresenter.updateBusinessCard(textInputEditTextName.getText().toString(), textInputEditTextCompanyName.getText().toString(),
+                textInputEditTextJobTitle.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(),
+                "", textInputEditTextEmail.getText().toString(), textInputEditTextWebsite.getText().toString(),
+                textInputEditTextAddress.getText().toString());*/
+        Toast.makeText(getApplicationContext(), "Delete disabled currently", Toast.LENGTH_LONG).show();
+
+    }
+
+
+    @OnClick(R.id.note_rel)
+    public void noteSection() {
+
+        Intent intent = new Intent(NewCardActivity.this, NotesActivity.class);
+        intent.putExtra("libraryProfile", "" + primaryValue);
+        intent.putExtra("libraryProfileImage", "" + imageValue);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+    }
+
+    @OnClick(R.id.remaindar_rel)
+    public void remainderSection() {
+
+        Intent intent = new Intent(NewCardActivity.this, ReminderActivity.class);
+        intent.putExtra("libraryProfile", "" + primaryValue);
+        intent.putExtra("libraryProfileImage", "" + imageValue);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -366,6 +435,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @Override
     public void setImage(String image) {
+        imageValue=image;
         Glide.with(mContext)
                 .load(IMAGE_URL + image)
                 .thumbnail(0.1f)

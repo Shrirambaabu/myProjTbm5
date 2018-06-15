@@ -37,7 +37,9 @@ public interface NewCardContract {
 
         String formatAnnotation(List<EntityAnnotation> entityAnnotation);
 
-        void callWatsonAPI(String intentMessage,String intentEmail);
+        void callWatsonAPI(String intentMessage, String intentEmail);
+
+        void showProfileData(String libraryUserId);
     }
 
     interface View {
@@ -46,6 +48,9 @@ public interface NewCardContract {
         void activityLoader();
 
         void setProfileImageUri(Uri profileImageUri);
+
+        void libraryActivityType();
+
         void onPhotosReturned(Uri photoUri);
 
         void newCardActivityType();
@@ -57,6 +62,8 @@ public interface NewCardContract {
         void dataFromAPI(String intentMessage);
 
         void setPhoneFromAPI(int phone, String phoneList);
+
+        void setMobileNumber(String mobileNumber);
 
         void hideLoader();
 
@@ -71,6 +78,7 @@ public interface NewCardContract {
         void setJobTitle(String jobTitle);
 
         void setAddress(String address);
+        void libraryUserId(String libraryUserId);
 
     }
 }

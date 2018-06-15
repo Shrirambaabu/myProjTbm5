@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
+import com.forzo.holdMyCard.ui.activities.newcard.NewCardActivity;
 import com.forzo.holdMyCard.ui.activities.notesdetail.NotesDetailsActivity;
 import com.forzo.holdMyCard.ui.models.MyNotes;
 import com.forzo.holdMyCard.ui.recyclerAdapter.mynotes.MyNotesRecyclerAdapter;
@@ -106,6 +107,7 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
         intentSave.putExtra("noteDes", "");
         intentSave.putExtra("libraryProfile", "" + notesPrimaryValue);
         intentSave.putExtra("libraryProfileImage", "" + libraryImageValue);
+        intentSave.putExtra("ActivityAction","MyLibrary");
         startActivity(intentSave);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -113,10 +115,11 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(NotesActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(NotesActivity.this, NewCardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("libraryProfile", "" + notesPrimaryValue);
         intent.putExtra("libraryProfileImage", "" + libraryImageValue);
+        intent.putExtra("ActivityAction","MyLibrary");
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
@@ -124,10 +127,11 @@ public class NotesActivity extends AppCompatActivity implements NotesContract.Vi
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(NotesActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(NotesActivity.this, NewCardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("libraryProfile", "" + notesPrimaryValue);
         intent.putExtra("libraryProfileImage", "" + libraryImageValue);
+        intent.putExtra("ActivityAction","MyLibrary");
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }

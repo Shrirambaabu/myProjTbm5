@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
+import com.forzo.holdMyCard.ui.activities.newcard.NewCardActivity;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 
 import java.util.ArrayList;
@@ -36,9 +37,10 @@ public class MyLibraryListPresenter implements MyLibraryContract.Presenter {
     public void onItemClick(int adapterPosition) {
 
         Activity activity = (Activity) context;
-        Intent myLibraryIntent = new Intent(context, ProfileActivity.class);
+        Intent myLibraryIntent = new Intent(context, NewCardActivity.class);
         myLibraryIntent.putExtra("libraryProfile", "" + myLibraries.get(adapterPosition).getUserId());
         myLibraryIntent.putExtra("libraryProfileImage", "" + myLibraries.get(adapterPosition).getImage());
+        myLibraryIntent.putExtra("ActivityAction","MyLibrary");
         context.startActivity(myLibraryIntent);
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

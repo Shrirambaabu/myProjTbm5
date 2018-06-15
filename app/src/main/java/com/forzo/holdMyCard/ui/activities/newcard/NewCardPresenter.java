@@ -98,9 +98,19 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
     @Override
     public void getIntentValues(Intent intent) {
         String activityType = intent.getStringExtra("ActivityAction");
+        String libraryUserId = intent.getStringExtra("libraryProfile");
+        String profileLibraryImage = intent.getStringExtra("libraryProfileImage");
+        Log.e("NewPresenter",""+activityType);
         if (activityType != null) {
             if (activityType.equals("NewCard")) {
                 getView().newCardActivityType();
+            }
+            if (activityType.equals("MyLibrary")) {
+                getView().libraryActivityType();
+                showProfileData(libraryUserId);
+                getView().libraryUserId(libraryUserId);
+                if (profileLibraryImage != null)
+                    getView().setImage(profileLibraryImage);
             }
         }
     }
@@ -481,7 +491,7 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
 
     @SuppressLint("StaticFieldLeak")
     @Override
-    public void callWatsonAPI(String intentMessage,String intentEmail) {
+    public void callWatsonAPI(String intentMessage, String intentEmail) {
 
         service = new NaturalLanguageUnderstanding("2018-03-16");
         service.setUsernameAndPassword("e7c2b904-2645-4b07-91bb-583f4997f066", "wxrTNDqJjGBn");
@@ -581,5 +591,87 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                 }
             }.execute();
         }
+    }
+
+    @Override
+    public void showProfileData(String libraryUserId) {
+
+        mApiService.getUserProfile(libraryUserId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BusinessCard>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(BusinessCard businessCardList) {
+
+                        String userNameProfile = businessCardList.getName();
+                        String job = businessCardList.getJobTitle();
+                        String companyNameProfile = businessCardList.getCompany();
+                        String phoneNumberProfile = businessCardList.getPhoneNumber();
+                        String phoneNumberProfile2 = businessCardList.getPhoneNumber2();
+                        String phoneNumberProfile3 = businessCardList.getPhoneNumber3();
+                        String emailIdProfile = businessCardList.getEmailId();
+                        String websiteProfile = businessCardList.getWebsite();
+                        String addressProfile = businessCardList.getAddress();
+
+                        if (job == null) {
+                            job = "";
+                        }
+                        if (userNameProfile == null) {
+                            userNameProfile = "";
+                        }
+                        if (companyNameProfile == null) {
+                            companyNameProfile = "";
+                        }
+                        if (phoneNumberProfile == null) {
+                            phoneNumberProfile = "";
+                        }
+                       /* if (phoneNumberProfile2 == null || phoneNumberProfile2.length() <= 0) {
+                            phoneNumberProfile2 = "";
+                            getView().hideVisibilityPhoneNumber2();
+                        } else {
+                            getView().showVisibilityPhoneNumber2();
+                        }
+                        if (phoneNumberProfile3 == null || phoneNumberProfile3.length() <= 0) {
+                            phoneNumberProfile3 = "";
+                            getView().hideVisibilityPhoneNumber3();
+                        } else {
+                            Log.e(TAG, "onNext: " + phoneNumberProfile3);
+                            getView().showVisibilityPhoneNumber3();
+                        }*/
+                        if (emailIdProfile == null) {
+                            emailIdProfile = "";
+                        }
+                        if (websiteProfile == null) {
+                            websiteProfile = "";
+                        }
+                        if (addressProfile == null) {
+                            addressProfile = "";
+                        }
+
+                        getView().setUserName(userNameProfile);
+                        getView().setJobTitle(job);
+                        getView().setCompanyName(companyNameProfile);
+                        getView().setMobileNumber(phoneNumberProfile);/*
+                        getView().setPhoneNumber2(phoneNumberProfile2);
+                        getView().setPhoneNumber3(phoneNumberProfile3);*/
+                        getView().setEmailFromAPI(emailIdProfile);
+                        getView().setWebsiteFromAPI(websiteProfile);
+                        getView().setAddress(addressProfile);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("err", "" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
     }
 }
