@@ -13,7 +13,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@android:color/white">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/card_image"
@@ -52,7 +53,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="8dp"
                         android:src="@drawable/ic_edit_black_24dp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         app:cb_color="@android:color/white"
                         app:cb_pressedRingWidth="8dip" />
 
@@ -73,6 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
+                    android:layout_margin="8dp"
                     android:weightSum="3">
 
                     <RelativeLayout
@@ -155,12 +157,13 @@
 
                 <LinearLayout
                     android:id="@+id/scan_qr"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:id="@+id/calender"
+                        android:id="@+id/scan"
                         android:layout_width="0dp"
                         android:layout_height="90dp"
                         android:layout_marginBottom="8dp"
@@ -172,13 +175,13 @@
                         android:elevation="4dp">
 
                         <RelativeLayout
-                            android:id="@+id/calenderRelativeLayout"
+                            android:id="@+id/scanRelativeLayout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true">
 
                             <ImageView
-                                android:id="@+id/ic_calender"
+                                android:id="@+id/ic_scan"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_centerHorizontal="true"
@@ -187,7 +190,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@id/ic_calender"
+                                android:layout_below="@id/ic_scan"
                                 android:text="Scan"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp" />
@@ -196,7 +199,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:id="@+id/assignment"
+                        android:id="@+id/qrcode"
                         android:layout_width="0dp"
                         android:layout_height="90dp"
                         android:layout_marginBottom="8dp"
@@ -208,7 +211,7 @@
                         android:elevation="4dp">
 
                         <RelativeLayout
-                            android:id="@+id/assignmentRelativeLayout"
+                            android:id="@+id/qr_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true">
@@ -242,6 +245,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/card_action"
+                android:background="@android:color/white"
                 android:padding="4dp">
 
                 <ImageView
@@ -549,11 +553,22 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/button_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/data_layout"
                 android:layout_marginBottom="24dp">
 
+                <Button
+                    android:id="@+id/save_user_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="24dp"
+                    android:background="@drawable/button_bg"
+                    android:text="@string/save"
+                    android:textColor="@android:color/white"
+                    android:visibility="visible" />
                 <Button
                     android:id="@+id/update_user_profile"
                     android:layout_width="match_parent"
@@ -561,9 +576,93 @@
                     android:layout_marginEnd="24dp"
                     android:layout_marginStart="24dp"
                     android:background="@drawable/button_bg"
-                    android:text="@string/save"
-                    android:textColor="@android:color/white" />
+                    android:text="@string/update"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone" />
 
+                <RelativeLayout
+                    android:id="@+id/business_action_button"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/print_savelayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2">
+
+                        <Button
+                            android:id="@+id/print"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_bg"
+                            android:text="@string/print"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white" />
+
+                        <Button
+                            android:id="@+id/save_contact"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_bg"
+                            android:text="@string/save_contact"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/facebook_twitter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/print_savelayout"
+                        android:weightSum="2">
+
+                        <Button
+                            android:id="@+id/facebook"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_bg"
+                            android:text="@string/facebook"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white" />
+
+                        <Button
+                            android:id="@+id/twitter"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_bg"
+                            android:text="@string/twitter"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white" />
+
+
+                    </LinearLayout>
+
+
+                    <Button
+                        android:id="@+id/delete_user_profile"
+                        android:layout_below="@+id/facebook_twitter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/button_bg"
+                        android:text="@string/delete"
+                        android:textColor="@android:color/white"
+                        android:visibility="visible" />
+
+                </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
 

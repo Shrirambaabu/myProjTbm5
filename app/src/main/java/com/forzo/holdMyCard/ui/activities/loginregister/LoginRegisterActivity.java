@@ -12,6 +12,8 @@ import android.view.WindowManager;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
+import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
+import com.forzo.holdMyCard.ui.activities.newcard.NewCardActivity;
 import com.forzo.holdMyCard.ui.fragments.mylogin.MyLogin;
 import com.forzo.holdMyCard.ui.fragments.myregister.MyRegister;
 import com.forzo.holdMyCard.utils.SectionsStatePagerAdapter;
@@ -72,4 +74,13 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginReg
     public void showTabLayout() {
         tabLayout.setupWithViewPager(pager);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(LoginRegisterActivity.this, MyLibraryActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
 }

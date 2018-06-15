@@ -30,6 +30,9 @@
     <string name="profile">Profile</string>
     <string name="company">Company</string>
     <string name="save">Save</string>
+    <string name="print">Print</string>
+    <string name="save_contact">Save Contact</string>
+    <string name="twitter">Twitter</string>
 
 
 </resources>

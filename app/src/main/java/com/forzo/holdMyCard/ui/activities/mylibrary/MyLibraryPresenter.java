@@ -166,6 +166,41 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
                             Log.e("userImage", "" + businessCardList.get(i).getImageType());
                             Log.e("userImage", "" + businessCardList.get(i).getPostImage());
                             getView().setDpImage(businessCardList.get(i).getPostImage());
+                            PreferencesAppHelper.setCurrentUserProfileImage(businessCardList.get(i).getPostImage());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("err", "" + e.getMessage());
+                        Log.e("err", "erorr image get");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
+
+        mApiService.getUserProfileImages(PreferencesAppHelper.getUserId(), "BCF")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<BusinessCard>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(List<BusinessCard> businessCardList) {
+
+                        for (int i = 0; i < businessCardList.size(); i++) {
+
+                            BusinessCard card = new BusinessCard();
+
+
+                            Log.e("userImage", "" + businessCardList.get(i).getImageType());
+                            Log.e("userImage", "" + businessCardList.get(i).getPostImage());
+                            PreferencesAppHelper.setCurrentUserBusinessImage(businessCardList.get(i).getPostImage());
                         }
                     }
 

@@ -158,6 +158,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                         break;
                     case R.id.new_card:
                         Intent newCard = new Intent(MyLibraryActivity.this, NewCardActivity.class);
+                        newCard.putExtra("ActivityAction","NewCard");
                         startActivity(newCard);
                         break;
                     case R.id.personalized_qr:
@@ -173,6 +174,8 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
 
                         Intent logoutIntent = new Intent(MyLibraryActivity.this, LoginRegisterActivity.class);
                         logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        PreferencesAppHelper.setCurrentUserBusinessImage("");
+                        PreferencesAppHelper.setCurrentUserProfileImage("");
                         startActivity(logoutIntent);
                         break;
 

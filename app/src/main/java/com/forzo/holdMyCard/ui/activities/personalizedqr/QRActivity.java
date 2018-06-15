@@ -13,6 +13,8 @@ import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
+import com.forzo.holdMyCard.ui.activities.newcard.NewCardActivity;
+import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.google.zxing.BarcodeFormat;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
@@ -31,7 +33,8 @@ public class QRActivity extends AppCompatActivity implements QRContract.View {
     @Inject
     QRPresenter qrPresenter;
     private Context mContext = QRActivity.this;
-
+    private String businessImage="";
+    private String profileImage="";
 
     @BindView(R.id.qrCode)
     ImageView qrCodeImageView;
@@ -49,7 +52,21 @@ public class QRActivity extends AppCompatActivity implements QRContract.View {
                 .build()
                 .inject(this);
         qrPresenter.attach(this);
+        qrPresenter.getBackgroundImage();
+        Log.e("Prof",""+ PreferencesAppHelper.getCurrentUserProfileImage());
+        Log.e("ProfBusine",""+ PreferencesAppHelper.getCurrentUserBusinessImage());
+        //qrPresenter.getProfileImage();
         qrPresenter.getPersonalDetails();
+    }
+
+    @Override
+    public void setBackGroundImage(String backGroundImage) {
+        businessImage = backGroundImage;
+    }
+
+    @Override
+    public void setDpImage(String dpImage) {
+        profileImage = dpImage;
     }
 
     @Override
@@ -78,6 +95,10 @@ public class QRActivity extends AppCompatActivity implements QRContract.View {
                 phoneNumberProfile3 +
                 "','websiteProfile':'" +
                 websiteProfile +
+                "','businessImage':'" +
+                PreferencesAppHelper.getCurrentUserBusinessImage() +
+                "','profileImage':'" +
+                PreferencesAppHelper.getCurrentUserProfileImage() +
                 "','addressProfile':'" +
                 addressProfile +
                 "','email':'" +
@@ -104,5 +125,14 @@ public class QRActivity extends AppCompatActivity implements QRContract.View {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(QRActivity.this, MyLibraryActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
 
 }
