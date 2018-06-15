@@ -47,7 +47,7 @@ public interface ApiService {
     Observable<BusinessCard> getUserProfile(@Path("userId") String userId);
 
     @GET("profile/showProfileImagesByImageType/{userId}/{imageType}")
-    Observable<List<BusinessCard>> getUserProfileImages(@Path("userId") String userId,@Path("imageType") String imageType);
+    Observable<List<BusinessCard>> getUserProfileImages(@Path("userId") String userId, @Path("imageType") String imageType);
 
 
     @POST("login/registerUserUsingUserId")
@@ -67,7 +67,7 @@ public interface ApiService {
 
     @POST("login/loginUsingUserEmail")
     @FormUrlEncoded
-    Observable<User> loginToApp( @Field("email") String email, @Field("password") String password);
+    Observable<User> loginToApp(@Field("email") String email, @Field("password") String password);
 
     @POST("profile/registerProfileToLibrary")
     Observable<BusinessCard> saveBusinessCard(@Body BusinessCard businessCard);
@@ -99,6 +99,10 @@ public interface ApiService {
     @POST("remainder/updateFcmToken")
     @FormUrlEncoded
     Observable<Response<MyRemainder>> updateFcm(@Field("userId") String userId, @Field("token") String token);
+
+    @POST("profile/postImageByName")
+    @FormUrlEncoded
+    Observable<BusinessCard> postQRImage(@Field("userId") String userId, @Field("imageType") String imageType, @Field("imageName") String imageName);
 
     @POST("remainder/createRemainder")
     Observable<MyRemainder> saveRemainder(@Body MyRemainder myRemainder);

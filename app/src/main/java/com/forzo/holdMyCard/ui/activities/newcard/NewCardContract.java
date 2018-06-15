@@ -40,6 +40,11 @@ public interface NewCardContract {
         void callWatsonAPI(String intentMessage, String intentEmail);
 
         void showProfileData(String libraryUserId);
+
+        void saveQRImageName(String userId, String imageType, String imageName);
+
+        void saveBusinessImage(Uri uri,String userId,String imageType);
+
     }
 
     interface View {
@@ -78,7 +83,14 @@ public interface NewCardContract {
         void setJobTitle(String jobTitle);
 
         void setAddress(String address);
+
         void libraryUserId(String libraryUserId);
+
+        void setQRImage(String qrImage);
+
+        void savedQRProfileImage(String userId);
+
+        void qrProfileSavedSuccessfully();
 
     }
 }

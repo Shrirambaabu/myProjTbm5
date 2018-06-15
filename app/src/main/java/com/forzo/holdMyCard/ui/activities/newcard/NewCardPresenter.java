@@ -5,9 +5,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -63,12 +65,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.echodev.resizer.Resizer;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 import static android.app.Activity.RESULT_OK;
 import static com.forzo.holdMyCard.utils.NullUtils.notEmpty;
 import static com.forzo.holdMyCard.utils.Utils.CLOUD_NATURAL_API_KEY;
 import static com.forzo.holdMyCard.utils.Utils.CLOUD_VISION_API_KEY;
+import static com.forzo.holdMyCard.utils.Utils.getBitmapLowFile;
 import static com.forzo.holdMyCard.utils.Utils.getImageEncodeImage;
+import static com.forzo.holdMyCard.utils.Utils.getResizedBitmapFile;
 import static com.forzo.holdMyCard.utils.Utils.parseCompanyNameFromEmail;
 import static com.forzo.holdMyCard.utils.Utils.parseEmail;
 import static com.forzo.holdMyCard.utils.Utils.parseMobile;
@@ -100,7 +107,7 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
         String activityType = intent.getStringExtra("ActivityAction");
         String libraryUserId = intent.getStringExtra("libraryProfile");
         String profileLibraryImage = intent.getStringExtra("libraryProfileImage");
-        Log.e("NewPresenter",""+activityType);
+        Log.e("NewPresenter", "" + activityType);
         if (activityType != null) {
             if (activityType.equals("NewCard")) {
                 getView().newCardActivityType();
@@ -146,7 +153,7 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                     @Override
                     public void onNext(BusinessCard userChangePassword) {
                         Log.e("uss", userChangePassword.getUserId());
-                        // getView().savedSuccessfully(userChangePassword.getUserId());
+                        getView().savedQRProfileImage(userChangePassword.getUserId());
                         getView().hideLoader();
                     }
 
@@ -673,5 +680,81 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                     }
                 });
 
+    }
+
+    @Override
+    public void saveQRImageName(String userId, String imageType, String imageName) {
+        mApiService.postQRImage(userId, imageType, imageName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BusinessCard>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BusinessCard userChangePassword) {
+                        getView().qrProfileSavedSuccessfully();
+                        Log.e("Succ", "image");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //  progressBar.smoothToHide();
+                        Log.e("error", "" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    @Override
+    public void saveBusinessImage(Uri uri, String userId, String imageType) {
+        Bitmap bitmapS = null;
+
+        try {
+            bitmapS = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap newBitmap = getResizedBitmapFile(bitmapS, 480, 640);
+
+        File newFile = getBitmapLowFile(newBitmap);
+
+        RequestBody reqFile = RequestBody.create(MediaType.parse("image"), newFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("image", newFile.getName(), reqFile);
+
+
+        mApiService.postUserImage(body, Integer.parseInt(userId), imageType)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BusinessCard>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BusinessCard userChangePassword) {
+                        getView().qrProfileSavedSuccessfully();
+                        Log.e("Succ", "image");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //  progressBar.smoothToHide();
+                        Log.e("error", "" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

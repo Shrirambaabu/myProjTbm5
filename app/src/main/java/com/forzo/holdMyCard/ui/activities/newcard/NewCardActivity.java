@@ -104,9 +104,11 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     private String intentEmail = "";
 
     private String primaryValue = "";
+    private Uri profileImageUri = null;
 
     private String imageValue = "";
-
+    private String qrImageName = "";
+    private Bitmap businessBitmap = null;
     private static Uri capturedImageUri = null;
     private String[] permissionList = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR};
@@ -223,7 +225,38 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @Override
     public void libraryUserId(String libraryUserId) {
-        primaryValue=libraryUserId;
+        primaryValue = libraryUserId;
+    }
+
+    @Override
+    public void setQRImage(String qrImage) {
+        qrImageName = qrImage;
+        Glide.with(mContext)
+                .load(IMAGE_URL + qrImage)
+                .thumbnail(0.1f)
+                .into(businessImage);
+        qrCode = 1;
+    }
+
+    @Override
+    public void savedQRProfileImage(String userId) {
+
+        if (qrCode == 1) {
+            newCardPresenter.saveQRImageName(userId, "BCF", qrImageName);
+        } else {
+            newCardPresenter.saveBusinessImage(profileImageUri, userId, "BCF");
+        }
+
+    }
+
+    @Override
+    public void qrProfileSavedSuccessfully() {
+        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+
+        Intent intentSave = new Intent(NewCardActivity.this, MyLibraryActivity.class);
+        intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intentSave);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
@@ -266,6 +299,8 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @Override
     public void setProfileImageUri(Uri profileImageUri) {
+        // businessBitmap=
+        this.profileImageUri = profileImageUri;
         previewImage.setVisibility(View.GONE);
         Glide.with(this)
                 .load(profileImageUri)
@@ -338,15 +373,14 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @OnClick(R.id.save_user_profile)
     public void saveBusinessCard() {
-/*
         newCardPresenter.saveBusinessCard(textInputEditTextName.getText().toString(), textInputEditTextCompanyName.getText().toString(),
                 textInputEditTextJobTitle.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(),
                 "", textInputEditTextEmail.getText().toString(), textInputEditTextWebsite.getText().toString(),
-                textInputEditTextAddress.getText().toString());*/
-        Toast.makeText(getApplicationContext(), "Save disabled currently", Toast.LENGTH_LONG).show();
+                textInputEditTextAddress.getText().toString());
+        /*
         if (qrCode == 1) {
-            //   newCardPresenter.saveBusiness
-        }
+               newCardPresenter.saveQRImageName();
+        }*/
     }
 
     @OnClick(R.id.update_user_profile)
@@ -359,6 +393,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         Toast.makeText(getApplicationContext(), "Update disabled currently", Toast.LENGTH_LONG).show();
 
     }
+
     @OnClick(R.id.delete_user_profile)
     public void deleteBusinessCard() {
 /*
@@ -391,6 +426,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -415,7 +451,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                     textInputEditTextAddress.setText(jsonObj.getString("addressProfile"));
                     textInputEditTextEmail.setText(jsonObj.getString("email"));
                     if (!jsonObj.getString("businessImage").equals("") && !jsonObj.getString("businessImage").equals("null")) {
-                        setImage(jsonObj.getString("businessImage"));
+                        setQRImage(jsonObj.getString("businessImage"));
                         previewImage.setVisibility(View.GONE);
                     } else {
                         previewImage.setVisibility(View.VISIBLE);
@@ -435,12 +471,12 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @Override
     public void setImage(String image) {
-        imageValue=image;
+        imageValue = image;
         Glide.with(mContext)
                 .load(IMAGE_URL + image)
                 .thumbnail(0.1f)
                 .into(businessImage);
-        qrCode = 1;
+
     }
 
 
