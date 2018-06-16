@@ -96,8 +96,6 @@ dependencies {
     //QR code library
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
 
-    //convert layout to png
-    implementation 'com.github.vipulasri.layouttoimage:library:1.0.0'
 
     //save to sd card
     implementation 'com.snatik:storage:2.1.0'

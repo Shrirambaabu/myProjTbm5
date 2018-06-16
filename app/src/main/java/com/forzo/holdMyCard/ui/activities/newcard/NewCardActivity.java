@@ -45,7 +45,6 @@ import com.google.zxing.integration.android.IntentResult;
 import com.snatik.storage.Storage;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-import com.vipul.hp_hp.library.Layout_to_Image;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONException;
@@ -476,8 +475,8 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @OnClick(R.id.print)
     public void createPdf() {
-        activityLoader();
 
+        activityLoader();
 /*
         Layout_to_Image layout_to_image = new Layout_to_Image(NewCardActivity.this, scrollView);
         Bitmap bitmap = layout_to_image.convert_layout();*/

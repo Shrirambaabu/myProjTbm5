@@ -1,30 +1,49 @@
 package com.forzo.holdMyCard.ui.activities.userprofile;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
+import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.jackandphantom.circularimageview.CircleImage;
+import com.snatik.storage.Storage;
 import com.wang.avi.AVLoadingIndicatorView;
 
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -72,6 +91,8 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     TextInputEditText textInputEditTextEmail;
     @BindView(R.id.relative_progress)
     RelativeLayout relativeLayout;
+    @BindView(R.id.rel_home)
+    RelativeLayout relativeHome;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avLoadingIndicatorView;
 
@@ -79,6 +100,10 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     UserProfilePresenter userProfilePresenter;
     private Context mContext = UserProfileActivity.this;
 
+
+    private Storage storage;
+    private String newDir;
+    private int WRITE_EXTERNAL_STORAGE = 111;
     private File businessFile = null;
     private File profileImageFile = null;
 
@@ -95,19 +120,112 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                 .build()
                 .inject(this);
         userProfilePresenter.attach(this);
+        createPath();
         userProfilePresenter.getIntentValues(getIntent());
         // ImagePicker.setMinQuality(600, 600);
     }
 
+    private void createPath() {
+        //init
+        storage = new Storage(getApplicationContext());
+        // get external storage
+        String path = storage.getExternalStorageDirectory();
+
+        // new dir
+        newDir = path + File.separator + "Convert to Png";
+        storage.createDirectory(newDir);
+        Log.e("path", "" + newDir);
+        boolean hasPermission = (ContextCompat.checkSelfPermission(getBaseContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(UserProfileActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.ACCESS_NETWORK_STATE,
+                            Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                            Manifest.permission.INTERNET
+                    }, WRITE_EXTERNAL_STORAGE);
+        }
+    }
+
     @OnClick(R.id.edit_profile_image)
     public void imageSelect() {
-        //  ImagePicker.pickImage(this, "Select your image:");
         EasyImage.openChooserWithGallery(UserProfileActivity.this, "Select the image", 0);
+    }
+
+    @OnClick(R.id.print_user_profile)
+    public void printUserProfile() {
+
+        activityLoader();
+/*
+        Layout_to_Image layout_to_image = new Layout_to_Image(NewCardActivity.this, scrollView);
+        Bitmap bitmap = layout_to_image.convert_layout();*/
+
+        Bitmap bitmap = Bitmap.createBitmap(relativeHome.getWidth(), relativeHome.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvasPng = new Canvas(bitmap);
+        relativeHome.draw(canvasPng);
+
+        boolean success = storage.createFile(newDir + File.separator + "image.jpg", bitmap);
+        if (success) {
+
+            WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+            Display display = wm.getDefaultDisplay();
+            DisplayMetrics displaymetrics = new DisplayMetrics();
+            this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+            float hight = displaymetrics.heightPixels;
+            float width = displaymetrics.widthPixels;
+
+            int convertHighet = (int) hight, convertWidth = (int) width;
+
+//        Resources mResources = getResources();
+//        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.screenshot);
+
+            PdfDocument document = new PdfDocument();
+            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create();
+            PdfDocument.Page page = document.startPage(pageInfo);
+
+            Canvas canvas = page.getCanvas();
+
+
+            Paint paint = new Paint();
+            paint.setColor(Color.parseColor("#ffffff"));
+            canvas.drawPaint(paint);
+
+
+            bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+
+            paint.setColor(Color.BLUE);
+            canvas.drawBitmap(bitmap, 0, 0, null);
+            document.finishPage(page);
+
+
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                    Locale.getDefault()).format(new Date());
+
+            // write the document content
+            String targetPdf = "/sdcard/" + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
+            File filePath = new File(targetPdf);
+            try {
+                document.writeTo(new FileOutputStream(filePath));
+                Toast.makeText(getApplicationContext(), "File Downloaded", Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Sorry, Something wrong !!", Toast.LENGTH_LONG).show();
+            }
+            hideLoader();
+            // close the document
+            document.close();
+        } else {
+            hideLoader();
+            //  Toast.makeText(this, "Image couldn't be saved to " + newDir + File.separator + "image.jpg", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "File couldn't be downloaded", Toast.LENGTH_LONG).show();
+        }
+
+
     }
 
     @OnClick(R.id.edit_profile)
     public void profileImageSelect() {
-        //  ImagePicker.pickImage(this, "Select your image:");
         EasyImage.openChooserWithGallery(UserProfileActivity.this, "Select the image", 1);
     }
 

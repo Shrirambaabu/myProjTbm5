@@ -12,6 +12,7 @@
         android:scrollbars="none">
 
         <RelativeLayout
+            android:id="@+id/rel_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -388,23 +389,35 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
+                android:weightSum="2"
                 android:layout_below="@+id/data_layout">
 
                 <Button
-                    android:id="@+id/update_user_profile"
-                    android:layout_width="match_parent"
+                    android:id="@+id/print_user_profile"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_bg"
+                    android:text="@string/print"
+                    android:textColor="@android:color/white"
+                    android:layout_marginEnd="24dp"/>
+                <Button
+                    android:id="@+id/update_user_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_weight="1"
                     android:background="@drawable/button_bg"
                     android:text="@string/update"
                     android:textColor="@android:color/white"
                     android:layout_marginEnd="24dp"/>
 
-            </RelativeLayout>
+            </LinearLayout>
         </RelativeLayout>
 
 
