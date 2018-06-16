@@ -35,15 +35,28 @@
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextColor="@android:color/white" />
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tabLayout">
+            android:layout_below="@+id/tabLayout"
+            android:layout_marginBottom="24dp">
 
             <include layout="@layout/layout_center_viewpager" />
 
         </RelativeLayout>
 
+
+        <TextView
+            android:id="@+id/version_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="8dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/black"
+            android:paddingStart="8dp"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView

@@ -2,6 +2,7 @@ package com.forzo.holdMyCard.ui.fragments.mylogin;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 
@@ -60,6 +61,7 @@ public class MyLoginPresenter extends BasePresenter<MyLoginContract.View> implem
                     public void onError(Throwable e) {
                         Log.e("err", "" + e.getMessage());
                         getView().hideProgressBar();
+                        errorDialog();
                         Log.e("error", "HMCerror");
                     }
 
@@ -69,5 +71,18 @@ public class MyLoginPresenter extends BasePresenter<MyLoginContract.View> implem
                         Log.e("error", "HMCcomplete");
                     }
                 });
+    }
+
+    @Override
+    public void errorDialog() {
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Error !!!");
+        alertDialog.setMessage("Make sure you have entered correct Username/Password and activated your account");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+                (dialog, which) -> {
+                    dialog.dismiss();
+
+                });
+        alertDialog.show();
     }
 }

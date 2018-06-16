@@ -88,6 +88,10 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     MyCurrentLibraryFragment myCurrentLibraryFragment;
     @Inject
     MyGroupsFragment myGroupsFragment;
+
+    @BindView(R.id.version_number)
+    TextView versionNumberTextView;
+
     private SearchView mSearchView;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private Context mContext = MyLibraryActivity.this;
@@ -129,6 +133,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
 
         myLibraryPresenter.attach(this);
         myLibraryPresenter.registerFirstTime();
+        myLibraryPresenter.checkVersion();
         myLibraryPresenter.setupViewPager(pager, adapter, myCurrentLibraryFragment, myGroupsFragment);
         View headerview = navigationView.getHeaderView(0);
         RelativeLayout relativeLayoutHeader = (RelativeLayout) headerview.findViewById(R.id.nav_header_layout);
@@ -158,7 +163,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                         break;
                     case R.id.new_card:
                         Intent newCard = new Intent(MyLibraryActivity.this, NewCardActivity.class);
-                        newCard.putExtra("ActivityAction","NewCard");
+                        newCard.putExtra("ActivityAction", "NewCard");
                         startActivity(newCard);
                         break;
                     case R.id.personalized_qr:
@@ -217,6 +222,12 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                 .load(IMAGE_URL + imageName)
                 .thumbnail(0.1f)
                 .into(profImage);
+    }
+
+    @Override
+    public void setVersionNumber(String versionNumber) {
+        Log.e("ve",""+versionNumber);
+        versionNumberTextView.setText(versionNumber);
     }
 
 

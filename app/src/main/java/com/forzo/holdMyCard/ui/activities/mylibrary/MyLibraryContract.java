@@ -26,6 +26,8 @@ public interface MyLibraryContract {
         void showExitDialog();
 
         void setNavigationHeader();
+
+        void checkVersion();
     }
 
     // Action callbacks. Activity/Fragment will implement
@@ -34,7 +36,9 @@ public interface MyLibraryContract {
         void showTabLayout();
 
         void setUserProfileName(String userProfileName);
+
         void setDpImage(String imageName);
+        void setVersionNumber(String versionNumber);
 
         void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
 
