@@ -26,6 +26,7 @@ public class ForgetPasswordConfirmationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password_confirmation);
         ButterKnife.bind(this);
+        tickImage.setColorFilter(getApplicationContext().getResources().getColor(R.color.colorPrimary));
     }
 
     @OnClick(R.id.login_password)

@@ -173,6 +173,49 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
     }
 
     @Override
+    public void updateCard(String userId, String nameTextInputEditText, String companyTextInputEditText, String jobTitleTextInputEditText, String mobileTextInputEditText, String mobileTextInputEditText2, String mobileTextInputEditText3, String emailTextInputEditText, String websiteTextInputEditText, String addressTextInputEditText) {
+        BusinessCard businessCard = new BusinessCard();
+        businessCard.setUserId(userId);
+        businessCard.setName(nameTextInputEditText);
+        businessCard.setCompany(companyTextInputEditText);
+        businessCard.setJobTitle(jobTitleTextInputEditText);
+        businessCard.setPhoneNumber(mobileTextInputEditText);
+        businessCard.setPhoneNumber2(mobileTextInputEditText2);
+        businessCard.setPhoneNumber3(mobileTextInputEditText3);
+        businessCard.setEmailId(emailTextInputEditText);
+        businessCard.setWebsite(websiteTextInputEditText);
+        businessCard.setAddress(addressTextInputEditText);
+
+        mApiService.updateBusinessCard(businessCard)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BusinessCard>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                        getView().activityLoader();
+                    }
+
+                    @Override
+                    public void onNext(BusinessCard userChangePassword) {
+                        Log.e("uss", "done");
+                        getView().updateSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("error", "" + e.getMessage());
+                        getView().hideLoader();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    @Override
     public boolean checkPermission(String[] permissions, int requestCode) {
         ArrayList<String> permissionsList = new ArrayList<>();
         for (String permission : permissions) {
@@ -749,6 +792,37 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                     public void onError(Throwable e) {
                         //  progressBar.smoothToHide();
                         Log.e("error", "" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    @Override
+    public void deleteCard(String userId) {
+
+        mApiService.deleteBusinessCard(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BusinessCard>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        getView().activityLoader();
+                    }
+
+                    @Override
+                    public void onNext(BusinessCard userChangePassword) {
+                        Log.e("uss", "deleted");
+                        getView().deleteProfile();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("error", "" + e.getMessage());
+                        getView().hideLoader();
                     }
 
                     @Override

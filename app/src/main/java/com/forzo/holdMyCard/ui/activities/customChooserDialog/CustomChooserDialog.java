@@ -5,14 +5,19 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
@@ -34,8 +39,12 @@ public class CustomChooserDialog extends Activity implements CustomChooserDialog
     private static final String TAG = "CustomChooserDialog";
     @Inject
     CustomChooserDialogPresenter customChooserDialogPresenter;
-    @BindView(R.id.linearLayout)
-    LinearLayout linearLayout;
+    @BindView(R.id.relativeLayout)
+    RelativeLayout relativeLayout;
+    @BindView(R.id.create_event_image)
+    ImageView createEventImage;
+    @BindView(R.id.view_calendar_image)
+    ImageView viewCalendarImage;
     private Context mContext = CustomChooserDialog.this;
 
     @Override
@@ -51,12 +60,16 @@ public class CustomChooserDialog extends Activity implements CustomChooserDialog
                 .inject(this);
 
         customChooserDialogPresenter.attach(this);
+
+        createEventImage.setColorFilter(getApplicationContext().getResources().getColor(R.color.colorPrimary));
+        viewCalendarImage.setColorFilter(getApplicationContext().getResources().getColor(R.color.colorPrimary));
+
     }
 
-    @OnClick({R.id.create, R.id.view})
+    @OnClick({R.id.create_event_layout, R.id.my_calendar_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.create:
+            case R.id.create_event_layout:
                 try {
                     String email = "";
                     if (getIntent().getExtras() != null)
@@ -88,7 +101,7 @@ public class CustomChooserDialog extends Activity implements CustomChooserDialog
                     alertDialog.show();
                 }
                 break;
-            case R.id.view:
+            case R.id.my_calendar_layout:
                 try {
                     Intent calIntent = new Intent(Intent.ACTION_MAIN);
                     calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR);

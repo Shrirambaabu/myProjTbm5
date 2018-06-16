@@ -19,6 +19,8 @@ public interface NewCardContract {
 
         void saveBusinessCard(String nameTextInputEditText, String companyTextInputEditText, String jobTitleTextInputEditText, String mobileTextInputEditText, String mobileTextInputEditText2, String mobileTextInputEditText3, String emailTextInputEditText, String websiteTextInputEditText, String addressTextInputEditText);
 
+        void updateCard(String userId, String nameTextInputEditText, String companyTextInputEditText, String jobTitleTextInputEditText, String mobileTextInputEditText, String mobileTextInputEditText2, String mobileTextInputEditText3, String emailTextInputEditText, String websiteTextInputEditText, String addressTextInputEditText);
+
         boolean checkPermission(String[] permissions, int requestCode);
 
         void handleResult(int requestCode, int resultCode, Intent data, Uri capturedImageUri);
@@ -43,7 +45,9 @@ public interface NewCardContract {
 
         void saveQRImageName(String userId, String imageType, String imageName);
 
-        void saveBusinessImage(Uri uri,String userId,String imageType);
+        void saveBusinessImage(Uri uri, String userId, String imageType);
+
+        void deleteCard(String userId);
 
     }
 
@@ -91,6 +95,11 @@ public interface NewCardContract {
         void savedQRProfileImage(String userId);
 
         void qrProfileSavedSuccessfully();
+
+        void updateSuccess();
+
+        void deleteProfile();
+
 
     }
 }

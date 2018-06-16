@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
+import com.forzo.holdMyCard.ui.activities.customChooserDialog.CustomChooserDialog;
+import com.forzo.holdMyCard.ui.activities.imageFullScreen.ImageFullScreenActivity;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.activities.notes.DaggerNotesComponent;
 import com.forzo.holdMyCard.ui.activities.notes.NotesActivity;
@@ -260,6 +262,25 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     }
 
     @Override
+    public void updateSuccess() {
+        Toast.makeText(getApplicationContext(), "Business Card Updated", Toast.LENGTH_LONG).show();
+        Intent intentSave = new Intent(NewCardActivity.this, MyLibraryActivity.class);
+        intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intentSave);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+
+    @Override
+    public void deleteProfile() {
+        Toast.makeText(getApplicationContext(), "Business Card Deleted", Toast.LENGTH_LONG).show();
+        Intent intentSave = new Intent(NewCardActivity.this, MyLibraryActivity.class);
+        intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intentSave);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
     public void newCardActivityType() {
         saveButton.setVisibility(View.VISIBLE);
         scanQRLayout.setVisibility(View.VISIBLE);
@@ -385,23 +406,19 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @OnClick(R.id.update_user_profile)
     public void updateBusinessCard() {
-/*
-        newCardPresenter.updateBusinessCard(textInputEditTextName.getText().toString(), textInputEditTextCompanyName.getText().toString(),
+
+        Log.e("updateBus", "" + primaryValue);
+
+        newCardPresenter.updateCard(primaryValue, textInputEditTextName.getText().toString(), textInputEditTextCompanyName.getText().toString(),
                 textInputEditTextJobTitle.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(),
                 "", textInputEditTextEmail.getText().toString(), textInputEditTextWebsite.getText().toString(),
-                textInputEditTextAddress.getText().toString());*/
-        Toast.makeText(getApplicationContext(), "Update disabled currently", Toast.LENGTH_LONG).show();
+                textInputEditTextAddress.getText().toString());
 
     }
 
     @OnClick(R.id.delete_user_profile)
     public void deleteBusinessCard() {
-/*
-        newCardPresenter.updateBusinessCard(textInputEditTextName.getText().toString(), textInputEditTextCompanyName.getText().toString(),
-                textInputEditTextJobTitle.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(),
-                "", textInputEditTextEmail.getText().toString(), textInputEditTextWebsite.getText().toString(),
-                textInputEditTextAddress.getText().toString());*/
-        Toast.makeText(getApplicationContext(), "Delete disabled currently", Toast.LENGTH_LONG).show();
+        newCardPresenter.deleteCard(primaryValue);
 
     }
 
@@ -425,6 +442,26 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         intent.putExtra("libraryProfileImage", "" + imageValue);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @OnClick(R.id.calendar_rel)
+    public void calenderSection() {
+        Intent calendarIntent = new Intent(mContext, CustomChooserDialog.class);
+        calendarIntent.putExtra("email", textInputEditTextEmail.getText().toString());
+        startActivity(calendarIntent);
+    }
+
+    @OnClick(R.id.profile_library_image)
+    public void onViewClicked() {
+        if (imageValue != null) {
+            Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
+            if (imageValue != null)
+                fullScreenIntent.putExtra("image", IMAGE_URL + imageValue);
+            if (profileImageUri != null)
+                fullScreenIntent.putExtra("imageUri", profileImageUri.toString());
+            startActivity(fullScreenIntent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
     }
 
     @Override
