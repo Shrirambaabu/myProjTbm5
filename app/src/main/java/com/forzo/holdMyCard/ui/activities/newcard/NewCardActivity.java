@@ -3,19 +3,29 @@ package com.forzo.holdMyCard.ui.activities.newcard;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -28,15 +38,25 @@ import com.forzo.holdMyCard.ui.activities.notes.DaggerNotesComponent;
 import com.forzo.holdMyCard.ui.activities.notes.NotesActivity;
 import com.forzo.holdMyCard.ui.activities.remainder.ReminderActivity;
 import com.forzo.holdMyCard.utils.CameraUtils;
+import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.snatik.storage.Storage;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.vipul.hp_hp.library.Layout_to_Image;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -82,11 +102,15 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     LinearLayout scanQRLayout;
     @BindView(R.id.business_action_button)
     RelativeLayout businessActionButton;
+    @BindView(R.id.rel_one)
+    RelativeLayout relativeHome;
     @BindView(R.id.card_function)
     LinearLayout cardFunctionLayout;
 
     @BindView(R.id.avi)
     AVLoadingIndicatorView avLoadingIndicatorView;
+    @BindView(R.id.scroll)
+    ScrollView scrollView;
 
     @BindView(R.id.save_user_profile)
     Button saveButton;
@@ -105,6 +129,10 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     private final int requestCode = 20;
     private String intentEmail = "";
 
+
+    private Storage storage;
+    private String newDir;
+    private int WRITE_EXTERNAL_STORAGE = 111;
     private String primaryValue = "";
     private Uri profileImageUri = null;
 
@@ -132,10 +160,34 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         newCardPresenter.attach(this);
         newCardPresenter.getIntentValues(getIntent());
 
-
+        createPath();
         feature = new Feature();
         feature.setType(visionAPI[0]);
         feature.setMaxResults(15);
+    }
+
+    private void createPath() {
+
+        //init
+        storage = new Storage(getApplicationContext());
+        // get external storage
+        String path = storage.getExternalStorageDirectory();
+
+        // new dir
+        newDir = path + File.separator + "Convert to Png";
+        storage.createDirectory(newDir);
+        Log.e("path", "" + newDir);
+        boolean hasPermission = (ContextCompat.checkSelfPermission(getBaseContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(NewCardActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.ACCESS_NETWORK_STATE,
+                            Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                            Manifest.permission.INTERNET
+                    }, WRITE_EXTERNAL_STORAGE);
+        }
     }
 
 
@@ -422,6 +474,76 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     }
 
+    @OnClick(R.id.print)
+    public void createPdf() {
+        activityLoader();
+
+/*
+        Layout_to_Image layout_to_image = new Layout_to_Image(NewCardActivity.this, scrollView);
+        Bitmap bitmap = layout_to_image.convert_layout();*/
+
+        Bitmap bitmap = Bitmap.createBitmap(scrollView.getWidth(), relativeHome.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvasPng = new Canvas(bitmap);
+        relativeHome.draw(canvasPng);
+
+        boolean success = storage.createFile(newDir + File.separator + "image.jpg", bitmap);
+        if (success) {
+
+            WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+            Display display = wm.getDefaultDisplay();
+            DisplayMetrics displaymetrics = new DisplayMetrics();
+            this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+            float hight = displaymetrics.heightPixels;
+            float width = displaymetrics.widthPixels;
+
+            int convertHighet = (int) hight, convertWidth = (int) width;
+
+//        Resources mResources = getResources();
+//        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.screenshot);
+
+            PdfDocument document = new PdfDocument();
+            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create();
+            PdfDocument.Page page = document.startPage(pageInfo);
+
+            Canvas canvas = page.getCanvas();
+
+
+            Paint paint = new Paint();
+            paint.setColor(Color.parseColor("#ffffff"));
+            canvas.drawPaint(paint);
+
+
+            bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+
+            paint.setColor(Color.BLUE);
+            canvas.drawBitmap(bitmap, 0, 0, null);
+            document.finishPage(page);
+
+
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                    Locale.getDefault()).format(new Date());
+
+            // write the document content
+            String targetPdf = "/sdcard/" + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
+            File filePath = new File(targetPdf);
+            try {
+                document.writeTo(new FileOutputStream(filePath));
+                Toast.makeText(getApplicationContext(), "File Downloaded", Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Sorry, Something wrong !!", Toast.LENGTH_LONG).show();
+            }
+            hideLoader();
+            // close the document
+            document.close();
+        } else {
+            hideLoader();
+            //  Toast.makeText(this, "Image couldn't be saved to " + newDir + File.separator + "image.jpg", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "File couldn't be downloaded", Toast.LENGTH_LONG).show();
+        }
+
+
+    }
 
     @OnClick(R.id.note_rel)
     public void noteSection() {
