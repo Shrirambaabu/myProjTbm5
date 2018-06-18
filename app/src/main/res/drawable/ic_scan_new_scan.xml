@@ -1,0 +1,22 @@
+<vector android:height="24dp" android:viewportHeight="480"
+    android:viewportWidth="480" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#3A79FF" android:pathData="M441,0L249,0c-22.1,0 -40,17.9 -40,40v48L9,88c-4.4,0 -8,3.6 -8,8v136c0,4.4 3.6,8 8,8h200v200c0,22.1 17.9,40 40,40h192c22.1,0 40,-17.9 40,-40L481,40C481,17.9 463.1,0 441,0zM209,224L17,224L17,104h192L209,224zM465,384L257,384v16h208v40c0,13.3 -10.7,24 -24,24L249,464c-13.3,0 -24,-10.7 -24,-24L225,80h208v-16L225,64v-24c0,-13.3 10.7,-24 24,-24h192c13.3,0 24,10.7 24,24L465,384z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M337,424h16v16h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M281,32h16v16h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M313,32h16v16h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M33,128h16v72h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M57,128h16v56h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M81,128h16v56h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M105,128h16v56h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M129,128h16v56h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M153,128h16v56h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M177,128h16v56h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M257,144h16v80h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M281,144h16v64h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M305,144h16v64h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M329,144h16v64h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M353,144h16v64h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M377,144h16v64h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M401,144h16v64h-16z"/>
+    <path android:fillColor="#3A79FF" android:pathData="M425,144h16v80h-16z"/>
+</vector>

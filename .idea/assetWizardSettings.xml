@@ -80,7 +80,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/communication/ic_email_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_close_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -90,10 +90,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_my_calendar" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_close_black_24dp" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="E:\HMC\Final_Blue_with_assets\assets\4.1 Calendar Pop up\my_calendar.svg" />
+                            <entry key="sourceFile" value="E:\HMC\Final_Blue_with_assets\scan.svg" />
                           </map>
                         </option>
                       </PersistentState>

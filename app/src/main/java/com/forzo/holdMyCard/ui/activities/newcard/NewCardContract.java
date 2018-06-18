@@ -49,6 +49,10 @@ public interface NewCardContract {
 
         void deleteCard(String userId);
 
+        void saveContactToPhone(String name, String mobile, String email, String companyName, String jobTitle, String address);
+
+        void searchUserOnTwitter(String userName);
+
     }
 
     interface View {

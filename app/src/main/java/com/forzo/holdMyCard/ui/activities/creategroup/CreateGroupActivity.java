@@ -2,11 +2,13 @@ package com.forzo.holdMyCard.ui.activities.creategroup;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
@@ -40,8 +42,6 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
     @Inject
     CreateGroupRecyclerAdapter createGroupRecyclerAdapter;
 
-    @BindView(R.id.bottomNavigationView)
-    BottomNavigationViewEx bottomNavigationViewEx;
 
     @Inject
     ArrayList<MyLibrary> myLibraryArrayList;
@@ -57,7 +57,6 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
 
     TextView mNext;
     private Context mContext = CreateGroupActivity.this;
-
     private static final int ACTIVITY_NUM = 1;
 
     @Override
@@ -76,8 +75,28 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
         searchView.setQueryHint("Search for people to add");
         createGroupPresenter.attach(this);
         createGroupPresenter.getIntentValues(getIntent());
-        createGroupPresenter.bottomNavigationViewSetup(bottomNavigationViewEx);
         createGroupPresenter.setupShowsRecyclerView(recyclerView, emptyView);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                searchView.clearFocus();
+            }
+        }, 300);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                Log.e("SearchQuery", "" + newText);
+                return false;
+            }
+        });
     }
 
 
@@ -98,7 +117,7 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
 
             case R.id.action_next:
 
-                Toast.makeText(getApplicationContext(),"Next",Toast.LENGTH_LONG).show();
+                createGroupPresenter.gotoGroupName();
 
                 return true;
             default:
@@ -106,10 +125,34 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
         }
     }
 
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent intent = new Intent(CreateGroupActivity.this, MyLibraryActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(CreateGroupActivity.this, MyLibraryActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+
     @Override
     public void showRecyclerView() {
         recyclerView.setAdapter(createGroupRecyclerAdapter);
         createGroupPresenter.populateRecyclerView(myLibraryArrayList);
+    }
+
+    @Override
+    public void createGroupId(ArrayList<String> stringArrayList3) {
+        Log.e("MainActivity", "" + stringArrayList3.size());
     }
 
     @Override
@@ -131,13 +174,5 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 });
         alertDialog.show();
-    }
-
-    @Override
-    public void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx) {
-        enableNavigation(mContext, this, bottomNavigationViewEx);
-        Menu menu = bottomNavigationViewEx.getMenu();
-        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
-        menuItem.setChecked(true);
     }
 }

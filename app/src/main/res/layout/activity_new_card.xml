@@ -189,7 +189,7 @@
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_centerHorizontal="true"
-                                android:src="@drawable/ic_calender" />
+                                android:src="@drawable/ic_scan_new_scan" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -221,16 +221,16 @@
                             android:layout_centerInParent="true">
 
                             <ImageView
-                                android:id="@+id/ic_assignment"
+                                android:id="@+id/ic_qr"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_centerHorizontal="true"
-                                android:src="@drawable/ic_calender" />
+                                android:src="@drawable/ic_qr_code" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@id/ic_assignment"
+                                android:layout_below="@id/ic_qr"
                                 android:text="QR code"
                                 android:textColor="@android:color/black"
                                 android:textSize="18sp" />

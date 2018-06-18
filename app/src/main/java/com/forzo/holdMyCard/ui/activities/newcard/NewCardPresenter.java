@@ -9,13 +9,16 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
 import com.forzo.holdMyCard.HmcApplication;
+import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
@@ -830,5 +833,31 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
 
                     }
                 });
+    }
+
+    @Override
+    public void saveContactToPhone(String name, String mobile, String email, String companyName, String jobTitle, String address) {
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        intent.putExtra(ContactsContract.Intents.Insert.NAME, name);
+        intent.putExtra(ContactsContract.Intents.Insert.PHONE, mobile);
+        intent.putExtra(ContactsContract.Intents.Insert.EMAIL, email);
+        intent.putExtra(ContactsContract.Intents.Insert.COMPANY, companyName);
+        intent.putExtra(ContactsContract.Intents.Insert.JOB_TITLE, jobTitle);
+        intent.putExtra(ContactsContract.Intents.Insert.POSTAL, address);
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
+    }
+
+    @Override
+    public void searchUserOnTwitter(String userName) {
+        Intent twIntent = new Intent();
+        twIntent.setAction(Intent.ACTION_VIEW);
+        twIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+        twIntent.setData(Uri.parse("https://twitter.com/search?f=users&vertical=default&q=" + userName));
+        context.startActivity(twIntent);
+
+
     }
 }

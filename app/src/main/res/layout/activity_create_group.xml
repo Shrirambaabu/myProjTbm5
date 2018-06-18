@@ -7,51 +7,32 @@
     android:background="@android:color/white"
     tools:context="com.forzo.holdMyCard.ui.activities.creategroup.CreateGroupActivity">
 
-
-    <android.support.v7.widget.SearchView
-        android:id="@+id/search_groups"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/searchBg"
-        android:elevation="8dp"
-        tools:targetApi="LOLLIPOP" />
-
-
     <RelativeLayout
-        android:id="@+id/group_des"
+        android:id="@+id/search_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/search_groups"
-        android:layout_marginTop="24dp"
-        android:focusableInTouchMode="true">
+        android:background="@color/colorPrimary">
 
-        <ImageView
-            android:id="@+id/group_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_group_pic" />
-
-        <EditText
-            android:id="@+id/group_name"
+        <android.support.v7.widget.SearchView
+            android:id="@+id/search_groups"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
+            android:layout_height="48dp"
+            app:iconifiedByDefault="false"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_toEndOf="@+id/group_icon"
             android:focusableInTouchMode="true"
-            android:hint="Name your group" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/searchBg"
+            android:elevation="8dp"
+            tools:targetApi="LOLLIPOP" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/group_des"
+        android:layout_below="@+id/search_contact"
         android:layout_marginBottom="60dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -91,8 +72,6 @@
             android:textSize="20sp" />
 
     </RelativeLayout>
-
-    <include layout="@layout/layout_bottom_navigation_view" />
 
 
 </RelativeLayout>

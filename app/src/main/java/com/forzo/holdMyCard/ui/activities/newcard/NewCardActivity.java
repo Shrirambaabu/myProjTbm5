@@ -218,6 +218,23 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                 .initiateScan();
     }
 
+    @OnClick(R.id.save_contact)
+    public void saveToPhoneContact() {
+        newCardPresenter.saveContactToPhone(textInputEditTextName.getText().toString(), textInputEditTextMobile.getText().toString(),
+                textInputEditTextEmail.getText().toString(), textInputEditTextCompanyName.getText().toString(),
+                textInputEditTextJobTitle.getText().toString(), textInputEditTextAddress.getText().toString());
+    }
+
+    @OnClick(R.id.twitter)
+    public void searchOnTwitter() {
+
+        if (!textInputEditTextName.getText().toString().equals("")) {
+            newCardPresenter.searchUserOnTwitter(textInputEditTextName.getText().toString());
+        } else {
+            Toast.makeText(getApplicationContext(), "UserName is empty !", Toast.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     public void activityLoader() {
         relativeLayout.setVisibility(View.VISIBLE);
@@ -445,10 +462,16 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @OnClick(R.id.save_user_profile)
     public void saveBusinessCard() {
-        newCardPresenter.saveBusinessCard(textInputEditTextName.getText().toString(), textInputEditTextCompanyName.getText().toString(),
-                textInputEditTextJobTitle.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(),
-                "", textInputEditTextEmail.getText().toString(), textInputEditTextWebsite.getText().toString(),
-                textInputEditTextAddress.getText().toString());
+
+        if (businessImage == null && previewImage == null) {
+            Toast.makeText(getApplicationContext(), "Select an image", Toast.LENGTH_LONG).show();
+        } else {
+
+            newCardPresenter.saveBusinessCard(textInputEditTextName.getText().toString(), textInputEditTextCompanyName.getText().toString(),
+                    textInputEditTextJobTitle.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(),
+                    "", textInputEditTextEmail.getText().toString(), textInputEditTextWebsite.getText().toString(),
+                    textInputEditTextAddress.getText().toString());
+        }
         /*
         if (qrCode == 1) {
                newCardPresenter.saveQRImageName();

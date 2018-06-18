@@ -8,17 +8,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.forzo.holdMyCard.HmcApplication;
 import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
+import com.forzo.holdMyCard.ui.activities.creategroupname.CreateGroupNameActivity;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.services.DataService;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -38,16 +41,16 @@ public class CreateGroupPresenter extends BasePresenter<CreateGroupContract.View
     private Context context;
     private static final String TAG = "CreateGroupPresenter";
     private ApiService mApiService;
+    private static ArrayList<String> stringArrayList = new ArrayList<>();
+
+    public CreateGroupPresenter() {
+    }
+
     CreateGroupPresenter(Context context) {
         this.context = context;
         mApiService = ApiFactory.create(HmcApplication.get((Activity) context).getRetrofit());
     }
 
-    @Override
-    public void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx) {
-        setupBottomNavigationSetUp(bottomNavigationViewEx);
-        getView().viewBottomNavigation(bottomNavigationViewEx);
-    }
 
     @Override
     public void setupShowsRecyclerView(EmptyRecyclerView emptyRecyclerView, RelativeLayout emptyView) {
@@ -119,6 +122,32 @@ public class CreateGroupPresenter extends BasePresenter<CreateGroupContract.View
         if (disabled != null) {
             getView().showDialog();
         }
+
+    }
+
+    @Override
+    public void getGroupId(ArrayList<String> stringArrayList3) {
+        Log.e("CRActivity", "" + stringArrayList3.size());
+        this.stringArrayList = stringArrayList3;
+        if (!stringArrayList3.isEmpty()) {
+            for (int i = 0; i <= stringArrayList3.size() - 1; i++) {
+                Log.e("CRContactLast", "" + stringArrayList3.get(i));
+
+            }
+            //getView().createGroupId(stringArrayList3);
+        }
+    }
+
+    @Override
+    public void gotoGroupName() {
+        Log.e("presenterDetailsNEXT", "" + stringArrayList.size());
+        if (stringArrayList.size() == 0) {
+            Toast.makeText(context, "Select at least one contact", Toast.LENGTH_LONG).show();
+            return;
+        }
+        Intent intent = new Intent(context, CreateGroupNameActivity.class);
+        intent.putStringArrayListExtra("userList", stringArrayList);
+        context.startActivity(intent);
 
     }
 

@@ -1,11 +1,13 @@
 package com.forzo.holdMyCard.ui.recyclerAdapter.creategroup;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.forzo.holdMyCard.R;
+import com.hanks.library.AnimateCheckBox;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +27,9 @@ public class CreateGroupHolder extends RecyclerView.ViewHolder implements Create
     @BindView(R.id.card_details)
     TextView setCardDetails;
 
+    @BindView(R.id.anime_box)
+    AnimateCheckBox animeBox;
+
     @BindView(R.id.card_image)
     ImageView setCardImageValue;
 
@@ -32,6 +37,18 @@ public class CreateGroupHolder extends RecyclerView.ViewHolder implements Create
         super(itemView);
         this.createGroupListPresenter = createGroupListPresenter;
         ButterKnife.bind(this, itemView);
+
+        animeBox.setOnCheckedChangeListener(new AnimateCheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(View buttonView, boolean isChecked) {
+
+                if (isChecked) {
+                    createGroupListPresenter.performClick(getAdapterPosition(),"true");
+                } else {
+                    createGroupListPresenter.performClick(getAdapterPosition(),"false");
+                }
+            }
+        });
     }
 
 

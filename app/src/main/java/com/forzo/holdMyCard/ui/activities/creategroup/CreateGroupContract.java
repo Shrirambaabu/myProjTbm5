@@ -8,6 +8,7 @@ import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,11 +21,13 @@ public interface CreateGroupContract {
 
         void setupShowsRecyclerView(EmptyRecyclerView paymentCurrentRecyclerView, RelativeLayout emptyView);
 
-        void bottomNavigationViewSetup(BottomNavigationViewEx bottomNavigationViewEx);
-
         void populateRecyclerView(List<MyLibrary> events);
 
         void getIntentValues(Intent intent);
+
+        void getGroupId(ArrayList<String> stringArrayList);
+
+        void gotoGroupName();
     }
 
     // Action callbacks. Activity/Fragment will implement
@@ -36,6 +39,6 @@ public interface CreateGroupContract {
 
         void showRecyclerView();
 
-        void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
+        void createGroupId(ArrayList<String> stringArrayList);
     }
 }

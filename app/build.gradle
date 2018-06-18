@@ -96,11 +96,12 @@ dependencies {
     //QR code library
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
 
-
     //save to sd card
     implementation 'com.snatik:storage:2.1.0'
 
     implementation 'com.itextpdf:itextg:5.5.10'
+    implementation 'com.hanks.animatecheckbox:library:0.1'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
