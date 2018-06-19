@@ -1,6 +1,7 @@
 package com.forzo.holdMyCard.api;
 
 import com.forzo.holdMyCard.ui.models.BusinessCard;
+import com.forzo.holdMyCard.ui.models.Groups;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.models.MyNotes;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
@@ -48,6 +49,9 @@ public interface ApiService {
 
     @GET("profile/showProfileImagesByImageType/{userId}/{imageType}")
     Observable<List<BusinessCard>> getUserProfileImages(@Path("userId") String userId, @Path("imageType") String imageType);
+
+    @GET("profile/showProfileImagesByImageType/{userId}/{imageType}")
+    Observable<List<Groups>> getUserProfileImagesGroup(@Path("userId") String userId, @Path("imageType") String imageType);
 
 
     @POST("login/registerUserUsingUserId")

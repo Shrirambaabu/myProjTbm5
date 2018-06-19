@@ -53,6 +53,8 @@ public interface NewCardContract {
 
         void searchUserOnTwitter(String userName);
 
+        void searchUserOnFacebook(String userName);
+
     }
 
     interface View {
@@ -77,6 +79,7 @@ public interface NewCardContract {
         void setPhoneFromAPI(int phone, String phoneList);
 
         void setMobileNumber(String mobileNumber);
+        void setPhoneNumber2(String mobileNumber2);
 
         void hideLoader();
 

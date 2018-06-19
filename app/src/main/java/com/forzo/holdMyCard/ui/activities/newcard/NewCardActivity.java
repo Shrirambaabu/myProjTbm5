@@ -34,7 +34,7 @@ import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.customChooserDialog.CustomChooserDialog;
 import com.forzo.holdMyCard.ui.activities.imageFullScreen.ImageFullScreenActivity;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
-import com.forzo.holdMyCard.ui.activities.notes.DaggerNotesComponent;
+
 import com.forzo.holdMyCard.ui.activities.notes.NotesActivity;
 import com.forzo.holdMyCard.ui.activities.remainder.ReminderActivity;
 import com.forzo.holdMyCard.utils.CameraUtils;
@@ -230,6 +230,15 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
         if (!textInputEditTextName.getText().toString().equals("")) {
             newCardPresenter.searchUserOnTwitter(textInputEditTextName.getText().toString());
+        } else {
+            Toast.makeText(getApplicationContext(), "UserName is empty !", Toast.LENGTH_LONG).show();
+        }
+    }
+    @OnClick(R.id.facebook)
+    public void searchOnFacebook() {
+
+        if (!textInputEditTextName.getText().toString().equals("")) {
+            newCardPresenter.searchUserOnFacebook(textInputEditTextName.getText().toString());
         } else {
             Toast.makeText(getApplicationContext(), "UserName is empty !", Toast.LENGTH_LONG).show();
         }
@@ -435,6 +444,11 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     @Override
     public void setMobileNumber(String mobileNumber) {
         textInputEditTextMobile.setText(mobileNumber);
+    }
+
+    @Override
+    public void setPhoneNumber2(String mobileNumber2) {
+        textInputEditTextMobile2.setText(mobileNumber2);
     }
 
     @Override

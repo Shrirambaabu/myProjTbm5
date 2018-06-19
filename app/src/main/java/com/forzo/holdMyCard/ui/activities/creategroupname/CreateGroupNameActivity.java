@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,9 +13,15 @@ import android.widget.TextView;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.creategroup.CreateGroupActivity;
+import com.forzo.holdMyCard.ui.models.Groups;
+import com.forzo.holdMyCard.ui.recyclerAdapter.groupname.GroupNameListPresenter;
+import com.forzo.holdMyCard.ui.recyclerAdapter.groupname.GroupNameRecyclerAdapter;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
@@ -27,6 +34,18 @@ public class CreateGroupNameActivity extends AppCompatActivity implements Create
 
     @Inject
     CreateGroupNamePresenter createGroupNamePresenter;
+
+    @Inject
+    GroupNameRecyclerAdapter groupNameRecyclerAdapter;
+    @Inject
+    ArrayList<Groups> groupsArrayList;
+    @Inject
+    GroupNameListPresenter groupNameListPresenter;
+
+    @BindView(R.id.recycler_view_group_name)
+    RecyclerView recyclerView;
+    @BindView(R.id.card_number)
+    TextView cardNumber;
 
     private Context mContext = CreateGroupNameActivity.this;
     @Override
@@ -42,8 +61,9 @@ public class CreateGroupNameActivity extends AppCompatActivity implements Create
                 .activityContext(new ActivityContext(mContext))
                 .build()
                 .inject(this);
-
+        createGroupNamePresenter.attach(this);
         createGroupNamePresenter.getIntentValues(getIntent());
+        createGroupNamePresenter.setupShowsRecyclerView(recyclerView);
     }
 
 
@@ -78,6 +98,8 @@ public class CreateGroupNameActivity extends AppCompatActivity implements Create
             case R.id.action_create:
 
                 Log.e("Create","Clicked");
+                Log.e("Create",""+groupsArrayList.size());
+               // createGroupNamePresenter.createNewGroup();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -85,4 +107,19 @@ public class CreateGroupNameActivity extends AppCompatActivity implements Create
     }
 
 
+    @Override
+    public void showRecyclerView() {
+        recyclerView.setAdapter(groupNameRecyclerAdapter);
+        createGroupNamePresenter.populateRecyclerView(groupsArrayList);
+    }
+
+    @Override
+    public void updateAdapter() {
+        groupNameRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void cardNumber(int cardTotal) {
+        cardNumber.setText("My Cards: "+cardTotal+" of 10");
+    }
 }

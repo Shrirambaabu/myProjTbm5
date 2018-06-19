@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 
@@ -708,8 +709,8 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                         getView().setUserName(userNameProfile);
                         getView().setJobTitle(job);
                         getView().setCompanyName(companyNameProfile);
-                        getView().setMobileNumber(phoneNumberProfile);/*
-                        getView().setPhoneNumber2(phoneNumberProfile2);
+                        getView().setMobileNumber(phoneNumberProfile);
+                        getView().setPhoneNumber2(phoneNumberProfile2);/*
                         getView().setPhoneNumber3(phoneNumberProfile3);*/
                         getView().setEmailFromAPI(emailIdProfile);
                         getView().setWebsiteFromAPI(websiteProfile);
@@ -859,5 +860,23 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
         context.startActivity(twIntent);
 
 
+    }
+
+    @Override
+    public void searchUserOnFacebook(String userName) {
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Alert !!!");
+        alertDialog.setMessage("Facebook search can be made only if your account is logged in.");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+                (dialog, which) -> {
+                    dialog.dismiss();
+
+                    Intent facebookIntent = new Intent();
+                    facebookIntent.setAction(Intent.ACTION_VIEW);
+                    facebookIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+                    facebookIntent.setData(Uri.parse("https://www.facebook.com/search/top/?q=" + userName));
+                    context.startActivity(facebookIntent);
+                });
+        alertDialog.show();
     }
 }

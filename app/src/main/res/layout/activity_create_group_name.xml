@@ -6,67 +6,95 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.creategroupname.CreateGroupNameActivity">
 
-    <EditText
-        android:id="@+id/group_name"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:background="@drawable/group_bg"
-        android:hint="Group Name"
-        android:paddingBottom="4dp"
-        android:paddingStart="16dp"
-        android:paddingTop="4dp"
-        android:textSize="18sp" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/gn_hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/group_name"
-        android:layout_marginStart="16dp"
-        android:text="Please provide group name "
-        android:textColor="@android:color/black" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/card_rel"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_below="@+id/gn_hint"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:background="#EAEAEA">
+            <EditText
+                android:id="@+id/group_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/group_bg"
+                android:hint="Group Name"
+                android:paddingBottom="4dp"
+                android:paddingStart="16dp"
+                android:paddingTop="4dp"
+                android:textSize="18sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="My Cards: 2 of 10"
-            android:textSize="16sp" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/gn_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/group_name"
+                android:layout_marginStart="16dp"
+                android:text="Please provide group name "
+                android:textColor="@android:color/black" />
 
-    <RelativeLayout
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/card_rel">
+            <RelativeLayout
+                android:id="@+id/card_rel"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_below="@+id/gn_hint"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:background="#EAEAEA">
 
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="96dp"
-        android:scaleType="fitXY"
-        android:layout_margin="8dp"
-        android:src="@drawable/bsk" />
+                <TextView
+                    android:id="@+id/card_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="My Cards: 2 of 10"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/card_rel">
 
 
-    <at.markushi.ui.CircleButton
-        android:id="@+id/edit_profile"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_close_black_24dp"
-        android:visibility="visible"
-        app:cb_color="#C5C5C5"
-        app:cb_pressedRingWidth="8dip" />
-    </RelativeLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_group_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
+                </android.support.v7.widget.RecyclerView>
+<!--
+                <RelativeLayout
+                    android:id="@+id/empty_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true">
+
+                    <ImageView
+                        android:id="@+id/no_event"
+                        android:layout_width="140dp"
+                        android:layout_height="140dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_reminder" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/no_event"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="24dp"
+                        android:text="No Card"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                </RelativeLayout>-->
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:id="@+id/group_user_image"
+        android:layout_width="150dp"
+        android:layout_height="96dp"
+        android:layout_margin="8dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bsk" />
+
+
+    <at.markushi.ui.CircleButton
+        android:id="@+id/group_user_cancel"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_close_black_24dp"
+        android:visibility="visible"
+        app:cb_color="#C5C5C5"
+        app:cb_pressedRingWidth="8dip" />
+</RelativeLayout>
