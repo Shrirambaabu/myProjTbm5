@@ -22,6 +22,7 @@
                 android:background="@drawable/group_bg"
                 android:hint="Group Name"
                 android:paddingBottom="4dp"
+                android:textColor="@android:color/black"
                 android:paddingStart="16dp"
                 android:paddingTop="4dp"
                 android:textSize="18sp" />

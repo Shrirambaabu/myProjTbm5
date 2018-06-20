@@ -118,6 +118,17 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
     }
 
     @Override
+    public void getIntentValues(Intent intent) {
+
+        String alpha=intent.getStringExtra("alpha");
+
+        if (alpha!=null){
+            getView().alphaValue(alpha);
+        }
+
+    }
+
+    @Override
     public void setNavigationHeader() {
         mApiService.getUserProfile(PreferencesAppHelper.getUserId())
                 .subscribeOn(Schedulers.io())
@@ -135,6 +146,36 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
                         if (userNameProfile != null) {
                             Log.e(TAG, userNameProfile);
                             getView().setUserProfileName(userNameProfile);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("err", "" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
+        mApiService.getUserStatus(PreferencesAppHelper.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<User>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(User userList) {
+
+                        String isEnabled = userList.getIsEnabled();
+
+                        if (isEnabled != null) {
+                            Log.e(TAG, isEnabled);
+                            getView().setIsEnabled(isEnabled);
                         }
 
                     }

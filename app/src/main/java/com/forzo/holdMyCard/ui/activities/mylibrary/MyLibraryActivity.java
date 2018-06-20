@@ -98,6 +98,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     private TextView registerStatus;
     private CircleImage profImage;
     private TextView profName;
+    private static String alphabetValue = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +133,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
         };
 
         myLibraryPresenter.attach(this);
+        myLibraryPresenter.getIntentValues(getIntent());
         myLibraryPresenter.registerFirstTime();
         myLibraryPresenter.checkVersion();
         myLibraryPresenter.setupViewPager(pager, adapter, myCurrentLibraryFragment, myGroupsFragment);
@@ -217,6 +219,15 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     }
 
     @Override
+    public void setIsEnabled(String isEnabled) {
+        if (isEnabled.equals("true")) {
+            registerStatus.setText("Registered");
+        } else if (isEnabled.equals("false")) {
+            registerStatus.setText("UnRegistered");
+        }
+    }
+
+    @Override
     public void setDpImage(String imageName) {
         Glide.with(mContext)
                 .load(IMAGE_URL + imageName)
@@ -226,7 +237,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
 
     @Override
     public void setVersionNumber(String versionNumber) {
-        Log.e("ve",""+versionNumber);
+        Log.e("ve", "" + versionNumber);
         versionNumberTextView.setText(versionNumber);
     }
 
@@ -237,6 +248,11 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
         Menu menu = bottomNavigationViewEx.getMenu();
         MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
         menuItem.setChecked(true);
+    }
+
+    @Override
+    public void alphaValue(String alphaValue) {
+        alphabetValue=alphaValue;
     }
 
 

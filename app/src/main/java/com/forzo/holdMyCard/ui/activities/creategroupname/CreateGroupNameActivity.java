@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
@@ -46,6 +48,9 @@ public class CreateGroupNameActivity extends AppCompatActivity implements Create
     RecyclerView recyclerView;
     @BindView(R.id.card_number)
     TextView cardNumber;
+
+    @BindView(R.id.group_name)
+    EditText nameEditText;
 
     private Context mContext = CreateGroupNameActivity.this;
     @Override
@@ -97,8 +102,18 @@ public class CreateGroupNameActivity extends AppCompatActivity implements Create
 
             case R.id.action_create:
 
+                if (nameEditText.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Enter the Group name", Toast.LENGTH_LONG).show();
+                    return false;
+                }
                 Log.e("Create","Clicked");
                 Log.e("Create",""+groupsArrayList.size());
+                if (!groupsArrayList.isEmpty()){
+                    Log.e("Create",""+groupsArrayList.get(0).getUserId());
+                    createGroupNamePresenter.createGroup(groupsArrayList,nameEditText.getText().toString());
+                }else {
+                    Toast.makeText(getApplicationContext(),"Group should contain atleast one member",Toast.LENGTH_LONG).show();
+                }
                // createGroupNamePresenter.createNewGroup();
                 return true;
             default:
@@ -121,5 +136,10 @@ public class CreateGroupNameActivity extends AppCompatActivity implements Create
     @Override
     public void cardNumber(int cardTotal) {
         cardNumber.setText("My Cards: "+cardTotal+" of 10");
+    }
+
+    @Override
+    public void createGroupDone() {
+        finish();
     }
 }

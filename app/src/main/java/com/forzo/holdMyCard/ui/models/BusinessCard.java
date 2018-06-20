@@ -69,6 +69,17 @@ public class BusinessCard {
     @Expose
     private String website;
 
+    @SerializedName("modifiedTs")
+    @Expose
+    private String modifiedTs;
+
+    public String getModifiedTs() {
+        return modifiedTs;
+    }
+
+    public void setModifiedTs(String modifiedTs) {
+        this.modifiedTs = modifiedTs;
+    }
 
     @SerializedName("userImageId")
     @Expose

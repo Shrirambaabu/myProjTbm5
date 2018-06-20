@@ -1,5 +1,6 @@
 package com.forzo.holdMyCard.ui.activities.mylibrary;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
@@ -25,6 +26,8 @@ public interface MyLibraryContract {
 
         void showExitDialog();
 
+        void getIntentValues(Intent intent);
+
         void setNavigationHeader();
 
         void checkVersion();
@@ -37,10 +40,15 @@ public interface MyLibraryContract {
 
         void setUserProfileName(String userProfileName);
 
+        void setIsEnabled(String isEnabled);
+
         void setDpImage(String imageName);
+
         void setVersionNumber(String versionNumber);
 
         void viewBottomNavigation(BottomNavigationViewEx bottomNavigationViewEx);
+
+        void alphaValue(String alphaValue);
 
     }
 }

@@ -1,5 +1,6 @@
 package com.forzo.holdMyCard.ui.activities.sortDialog;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
+import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
+import com.forzo.holdMyCard.ui.models.MyLibrary;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +51,11 @@ public class SortDialogActivity extends AppCompatActivity {
 
     @OnClick(R.id.accept_sort)
     public void acceptSort() {
-        finish();
+        Intent intent=new Intent(SortDialogActivity.this, MyLibraryActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("alpha",""+alphabetValue);
+        intent.putExtra("date",""+dateValue);
+        startActivity(intent);
         Log.e("Accept", "Date: " + dateValue + " Alpha: " + alphabetValue);
     }
 

@@ -15,6 +15,7 @@ import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.activities.creategroupname.CreateGroupNameActivity;
+import com.forzo.holdMyCard.ui.models.Groups;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.services.DataService;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
@@ -139,15 +140,54 @@ public class CreateGroupPresenter extends BasePresenter<CreateGroupContract.View
     }
 
     @Override
-    public void gotoGroupName() {
+    public void gotoGroupName(String groupName) {
         Log.e("presenterDetailsNEXT", "" + stringArrayList.size());
         if (stringArrayList.size() == 0) {
             Toast.makeText(context, "Select at least one contact", Toast.LENGTH_LONG).show();
             return;
         }
-        Intent intent = new Intent(context, CreateGroupNameActivity.class);
+        for (int i = 0; i <= stringArrayList.size() - 1; i++) {
+            String libraryContactId = stringArrayList.get(i);
+            Groups myGroups = new Groups();
+            myGroups.setLibraryOwnerId(PreferencesAppHelper.getUserId());
+            myGroups.setLibraryContactId(libraryContactId);
+            myGroups.setLibraryGroupName(groupName);
+
+            mApiService.createGroupName(myGroups)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Groups>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                        }
+
+                        @Override
+                        public void onNext(Groups groups) {
+                            // getView().updatedSuccessfully();
+                            Log.e("SuccMsg",""+groups.getAddedLibrary());
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e("err", "" + e.getMessage());
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+
+
+            if (i == stringArrayList.size() - 1) {
+                getView().createGroupDone();
+            }
+        }
+/*        Intent intent = new Intent(context, CreateGroupNameActivity.class);
         intent.putStringArrayListExtra("userList", stringArrayList);
-        context.startActivity(intent);
+        context.startActivity(intent);*/
 
     }
 

@@ -102,6 +102,11 @@ dependencies {
     implementation 'com.itextpdf:itextg:5.5.10'
     implementation 'com.hanks.animatecheckbox:library:0.1'
 
+    //time ago
+    implementation 'com.github.marlonlom:timeago:3.0.1'
+ //fab
+    implementation 'com.github.clans:fab:1.6.4'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

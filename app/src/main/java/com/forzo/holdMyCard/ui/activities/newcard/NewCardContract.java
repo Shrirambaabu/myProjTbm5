@@ -55,6 +55,8 @@ public interface NewCardContract {
 
         void searchUserOnFacebook(String userName);
 
+        void updateBusinessImage(Uri uri, String userId, String imageType);
+
     }
 
     interface View {
@@ -106,6 +108,8 @@ public interface NewCardContract {
         void updateSuccess();
 
         void deleteProfile();
+
+        void setModifiedTs(String modifiedTs);
 
 
     }

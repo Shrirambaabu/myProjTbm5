@@ -4,15 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="4dp"
-    android:elevation="4dp"
+    android:background="@drawable/sort_type"
     tools:context=".ui.activities.sortDialog.SortDialogActivity"
     tools:targetApi="lollipop">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/sort_type"
         android:orientation="vertical">
 
         <TextView
@@ -55,7 +53,7 @@
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:padding="8dp"
+                    android:padding="10dp"
                     android:text="Ascending"
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
@@ -71,7 +69,7 @@
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:padding="8dp"
+                    android:padding="10dp"
                     android:text="Descending"
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
@@ -88,13 +86,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="4">
 
                 <TextView
                     android:id="@+id/alphabet"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:padding="8dp"
                     android:text="Alphabet"
                     android:maxLines="1"
@@ -108,10 +106,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_weight="1"
+                    android:layout_weight="1.25"
                     android:background="@drawable/sort_type"
                     android:gravity="center"
-                    android:padding="8dp"
+                    android:padding="10dp"
                     android:text="A-Z"
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
@@ -122,10 +120,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="24dp"
-                    android:layout_weight="1"
+                    android:layout_weight="1.25"
                     android:background="@drawable/sort_type"
                     android:gravity="center"
-                    android:padding="8dp"
+                    android:padding="10dp"
                     android:text="Z-A"
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />

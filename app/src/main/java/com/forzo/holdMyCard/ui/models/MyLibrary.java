@@ -38,6 +38,17 @@ public class MyLibrary {
     @Expose
     private String cardDetails;
 
+    @SerializedName("date")
+    @Expose
+    private String date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public MyLibrary(String cardName, String cardDescription, String cardDetails) {
         this.cardName = cardName;

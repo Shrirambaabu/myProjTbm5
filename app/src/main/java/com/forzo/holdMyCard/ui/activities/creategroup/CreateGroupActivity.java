@@ -11,6 +11,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,8 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
     EmptyRecyclerView recyclerView;
     @BindView(R.id.empty_view)
     RelativeLayout emptyView;
+    @BindView(R.id.group_name)
+    EditText groupNameEditText;
 
     @BindView(R.id.search_groups)
     android.support.v7.widget.SearchView searchView;
@@ -117,7 +120,15 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
 
             case R.id.action_next:
 
-                createGroupPresenter.gotoGroupName();
+                if (groupNameEditText.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Enter your group name", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+
+                createGroupPresenter.gotoGroupName(groupNameEditText.getText().toString());
+
+                Log.e("Create", "" + groupNameEditText.getText().toString());
+
 
                 return true;
             default:
@@ -148,6 +159,13 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
     public void showRecyclerView() {
         recyclerView.setAdapter(createGroupRecyclerAdapter);
         createGroupPresenter.populateRecyclerView(myLibraryArrayList);
+    }
+
+    @Override
+    public void createGroupDone() {
+        Intent groupIntent = new Intent(CreateGroupActivity.this, MyLibraryActivity.class);
+        groupIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(groupIntent);
     }
 
     @Override

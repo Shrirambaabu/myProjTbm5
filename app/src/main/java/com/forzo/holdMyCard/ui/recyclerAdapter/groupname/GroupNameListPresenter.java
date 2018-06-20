@@ -13,13 +13,16 @@ import com.forzo.holdMyCard.ui.models.Groups;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
 
 public class GroupNameListPresenter implements GroupNameContract.Presenter {
 
+
     private Context context;
     private ArrayList<Groups> groups;
-    private GroupNameRecyclerAdapter groupNameRecyclerAdapter = new GroupNameRecyclerAdapter();
+   private GroupNameRecyclerAdapter groupNameRecyclerAdapter = new GroupNameRecyclerAdapter();
     private CreateGroupNamePresenter createGroupNamePresenter = new CreateGroupNamePresenter();
     private CreateGroupNameActivity createGroupNameActivity=new CreateGroupNameActivity();
 
@@ -56,22 +59,23 @@ public class GroupNameListPresenter implements GroupNameContract.Presenter {
         Log.e("Clicked", "" + groups.get(adapterPosition));
         Log.e("arraySize", "" + groups.size());
 
+        groups.remove(adapterPosition);
+        /*
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle("Confirm !!!");
         alertDialog.setMessage("Are you sure you want to remove this user?");
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
                 (dialog, which) -> {
                     dialog.dismiss();
-                    groups.remove(adapterPosition);
                     //createGroupNamePresenter.updateDataValues(groups);
-                    groupNameRecyclerAdapter.notifyDataSetChanged();
+                  *//*  groupNameRecyclerAdapter.notifyItemRemoved(adapterPosition);
                     groupNameRecyclerAdapter.notifyItemChanged(adapterPosition);
-                    groupNameRecyclerAdapter.notifyItemRangeChanged(adapterPosition, groups.size());
+                    groupNameRecyclerAdapter.notifyItemRangeChanged(adapterPosition, groups.size());*//*
                     Log.e("arraySize", "" + groups.size());
-                    groupNameRecyclerAdapter.notifyDataSetChanged();
+                   // groupNameRecyclerAdapter.notifyDataSetChanged();
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
                 (dialog, which) -> dialog.dismiss());
-        alertDialog.show();
+        alertDialog.show();*/
     }
 }

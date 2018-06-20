@@ -13,6 +13,7 @@ import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.models.BusinessCard;
 import com.forzo.holdMyCard.ui.models.Groups;
+import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,15 +73,69 @@ public class CreateGroupNamePresenter extends BasePresenter<CreateGroupNameContr
     public void updateDataValues(ArrayList<Groups> groupsArrayList) {
         Log.e("Arr", "" + groupsArrayList.size());
 
-        this.stringUserArrayList=groupsArrayList;
+        this.stringUserArrayList = groupsArrayList;
 
         if (!stringUserArrayList.isEmpty()) {
 
-            Log.e("Val",""+stringUserArrayList.size());
-            Log.e("Val",""+stringUserArrayList.get(0).getUserId());
+            Log.e("Val", "" + stringUserArrayList.size());
+            Log.e("Val", "" + stringUserArrayList.get(0).getUserId());
 
 
         }
+    }
+
+    @Override
+    public void createGroup(ArrayList<Groups> groupsArrayList, String groupName) {
+
+        Log.e("Create:", "ArrSize:" + groupsArrayList.size());
+
+        if (!groupsArrayList.isEmpty()){
+
+            for (int i=0;i<=groupsArrayList.size()-1;i++){
+                String libraryContactId=groupsArrayList.get(i).getUserId();
+
+                Groups myGroups = new Groups();
+                myGroups.setLibraryOwnerId(PreferencesAppHelper.getUserId());
+                myGroups.setLibraryContactId(libraryContactId);
+                myGroups.setLibraryGroupName(groupName);
+
+
+                mApiService.createGroupName(myGroups)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Groups>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                            }
+
+                            @Override
+                            public void onNext(Groups groups) {
+                               // getView().updatedSuccessfully();
+                                Log.e("SuccMsg",""+groups.getAddedLibrary());
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e("err", "" + e.getMessage());
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+                if (groupsArrayList.size()==0){
+                    getView().createGroupDone();
+                }
+            }
+
+        }
+
+       /**/
+
+
     }
 
 

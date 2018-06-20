@@ -10,15 +10,44 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
+import com.forzo.holdMyCard.base.FragmentContext;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
+import com.forzo.holdMyCard.ui.models.Groups;
+import com.forzo.holdMyCard.ui.models.MyGroups;
+import com.forzo.holdMyCard.ui.recyclerAdapter.mygroups.MyGroupsListPresenter;
+import com.forzo.holdMyCard.ui.recyclerAdapter.mygroups.MyGroupsRecyclerAdapter;
+import com.forzo.holdMyCard.utils.EmptyRecyclerView;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MyGroupsFragment extends Fragment {
+public class MyGroupsFragment extends Fragment implements MyGroupsFragmentContract.View  {
+
+
+    @Inject
+    MyGroupsListPresenter myGroupsListPresenter;
+    @Inject
+    MyGroupsRecyclerAdapter myGroupsRecyclerAdapter;
+    @Inject
+    ArrayList<MyGroups> groupsArrayList;
+    @Inject
+    MyGroupsFragmentPresenter myGroupsFragmentPresenter;
+
+    @BindView(R.id.recycler_view_empty)
+    EmptyRecyclerView recyclerView;
+    @BindView(R.id.empty_view)
+    RelativeLayout emptyView;
+
+    private Context context;
 /*
 
     @BindView(R.id.fab)
@@ -33,20 +62,38 @@ public class MyGroupsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view=inflater.inflate(R.layout.fragment_my_groups, container, false);
+        ButterKnife.bind(MyGroupsFragment.this, view);
 
+        myGroupsFragmentPresenter.attach(this);
+        myGroupsFragmentPresenter.setupShowsRecyclerView(recyclerView, emptyView);
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
+        this.context = context;
+        DaggerMyGroupsFragmentComponent.builder()
+                .fragmentContext(new FragmentContext(context))
+                .build()
+                .inject(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        myGroupsFragmentPresenter.detach();
+    }
 
+    @Override
+    public void showRecyclerView() {
+        recyclerView.setAdapter(myGroupsRecyclerAdapter);
+        myGroupsFragmentPresenter.populateRecyclerView(groupsArrayList);
+    }
+
+    @Override
+    public void updateAdapter() {
+        myGroupsRecyclerAdapter.notifyDataSetChanged();
     }
 /*
     @OnClick(R.id.fab)

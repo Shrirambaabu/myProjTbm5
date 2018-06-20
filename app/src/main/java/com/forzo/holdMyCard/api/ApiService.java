@@ -2,6 +2,7 @@ package com.forzo.holdMyCard.api;
 
 import com.forzo.holdMyCard.ui.models.BusinessCard;
 import com.forzo.holdMyCard.ui.models.Groups;
+import com.forzo.holdMyCard.ui.models.MyGroups;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.models.MyNotes;
 import com.forzo.holdMyCard.ui.models.MyRemainder;
@@ -41,8 +42,14 @@ public interface ApiService {
     @GET("remainder/showAllRemainder/{userId}")
     Observable<List<MyRemainder>> getUserRemainder(@Path("userId") String userId);
 
+    @GET("profile/showMyGroup/{userId}")
+    Observable<List<MyGroups>> getMyGroup(@Path("userId") String userId);
+
     @GET("profile/showAllLibrary/{userId}")
     Observable<List<MyLibrary>> getUserLibrary(@Path("userId") String userId);
+
+    @GET("profile/getEnabled/{userId}")
+    Observable<User> getUserStatus(@Path("userId") String userId);
 
     @GET("profile/{userId}")
     Observable<BusinessCard> getUserProfile(@Path("userId") String userId);
@@ -97,8 +104,13 @@ public interface ApiService {
     Observable<MyNotes> updateNotes(@Body MyNotes myNotes);
 
 
+    @POST("profile/registerProfileToOurLibrary ")
+    Observable<Groups> createGroupName(@Body Groups groups);
+
+
     @GET("notes/deleteNotes/{notesId}")
     Observable<MyNotes> deleteUserNotes(@Path("notesId") String userId);
+
 
     @POST("remainder/updateFcmToken")
     @FormUrlEncoded
@@ -123,6 +135,10 @@ public interface ApiService {
     @POST("profile/postImage")
     @Multipart
     Observable<BusinessCard> postUserImage(@Part MultipartBody.Part file, @Part("userId") int userId, @Part("imageType") String imageType);
+
+    @POST("profile/updateImage")
+    @Multipart
+    Observable<BusinessCard> updateUserImage(@Part MultipartBody.Part file, @Part("userId") int userId, @Part("imageType") String imageType);
 
 
 }

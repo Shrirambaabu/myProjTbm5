@@ -4,8 +4,10 @@ import android.widget.RelativeLayout;
 
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
+import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibraryRecyclerAdapter;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +21,7 @@ public interface MyCurrentLibraryFragmentContract {
 
         void setupShowsRecyclerView(EmptyRecyclerView paymentCurrentRecyclerView, RelativeLayout emptyView);
 
+        void sortClicked(ArrayList<MyLibrary> myLibraryArrayList,MyLibraryRecyclerAdapter myLibraryRecyclerAdapter);
 
         void populateRecyclerView(List<MyLibrary> events);
 

@@ -27,6 +27,7 @@ import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.models.BusinessCard;
 import com.forzo.holdMyCard.utils.ImagePath_MarshMallow;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
+import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -60,7 +61,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -80,6 +84,7 @@ import static com.forzo.holdMyCard.utils.Utils.CLOUD_VISION_API_KEY;
 import static com.forzo.holdMyCard.utils.Utils.getBitmapLowFile;
 import static com.forzo.holdMyCard.utils.Utils.getImageEncodeImage;
 import static com.forzo.holdMyCard.utils.Utils.getResizedBitmapFile;
+import static com.forzo.holdMyCard.utils.Utils.gmtToLocalLibrary;
 import static com.forzo.holdMyCard.utils.Utils.parseCompanyNameFromEmail;
 import static com.forzo.holdMyCard.utils.Utils.parseEmail;
 import static com.forzo.holdMyCard.utils.Utils.parseMobile;
@@ -540,6 +545,18 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
             message = new StringBuilder("Nothing Found");
         }
         Log.e(TAG, "String: " + message);
+
+        if (message.toString().equals("Nothing Found")) {
+            getView().setUserName("");
+            getView().setJobTitle("");
+            getView().setCompanyName("");
+            getView().setMobileNumber("");
+            getView().setPhoneNumber2("");/*
+                        getView().setPhoneNumber3(phoneNumberProfile3);*/
+            getView().setEmailFromAPI("");
+            getView().setWebsiteFromAPI("");
+            getView().setAddress("");
+        }
         return message.toString();
     }
 
@@ -670,6 +687,7 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                         String emailIdProfile = businessCardList.getEmailId();
                         String websiteProfile = businessCardList.getWebsite();
                         String addressProfile = businessCardList.getAddress();
+                        String modifiedTs = businessCardList.getModifiedTs();
 
                         if (job == null) {
                             job = "";
@@ -705,6 +723,9 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                         if (addressProfile == null) {
                             addressProfile = "";
                         }
+                        if (modifiedTs == null) {
+                            modifiedTs = "";
+                        }
 
                         getView().setUserName(userNameProfile);
                         getView().setJobTitle(job);
@@ -715,6 +736,20 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                         getView().setEmailFromAPI(emailIdProfile);
                         getView().setWebsiteFromAPI(websiteProfile);
                         getView().setAddress(addressProfile);
+
+
+                        String newDate = gmtToLocalLibrary(modifiedTs);
+
+                        Log.e("newDate", "" + newDate);
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        try {
+                            Date mDate = sdf.parse(newDate);
+                            long timeInMilliseconds = mDate.getTime();
+                            getView().setModifiedTs(TimeAgo.using(Long.parseLong(String.valueOf(timeInMilliseconds))));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
@@ -878,5 +913,54 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                     context.startActivity(facebookIntent);
                 });
         alertDialog.show();
+    }
+
+    @Override
+    public void updateBusinessImage(Uri uri, String userId, String imageType) {
+
+        Bitmap bitmapS = null;
+
+        try {
+            bitmapS = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap newBitmap = getResizedBitmapFile(bitmapS, 480, 640);
+
+        File newFile = getBitmapLowFile(newBitmap);
+
+        RequestBody reqFile = RequestBody.create(MediaType.parse("image"), newFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("image", newFile.getName(), reqFile);
+
+        Log.e("busUpdate", "" + imageType + "" + Integer.parseInt(userId) + "" + newFile.getAbsolutePath());
+        mApiService.updateUserImage(body, Integer.parseInt(userId), imageType)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BusinessCard>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BusinessCard userChangePassword) {
+                        getView().qrProfileSavedSuccessfully();
+                        Log.e("Succ", "image");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //  progressBar.smoothToHide();
+                        Log.e("error", "" + e.getMessage());
+                        Log.e("error", "" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
     }
 }

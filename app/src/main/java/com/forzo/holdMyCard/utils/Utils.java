@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -494,6 +495,49 @@ public class Utils {
 
 
         return fromGmt;
+    }
+
+
+    public static String  gmtToLocalLibrary(String date) {
+
+
+        Date newDate = null;
+        Date fromGmt = null;
+        Date utcToLocal = null;
+        String finalUtcTime = "";
+        try {
+            newDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e("localGMT", "" + e.getMessage());
+        }
+
+        if (newDate != null) {
+            fromGmt = new Date(newDate.getTime() + TimeZone.getDefault().getOffset(newDate.getTime()));
+            utcToLocal = new Date(fromGmt.getTime() + Calendar.getInstance().getTimeZone().getOffset(fromGmt.getTime()));
+           /* Log.e("GtoLoc","Local time: " + newDate.toString() +" --> UTC time::" + fromGmt.toString() );
+            Log.e("GMT loc","UTC-Loc "+new Date(fromGmt.getTime() + Calendar.getInstance().getTimeZone().getOffset(fromGmt.getTime())));
+*/
+        }
+
+        SimpleDateFormat sdf3 = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+
+        Date d1;
+
+        try {
+            d1 = sdf3.parse(String.valueOf(fromGmt));
+
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            finalUtcTime = sdf2.format(d1);
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return finalUtcTime;
     }
 
     public static Bitmap getResizedBitmap(Bitmap image, int maxSize) {

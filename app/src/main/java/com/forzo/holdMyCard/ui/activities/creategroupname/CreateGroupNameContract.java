@@ -19,6 +19,8 @@ public interface CreateGroupNameContract {
 
         void updateDataValues(ArrayList<Groups> groupsArrayList);
 
+        void createGroup(ArrayList<Groups> groupsArrayList, String groupName);
+
         void populateRecyclerView(ArrayList<Groups> groups);
     }
 
@@ -29,5 +31,7 @@ public interface CreateGroupNameContract {
         void updateAdapter();
 
         void cardNumber(int cardTotal);
+
+        void createGroupDone();
     }
 }

@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -94,6 +95,8 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     ImageView businessImage;
     @BindView(R.id.profile_library_image_add)
     ImageView previewImage;
+    @BindView(R.id.edit_profile)
+    ImageView editBusinessImage;
 
     @BindView(R.id.relative_progress)
     RelativeLayout relativeLayout;
@@ -118,6 +121,8 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @BindView(R.id.delete_user_profile)
     Button deleteButton;
+    @BindView(R.id.time_ago)
+    TextView textView;
 
     private Context mContext = NewCardActivity.this;
     private String TAG = "NewCardActivity";
@@ -234,6 +239,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
             Toast.makeText(getApplicationContext(), "UserName is empty !", Toast.LENGTH_LONG).show();
         }
     }
+
     @OnClick(R.id.facebook)
     public void searchOnFacebook() {
 
@@ -358,11 +364,18 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     }
 
     @Override
+    public void setModifiedTs(String modifiedTs) {
+        textView.setText("Last edit was made " + modifiedTs);
+    }
+
+    @Override
     public void newCardActivityType() {
         saveButton.setVisibility(View.VISIBLE);
         scanQRLayout.setVisibility(View.VISIBLE);
         cardFunctionLayout.setVisibility(View.GONE);
         businessActionButton.setVisibility(View.GONE);
+        textView.setVisibility(View.GONE);
+        editBusinessImage.setVisibility(View.GONE);
     }
 
     @Override
@@ -372,6 +385,8 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         scanQRLayout.setVisibility(View.GONE);
         cardFunctionLayout.setVisibility(View.VISIBLE);
         businessActionButton.setVisibility(View.VISIBLE);
+        textView.setVisibility(View.VISIBLE);
+        editBusinessImage.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -459,6 +474,14 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     }
 
 
+    @OnClick(R.id.edit_profile)
+    public void editBussinessProfile() {
+
+        cardFunctionLayout.setVisibility(View.GONE);
+        scanQRLayout.setVisibility(View.VISIBLE);
+
+    }
+
     @OnClick(R.id.scan)
     public void captureImage() {
         Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -496,11 +519,16 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     public void updateBusinessCard() {
 
         Log.e("updateBus", "" + primaryValue);
-
         newCardPresenter.updateCard(primaryValue, textInputEditTextName.getText().toString(), textInputEditTextCompanyName.getText().toString(),
                 textInputEditTextJobTitle.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(),
                 "", textInputEditTextEmail.getText().toString(), textInputEditTextWebsite.getText().toString(),
                 textInputEditTextAddress.getText().toString());
+
+        if (profileImageUri != null) {
+
+            newCardPresenter.updateBusinessImage(profileImageUri, primaryValue, "BCF");
+        }
+        Log.e("UpdateImg", "" + profileImageUri + ":Id:" + primaryValue);
 
     }
 

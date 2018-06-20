@@ -80,7 +80,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_close_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/social/ic_group_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -90,9 +90,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_empty_note" />
+                            <entry key="outputName" value="ic_group_black_24dp" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="E:\HMC\Final_Blue_with_assets\assets\5 Empty Note\empty_note.svg" />
                           </map>

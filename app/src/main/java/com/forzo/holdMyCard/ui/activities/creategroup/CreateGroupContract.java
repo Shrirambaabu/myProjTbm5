@@ -27,7 +27,7 @@ public interface CreateGroupContract {
 
         void getGroupId(ArrayList<String> stringArrayList);
 
-        void gotoGroupName();
+        void gotoGroupName(String groupName);
     }
 
     // Action callbacks. Activity/Fragment will implement
@@ -38,6 +38,8 @@ public interface CreateGroupContract {
         void showDialog();
 
         void showRecyclerView();
+
+        void createGroupDone();
 
         void createGroupId(ArrayList<String> stringArrayList);
     }

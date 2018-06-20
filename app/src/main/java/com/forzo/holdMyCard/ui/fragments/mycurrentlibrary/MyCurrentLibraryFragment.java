@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.FragmentContext;
+import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.activities.sortDialog.SortDialogActivity;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibraryListPresenter;
@@ -20,6 +21,8 @@ import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibraryRecyclerAdapte
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -42,9 +45,9 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
     @BindView(R.id.recycler_view_empty)
     EmptyRecyclerView recyclerView;
     @BindView(R.id.empty_view)
-    RelativeLayout emptyView;/*
+    RelativeLayout emptyView;
     @BindView(R.id.fab)
-    FloatingActionButton floatingActionButton;*/
+    com.github.clans.fab.FloatingActionButton floatingActionButton;
 
     private Context context;
 
@@ -64,14 +67,14 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
         return view;
     }
 
-/*
 
     @OnClick(R.id.fab)
-    public void fabButton() {
+    public void fabButton() {/*
         Intent sortIntent = new Intent(getActivity(), SortDialogActivity.class);
-        startActivity(sortIntent);
+        startActivity(sortIntent);*/
+
+        myCurrentLibraryFragmentPresenter.sortClicked(myLibraryArrayList,myLibraryRecyclerAdapter);
     }
-*/
 
     @Override
     public void onAttach(Context context) {
@@ -93,12 +96,19 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
 
     @Override
     public void showRecyclerView() {
+
         recyclerView.setAdapter(myLibraryRecyclerAdapter);
         myCurrentLibraryFragmentPresenter.populateRecyclerView(myLibraryArrayList);
     }
 
     @Override
     public void updateAdapter() {
+
+        int nameSort = 1;
+
+        if (nameSort == 0) {
+            Collections.reverse(myLibraryArrayList);
+        }
         myLibraryRecyclerAdapter.notifyDataSetChanged();
     }
 }

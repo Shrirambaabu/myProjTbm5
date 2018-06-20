@@ -29,11 +29,34 @@
 
     </RelativeLayout>
 
+
+    <EditText
+        android:id="@+id/group_name"
+        android:layout_below="@+id/search_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/group_bg"
+        android:hint="Group Name"
+        android:paddingBottom="4dp"
+        android:textColor="@android:color/black"
+        android:paddingStart="16dp"
+        android:paddingTop="4dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/gn_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/group_name"
+        android:layout_marginStart="16dp"
+        android:text="Please provide group name "
+        android:textColor="@android:color/black" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/search_contact"
-        android:layout_marginBottom="60dp"
+        android:layout_below="@+id/gn_hint"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp">
@@ -50,7 +73,6 @@
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="60dp"
         android:gravity="center">
 
         <ImageView
@@ -58,7 +80,7 @@
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_reminder" />
+            android:src="@drawable/ic_group_black_24dp" />
 
         <TextView
             android:layout_width="wrap_content"

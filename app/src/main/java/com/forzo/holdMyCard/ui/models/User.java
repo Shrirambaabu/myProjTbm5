@@ -46,6 +46,25 @@ public class User {
     @SerializedName("Registration Successful")
     @Expose
     private String regStatus;
+    @SerializedName("getEnabled")
+    @Expose
+    private String isEnabled;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(String isEnabled) {
+        this.isEnabled = isEnabled;
+    }
 
     public String getExistingUser() {
         return existingUser;
