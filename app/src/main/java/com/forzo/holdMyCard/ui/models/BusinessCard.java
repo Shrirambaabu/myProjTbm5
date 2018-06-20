@@ -65,6 +65,19 @@ public class BusinessCard {
     @Expose
     private String emailId;
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    @SerializedName("date")
+    @Expose
+
+    private String date;
+
     @SerializedName("userWebsite")
     @Expose
     private String website;

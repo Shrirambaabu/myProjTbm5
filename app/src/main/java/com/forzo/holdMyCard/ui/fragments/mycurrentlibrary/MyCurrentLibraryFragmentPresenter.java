@@ -167,7 +167,6 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
 
                 Log.e("GetAlphabetValue:", "" + alphabetValue);
                 Log.e("GetDateValue:", "" + dateValue);
-
                 if (alphabetValue == 0) {
                     Collections.sort(myLibraryArrayList, new Comparator<MyLibrary>() {
                         @Override
@@ -185,11 +184,10 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
                     });
                     myLibraryRecyclerAdapter.notifyDataSetChanged();
                 }
-/*
                 if (dateValue == 0) {
                     Collections.sort(myLibraryArrayList, new Comparator<MyLibrary>() {
 
-                        DateFormat f = new SimpleDateFormat("MM/dd/yyyy '@'hh:mm a");
+                        DateFormat f = new SimpleDateFormat("dd-MM-yyyy");
                         @Override
                         public int compare(MyLibrary o1, MyLibrary o2) {
                             return o1.getDate().compareTo(o2.getDate());
@@ -197,7 +195,7 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
                     });
                     myLibraryRecyclerAdapter.notifyDataSetChanged();
                 }else if (dateValue==1){
-                  DateFormat f = new SimpleDateFormat("MM/dd/yyyy '@'hh:mm a");
+                  DateFormat f = new SimpleDateFormat("dd-MM-yyyy");
 
                     Collections.sort(myLibraryArrayList, new Comparator<MyLibrary>() {
                         @Override
@@ -206,7 +204,7 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
                         }
                     });
                     myLibraryRecyclerAdapter.notifyDataSetChanged();
-                }*/
+                }
 
                 dialog.dismiss();
             }

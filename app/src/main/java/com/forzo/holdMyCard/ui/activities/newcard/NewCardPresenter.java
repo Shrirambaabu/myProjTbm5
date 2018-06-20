@@ -64,6 +64,7 @@ import java.io.StringReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -134,6 +135,14 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
     @Override
     public void saveBusinessCard(String nameTextInputEditText, String companyTextInputEditText, String jobTitleTextInputEditText, String mobileTextInputEditText, String mobileTextInputEditText2, String mobileTextInputEditText3, String emailTextInputEditText, String websiteTextInputEditText, String addressTextInputEditText) {
 
+
+        Date c = Calendar.getInstance().getTime();
+        Log.e("Current time => ","" + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        String formattedDate = df.format(c);
+        Log.e("Current Date => ","" + formattedDate);
+
         BusinessCard businessCard = new BusinessCard();
 
         businessCard.setId(PreferencesAppHelper.getUserId());
@@ -146,6 +155,7 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
         businessCard.setEmailId(emailTextInputEditText);
         businessCard.setWebsite(websiteTextInputEditText);
         businessCard.setAddress(addressTextInputEditText);
+        businessCard.setDate(formattedDate);
 
         getView().activityLoader();
 

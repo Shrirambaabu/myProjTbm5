@@ -55,6 +55,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -168,6 +169,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         feature = new Feature();
         feature.setType(visionAPI[0]);
         feature.setMaxResults(15);
+
     }
 
     private void createPath() {
