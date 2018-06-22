@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -74,9 +75,8 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
         this.myLibraryRecyclerAdapter = myLibraryRecyclerAdapter;
 
         final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.sort_dialog);
-        dialog.setTitle("Sort");
-
 
         // set the custom dialog components - text, image and button
         TextView acceptSort = (TextView) dialog.findViewById(R.id.accept_sort);

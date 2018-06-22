@@ -41,13 +41,22 @@
                         android:scaleType="fitXY" />
 
                     <ImageView
-                        android:id="@+id/profile_library_image_add"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:visibility="visible"
-                        android:layout_centerInParent="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_add_pic" />
+                        android:id="@+id/profile_library_image_back"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY" />
+
+                    <com.synnapps.carouselview.CarouselView
+                        android:id="@+id/carouselView"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:autoPlay="false"
+                        app:fillColor="@color/colorPrimary"
+                        app:pageColor="#00000000"
+                        app:radius="6dp"
+                        app:strokeColor="#FF777777"
+                        app:strokeWidth="1dp" />
+
 
                     <at.markushi.ui.CircleButton
                         android:id="@+id/edit_profile"
@@ -77,8 +86,8 @@
                     android:id="@+id/card_function"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:layout_margin="8dp"
+                    android:visibility="gone"
                     android:weightSum="3">
 
                     <RelativeLayout
@@ -161,10 +170,10 @@
 
                 <LinearLayout
                     android:id="@+id/scan_qr"
-                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="visible">
 
                     <RelativeLayout
                         android:id="@+id/scan"
@@ -577,9 +586,9 @@
 
                 <RelativeLayout
                     android:id="@+id/business_action_button"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/print_savelayout"
@@ -649,8 +658,8 @@
                         android:id="@+id/update_del"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_below="@+id/facebook_twitter"
+                        android:orientation="horizontal"
                         android:weightSum="2">
 
                         <Button
@@ -658,24 +667,23 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
+                            android:layout_weight="1"
                             android:background="@drawable/button_bg"
                             android:text="@string/update"
                             android:textColor="@android:color/white"
-                            android:visibility="visible"
-                            android:layout_weight="1"/>
+                            android:visibility="visible" />
 
                         <Button
                             android:id="@+id/delete_user_profile"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
+                            android:layout_weight="1"
                             android:background="@drawable/button_bg"
                             android:text="@string/delete"
-                            android:layout_weight="1"
                             android:textColor="@android:color/white"
                             android:visibility="visible" />
                     </LinearLayout>
-
 
 
                 </RelativeLayout>
@@ -683,17 +691,15 @@
 
             <TextView
                 android:id="@+id/time_ago"
-                android:layout_below="@+id/button_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:gravity=""
+                android:layout_below="@+id/button_layout"
+                android:layout_centerInParent="true"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="ababava"
-                android:textSize="16sp"
-                />
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textSize="16sp" />
         </RelativeLayout>
 
 

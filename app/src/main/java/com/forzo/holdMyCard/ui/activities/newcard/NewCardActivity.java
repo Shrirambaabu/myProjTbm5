@@ -5,15 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -44,6 +49,9 @@ import com.google.api.services.vision.v1.model.Feature;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.snatik.storage.Storage;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageClickListener;
+import com.synnapps.carouselview.ImageListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -64,6 +72,10 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.crosswall.lib.coverflow.core.PagerContainer;
+import me.relex.circleindicator.CircleIndicator;
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
 
 import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
@@ -94,8 +106,8 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     TextInputEditText textInputEditTextEmail;
     @BindView(R.id.profile_library_image)
     ImageView businessImage;
-    @BindView(R.id.profile_library_image_add)
-    ImageView previewImage;
+    @BindView(R.id.profile_library_image_back)
+    ImageView businessBackImage;
     @BindView(R.id.edit_profile)
     ImageView editBusinessImage;
 
@@ -125,6 +137,10 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     @BindView(R.id.time_ago)
     TextView textView;
 
+    @BindView(R.id.carouselView)
+    CarouselView carouselView;
+
+    private ViewPager mPager;
     private Context mContext = NewCardActivity.this;
     private String TAG = "NewCardActivity";
     private static int qrCode = 0;
@@ -140,10 +156,15 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     private int WRITE_EXTERNAL_STORAGE = 111;
     private String primaryValue = "";
     private Uri profileImageUri = null;
+    private Uri profileBackImageUri = null;
 
     private String imageValue = "";
     private String qrImageName = "";
     private Bitmap businessBitmap = null;
+    Bitmap image1, image2;
+
+    final Bitmap[] bitmaps = new Bitmap[2];
+
     private static Uri capturedImageUri = null;
     private String[] permissionList = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR};
@@ -163,6 +184,36 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                 .inject(this);
 
         newCardPresenter.attach(this);
+
+        image1 = BitmapFactory.decodeResource(getResources(), R.drawable.new_empty_image);
+        image2 = BitmapFactory.decodeResource(getResources(), R.drawable.new_empty_image);
+
+        bitmaps[0] = image1;
+        bitmaps[1] = image2;
+        carouselView.setPageCount(2);
+
+
+        final ImageListener imageListener = new ImageListener() {
+            @Override
+            public void setImageForPosition(int position, ImageView imageView) {
+                //  imageView.setImageResource(sampleImages[position]);
+                imageView.setImageBitmap(bitmaps[position]);
+            }
+        };
+
+        carouselView.setImageListener(imageListener);
+        carouselView.setImageClickListener(new ImageClickListener() {
+            @Override
+            public void onClick(int position) {
+
+                Log.e("Click", "" + position);
+                // Toast.makeText(NewCardActivity.this, "Clicked item: " + position, Toast.LENGTH_SHORT).show();
+                if (position == 1) {
+                    EasyImage.openChooserWithGallery(NewCardActivity.this, "Select the image", position);
+                }
+            }
+        });
+
         newCardPresenter.getIntentValues(getIntent());
 
         createPath();
@@ -332,6 +383,9 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
             newCardPresenter.saveQRImageName(userId, "BCF", qrImageName);
         } else {
             newCardPresenter.saveBusinessImage(profileImageUri, userId, "BCF");
+            if (profileBackImageUri != null) {
+                newCardPresenter.saveBusinessImage(profileBackImageUri, userId, "BCB");
+            }
         }
 
     }
@@ -370,6 +424,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         textView.setText("Last edit was made " + modifiedTs);
     }
 
+
     @Override
     public void newCardActivityType() {
         saveButton.setVisibility(View.VISIBLE);
@@ -382,7 +437,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @Override
     public void libraryActivityType() {
-        previewImage.setVisibility(View.GONE);
+
         saveButton.setVisibility(View.GONE);
         scanQRLayout.setVisibility(View.GONE);
         cardFunctionLayout.setVisibility(View.VISIBLE);
@@ -416,10 +471,17 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     public void setProfileImageUri(Uri profileImageUri) {
         // businessBitmap=
         this.profileImageUri = profileImageUri;
-        previewImage.setVisibility(View.GONE);
+
         Glide.with(this)
                 .load(profileImageUri)
                 .into(businessImage);
+
+        businessImage.buildDrawingCache();
+        Bitmap bmap = businessImage.getDrawingCache();
+
+
+        bitmaps[0] = bmap;
+        carouselView.setPageCount(2);
     }
 
 
@@ -479,8 +541,9 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     @OnClick(R.id.edit_profile)
     public void editBussinessProfile() {
 
-        cardFunctionLayout.setVisibility(View.GONE);
-        scanQRLayout.setVisibility(View.VISIBLE);
+       /* cardFunctionLayout.setVisibility(View.GONE);
+        scanQRLayout.setVisibility(View.VISIBLE);*/
+        Toast.makeText(getApplicationContext(), "Editing Image is Currently disabled", Toast.LENGTH_LONG).show();
 
     }
 
@@ -502,8 +565,9 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     @OnClick(R.id.save_user_profile)
     public void saveBusinessCard() {
 
-        if (businessImage == null && previewImage == null) {
+        if (profileImageUri == null) {
             Toast.makeText(getApplicationContext(), "Select an image", Toast.LENGTH_LONG).show();
+            return;
         } else {
 
             newCardPresenter.saveBusinessCard(textInputEditTextName.getText().toString(), textInputEditTextCompanyName.getText().toString(),
@@ -525,10 +589,12 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                 textInputEditTextJobTitle.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(),
                 "", textInputEditTextEmail.getText().toString(), textInputEditTextWebsite.getText().toString(),
                 textInputEditTextAddress.getText().toString());
-
         if (profileImageUri != null) {
 
             newCardPresenter.updateBusinessImage(profileImageUri, primaryValue, "BCF");
+        }
+        if (profileBackImageUri != null) {
+            newCardPresenter.updateBusinessImage(profileBackImageUri, primaryValue, "BCB");
         }
         Log.e("UpdateImg", "" + profileImageUri + ":Id:" + primaryValue);
 
@@ -641,7 +707,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @OnClick(R.id.profile_library_image)
     public void onViewClicked() {
-        if (imageValue != null) {
+        if (imageValue != null && !imageValue.equals("")) {
             Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
             if (imageValue != null)
                 fullScreenIntent.putExtra("image", IMAGE_URL + imageValue);
@@ -677,9 +743,6 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                     textInputEditTextEmail.setText(jsonObj.getString("email"));
                     if (!jsonObj.getString("businessImage").equals("") && !jsonObj.getString("businessImage").equals("null")) {
                         setQRImage(jsonObj.getString("businessImage"));
-                        previewImage.setVisibility(View.GONE);
-                    } else {
-                        previewImage.setVisibility(View.VISIBLE);
                     }
 
 
@@ -692,6 +755,41 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
             super.onActivityResult(requestCode, resultCode, data);
             newCardPresenter.handleResult(requestCode, resultCode, data, capturedImageUri);
         }
+
+
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                //Some error handling
+            }
+
+            @Override
+            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+                Log.e("type", "" + type);
+
+                setSliderImage(imageFile, type);
+            }
+
+        });
+
+
+    }
+
+    private void setSliderImage(File imageFile, int type) {
+
+        profileBackImageUri = Uri.fromFile(imageFile);
+
+        Log.e("profBackURI", "" + profileBackImageUri);
+
+        Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+
+        if (type == 0) {
+            bitmaps[0] = bitmap;
+            carouselView.setPageCount(2);
+        } else if (type == 1) {
+            bitmaps[1] = bitmap;
+            carouselView.setPageCount(2);
+        }
     }
 
     @Override
@@ -701,7 +799,35 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                 .load(IMAGE_URL + image)
                 .thumbnail(0.1f)
                 .into(businessImage);
+        Log.e("image", "" + image);
+        businessImage.buildDrawingCache();
+        Bitmap bmap = businessImage.getDrawingCache();
 
+
+        bitmaps[0] = bmap;
+        carouselView.setPageCount(2);
+
+
+    }
+
+    @Override
+    public void setBackImage(String backImage) {
+
+
+        Glide.with(mContext)
+                .load(IMAGE_URL + backImage)
+                .thumbnail(0.1f)
+                .into(businessBackImage);
+        Log.e("image", "" + backImage);
+
+
+        businessBackImage.buildDrawingCache();
+        Bitmap bmap2 = businessBackImage.getDrawingCache();
+        bitmaps[1] = bmap2;
+        carouselView.setPageCount(2);
+        image1 = bmap2;
+
+        Log.e("execute", "BackImage");
     }
 
 

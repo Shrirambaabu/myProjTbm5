@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,16 +15,20 @@ import android.provider.MediaStore;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 
+import com.antonyt.infiniteviewpager.InfinitePagerAdapter;
 import com.forzo.holdMyCard.HmcApplication;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
+import com.forzo.holdMyCard.ui.adapters.ImageSliderAdapter;
 import com.forzo.holdMyCard.ui.models.BusinessCard;
 import com.forzo.holdMyCard.utils.ImagePath_MarshMallow;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
@@ -64,6 +69,7 @@ import java.io.StringReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -73,7 +79,9 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import me.crosswall.lib.coverflow.CoverFlow;
 import me.echodev.resizer.Resizer;
+import me.relex.circleindicator.CircleIndicator;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -128,8 +136,47 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                 getView().libraryUserId(libraryUserId);
                 if (profileLibraryImage != null)
                     getView().setImage(profileLibraryImage);
+                showProfileBackImage(libraryUserId);
             }
         }
+    }
+
+    private void showProfileBackImage(String libraryUserId) {
+
+        mApiService.getUserProfileImages(libraryUserId, "BCB")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<BusinessCard>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(List<BusinessCard> businessCardList) {
+
+                        for (int i = 0; i < businessCardList.size(); i++) {
+
+                            BusinessCard card = new BusinessCard();
+
+
+                            Log.e("userImage", "" + businessCardList.get(i).getImageType());
+                            Log.e("userImage", "" + businessCardList.get(i).getPostImage());
+                            getView().setBackImage(businessCardList.get(i).getPostImage());
+                           // PreferencesAppHelper.setCurrentUserProfileImage(businessCardList.get(i).getPostImage());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("err", "" + e.getMessage());
+                        Log.e("err", "erorr image get");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
     }
 
     @Override
@@ -137,11 +184,11 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
 
 
         Date c = Calendar.getInstance().getTime();
-        Log.e("Current time => ","" + c);
+        Log.e("Current time => ", "" + c);
 
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         String formattedDate = df.format(c);
-        Log.e("Current Date => ","" + formattedDate);
+        Log.e("Current Date => ", "" + formattedDate);
 
         BusinessCard businessCard = new BusinessCard();
 
@@ -556,17 +603,17 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
         }
         Log.e(TAG, "String: " + message);
 
-        if (message.toString().equals("Nothing Found")) {
+        /*if (message.toString().equals("Nothing Found")) {
             getView().setUserName("");
             getView().setJobTitle("");
             getView().setCompanyName("");
             getView().setMobileNumber("");
-            getView().setPhoneNumber2("");/*
-                        getView().setPhoneNumber3(phoneNumberProfile3);*/
+            getView().setPhoneNumber2("");*//*
+                        getView().setPhoneNumber3(phoneNumberProfile3);*//*
             getView().setEmailFromAPI("");
             getView().setWebsiteFromAPI("");
             getView().setAddress("");
-        }
+        }*/
         return message.toString();
     }
 
@@ -808,6 +855,8 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
     public void saveBusinessImage(Uri uri, String userId, String imageType) {
         Bitmap bitmapS = null;
 
+        Log.e("URI",""+uri);
+
         try {
             bitmapS = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
         } catch (IOException e) {
@@ -850,6 +899,57 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                 });
     }
 
+    @Override
+    public void updateBusinessImage(Uri uri, String userId, String imageType) {
+
+        Bitmap bitmapS = null;
+
+        try {
+            bitmapS = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap newBitmap = getResizedBitmapFile(bitmapS, 480, 640);
+
+        File newFile = getBitmapLowFile(newBitmap);
+
+        RequestBody reqFile = RequestBody.create(MediaType.parse("image"), newFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("image", newFile.getName(), reqFile);
+
+        Log.e("busUpdate", "" + imageType + " " + Integer.parseInt(userId) + " " + newFile.getAbsolutePath());
+
+        mApiService.updateUserImage(Integer.parseInt(userId), imageType, body)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BusinessCard>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BusinessCard userChangePassword) {
+                        getView().updateSuccess();
+                        Log.e("Succ", "image");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //  progressBar.smoothToHide();
+                        Log.e("error", "" + e.getMessage());
+                        Log.e("errorUpdate", "error");
+                        Log.e("errorUpdate", "error:"+e.getLocalizedMessage());
+                        Log.e("errorUpdate", "error:"+e.getCause());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
     @Override
     public void deleteCard(String userId) {
 
@@ -925,52 +1025,5 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
         alertDialog.show();
     }
 
-    @Override
-    public void updateBusinessImage(Uri uri, String userId, String imageType) {
 
-        Bitmap bitmapS = null;
-
-        try {
-            bitmapS = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Bitmap newBitmap = getResizedBitmapFile(bitmapS, 480, 640);
-
-        File newFile = getBitmapLowFile(newBitmap);
-
-        RequestBody reqFile = RequestBody.create(MediaType.parse("image"), newFile);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("image", newFile.getName(), reqFile);
-
-        Log.e("busUpdate", "" + imageType + "" + Integer.parseInt(userId) + "" + newFile.getAbsolutePath());
-        mApiService.updateUserImage(body, Integer.parseInt(userId), imageType)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BusinessCard>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(BusinessCard userChangePassword) {
-                        getView().qrProfileSavedSuccessfully();
-                        Log.e("Succ", "image");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        //  progressBar.smoothToHide();
-                        Log.e("error", "" + e.getMessage());
-                        Log.e("error", "" + e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-    }
 }

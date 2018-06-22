@@ -27,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -180,6 +181,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                     case R.id.logout:
 
                         Intent logoutIntent = new Intent(MyLibraryActivity.this, LoginRegisterActivity.class);
+                        logoutIntent.putExtra("status","logout");
                         logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         PreferencesAppHelper.setCurrentUserBusinessImage("");
                         PreferencesAppHelper.setCurrentUserProfileImage("");
@@ -304,7 +306,16 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        /* Code for changing the textcolor and hint color for the search view */
 
+        SearchView.SearchAutoComplete searchAutoComplete =
+                (SearchView.SearchAutoComplete)mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchAutoComplete.setHintTextColor(getResources().getColor(R.color.colorWhite));
+        searchAutoComplete.setTextColor(getResources().getColor(R.color.colorWhite));
+/*
+     //   Code for changing the search icon
+        ImageView searchIcon = (ImageView)mSearchView.findViewById(android.support.v7.appcompat.R.id.search_mag_icon);
+        searchIcon.setImageResource(R.drawable.ic_sort_white);*/
         return true;
     }
 
@@ -321,6 +332,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
 
                     @Override
                     public boolean onQueryTextChange(String newText) {
+
                         return false;
                     }
                 });

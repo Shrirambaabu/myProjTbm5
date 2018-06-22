@@ -138,7 +138,7 @@ public interface ApiService {
 
     @POST("profile/updateImage")
     @Multipart
-    Observable<BusinessCard> updateUserImage(@Part MultipartBody.Part file, @Part("userId") int userId, @Part("imageType") String imageType);
+    Observable<BusinessCard> updateUserImage(@Part("userId") int userId, @Part("imageType") String imageType, @Part MultipartBody.Part file);
 
 
 }

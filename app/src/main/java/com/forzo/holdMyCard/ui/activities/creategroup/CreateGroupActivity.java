@@ -97,9 +97,35 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
             public boolean onQueryTextChange(String newText) {
 
                 Log.e("SearchQuery", "" + newText);
-                return false;
+                if (myLibraryArrayList.size() != 0)
+                    Log.e("SearchQuery", "" + myLibraryArrayList.get(0).getCardName());
+
+                newText = newText.toLowerCase();
+
+               final ArrayList<MyLibrary> newList = new ArrayList<>();
+
+                for (MyLibrary myLibrary : myLibraryArrayList) {
+                    Log.e("Name", "" + myLibrary.getCardName().toLowerCase());
+                   final String name = myLibrary.getCardName().toLowerCase();
+                    if (name.startsWith(newText)) {
+                        Log.e("if", "true");
+                        newList.add(myLibrary);
+                    }
+                }
+                setFilter(newList);
+
+                return true;
             }
         });
+    }
+
+    private void setFilter(ArrayList<MyLibrary> newList) {
+
+        myLibraryArrayList = new ArrayList<>();
+        myLibraryArrayList.addAll(newList);
+        if (myLibraryArrayList.size() != 0)
+            Log.e("newArrayList", "" + myLibraryArrayList.get(0).getCardName());
+        createGroupRecyclerAdapter.notifyDataSetChanged();
     }
 
 

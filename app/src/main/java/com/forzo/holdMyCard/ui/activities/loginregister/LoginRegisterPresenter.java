@@ -2,6 +2,7 @@ package com.forzo.holdMyCard.ui.activities.loginregister;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 
 import com.forzo.holdMyCard.HmcApplication;
@@ -31,5 +32,13 @@ public class LoginRegisterPresenter extends BasePresenter<LoginRegisterContract.
         viewPager.setAdapter(adapter);
         getView().showTabLayout();
 
+    }
+
+    @Override
+    public void getIntentValues(Intent intent) {
+        String status=intent.getStringExtra("status");
+        if (status!=null){
+            getView().statusValue(status);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.forzo.holdMyCard.ui.activities.loginregister;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
@@ -13,6 +14,8 @@ public interface LoginRegisterContract {
 
         void setupViewPager(ViewPager viewPager, SectionsStatePagerAdapter adapter,
                             MyLogin myLogin, MyRegister myRegister);
+
+        void getIntentValues(Intent intent);
     }
 
     // Action callbacks. Activity/Fragment will implement
@@ -20,6 +23,7 @@ public interface LoginRegisterContract {
 
         void showTabLayout();
 
+        void statusValue(String statusValue);
 
     }
 

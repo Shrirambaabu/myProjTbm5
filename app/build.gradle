@@ -104,8 +104,18 @@ dependencies {
 
     //time ago
     implementation 'com.github.marlonlom:timeago:3.0.1'
- //fab
+    //fab
     implementation 'com.github.clans:fab:1.6.4'
+
+    //Infinite View Pager with indicator
+    implementation 'com.github.hanihashemi:InfiniteViewPagerWithIndicator:1.1.8'
+
+    //CoverFlow
+    implementation 'com.github.crosswall:Android-Coverflow:release-v1.0.4'
+
+    //carosul
+    implementation 'com.synnapps:carouselview:0.1.4'
+
 
 }
 

@@ -2,7 +2,11 @@ package com.forzo.holdMyCard.ui.activities.newcard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
@@ -10,6 +14,8 @@ import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 
 import java.util.List;
+
+import me.relex.circleindicator.CircleIndicator;
 
 public interface NewCardContract {
     interface Presenter extends BaseMvpPresenter<View> {
@@ -57,6 +63,7 @@ public interface NewCardContract {
 
         void updateBusinessImage(Uri uri, String userId, String imageType);
 
+
     }
 
     interface View {
@@ -81,6 +88,7 @@ public interface NewCardContract {
         void setPhoneFromAPI(int phone, String phoneList);
 
         void setMobileNumber(String mobileNumber);
+
         void setPhoneNumber2(String mobileNumber2);
 
         void hideLoader();
@@ -111,6 +119,6 @@ public interface NewCardContract {
 
         void setModifiedTs(String modifiedTs);
 
-
+        void setBackImage(String backImage);
     }
 }

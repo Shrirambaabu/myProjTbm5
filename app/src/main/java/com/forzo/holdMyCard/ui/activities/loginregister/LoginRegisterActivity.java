@@ -42,6 +42,7 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginReg
     MyRegister myRegister;
 
     private Context mContext = LoginRegisterActivity.this;
+    private static String statusDataValue = "other";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +57,10 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginReg
                 .build()
                 .inject(this);
         loginRegisterPresenter.attach(this);
+        loginRegisterPresenter.getIntentValues(getIntent());
         loginRegisterPresenter.setupViewPager(pager, adapter, myLogin, myRegister);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
@@ -70,17 +73,28 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginReg
             Log.d("ERROR", e.toString());
         }
     }
+
     @Override
     public void showTabLayout() {
         tabLayout.setupWithViewPager(pager);
     }
 
     @Override
+    public void statusValue(String statusValue) {
+        statusDataValue = statusValue;
+    }
+
+    @Override
     public void onBackPressed() {
-        Intent intent = new Intent(LoginRegisterActivity.this, MyLibraryActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+        if (statusDataValue.equals("logout")) {
+            super.onBackPressed();
+        } else {
+            Intent intent = new Intent(LoginRegisterActivity.this, MyLibraryActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
     }
 
 }
