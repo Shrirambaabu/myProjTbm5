@@ -347,15 +347,6 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         primaryValue = libraryUserId;
     }
 
-    @Override
-    public void setQRImage(String qrImage) {
-        qrImageName = qrImage;
-        Glide.with(mContext)
-                .load(IMAGE_URL + qrImage)
-                .thumbnail(0.1f)
-                .into(businessImage);
-        qrCode = 1;
-    }
 
     @Override
     public void savedQRProfileImage(String userId) {
@@ -876,6 +867,16 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     }
 
     @Override
+    public void setQRImage(String qrImage) {
+        qrImageName = qrImage;
+        /*Glide.with(mContext)
+                .load(IMAGE_URL + qrImage)
+                .thumbnail(0.1f)
+                .into(businessImage);*/
+        newCardPresenter.setQRPresenter(qrImage);
+        qrCode = 1;
+    }
+    @Override
     public void setBusinessCarosuilImage(Bitmap businessCarosuilImage, String imageName) {
         imageValue = imageName;
         bitmaps[0] = businessCarosuilImage;
@@ -886,6 +887,12 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     @Override
     public void setBusinessBackCarosuilImage(Bitmap businessBackCarosuilImage, String imageName) {
         bitmaps[1] = businessBackCarosuilImage;
+        carouselView.setPageCount(2);
+    }
+
+    @Override
+    public void setBusinessQRCarosuilImage(Bitmap businessBackCarosuilImage, String imageName) {
+        bitmaps[0] = businessBackCarosuilImage;
         carouselView.setPageCount(2);
     }
 

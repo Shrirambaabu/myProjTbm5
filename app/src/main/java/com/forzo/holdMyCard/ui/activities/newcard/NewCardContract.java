@@ -67,6 +67,8 @@ public interface NewCardContract {
 
         void setBackImage(String backImage);
 
+        void setQRPresenter(String qrImageName);
+
     }
 
     interface View {
@@ -125,6 +127,11 @@ public interface NewCardContract {
         void setBackImage(String backImage);
 
         void setBusinessCarosuilImage(Bitmap businessCarosuilImage, String imageName);
+
         void setBusinessBackCarosuilImage(Bitmap businessBackCarosuilImage, String imageName);
+
+        void setBusinessQRCarosuilImage(Bitmap businessBackCarosuilImage, String imageName);
+
+
     }
 }

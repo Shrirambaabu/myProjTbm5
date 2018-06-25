@@ -1020,6 +1020,35 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
         }.execute();
     }
 
+    @SuppressLint("StaticFieldLeak")
+    @Override
+    public void setQRPresenter(String qrImageName) {
+        new AsyncTask<Object, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Object... params) {
+                Bitmap myBitmap = null;
+                try {
+                    URL url = new URL(IMAGE_URL + qrImageName);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    myBitmap = BitmapFactory.decodeStream(input);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                }
+                return myBitmap;
+            }
+
+            protected void onPostExecute(Bitmap response) {
+                getView().setBusinessQRCarosuilImage(response,qrImageName);
+            }
+        }.execute();
+    }
+
     @Override
     public void deleteCard(String userId) {
 

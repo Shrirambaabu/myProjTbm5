@@ -236,15 +236,15 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     public void updateUserProfile() {
 
         if (businessFile != null) {
-
-            if (!bgImageValue.equals("")) {
+            userProfilePresenter.postUserBusinessImage(businessFile, "BCF");
+           /* if (!bgImageValue.equals("")) {
                 Log.e("PostReq", "BCF image");
                 userProfilePresenter.updateUserBusinessImage(businessFile, "BCF");
 
             } else {
                 Log.e("updateReq", "BCF image");
                 userProfilePresenter.postUserBusinessImage(businessFile, "BCF");
-            }
+            }*/
 
         }
 
