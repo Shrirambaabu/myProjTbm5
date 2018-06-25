@@ -107,6 +107,8 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     private File businessFile = null;
     private File profileImageFile = null;
 
+    private String dpImageValue = "", bgImageValue = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,25 +129,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
     private void createPath() {
         //init
-        storage = new Storage(getApplicationContext());
-        // get external storage
-        String path = storage.getExternalStorageDirectory();
 
-        // new dir
-        newDir = path + File.separator + "Convert to Png";
-        storage.createDirectory(newDir);
-        Log.e("path", "" + newDir);
-        boolean hasPermission = (ContextCompat.checkSelfPermission(getBaseContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-
-        if (!hasPermission) {
-            ActivityCompat.requestPermissions(UserProfileActivity.this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.ACCESS_NETWORK_STATE,
-                            Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                            Manifest.permission.INTERNET
-                    }, WRITE_EXTERNAL_STORAGE);
-        }
     }
 
     @OnClick(R.id.edit_profile_image)
@@ -160,6 +144,25 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 /*
         Layout_to_Image layout_to_image = new Layout_to_Image(NewCardActivity.this, scrollView);
         Bitmap bitmap = layout_to_image.convert_layout();*/
+        storage = new Storage(getApplicationContext());
+        // get external storage
+        String path = storage.getExternalStorageDirectory();
+
+        // new dir
+        newDir = path + File.separator + "Convert to Pdf";
+        storage.createDirectory(newDir);
+        Log.e("path", "" + newDir);
+        boolean hasPermission = (ContextCompat.checkSelfPermission(getBaseContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(UserProfileActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.ACCESS_NETWORK_STATE,
+                            Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                            Manifest.permission.INTERNET
+                    }, WRITE_EXTERNAL_STORAGE);
+        }
 
         Bitmap bitmap = Bitmap.createBitmap(relativeHome.getWidth(), relativeHome.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvasPng = new Canvas(bitmap);
@@ -203,7 +206,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                     Locale.getDefault()).format(new Date());
 
             // write the document content
-            String targetPdf = "/sdcard/" + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
+            String targetPdf = newDir + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
             File filePath = new File(targetPdf);
             try {
                 document.writeTo(new FileOutputStream(filePath));
@@ -233,11 +236,28 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     public void updateUserProfile() {
 
         if (businessFile != null) {
-            userProfilePresenter.updateUserBusinessImage(businessFile,"BCF");
+
+            if (!bgImageValue.equals("")) {
+                Log.e("PostReq", "BCF image");
+                userProfilePresenter.updateUserBusinessImage(businessFile, "BCF");
+
+            } else {
+                Log.e("updateReq", "BCF image");
+                userProfilePresenter.postUserBusinessImage(businessFile, "BCF");
+            }
+
         }
 
-        if (profileImageFile!=null){
-            userProfilePresenter.updateUserBusinessImage(profileImageFile,"DP");
+        if (profileImageFile != null) {
+
+
+            if (!dpImageValue.equals("")) {
+                Log.e("updateReq", "DP image");
+                userProfilePresenter.updateUserBusinessImage(profileImageFile, "DP");
+            } else {
+                Log.e("PostReq", "DP image");
+                userProfilePresenter.postUserBusinessImage(profileImageFile, "DP");
+            }
         }
 
         userProfilePresenter.updateUserProfile(textInputEditTextName.getText().toString(), textInputEditTextJobTitle.getText().toString(), textInputEditTextCompanyName.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(), "", textInputEditTextEmail.getText().toString(), textInputEditTextAddress.getText().toString(), textInputEditTextWebsite.getText().toString());
@@ -357,7 +377,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
     @Override
     public void setBackGroundImage(String backGroundImage) {
-
+        bgImageValue = IMAGE_URL + backGroundImage;
         Glide.with(mContext)
                 .load(IMAGE_URL + backGroundImage)
                 .thumbnail(0.1f)
@@ -366,6 +386,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
     @Override
     public void setDpImage(String dpImage) {
+        dpImageValue = IMAGE_URL + dpImage;
         Glide.with(mContext)
                 .load(IMAGE_URL + dpImage)
                 .thumbnail(0.1f)

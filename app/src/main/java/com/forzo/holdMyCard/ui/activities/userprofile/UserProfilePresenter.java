@@ -183,7 +183,7 @@ public class UserProfilePresenter extends BasePresenter<UserProfileContract.View
     }
 
     @Override
-    public void updateUserBusinessImage(File businessImage, String imageType) {
+    public void postUserBusinessImage(File businessImage, String imageType) {
       /*  Bitmap bitmapS = null;
 
         try {
@@ -225,6 +225,55 @@ public class UserProfilePresenter extends BasePresenter<UserProfileContract.View
                     @Override
                     public void onComplete() {
 
+                    }
+                });
+    }
+
+    @Override
+    public void updateUserBusinessImage(File businessImage, String imageType) {
+
+
+        Bitmap bitmap = BitmapFactory.decodeFile(businessImage.getAbsolutePath());
+
+        Bitmap newBitmap = getResizedBitmapFile(bitmap, 480, 640);
+
+        File newFile = getBitmapLowFile(newBitmap);
+
+        Log.e("FileSize",""+newFile.length());
+        RequestBody reqFile = RequestBody.create(MediaType.parse("image"), newFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("image", newFile.getName(), reqFile);
+
+
+        mApiService.updateUserImage(Integer.parseInt(PreferencesAppHelper.getUserId()), imageType, body)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BusinessCard>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        getView().activityLoader();
+
+                    }
+
+                    @Override
+                    public void onNext(BusinessCard userChangePassword) {
+
+
+                        Log.e("SuccStatus", "image"+userChangePassword.getUpdateImage());
+                        Log.e("Succ", "image");
+                        getView().hideLoader();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //  progressBar.smoothToHide();
+                        Log.e("error", "" + e.getMessage());
+                        Log.e("error", "ErrorUpdatingImage");
+                        getView().hideLoader();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideLoader();
                     }
                 });
     }

@@ -97,6 +97,9 @@ public interface ApiService {
     Observable<User> newUser();
 
 
+    @POST("login/registerUser")
+    Observable<User> registerUser(@Body User user);
+
     @POST("notes/createNotes")
     Observable<MyNotes> saveNotes(@Body MyNotes myNotes);
 

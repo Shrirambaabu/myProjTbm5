@@ -37,6 +37,10 @@ public interface CreateGroupContract {
 
         void showDialog();
 
+        void showProgressBar();
+
+        void hideProgressBar();
+
         void showRecyclerView();
 
         void createGroupDone();

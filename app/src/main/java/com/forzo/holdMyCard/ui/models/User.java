@@ -49,6 +49,17 @@ public class User {
     @SerializedName("getEnabled")
     @Expose
     private String isEnabled;
+    @SerializedName("date")
+    @Expose
+    private String date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getUserId() {
         return userId;

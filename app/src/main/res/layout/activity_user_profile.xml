@@ -26,7 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:src="@drawable/abc_d" />
+                    android:src="@drawable/new_empty_image" />
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/edit_profile"
@@ -54,7 +54,7 @@
                     android:layout_height="72dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginStart="16dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/new_empty_image"
                     app:add_shadow="false" />
 
                 <RelativeLayout

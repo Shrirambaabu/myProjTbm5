@@ -12,6 +12,8 @@ public interface UserProfileContract {
     interface Presenter extends BaseMvpPresenter<UserProfileContract.View> {
         void getIntentValues(Intent intent);
 
+        void postUserBusinessImage(File businessImage, String imageType);
+
         void updateUserBusinessImage(File businessImage, String imageType);
 
         void updateUserProfile(String name, String jobTitle, String companyName, String phoneOne, String phone2, String phone3, String email, String address, String website);
@@ -43,6 +45,7 @@ public interface UserProfileContract {
         void updateSuccess();
 
         void setBackGroundImage(String backGroundImage);
+
         void setDpImage(String dpImage);
     }
 }

@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#3B79FF</color>
     <color name="colorPrimaryDark">#3868E4</color>
+    <color name="colorSplash">#140078</color>
     <color name="colorAccent">#515151</color>
     <color name="colorMyLibrary">#F9F9F9</color>
     <color name="colorCardDetails">#BEBEBE</color>
@@ -12,5 +13,6 @@
     <color name="colorIndicator">#011240</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorLibrary">#E9E9E9</color>
 
 </resources>

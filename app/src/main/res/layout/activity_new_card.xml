@@ -38,23 +38,26 @@
                         android:id="@+id/profile_library_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="fitXY" />
+                        android:scaleType="fitXY"
+                        android:visibility="visible" />
 
                     <ImageView
                         android:id="@+id/profile_library_image_back"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="fitXY" />
+                        android:scaleType="fitXY"
+                        android:visibility="visible" />
 
                     <com.synnapps.carouselview.CarouselView
                         android:id="@+id/carouselView"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
+                        android:visibility="visible"
                         app:autoPlay="false"
                         app:fillColor="@color/colorPrimary"
                         app:pageColor="#00000000"
                         app:radius="6dp"
-                        app:strokeColor="#FF777777"
+                        app:strokeColor="@android:color/black"
                         app:strokeWidth="1dp" />
 
 
@@ -695,6 +698,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/button_layout"
                 android:layout_centerInParent="true"
+                android:gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"

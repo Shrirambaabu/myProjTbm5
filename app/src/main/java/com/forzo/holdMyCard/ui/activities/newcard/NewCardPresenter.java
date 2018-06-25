@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -65,7 +66,10 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -87,6 +91,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 import static android.app.Activity.RESULT_OK;
+import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
 import static com.forzo.holdMyCard.utils.NullUtils.notEmpty;
 import static com.forzo.holdMyCard.utils.Utils.CLOUD_NATURAL_API_KEY;
 import static com.forzo.holdMyCard.utils.Utils.CLOUD_VISION_API_KEY;
@@ -134,8 +139,10 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                 getView().libraryActivityType();
                 showProfileData(libraryUserId);
                 getView().libraryUserId(libraryUserId);
-                if (profileLibraryImage != null)
+                if (profileLibraryImage != null) {
                     getView().setImage(profileLibraryImage);
+                    setImage(profileLibraryImage);
+                }
                 showProfileBackImage(libraryUserId);
             }
         }
@@ -161,8 +168,10 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
 
                             Log.e("userImage", "" + businessCardList.get(i).getImageType());
                             Log.e("userImage", "" + businessCardList.get(i).getPostImage());
-                            getView().setBackImage(businessCardList.get(i).getPostImage());
-                           // PreferencesAppHelper.setCurrentUserProfileImage(businessCardList.get(i).getPostImage());
+
+                           // getView().setBackImage(businessCardList.get(i).getPostImage());
+                            setBackImage(businessCardList.get(i).getPostImage());
+                            // PreferencesAppHelper.setCurrentUserProfileImage(businessCardList.get(i).getPostImage());
                         }
                     }
 
@@ -855,7 +864,7 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
     public void saveBusinessImage(Uri uri, String userId, String imageType) {
         Bitmap bitmapS = null;
 
-        Log.e("URI",""+uri);
+        Log.e("URI", "" + uri);
 
         try {
             bitmapS = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
@@ -939,8 +948,8 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                         //  progressBar.smoothToHide();
                         Log.e("error", "" + e.getMessage());
                         Log.e("errorUpdate", "error");
-                        Log.e("errorUpdate", "error:"+e.getLocalizedMessage());
-                        Log.e("errorUpdate", "error:"+e.getCause());
+                        Log.e("errorUpdateLM", "error:" + e.getLocalizedMessage());
+                        Log.e("errorUpdateC", "error:" + e.getCause());
                     }
 
                     @Override
@@ -950,6 +959,67 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                 });
 
     }
+
+    @SuppressLint("StaticFieldLeak")
+    @Override
+    public void setImage(String imageName) {
+
+        new AsyncTask<Object, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Object... params) {
+                Bitmap myBitmap = null;
+                try {
+                    URL url = new URL(IMAGE_URL + imageName);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    myBitmap = BitmapFactory.decodeStream(input);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                }
+                return myBitmap;
+            }
+
+            protected void onPostExecute(Bitmap response) {
+                getView().setBusinessCarosuilImage(response,imageName);
+            }
+        }.execute();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    @Override
+    public void setBackImage(String backImage) {
+
+        new AsyncTask<Object, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Object... params) {
+                Bitmap myBitmap = null;
+                try {
+                    URL url = new URL(IMAGE_URL + backImage);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    myBitmap = BitmapFactory.decodeStream(input);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                }
+                return myBitmap;
+            }
+
+            protected void onPostExecute(Bitmap response) {
+                getView().setBusinessBackCarosuilImage(response,backImage);
+            }
+        }.execute();
+    }
+
     @Override
     public void deleteCard(String userId) {
 

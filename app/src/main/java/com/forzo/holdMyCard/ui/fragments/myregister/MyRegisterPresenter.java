@@ -13,6 +13,9 @@ import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.models.User;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 import io.reactivex.Observer;
@@ -35,18 +38,29 @@ public class MyRegisterPresenter extends BasePresenter<MyRegisterContract.View> 
     @Override
     public void registerToHmc(String name, String email, String password, String confirmPassword) {
 
-        Log.e("RegUserID", "" + PreferencesAppHelper.getUserId());
+        //Log.e("RegUserID", "" + PreferencesAppHelper.getUserId());
         Log.e("RegName", "" + name);
         Log.e("RegEmail", "" + email);
         Log.e("RegPass", "" + password);
 
+
+        Date c = Calendar.getInstance().getTime();
+        Log.e("Current time => ", "" + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        String formattedDate = df.format(c);
+        Log.e("Current Date => ", "" + formattedDate);
+
+
+
         User user = new User();
 
-        user.setNewUser(PreferencesAppHelper.getUserId());
+      //  user.setNewUser(PreferencesAppHelper.getUserId());
         user.setUserName(name);
         user.setUserEmail(email);
         user.setUserPassword(password);
-
+        user.setDate(formattedDate);
+/*
         mApiService.registerToHmc(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -79,6 +93,44 @@ public class MyRegisterPresenter extends BasePresenter<MyRegisterContract.View> 
                         getView().hideLoader();
                     }
                 });
+        */
+
+        mApiService.registerUser(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<User>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        getView().showLoader();
+                    }
+
+                    @Override
+                    public void onNext(User user1) {
+
+                        Log.e("Result", "" + user1.getRegStatus());
+                        getView().hideLoader();
+                        if (user1.getRegStatus().equals("true")) {
+                            getView().loginSuccess();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("err", "" + e.getMessage());
+
+                        getView().hideLoader();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideLoader();
+                    }
+                });
+
+
+
+
     }
 
     @Override

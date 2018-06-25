@@ -1,6 +1,7 @@
 package com.forzo.holdMyCard.ui.activities.newcard;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
@@ -62,6 +64,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -216,35 +221,11 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
         newCardPresenter.getIntentValues(getIntent());
 
-        createPath();
+
         feature = new Feature();
         feature.setType(visionAPI[0]);
         feature.setMaxResults(15);
 
-    }
-
-    private void createPath() {
-
-        //init
-        storage = new Storage(getApplicationContext());
-        // get external storage
-        String path = storage.getExternalStorageDirectory();
-
-        // new dir
-        newDir = path + File.separator + "Convert to Png";
-        storage.createDirectory(newDir);
-        Log.e("path", "" + newDir);
-        boolean hasPermission = (ContextCompat.checkSelfPermission(getBaseContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-
-        if (!hasPermission) {
-            ActivityCompat.requestPermissions(NewCardActivity.this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.ACCESS_NETWORK_STATE,
-                            Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                            Manifest.permission.INTERNET
-                    }, WRITE_EXTERNAL_STORAGE);
-        }
     }
 
 
@@ -471,16 +452,21 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     public void setProfileImageUri(Uri profileImageUri) {
         // businessBitmap=
         this.profileImageUri = profileImageUri;
-
-        Glide.with(this)
+        Log.e("ProfImagURL", "" + this.profileImageUri);
+      /*  Glide.with(this)
                 .load(profileImageUri)
                 .into(businessImage);
 
         businessImage.buildDrawingCache();
-        Bitmap bmap = businessImage.getDrawingCache();
+        Bitmap bmap = businessImage.getDrawingCache();*/
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), profileImageUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-        bitmaps[0] = bmap;
+        bitmaps[0] = bitmap;
         carouselView.setPageCount(2);
     }
 
@@ -541,9 +527,9 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     @OnClick(R.id.edit_profile)
     public void editBussinessProfile() {
 
-       /* cardFunctionLayout.setVisibility(View.GONE);
-        scanQRLayout.setVisibility(View.VISIBLE);*/
-        Toast.makeText(getApplicationContext(), "Editing Image is Currently disabled", Toast.LENGTH_LONG).show();
+        /*cardFunctionLayout.setVisibility(View.GONE);
+        scanQRLayout.setVisibility(View.VISIBLE);
+        */   Toast.makeText(getApplicationContext(), "Editing Image is Currently disabled", Toast.LENGTH_LONG).show();
 
     }
 
@@ -590,13 +576,18 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                 "", textInputEditTextEmail.getText().toString(), textInputEditTextWebsite.getText().toString(),
                 textInputEditTextAddress.getText().toString());
         if (profileImageUri != null) {
-
+            Log.e("updateBCFReq", "BCF image");
             newCardPresenter.updateBusinessImage(profileImageUri, primaryValue, "BCF");
+            Log.e("UpdateBCFImg", "" + profileImageUri + ":Id:" + primaryValue);
+
         }
         if (profileBackImageUri != null) {
+            Log.e("updateReq", "BCB image");
             newCardPresenter.updateBusinessImage(profileBackImageUri, primaryValue, "BCB");
+            Log.e("UpdateImg", "" + profileBackImageUri + ":Id:" + primaryValue);
+
         }
-        Log.e("UpdateImg", "" + profileImageUri + ":Id:" + primaryValue);
+
 
     }
 
@@ -608,6 +599,28 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @OnClick(R.id.print)
     public void createPdf() {
+
+
+        //init
+        storage = new Storage(getApplicationContext());
+        // get external storage
+        String path = storage.getExternalStorageDirectory();
+
+        // new dir
+        newDir = path + File.separator + "Convert to Pdf";
+        storage.createDirectory(newDir);
+        Log.e("path", "" + newDir);
+        boolean hasPermission = (ContextCompat.checkSelfPermission(getBaseContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(NewCardActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.ACCESS_NETWORK_STATE,
+                            Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                            Manifest.permission.INTERNET
+                    }, WRITE_EXTERNAL_STORAGE);
+        }
 
         activityLoader();
 /*
@@ -656,7 +669,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                     Locale.getDefault()).format(new Date());
 
             // write the document content
-            String targetPdf = "/sdcard/" + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
+            String targetPdf = newDir + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
             File filePath = new File(targetPdf);
             try {
                 document.writeTo(new FileOutputStream(filePath));
@@ -792,42 +805,88 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void setImage(String image) {
         imageValue = image;
-        Glide.with(mContext)
+
+
+        /*Glide.with(mContext)
                 .load(IMAGE_URL + image)
                 .thumbnail(0.1f)
                 .into(businessImage);
-        Log.e("image", "" + image);
+        Log.e("imageFront", "" + image);
         businessImage.buildDrawingCache();
         Bitmap bmap = businessImage.getDrawingCache();
+        Bitmap bitmap = BitmapFactory.decodeFile(IMAGE_URL + image);
 
 
         bitmaps[0] = bmap;
-        carouselView.setPageCount(2);
+        carouselView.setPageCount(2);*/
 
+     /*   new AsyncTask<Object, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Object... params) {
+                Bitmap myBitmap = null;
+                try {
+                    URL url = new URL(IMAGE_URL + image);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    myBitmap = BitmapFactory.decodeStream(input);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                }
+                return myBitmap;
+            }
+
+            protected void onPostExecute(Bitmap response) {
+                bitmaps[0] = response;
+                carouselView.setPageCount(2);
+            }
+        }.execute();
+*/
 
     }
 
     @Override
     public void setBackImage(String backImage) {
 
-
+/*
         Glide.with(mContext)
                 .load(IMAGE_URL + backImage)
                 .thumbnail(0.1f)
                 .into(businessBackImage);
-        Log.e("image", "" + backImage);
+        Log.e("imageBack", "" + backImage);
+        Log.e("imageBackURL", "" +IMAGE_URL+ backImage);
 
+
+        Bitmap bitmap = BitmapFactory.decodeFile(IMAGE_URL + backImage);
 
         businessBackImage.buildDrawingCache();
         Bitmap bmap2 = businessBackImage.getDrawingCache();
         bitmaps[1] = bmap2;
-        carouselView.setPageCount(2);
-        image1 = bmap2;
+        carouselView.setPageCount(2);*/
 
         Log.e("execute", "BackImage");
+    }
+
+    @Override
+    public void setBusinessCarosuilImage(Bitmap businessCarosuilImage, String imageName) {
+        imageValue = imageName;
+        bitmaps[0] = businessCarosuilImage;
+        carouselView.setPageCount(2);
+
+    }
+
+    @Override
+    public void setBusinessBackCarosuilImage(Bitmap businessBackCarosuilImage, String imageName) {
+        bitmaps[1] = businessBackCarosuilImage;
+        carouselView.setPageCount(2);
     }
 
 

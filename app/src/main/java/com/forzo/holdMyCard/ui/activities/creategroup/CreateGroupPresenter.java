@@ -159,6 +159,7 @@ public class CreateGroupPresenter extends BasePresenter<CreateGroupContract.View
                     .subscribe(new Observer<Groups>() {
                         @Override
                         public void onSubscribe(Disposable d) {
+                            getView().showProgressBar();
                         }
 
                         @Override

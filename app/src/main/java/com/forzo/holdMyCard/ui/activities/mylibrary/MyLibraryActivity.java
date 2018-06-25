@@ -92,6 +92,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
 
     @BindView(R.id.version_number)
     TextView versionNumberTextView;
+    ImageView dotCircle;
 
     private SearchView mSearchView;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
@@ -99,6 +100,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     private TextView registerStatus;
     private CircleImage profImage;
     private TextView profName;
+    ActionBar actionbar;
     private static String alphabetValue = "";
 
     @Override
@@ -107,7 +109,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
         setContentView(R.layout.activity_library);
         ButterKnife.bind(this);
         setSupportActionBar(myToolbar);
-        ActionBar actionbar = getSupportActionBar();
+        actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
         DaggerMyLibraryComponent.builder()
@@ -143,6 +145,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
         registerStatus = (TextView) headerview.findViewById(R.id.reg_status);
         profImage = (CircleImage) headerview.findViewById(R.id.circleImage);
         profName = (TextView) headerview.findViewById(R.id.prof_name);
+        dotCircle = (ImageView) headerview.findViewById(R.id.dot_img_red);
 
         myLibraryPresenter.setNavigationHeader();
 
@@ -181,7 +184,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                     case R.id.logout:
 
                         Intent logoutIntent = new Intent(MyLibraryActivity.this, LoginRegisterActivity.class);
-                        logoutIntent.putExtra("status","logout");
+                        logoutIntent.putExtra("status", "logout");
                         logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         PreferencesAppHelper.setCurrentUserBusinessImage("");
                         PreferencesAppHelper.setCurrentUserProfileImage("");
@@ -224,8 +227,12 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     public void setIsEnabled(String isEnabled) {
         if (isEnabled.equals("true")) {
             registerStatus.setText("Registered");
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+            dotCircle.setBackgroundResource(R.drawable.indicator);
         } else if (isEnabled.equals("false")) {
             registerStatus.setText("UnRegistered");
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_hamburger_red);
+            dotCircle.setBackgroundResource(R.drawable.indicator_selected);
         }
     }
 
@@ -254,7 +261,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
 
     @Override
     public void alphaValue(String alphaValue) {
-        alphabetValue=alphaValue;
+        alphabetValue = alphaValue;
     }
 
 
@@ -309,7 +316,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
         /* Code for changing the textcolor and hint color for the search view */
 
         SearchView.SearchAutoComplete searchAutoComplete =
-                (SearchView.SearchAutoComplete)mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+                (SearchView.SearchAutoComplete) mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchAutoComplete.setHintTextColor(getResources().getColor(R.color.colorWhite));
         searchAutoComplete.setTextColor(getResources().getColor(R.color.colorWhite));
 /*

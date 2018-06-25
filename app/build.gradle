@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
-        versionName "3.1 UserProfile and BusinessCard "
+        versionName "3.2"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -115,6 +115,9 @@ dependencies {
 
     //carosul
     implementation 'com.synnapps:carouselview:0.1.4'
+
+    //excel export
+    implementation group: 'org.apache.poi', name: 'poi', version: '3.17'
 
 
 }

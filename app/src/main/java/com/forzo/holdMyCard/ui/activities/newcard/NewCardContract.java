@@ -63,6 +63,9 @@ public interface NewCardContract {
 
         void updateBusinessImage(Uri uri, String userId, String imageType);
 
+        void setImage(String imageName);
+
+        void setBackImage(String backImage);
 
     }
 
@@ -120,5 +123,8 @@ public interface NewCardContract {
         void setModifiedTs(String modifiedTs);
 
         void setBackImage(String backImage);
+
+        void setBusinessCarosuilImage(Bitmap businessCarosuilImage, String imageName);
+        void setBusinessBackCarosuilImage(Bitmap businessBackCarosuilImage, String imageName);
     }
 }

@@ -86,6 +86,18 @@ public class BusinessCard {
     @Expose
     private String modifiedTs;
 
+    @SerializedName("updateImage")
+    @Expose
+    private String updateImage;
+
+    public String getUpdateImage() {
+        return updateImage;
+    }
+
+    public void setUpdateImage(String updateImage) {
+        this.updateImage = updateImage;
+    }
+
     public String getModifiedTs() {
         return modifiedTs;
     }

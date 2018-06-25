@@ -11,6 +11,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.recyclerAdapter.creategroup.CreateGroupRecyclerAdapter;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 
@@ -58,6 +60,10 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
     @BindView(R.id.search_groups)
     android.support.v7.widget.SearchView searchView;
 
+    @BindView(R.id.avi)
+    AVLoadingIndicatorView avLoadingIndicatorView;
+    @BindView(R.id.relative_progress)
+    RelativeLayout relativeLayout;
     TextView mNext;
     private Context mContext = CreateGroupActivity.this;
     private static final int ACTIVITY_NUM = 1;
@@ -192,6 +198,7 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
         Intent groupIntent = new Intent(CreateGroupActivity.this, MyLibraryActivity.class);
         groupIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(groupIntent);
+        Toast.makeText(getApplicationContext(),"Group Created",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -218,5 +225,19 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 });
         alertDialog.show();
+    }
+
+    @Override
+    public void showProgressBar() {
+        relativeLayout.setVisibility(View.VISIBLE);
+        avLoadingIndicatorView.setVisibility(View.VISIBLE);
+        avLoadingIndicatorView.show();
+    }
+
+    @Override
+    public void hideProgressBar() {
+        relativeLayout.setVisibility(View.GONE);
+        avLoadingIndicatorView.setVisibility(View.GONE);
+        avLoadingIndicatorView.hide();
     }
 }
