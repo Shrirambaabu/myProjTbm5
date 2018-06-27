@@ -1,11 +1,13 @@
 package com.forzo.holdMyCard.ui.recyclerAdapter.mygroups;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.forzo.holdMyCard.ui.activities.groupdetails.GroupDetailsActivity;
 import com.forzo.holdMyCard.ui.models.Groups;
 import com.forzo.holdMyCard.ui.models.MyGroups;
 import com.github.marlonlom.utilities.timeago.TimeAgo;
@@ -69,5 +71,9 @@ public class MyGroupsListPresenter implements MyGroupsContract.Presenter {
     @Override
     public void clickGroup(int position) {
         Toast.makeText(context, "Edit Group is under development", Toast.LENGTH_LONG).show();
+
+        /*Intent groupDetailsIntent=new Intent(context, GroupDetailsActivity.class);
+        groupDetailsIntent.putExtra("adapterPosition",""+position);
+        context.startActivity(groupDetailsIntent);*/
     }
 }

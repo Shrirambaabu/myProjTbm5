@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.groupdetails.GroupDetailsActivity">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:id="@+id/group_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/search_contact"
+                android:layout_margin="16dp"
+                android:background="@drawable/group_bg"
+                android:hint="Group Name"
+                android:paddingBottom="4dp"
+                android:paddingStart="16dp"
+                android:paddingTop="4dp"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/gn_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/group_name"
+                android:layout_marginStart="16dp"
+                android:text="Please provide group name "
+                android:textColor="@android:color/black" />
+
+            <RelativeLayout
+                android:id="@+id/group_users"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/gn_hint"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/layout_empty_recycler_view" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/add_users"
+                android:layout_width="match_parent"
+                android:background="@drawable/button_bg"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/group_users"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Add Participant"
+                android:textColor="@android:color/white"
+                android:textAllCaps="false"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp" />
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>
