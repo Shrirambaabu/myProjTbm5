@@ -38,7 +38,7 @@
         android:layout_below="@+id/reg_status"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/hmc_logo_one"
         app:add_shadow="false" />
 
     <TextView
