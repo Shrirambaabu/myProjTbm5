@@ -3,6 +3,7 @@ package com.forzo.holdMyCard.ui.recyclerAdapter.mygroups;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.forzo.holdMyCard.ui.models.Groups;
@@ -47,7 +48,7 @@ public class MyGroupsListPresenter implements MyGroupsContract.Presenter {
 
         MyGroups myGroups = groupsArrayList.get(position);
 
-        String  newDate=gmtToLocalLibrary(myGroups.getCreatedTs());
+        String newDate = gmtToLocalLibrary(myGroups.getCreatedTs());
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
@@ -59,9 +60,14 @@ public class MyGroupsListPresenter implements MyGroupsContract.Presenter {
         }
         myGroupsRow.setCardImage(myGroups.getImageName());
         myGroupsRow.setGroupName(myGroups.getLibraryGroupName());
-      //  myGroupsRow.setCreatedOn(myGroups.getCreatedTs());
+        //  myGroupsRow.setCreatedOn(myGroups.getCreatedTs());
         myGroupsRow.setGroupMembers(myGroups.getTotalMembers());
 
 
+    }
+
+    @Override
+    public void clickGroup(int position) {
+        Toast.makeText(context, "Edit Group is under development", Toast.LENGTH_LONG).show();
     }
 }

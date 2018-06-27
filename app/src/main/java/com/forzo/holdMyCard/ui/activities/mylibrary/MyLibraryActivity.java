@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -92,6 +93,8 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
 
     @BindView(R.id.version_number)
     TextView versionNumberTextView;
+    @BindView(R.id.freshlancers)
+    TextView freshlancers;
     ImageView dotCircle;
 
     private SearchView mSearchView;
@@ -308,21 +311,17 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.search_view_menu_item, menu);//Menu Resource, Menu
+
+       /* getMenuInflater().inflate(R.menu.search_view_menu_item, menu);//Menu Resource, Menu
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        /* Code for changing the textcolor and hint color for the search view */
 
         SearchView.SearchAutoComplete searchAutoComplete =
                 (SearchView.SearchAutoComplete) mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchAutoComplete.setHintTextColor(getResources().getColor(R.color.colorWhite));
-        searchAutoComplete.setTextColor(getResources().getColor(R.color.colorWhite));
-/*
-     //   Code for changing the search icon
-        ImageView searchIcon = (ImageView)mSearchView.findViewById(android.support.v7.appcompat.R.id.search_mag_icon);
-        searchIcon.setImageResource(R.drawable.ic_sort_white);*/
+        searchAutoComplete.setTextColor(getResources().getColor(R.color.colorWhite));*/
+
         return true;
     }
 
@@ -330,19 +329,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-                mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        mSearchView.clearFocus();
-                        return true;
-                    }
 
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-
-                        return false;
-                    }
-                });
                 return true;
 
             case android.R.id.home:
@@ -376,5 +363,14 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     protected void onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
+    }
+
+    @OnClick(R.id.freshlancers)
+    public void freshlancersSite(){
+        Intent websiteIntent = new Intent();
+        websiteIntent.setAction(Intent.ACTION_VIEW);
+        websiteIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+        websiteIntent.setData(Uri.parse("http://freshlancers.com/"));
+        startActivity(websiteIntent);
     }
 }

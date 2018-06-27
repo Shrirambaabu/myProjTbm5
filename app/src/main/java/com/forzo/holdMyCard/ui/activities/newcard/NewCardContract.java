@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.widget.RelativeLayout;
 
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
@@ -124,7 +125,7 @@ public interface NewCardContract {
 
         void setModifiedTs(String modifiedTs);
 
-        void setBackImage(String backImage);
+       // void setBackImage(String backImage);
 
         void setBusinessCarosuilImage(Bitmap businessCarosuilImage, String imageName);
 

@@ -31,6 +31,7 @@ import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
+import com.forzo.holdMyCard.ui.activities.newcard.NewCardActivity;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.jackandphantom.circularimageview.CircleImage;
 import com.snatik.storage.Storage;
@@ -122,15 +123,11 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                 .build()
                 .inject(this);
         userProfilePresenter.attach(this);
-        createPath();
+
         userProfilePresenter.getIntentValues(getIntent());
         // ImagePicker.setMinQuality(600, 600);
     }
 
-    private void createPath() {
-        //init
-
-    }
 
     @OnClick(R.id.edit_profile_image)
     public void imageSelect() {
@@ -236,15 +233,15 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     public void updateUserProfile() {
 
         if (businessFile != null) {
-            userProfilePresenter.postUserBusinessImage(businessFile, "BCF");
-           /* if (!bgImageValue.equals("")) {
-                Log.e("PostReq", "BCF image");
+         //   userProfilePresenter.postUserBusinessImage(businessFile, "BCF");
+            if (!bgImageValue.equals("")) {
+                Log.e("updateReq", "BCF image");
                 userProfilePresenter.updateUserBusinessImage(businessFile, "BCF");
 
             } else {
-                Log.e("updateReq", "BCF image");
+                Log.e("PostReq", "BCF image");
                 userProfilePresenter.postUserBusinessImage(businessFile, "BCF");
-            }*/
+            }
 
         }
 
@@ -264,14 +261,6 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(UserProfileActivity.this, MyLibraryActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        return true;
-    }
 
 
     @Override
@@ -391,5 +380,22 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                 .load(IMAGE_URL + dpImage)
                 .thumbnail(0.1f)
                 .into(circleImage);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent intent = new Intent(UserProfileActivity.this, MyLibraryActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(UserProfileActivity.this, MyLibraryActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

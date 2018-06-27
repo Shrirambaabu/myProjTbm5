@@ -21,6 +21,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.antonyt.infiniteviewpager.InfinitePagerAdapter;
 import com.forzo.holdMyCard.HmcApplication;
@@ -979,12 +980,15 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
 
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Log.e("getMsg",""+e.getLocalizedMessage());
+                    Log.e("getMsg2",""+e.getMessage());
 
                 }
                 return myBitmap;
             }
 
             protected void onPostExecute(Bitmap response) {
+                Log.e("BusImag","response");
                 getView().setBusinessCarosuilImage(response,imageName);
             }
         }.execute();
@@ -1048,6 +1052,7 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
             }
         }.execute();
     }
+
 
     @Override
     public void deleteCard(String userId) {

@@ -69,6 +69,7 @@
         app:menu="@menu/activity_main_drawer">
 
         <TextView
+            android:id="@+id/freshlancers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Powered by Freshlancers"

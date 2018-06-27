@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
 
@@ -36,6 +37,7 @@ public class MyGroupsHolder extends RecyclerView.ViewHolder implements MyGroupsC
     @Override
     public void onClick(View v) {
         Log.e("ItemPos:",""+getAdapterPosition());
+        myGroupsListPresenter.clickGroup(getAdapterPosition());
     }
 
     @Override

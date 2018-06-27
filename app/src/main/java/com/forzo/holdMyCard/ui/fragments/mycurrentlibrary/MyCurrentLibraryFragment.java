@@ -9,8 +9,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -36,12 +40,14 @@ import org.apache.poi.ss.usermodel.Row;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -52,7 +58,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibraryFragmentContract.View {
+public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibraryFragmentContract.View, SearchView.OnQueryTextListener {
 
 
     @Inject
@@ -79,9 +85,37 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
     private int WRITE_EXTERNAL_STORAGE = 111;
 
     private Context context;
+    SearchView searchView;
 
     public MyCurrentLibraryFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+ /*   @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem mSearchMenuItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) mSearchMenuItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+    }
+*/
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.search_view_menu_item, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        searchView.setQueryHint("Search");
+
+        super.onCreateOptionsMenu(menu, inflater);
+
+
     }
 
     @Override
@@ -118,6 +152,18 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
     }
 
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        myLibraryRecyclerAdapter.getFilter().filter(newText);
+        Log.e("MyLibraryFragmentChange",""+newText);
+        return true;
+    }
     @OnClick(R.id.fab)
     public void fabButton() {/*
         Intent sortIntent = new Intent(getActivity(), SortDialogActivity.class);
@@ -176,7 +222,10 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
         }
 
         try {
-            File xlFile = new File(newDir + File.separator + "new_" + PreferencesAppHelper.getUserId() + ".xls");
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                    Locale.getDefault()).format(new Date());
+
+            File xlFile = new File(newDir + File.separator + "new_" + timeStamp + "_" + PreferencesAppHelper.getUserId() + ".xls");
             FileOutputStream out = new FileOutputStream(xlFile);
             workbook.write(out);
             out.close();
@@ -223,7 +272,7 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
 
     @Override
     public void showRecyclerView() {
-
+        myLibraryRecyclerAdapter. MyLibraryRecyclerAdapter(myLibraryArrayList, myLibraryRecyclerAdapter);
         recyclerView.setAdapter(myLibraryRecyclerAdapter);
         myCurrentLibraryFragmentPresenter.populateRecyclerView(myLibraryArrayList);
     }
@@ -238,4 +287,5 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
         }
         myLibraryRecyclerAdapter.notifyDataSetChanged();
     }
+
 }

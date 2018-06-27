@@ -102,7 +102,9 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                Log.e("SearchQuery", "" + newText);
+                createGroupRecyclerAdapter.getFilter().filter(newText);
+
+            /*    Log.e("SearchQuery", "" + newText);
                 if (myLibraryArrayList.size() != 0)
                     Log.e("SearchQuery", "" + myLibraryArrayList.get(0).getCardName());
 
@@ -111,15 +113,15 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
                final ArrayList<MyLibrary> newList = new ArrayList<>();
 
                 for (MyLibrary myLibrary : myLibraryArrayList) {
-                    Log.e("Name", "" + myLibrary.getCardName().toLowerCase());
+
                    final String name = myLibrary.getCardName().toLowerCase();
                     if (name.startsWith(newText)) {
-                        Log.e("if", "true");
+
                         newList.add(myLibrary);
                     }
                 }
                 setFilter(newList);
-
+*/
                 return true;
             }
         });
@@ -129,9 +131,8 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
 
         myLibraryArrayList = new ArrayList<>();
         myLibraryArrayList.addAll(newList);
-        if (myLibraryArrayList.size() != 0)
-            Log.e("newArrayList", "" + myLibraryArrayList.get(0).getCardName());
         createGroupRecyclerAdapter.notifyDataSetChanged();
+
     }
 
 
@@ -189,26 +190,29 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
 
     @Override
     public void showRecyclerView() {
+        createGroupRecyclerAdapter.CreateGroupRecyclerAdapter(myLibraryArrayList, createGroupRecyclerAdapter);
         recyclerView.setAdapter(createGroupRecyclerAdapter);
         createGroupPresenter.populateRecyclerView(myLibraryArrayList);
     }
+
+    @Override
+    public void updateAdapter() {
+        createGroupRecyclerAdapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public void createGroupDone() {
         Intent groupIntent = new Intent(CreateGroupActivity.this, MyLibraryActivity.class);
         groupIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(groupIntent);
-        Toast.makeText(getApplicationContext(),"Group Created",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Group Created", Toast.LENGTH_LONG).show();
     }
+
 
     @Override
     public void createGroupId(ArrayList<String> stringArrayList3) {
         Log.e("MainActivity", "" + stringArrayList3.size());
-    }
-
-    @Override
-    public void updateAdapter() {
-        createGroupRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override

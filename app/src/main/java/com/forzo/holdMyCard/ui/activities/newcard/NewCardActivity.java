@@ -364,7 +364,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @Override
     public void qrProfileSavedSuccessfully() {
-        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Business Card Saved", Toast.LENGTH_LONG).show();
 
         Intent intentSave = new Intent(NewCardActivity.this, MyLibraryActivity.class);
         intentSave.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -518,9 +518,9 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     @OnClick(R.id.edit_profile)
     public void editBussinessProfile() {
 
-        /*cardFunctionLayout.setVisibility(View.GONE);
+        cardFunctionLayout.setVisibility(View.GONE);
         scanQRLayout.setVisibility(View.VISIBLE);
-        */   Toast.makeText(getApplicationContext(), "Editing Image is Currently disabled", Toast.LENGTH_LONG).show();
+        //   Toast.makeText(getApplicationContext(), "Editing Image is Currently disabled", Toast.LENGTH_LONG).show();
 
     }
 
@@ -542,11 +542,12 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     @OnClick(R.id.save_user_profile)
     public void saveBusinessCard() {
 
-        if (profileImageUri == null) {
+        if (profileImageUri == null && qrImageName.equals("")) {
             Toast.makeText(getApplicationContext(), "Select an image", Toast.LENGTH_LONG).show();
             return;
-        } else {
+        }
 
+        if (profileImageUri != null || !qrImageName.equals("")){
             newCardPresenter.saveBusinessCard(textInputEditTextName.getText().toString(), textInputEditTextCompanyName.getText().toString(),
                     textInputEditTextJobTitle.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(),
                     "", textInputEditTextEmail.getText().toString(), textInputEditTextWebsite.getText().toString(),
@@ -590,8 +591,6 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @OnClick(R.id.print)
     public void createPdf() {
-
-
         //init
         storage = new Storage(getApplicationContext());
         // get external storage
@@ -801,69 +800,6 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     public void setImage(String image) {
         imageValue = image;
 
-
-        /*Glide.with(mContext)
-                .load(IMAGE_URL + image)
-                .thumbnail(0.1f)
-                .into(businessImage);
-        Log.e("imageFront", "" + image);
-        businessImage.buildDrawingCache();
-        Bitmap bmap = businessImage.getDrawingCache();
-        Bitmap bitmap = BitmapFactory.decodeFile(IMAGE_URL + image);
-
-
-        bitmaps[0] = bmap;
-        carouselView.setPageCount(2);*/
-
-     /*   new AsyncTask<Object, Void, Bitmap>() {
-            @Override
-            protected Bitmap doInBackground(Object... params) {
-                Bitmap myBitmap = null;
-                try {
-                    URL url = new URL(IMAGE_URL + image);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setDoInput(true);
-                    connection.connect();
-                    InputStream input = connection.getInputStream();
-                    myBitmap = BitmapFactory.decodeStream(input);
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-
-                }
-                return myBitmap;
-            }
-
-            protected void onPostExecute(Bitmap response) {
-                bitmaps[0] = response;
-                carouselView.setPageCount(2);
-            }
-        }.execute();
-*/
-
-    }
-
-    @Override
-    public void setBackImage(String backImage) {
-
-/*
-        Glide.with(mContext)
-                .load(IMAGE_URL + backImage)
-                .thumbnail(0.1f)
-                .into(businessBackImage);
-        Log.e("imageBack", "" + backImage);
-        Log.e("imageBackURL", "" +IMAGE_URL+ backImage);
-
-
-        Bitmap bitmap = BitmapFactory.decodeFile(IMAGE_URL + backImage);
-
-        businessBackImage.buildDrawingCache();
-        Bitmap bmap2 = businessBackImage.getDrawingCache();
-        bitmaps[1] = bmap2;
-        carouselView.setPageCount(2);*/
-
-        Log.e("execute", "BackImage");
     }
 
     @Override
@@ -876,12 +812,13 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         newCardPresenter.setQRPresenter(qrImage);
         qrCode = 1;
     }
+
     @Override
     public void setBusinessCarosuilImage(Bitmap businessCarosuilImage, String imageName) {
         imageValue = imageName;
         bitmaps[0] = businessCarosuilImage;
         carouselView.setPageCount(2);
-
+        Log.e("Activity", "businessCarosel");
     }
 
     @Override

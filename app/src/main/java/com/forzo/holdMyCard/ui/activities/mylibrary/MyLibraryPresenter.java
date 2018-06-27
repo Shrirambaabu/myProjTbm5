@@ -82,6 +82,7 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
 
                         @Override
                         public void onNext(User user) {
+                            Log.e("UserIDNew",""+user.getNewUser());
                             PreferencesAppHelper.setUserId(user.getNewUser());
                             PreferencesAppHelper.setFirstTime(true);
                         }
@@ -89,6 +90,7 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
                         @Override
                         public void onError(Throwable e) {
                             Log.e(TAG, e.getMessage());
+                            Log.e(TAG, "Error On New User");
                         }
 
                         @Override

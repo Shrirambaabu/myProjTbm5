@@ -408,7 +408,7 @@
                         android:hint="Phone Number(Primary)"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="noExcludeDescendants"
-                        android:inputType="text|textNoSuggestions"
+                        android:inputType="phone|textNoSuggestions"
                         android:maxLines="1"
                         android:textColor="@android:color/black" />
 
@@ -446,7 +446,7 @@
                         android:hint="Phone Number(Secondary)"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="noExcludeDescendants"
-                        android:inputType="text|textNoSuggestions"
+                        android:inputType="phone|textNoSuggestions"
                         android:maxLines="1"
                         android:textColor="@android:color/black" />
 

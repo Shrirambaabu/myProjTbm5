@@ -12,6 +12,8 @@ public class MyGroupsContract {
         void setImage(String image, ImageView imageView);
 
         void bindEventRow(int position, MyGroupsRow holder);
+
+        void clickGroup(int position);
     }
 
     interface MyGroupsRow {
