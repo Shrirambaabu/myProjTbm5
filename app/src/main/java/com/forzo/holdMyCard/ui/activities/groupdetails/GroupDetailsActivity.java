@@ -1,5 +1,6 @@
 package com.forzo.holdMyCard.ui.activities.groupdetails;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -9,20 +10,46 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
+import com.forzo.holdMyCard.base.ActivityContext;
+import com.forzo.holdMyCard.ui.activities.addparticipant.AddParticipantActivity;
 import com.forzo.holdMyCard.ui.activities.creategroup.CreateGroupActivity;
+import com.forzo.holdMyCard.ui.models.MyLibrary;
+import com.forzo.holdMyCard.ui.recyclerAdapter.groupdetails.GroupDetailsRecyclerAdapter;
+import com.forzo.holdMyCard.utils.EmptyRecyclerView;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 
-public class GroupDetailsActivity extends AppCompatActivity {
+public class GroupDetailsActivity extends AppCompatActivity implements GroupDetailsContract.View {
 
 
+    @Inject
+    GroupDetailsPresenter groupDetailsPresenter;
+
+    @Inject
+    GroupDetailsRecyclerAdapter groupDetailsRecyclerAdapter;
+
+
+    @Inject
+    ArrayList<MyLibrary> myLibraryArrayList;
+
+
+    @BindView(R.id.recycler_view_empty)
+    EmptyRecyclerView recyclerView;
+    @BindView(R.id.empty_view)
+    RelativeLayout emptyView;
 
     @BindView(R.id.group_name)
     EditText groupNameEditText;
@@ -31,6 +58,7 @@ public class GroupDetailsActivity extends AppCompatActivity {
     Button addParticipant;
 
     private TextView updateGroup;
+    private Context mContext = GroupDetailsActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +70,17 @@ public class GroupDetailsActivity extends AppCompatActivity {
 
         backButtonOnToolbar(GroupDetailsActivity.this);
 
-        String val= getIntent().getStringExtra("adapterPosition");
 
-        if (val!=null){
-            Log.e("GroupPosition",""+val);
-        }
+        DaggerGroupDetailsComponent.builder()
+                .activityContext(new ActivityContext(mContext))
+                .build()
+                .inject(this);
+
+
+        groupDetailsPresenter.attach(this);
+        groupDetailsPresenter.getIntentValues(getIntent());
+        groupDetailsPresenter.setupShowsRecyclerView(recyclerView, emptyView);
+
     }
 
 
@@ -90,6 +124,23 @@ public class GroupDetailsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-       finish();
+        finish();
+    }
+
+    @Override
+    public void updateAdapter() {
+        groupDetailsRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showRecyclerView() {
+        recyclerView.setAdapter(groupDetailsRecyclerAdapter);
+        groupDetailsPresenter.populateRecyclerView(myLibraryArrayList);
+    }
+
+    @OnClick(R.id.add_users)
+    public void addUsers() {
+        Intent addUsersIntent = new Intent(GroupDetailsActivity.this, AddParticipantActivity.class);
+        startActivity(addUsersIntent);
     }
 }
