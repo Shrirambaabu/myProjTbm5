@@ -9,6 +9,7 @@ import com.forzo.holdMyCard.ui.activities.creategroup.CreateGroupPresenter;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
 
@@ -55,6 +56,14 @@ public class CreateGroupListPresenter implements CreateGroupContract.Presenter {
         rowView.setImageCard(myLibrary.getImage());
 
     }
+
+
+    public void setfilter(ArrayList<MyLibrary> listitem,CreateGroupRecyclerAdapter createGroupRecyclerAdapter) {
+        myLibraries = new ArrayList<>();
+        myLibraries.addAll(listitem);
+        createGroupRecyclerAdapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public void performClick(int adapterPosition, String value) {

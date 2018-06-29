@@ -160,10 +160,29 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
     @Override
     public boolean onQueryTextChange(String newText) {
 
-        myLibraryRecyclerAdapter.getFilter().filter(newText);
-        Log.e("MyLibraryFragmentChange",""+newText);
+       // myLibraryRecyclerAdapter.getFilter().filter(newText);
+        Log.e("MyLibraryFragmentChange", "" + newText);
+
+
+        final ArrayList<MyLibrary> filtermodelist = filter(myLibraryArrayList, newText);
+        myLibraryListPresenter.setfilter(filtermodelist,myLibraryRecyclerAdapter);
+
         return true;
     }
+
+    private ArrayList<MyLibrary> filter(ArrayList<MyLibrary> myLibraryArrayList, String query) {
+
+        query = query.toLowerCase();
+        final ArrayList<MyLibrary> filteredModeList = new ArrayList<>();
+        for (MyLibrary model : myLibraryArrayList) {
+            final String text = model.getCardName().toLowerCase();
+            if (text.startsWith(query)) {
+                filteredModeList.add(model);
+            }
+        }
+        return filteredModeList;
+    }
+
     @OnClick(R.id.fab)
     public void fabButton() {/*
         Intent sortIntent = new Intent(getActivity(), SortDialogActivity.class);
@@ -272,7 +291,7 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
 
     @Override
     public void showRecyclerView() {
-        myLibraryRecyclerAdapter. MyLibraryRecyclerAdapter(myLibraryArrayList, myLibraryRecyclerAdapter);
+        myLibraryRecyclerAdapter.MyLibraryRecyclerAdapter(myLibraryArrayList, myLibraryRecyclerAdapter);
         recyclerView.setAdapter(myLibraryRecyclerAdapter);
         myCurrentLibraryFragmentPresenter.populateRecyclerView(myLibraryArrayList);
     }

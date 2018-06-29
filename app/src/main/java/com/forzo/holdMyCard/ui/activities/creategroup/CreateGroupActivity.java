@@ -21,12 +21,14 @@ import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
+import com.forzo.holdMyCard.ui.recyclerAdapter.creategroup.CreateGroupListPresenter;
 import com.forzo.holdMyCard.ui.recyclerAdapter.creategroup.CreateGroupRecyclerAdapter;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -44,6 +46,9 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
 
     @Inject
     CreateGroupRecyclerAdapter createGroupRecyclerAdapter;
+
+    @Inject
+    CreateGroupListPresenter createGroupListPresenter;
 
 
     @Inject
@@ -102,7 +107,10 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                createGroupRecyclerAdapter.getFilter().filter(newText);
+                final ArrayList<MyLibrary> filtermodelist = filter(myLibraryArrayList, newText);
+                createGroupListPresenter.setfilter(filtermodelist,createGroupRecyclerAdapter);
+
+              //  createGroupRecyclerAdapter.getFilter().filter(newText);
 
             /*    Log.e("SearchQuery", "" + newText);
                 if (myLibraryArrayList.size() != 0)
@@ -125,6 +133,19 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
                 return true;
             }
         });
+    }
+
+    private ArrayList<MyLibrary> filter(ArrayList<MyLibrary> myLibraryArrayList, String query) {
+        query = query.toLowerCase();
+        final ArrayList<MyLibrary> filteredModeList = new ArrayList<>();
+        for (MyLibrary model : myLibraryArrayList) {
+            final String text = model.getCardName().toLowerCase();
+            if (text.startsWith(query)) {
+                filteredModeList.add(model);
+            }
+        }
+        return filteredModeList;
+
     }
 
     private void setFilter(ArrayList<MyLibrary> newList) {

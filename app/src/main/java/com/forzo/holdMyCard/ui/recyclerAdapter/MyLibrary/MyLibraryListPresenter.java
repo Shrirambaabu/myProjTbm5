@@ -67,4 +67,12 @@ public class MyLibraryListPresenter implements MyLibraryContract.Presenter {
         rowView.setCardDetails(myLibrary.getCardDetails());
 
     }
+
+
+    public void setfilter(ArrayList<MyLibrary> listitem,MyLibraryRecyclerAdapter myLibraryRecyclerAdapter) {
+        myLibraries = new ArrayList<>();
+        myLibraries.addAll(listitem);
+        myLibraryRecyclerAdapter.notifyDataSetChanged();
+    }
+
 }

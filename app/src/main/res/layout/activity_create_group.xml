@@ -7,112 +7,124 @@
     android:background="@android:color/white"
     tools:context="com.forzo.holdMyCard.ui.activities.creategroup.CreateGroupActivity">
 
-    <RelativeLayout
-        android:id="@+id/search_contact"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:layout_height="wrap_content">
 
-        <android.support.v7.widget.SearchView
-            android:id="@+id/search_groups"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:iconifiedByDefault="false"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:focusableInTouchMode="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/searchBg"
-            android:elevation="8dp"
-            tools:targetApi="LOLLIPOP" />
-
-    </RelativeLayout>
-
-
-    <EditText
-        android:id="@+id/group_name"
-        android:layout_below="@+id/search_contact"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:background="@drawable/group_bg"
-        android:hint="Group Name"
-        android:paddingBottom="4dp"
-        android:textColor="@android:color/black"
-        android:paddingStart="16dp"
-        android:paddingTop="4dp"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/gn_hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/group_name"
-        android:layout_marginStart="16dp"
-        android:text="Please provide group name "
-        android:textColor="@android:color/black" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/gn_hint"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include layout="@layout/layout_empty_recycler_view" />
+            <RelativeLayout
+                android:id="@+id/search_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary">
+
+                <android.support.v7.widget.SearchView
+                    android:id="@+id/search_groups"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/searchBg"
+                    android:elevation="8dp"
+                    android:focusableInTouchMode="true"
+                    app:iconifiedByDefault="false"
+                    tools:targetApi="LOLLIPOP" />
+
+            </RelativeLayout>
+
+
+            <EditText
+                android:id="@+id/group_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/search_contact"
+                android:layout_margin="16dp"
+                android:background="@drawable/group_bg"
+                android:hint="Group Name"
+                android:paddingBottom="4dp"
+                android:paddingStart="16dp"
+                android:paddingTop="4dp"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/gn_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/group_name"
+                android:layout_marginStart="16dp"
+                android:text="Please provide group name "
+                android:textColor="@android:color/black" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/gn_hint"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/layout_empty_recycler_view" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/empty_view"
+                android:layout_below="@+id/gn_hint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/no_event"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_group_black_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/no_event"
+                    android:layout_centerHorizontal="true"
+                    android:padding="24dp"
+                    android:text="No Card"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relative_progress"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorTransparent"
+                android:visibility="gone">
+
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/avi"
+                    style="@style/AVLoadingIndicatorView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"
+                    app:indicatorColor="@color/colorPrimary"
+                    app:indicatorName="BallGridPulseIndicator" />
+            </RelativeLayout>
+
+
         </RelativeLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-
-        <ImageView
-            android:id="@+id/no_event"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_group_black_24dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/no_event"
-            android:layout_centerInParent="true"
-            android:padding="24dp"
-            android:text="No Card"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relative_progress"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorTransparent"
-        android:visibility="gone">
-
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/avi"
-            style="@style/AVLoadingIndicatorView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            app:indicatorColor="@color/colorPrimary"
-            app:indicatorName="BallGridPulseIndicator" />
-    </RelativeLayout>
-
-
+    </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>
