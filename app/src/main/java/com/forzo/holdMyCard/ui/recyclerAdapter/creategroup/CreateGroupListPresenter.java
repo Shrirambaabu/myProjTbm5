@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.forzo.holdMyCard.ui.activities.creategroup.CreateGroupPresenter;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
+import com.hanks.library.AnimateCheckBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class CreateGroupListPresenter implements CreateGroupContract.Presenter {
     private ArrayList<MyLibrary> myLibraries;
     private ArrayList<String> selectedContact = new ArrayList<>();
 
-    private CreateGroupPresenter createGroupPresenter=new CreateGroupPresenter();
+    private CreateGroupPresenter createGroupPresenter = new CreateGroupPresenter();
 
     public CreateGroupListPresenter(Context context, ArrayList<MyLibrary> myLibraries) {
         this.context = context;
@@ -58,7 +59,7 @@ public class CreateGroupListPresenter implements CreateGroupContract.Presenter {
     }
 
 
-    public void setfilter(ArrayList<MyLibrary> listitem,CreateGroupRecyclerAdapter createGroupRecyclerAdapter) {
+    public void setfilter(ArrayList<MyLibrary> listitem, CreateGroupRecyclerAdapter createGroupRecyclerAdapter) {
         myLibraries = new ArrayList<>();
         myLibraries.addAll(listitem);
         createGroupRecyclerAdapter.notifyDataSetChanged();
@@ -66,17 +67,18 @@ public class CreateGroupListPresenter implements CreateGroupContract.Presenter {
 
 
     @Override
-    public void performClick(int adapterPosition, String value) {
-        Log.e("PerformClick position", "" + myLibraries.get(adapterPosition).getUserId());
+    public void performClick(int adapterPosition, String value, AnimateCheckBox animeBox) {
+        Log.e("ClickPositionUserId", "" + myLibraries.get(adapterPosition).getUserId());
 
         if (value.equals("true")) {
+
             selectedContact.add(myLibraries.get(adapterPosition).getUserId());
-        }else if (value.equals("false")){
+        } else if (value.equals("false")) {
             selectedContact.remove(myLibraries.get(adapterPosition).getUserId());
         }
 
         createGroupPresenter.getGroupId(selectedContact);
-       // createGroupPresenter.getGroupId(selectedContact);
+        // createGroupPresenter.getGroupId(selectedContact);
       /*  if (!selectedContact.isEmpty()) {
             int num = selectedContact.size();
             for (int i = 0; i <= num - 1; i++) {

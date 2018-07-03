@@ -160,9 +160,6 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                 // close drawer when item is tapped
                 mDrawerLayout.closeDrawers();
 
-                // Add code here to update the UI based on the item selected
-                // For example, swap UI fragments here
-
                 int id = menuItem.getItemId();
                 switch (id) {
                     case R.id.library:
@@ -366,7 +363,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     }
 
     @OnClick(R.id.freshlancers)
-    public void freshlancersSite(){
+    public void freshlancersSite() {
         Intent websiteIntent = new Intent();
         websiteIntent.setAction(Intent.ACTION_VIEW);
         websiteIntent.addCategory(Intent.CATEGORY_BROWSABLE);

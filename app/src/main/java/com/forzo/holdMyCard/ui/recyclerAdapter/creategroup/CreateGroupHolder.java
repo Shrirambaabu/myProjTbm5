@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
  * Created by Shriram on 4/3/2018.
  */
 
-public class CreateGroupHolder extends RecyclerView.ViewHolder implements CreateGroupContract.CreateGroupRowView {
+public class CreateGroupHolder extends RecyclerView.ViewHolder implements CreateGroupContract.CreateGroupRowView, AnimateCheckBox.OnCheckedChangeListener {
 
     CreateGroupListPresenter createGroupListPresenter;
 
@@ -37,18 +37,8 @@ public class CreateGroupHolder extends RecyclerView.ViewHolder implements Create
         super(itemView);
         this.createGroupListPresenter = createGroupListPresenter;
         ButterKnife.bind(this, itemView);
+        animeBox.setOnCheckedChangeListener(this);
 
-        animeBox.setOnCheckedChangeListener(new AnimateCheckBox.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(View buttonView, boolean isChecked) {
-
-                if (isChecked) {
-                    createGroupListPresenter.performClick(getAdapterPosition(),"true");
-                } else {
-                    createGroupListPresenter.performClick(getAdapterPosition(),"false");
-                }
-            }
-        });
     }
 
 
@@ -77,5 +67,15 @@ public class CreateGroupHolder extends RecyclerView.ViewHolder implements Create
     @Override
     public void setImageCard(String Image) {
         createGroupListPresenter.setImage(Image,setCardImageValue);
+    }
+
+    @Override
+    public void onCheckedChanged(View buttonView, boolean isChecked) {
+
+        if (isChecked) {
+            createGroupListPresenter.performClick(getAdapterPosition(),"true",animeBox);
+        } else {
+            createGroupListPresenter.performClick(getAdapterPosition(),"false",animeBox);
+        }
     }
 }

@@ -124,7 +124,7 @@ public class GroupDetailsActivity extends AppCompatActivity implements GroupDeta
 
     @Override
     public void onBackPressed() {
-        finish();
+        super.onBackPressed();
     }
 
     @Override

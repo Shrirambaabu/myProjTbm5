@@ -52,4 +52,12 @@ public class AddParticipantAdapterListPresenter implements AddParticipantAdapter
     public void performClick(int adapterPosition, String value) {
 
     }
+
+
+    public void setFilter(ArrayList<MyLibrary> listitem,AddParticipantRecyclerAdapter addParticipantRecyclerAdapter) {
+        myLibraries = new ArrayList<>();
+        myLibraries.addAll(listitem);
+        addParticipantRecyclerAdapter.notifyDataSetChanged();
+    }
+
 }

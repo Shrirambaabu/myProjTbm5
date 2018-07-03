@@ -2,6 +2,8 @@ package com.forzo.holdMyCard.ui.recyclerAdapter.creategroup;
 
 import android.widget.ImageView;
 
+import com.hanks.library.AnimateCheckBox;
+
 /**
  * Created by Shriram on 4/3/2018.
  */
@@ -16,7 +18,7 @@ public class CreateGroupContract {
 
         void bindEventRow(int position, CreateGroupRowView holder);
 
-        void performClick(int adapterPosition,String value);
+        void performClick(int adapterPosition,String value, AnimateCheckBox animeBox);
 
     }
 

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.groupdetails.GroupDetailsActivity;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
+import com.forzo.holdMyCard.ui.recyclerAdapter.addparticipant.AddParticipantAdapterListPresenter;
 import com.forzo.holdMyCard.ui.recyclerAdapter.addparticipant.AddParticipantRecyclerAdapter;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
 
@@ -35,6 +37,8 @@ public class AddParticipantActivity extends AppCompatActivity  implements AddPar
 
     @Inject
     AddParticipantPresenter addParticipantPresenter;
+    @Inject
+    AddParticipantAdapterListPresenter addParticipantAdapterListPresenter;
 
     @Inject
     AddParticipantRecyclerAdapter addParticipantRecyclerAdapter;
@@ -78,6 +82,37 @@ public class AddParticipantActivity extends AppCompatActivity  implements AddPar
             }
         }, 300);
 
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+
+                final ArrayList<MyLibrary> filtermodelist = filter(myLibraryArrayList, newText);
+                addParticipantAdapterListPresenter.setFilter(filtermodelist,addParticipantRecyclerAdapter);
+
+
+                return true;
+            }
+        });
+    }
+
+    private ArrayList<MyLibrary> filter(ArrayList<MyLibrary> myLibraryArrayList, String query) {
+
+        query = query.toLowerCase();
+        final ArrayList<MyLibrary> filteredModeList = new ArrayList<>();
+        for (MyLibrary model : myLibraryArrayList) {
+            final String text = model.getCardName().toLowerCase();
+            if (text.startsWith(query)) {
+                filteredModeList.add(model);
+            }
+        }
+        return filteredModeList;
 
     }
 

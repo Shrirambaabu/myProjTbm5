@@ -61,7 +61,8 @@ public class GroupDetailsAdapterListPresenter implements GroupDetailsAdapterCont
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
                 (dialog, which) -> {
                     dialog.dismiss();
-                   
+                    myLibraries.remove(adapterPosition);
+
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
                 (dialog, which) -> dialog.dismiss());
