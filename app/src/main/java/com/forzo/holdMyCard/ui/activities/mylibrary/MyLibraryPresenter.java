@@ -177,7 +177,7 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
 
                         if (isEnabled != null) {
                             Log.e(TAG, isEnabled);
-                            getView().setIsEnabled(isEnabled);
+                           // getView().setIsEnabled(isEnabled);
                         }
 
                     }
@@ -269,5 +269,12 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void userStatus() {
+        String userStatus=PreferencesAppHelper.getUserStatus();
+
+        getView().setUserStatusUI(userStatus);
     }
 }

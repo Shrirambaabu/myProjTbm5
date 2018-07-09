@@ -52,9 +52,14 @@ public class GroupDetailsPresenter extends BasePresenter<GroupDetailsContract.Vi
     public void getIntentValues(Intent intent) {
 
         String val = intent.getStringExtra("adapterPosition");
+        String groupName = intent.getStringExtra("groupName");
 
         if (val != null) {
             Log.e("GroupPosition", "" + val);
+        }
+        if (groupName != null) {
+            Log.e("GroupPosition", "" + groupName);
+            getView().setGroupName(groupName);
         }
     }
 }

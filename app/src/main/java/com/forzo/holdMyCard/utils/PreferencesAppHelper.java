@@ -15,10 +15,19 @@ public class PreferencesAppHelper {
 
     private static final String PREFS_NAME = "HMC_APP";
     private static final String CURRENT_USER_ID = "id";
+    private static final String USER_STATUS = "user_status";
     private static final String CURRENT_USER_PROFILE_IMAGE = "profile_image";
     private static final String CURRENT_USER_BUSINESS_IMAGE = "business_image";
     private static final String FIRST_TIME = "firstTime";
     private static SharedPreferences mSharedPreferences = null;
+
+    public static String getUserStatus() {
+        return getSharedPreference().getString(USER_STATUS, "0");
+    }
+
+    public static void setUserStatus(String userId) {
+        setStringInPrefs(USER_STATUS, userId);
+    }
 
     public static String getUserId() {
         return getSharedPreference().getString(CURRENT_USER_ID, null);
@@ -31,6 +40,7 @@ public class PreferencesAppHelper {
     public static void setCurrentUserProfileImage(String userProfileImage) {
         setStringInPrefs(CURRENT_USER_PROFILE_IMAGE, userProfileImage);
     }
+
     public static void setCurrentUserBusinessImage(String currentUserBusinessImage) {
         setStringInPrefs(CURRENT_USER_BUSINESS_IMAGE, currentUserBusinessImage);
     }

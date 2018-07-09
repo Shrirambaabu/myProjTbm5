@@ -37,7 +37,7 @@ public class MyGroupsHolder extends RecyclerView.ViewHolder implements MyGroupsC
     @Override
     public void onClick(View v) {
 
-        myGroupsListPresenter.clickGroup(getAdapterPosition());
+        myGroupsListPresenter.clickGroup(getAdapterPosition(),groupNameText.getText().toString());
     }
 
     @Override

@@ -45,7 +45,7 @@ public class CreateGroupHolder extends RecyclerView.ViewHolder implements Create
     @Override
     public void setCardName(String cardName) {
 
-
+        Log.e("CardName:", ":" + cardName);
         setCardName.setText(cardName);
 
     }
@@ -66,16 +66,16 @@ public class CreateGroupHolder extends RecyclerView.ViewHolder implements Create
 
     @Override
     public void setImageCard(String Image) {
-        createGroupListPresenter.setImage(Image,setCardImageValue);
+        createGroupListPresenter.setImage(Image, setCardImageValue);
     }
 
     @Override
     public void onCheckedChanged(View buttonView, boolean isChecked) {
 
         if (isChecked) {
-            createGroupListPresenter.performClick(getAdapterPosition(),"true",animeBox);
+            createGroupListPresenter.performClick(getAdapterPosition(), "true", animeBox);
         } else {
-            createGroupListPresenter.performClick(getAdapterPosition(),"false",animeBox);
+            createGroupListPresenter.performClick(getAdapterPosition(), "false", animeBox);
         }
     }
 }

@@ -31,6 +31,8 @@ public interface MyLibraryContract {
         void setNavigationHeader();
 
         void checkVersion();
+
+        void userStatus();
     }
 
     // Action callbacks. Activity/Fragment will implement
@@ -50,5 +52,6 @@ public interface MyLibraryContract {
 
         void alphaValue(String alphaValue);
 
+        void setUserStatusUI(String userStatusUI);
     }
 }

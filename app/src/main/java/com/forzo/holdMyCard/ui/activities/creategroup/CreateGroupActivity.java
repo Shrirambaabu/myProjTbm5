@@ -110,26 +110,6 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
                 final ArrayList<MyLibrary> filtermodelist = filter(myLibraryArrayList, newText);
                 createGroupListPresenter.setfilter(filtermodelist,createGroupRecyclerAdapter);
 
-              //  createGroupRecyclerAdapter.getFilter().filter(newText);
-
-            /*    Log.e("SearchQuery", "" + newText);
-                if (myLibraryArrayList.size() != 0)
-                    Log.e("SearchQuery", "" + myLibraryArrayList.get(0).getCardName());
-
-                newText = newText.toLowerCase();
-
-               final ArrayList<MyLibrary> newList = new ArrayList<>();
-
-                for (MyLibrary myLibrary : myLibraryArrayList) {
-
-                   final String name = myLibrary.getCardName().toLowerCase();
-                    if (name.startsWith(newText)) {
-
-                        newList.add(myLibrary);
-                    }
-                }
-                setFilter(newList);
-*/
                 return true;
             }
         });

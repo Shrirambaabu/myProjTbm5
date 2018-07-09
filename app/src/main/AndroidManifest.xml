@@ -128,8 +128,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.groupdetails.GroupDetailsActivity" />
-        <activity android:name=".ui.activities.addparticipant.AddParticipantActivity"></activity>
+        <activity android:name=".ui.activities.groupdetails.GroupDetailsActivity"
+            android:label="Group Details"/>
+        <activity android:name=".ui.activities.addparticipant.AddParticipantActivity"
+            android:label="Add Participants"></activity>
     </application>
 
 </manifest>

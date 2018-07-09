@@ -42,4 +42,6 @@ public class GroupDetailsModule {
     GroupDetailsRecyclerAdapter createGroupRecyclerAdapter(GroupDetailsAdapterListPresenter groupDetailsAdapterListPresenter) {
         return new GroupDetailsRecyclerAdapter(groupDetailsAdapterListPresenter);
     }
+
+
 }

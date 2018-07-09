@@ -138,6 +138,11 @@ public class GroupDetailsActivity extends AppCompatActivity implements GroupDeta
         groupDetailsPresenter.populateRecyclerView(myLibraryArrayList);
     }
 
+    @Override
+    public void setGroupName(String groupName) {
+        groupNameEditText.setText(groupName);
+    }
+
     @OnClick(R.id.add_users)
     public void addUsers() {
         Intent addUsersIntent = new Intent(GroupDetailsActivity.this, AddParticipantActivity.class);

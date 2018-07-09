@@ -16,6 +16,8 @@ public class GroupDetailsRecyclerAdapter extends RecyclerView.Adapter<GroupDetai
         this.currentFragmentListPresenter = currentFragmentListPresenter;
     }
 
+    public GroupDetailsRecyclerAdapter() {
+    }
 
     @NonNull
     @Override

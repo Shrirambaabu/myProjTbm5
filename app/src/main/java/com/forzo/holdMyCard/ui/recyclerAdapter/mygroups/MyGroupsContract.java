@@ -13,7 +13,7 @@ public class MyGroupsContract {
 
         void bindEventRow(int position, MyGroupsRow holder);
 
-        void clickGroup(int position);
+        void clickGroup(int position,String groupName);
     }
 
     interface MyGroupsRow {

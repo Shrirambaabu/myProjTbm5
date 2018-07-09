@@ -141,6 +141,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
         myLibraryPresenter.attach(this);
         myLibraryPresenter.getIntentValues(getIntent());
         myLibraryPresenter.registerFirstTime();
+
         myLibraryPresenter.checkVersion();
         myLibraryPresenter.setupViewPager(pager, adapter, myCurrentLibraryFragment, myGroupsFragment);
         View headerview = navigationView.getHeaderView(0);
@@ -188,6 +189,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                         logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         PreferencesAppHelper.setCurrentUserBusinessImage("");
                         PreferencesAppHelper.setCurrentUserProfileImage("");
+                        PreferencesAppHelper.setUserStatus("0");
                         startActivity(logoutIntent);
                         break;
 
@@ -209,6 +211,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                 }
             }
         });
+        myLibraryPresenter.userStatus();
 
     }
 
@@ -221,6 +224,22 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     @Override
     public void setUserProfileName(String userProfileName) {
         profName.setText(userProfileName);
+    }
+
+
+    @Override
+    public void setUserStatusUI(String userStatusUI) {
+
+        if (userStatusUI.equals("0")){
+            registerStatus.setText("UnRegistered");
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_hamburger_red);
+            dotCircle.setBackgroundResource(R.drawable.indicator_selected);
+        }else if (userStatusUI.equals("1")){
+            registerStatus.setText("Registered");
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+            dotCircle.setBackgroundResource(R.drawable.indicator);
+        }
+
     }
 
     @Override
@@ -247,6 +266,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     @Override
     public void setVersionNumber(String versionNumber) {
         Log.e("ve", "" + versionNumber);
+        Log.e("UserStatus", "" + PreferencesAppHelper.getUserStatus());
         versionNumberTextView.setText(versionNumber);
     }
 
@@ -263,6 +283,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
     public void alphaValue(String alphaValue) {
         alphabetValue = alphaValue;
     }
+
 
 
     @Override

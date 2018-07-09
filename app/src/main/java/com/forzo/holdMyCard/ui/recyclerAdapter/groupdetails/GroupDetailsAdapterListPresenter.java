@@ -11,14 +11,15 @@ import com.forzo.holdMyCard.ui.models.MyLibrary;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
 
 public class GroupDetailsAdapterListPresenter implements GroupDetailsAdapterContract.Presenter {
 
     private Context context;
     private ArrayList<MyLibrary> myLibraries;
-
-
+    
     public GroupDetailsAdapterListPresenter(Context context, ArrayList<MyLibrary> myLibraries) {
         this.context = context;
         this.myLibraries = myLibraries;
@@ -44,7 +45,7 @@ public class GroupDetailsAdapterListPresenter implements GroupDetailsAdapterCont
         MyLibrary myLibrary = myLibraries.get(position);
 
 
-      //  holder.setCardImage(myLibrary.getImage());
+        //  holder.setCardImage(myLibrary.getImage());
         holder.setCardName(myLibrary.getCardName());
         holder.setCardDescription(myLibrary.getCardDescription());
         holder.setCardDetails(myLibrary.getCardDetails());
@@ -53,7 +54,7 @@ public class GroupDetailsAdapterListPresenter implements GroupDetailsAdapterCont
     @Override
     public void longPress(int adapterPosition) {
 
-        Log.e("LongClickPos:",""+adapterPosition);
+        Log.e("LongClickPos:", "" + adapterPosition);
 
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle("Confirm !!!");

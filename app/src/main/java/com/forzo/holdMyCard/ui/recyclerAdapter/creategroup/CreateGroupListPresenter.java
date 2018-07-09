@@ -50,7 +50,6 @@ public class CreateGroupListPresenter implements CreateGroupContract.Presenter {
 
         MyLibrary myLibrary = myLibraries.get(position);
 
-
         rowView.setCardName(myLibrary.getCardName());
         rowView.setCardDescription(myLibrary.getCardDescription());
         rowView.setCardDetails(myLibrary.getCardDetails());
@@ -68,10 +67,11 @@ public class CreateGroupListPresenter implements CreateGroupContract.Presenter {
 
     @Override
     public void performClick(int adapterPosition, String value, AnimateCheckBox animeBox) {
+
+        Log.e("ClickPosition", "" + adapterPosition);
         Log.e("ClickPositionUserId", "" + myLibraries.get(adapterPosition).getUserId());
 
         if (value.equals("true")) {
-
             selectedContact.add(myLibraries.get(adapterPosition).getUserId());
         } else if (value.equals("false")) {
             selectedContact.remove(myLibraries.get(adapterPosition).getUserId());

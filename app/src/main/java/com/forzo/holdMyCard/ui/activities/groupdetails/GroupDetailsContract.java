@@ -26,5 +26,7 @@ public interface GroupDetailsContract {
         void updateAdapter();
 
         void showRecyclerView();
+
+        void setGroupName(String groupName);
     }
 }

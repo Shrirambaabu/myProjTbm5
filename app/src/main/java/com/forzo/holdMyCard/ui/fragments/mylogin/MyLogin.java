@@ -27,6 +27,7 @@ import com.forzo.holdMyCard.base.FragmentContext;
 import com.forzo.holdMyCard.ui.activities.forgetpassword.ForgetPasswordActivity;
 import com.forzo.holdMyCard.ui.activities.login.LoginActivity;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
+import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONException;
@@ -145,6 +146,7 @@ public class MyLogin extends Fragment implements MyLoginContract.View {
         Intent libraryIntent = new Intent(getActivity(), MyLibraryActivity.class);
         libraryIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(libraryIntent);
+        PreferencesAppHelper.setUserStatus("1");
         Objects.requireNonNull(getActivity()).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }
