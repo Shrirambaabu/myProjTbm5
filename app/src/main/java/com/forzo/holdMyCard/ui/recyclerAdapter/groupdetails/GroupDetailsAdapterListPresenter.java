@@ -19,7 +19,8 @@ public class GroupDetailsAdapterListPresenter implements GroupDetailsAdapterCont
 
     private Context context;
     private ArrayList<MyLibrary> myLibraries;
-    
+    GroupDetailsRecyclerAdapter groupDetailsRecyclerAdapter = new GroupDetailsRecyclerAdapter();
+
     public GroupDetailsAdapterListPresenter(Context context, ArrayList<MyLibrary> myLibraries) {
         this.context = context;
         this.myLibraries = myLibraries;
@@ -40,8 +41,8 @@ public class GroupDetailsAdapterListPresenter implements GroupDetailsAdapterCont
     }
 
     @Override
-    public void bindEventRow(int position, GroupDetailsAdapterContract.GroupDetailsAdapterRowView holder) {
-
+    public void bindEventRow(int position, GroupDetailsAdapterContract.GroupDetailsAdapterRowView holder, GroupDetailsRecyclerAdapter groupDetailsRecyclerAdapter) {
+        this.groupDetailsRecyclerAdapter = groupDetailsRecyclerAdapter;
         MyLibrary myLibrary = myLibraries.get(position);
 
 
@@ -55,6 +56,7 @@ public class GroupDetailsAdapterListPresenter implements GroupDetailsAdapterCont
     public void longPress(int adapterPosition) {
 
         Log.e("LongClickPos:", "" + adapterPosition);
+        Log.e("LongClickPosName:", "" + myLibraries.get(adapterPosition).getCardName());
 
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle("Confirm !!!");
@@ -63,6 +65,10 @@ public class GroupDetailsAdapterListPresenter implements GroupDetailsAdapterCont
                 (dialog, which) -> {
                     dialog.dismiss();
                     myLibraries.remove(adapterPosition);
+                    groupDetailsRecyclerAdapter.notifyItemRemoved(adapterPosition);
+                    groupDetailsRecyclerAdapter.notifyItemRangeChanged(adapterPosition, myLibraries.size());
+                    groupDetailsRecyclerAdapter.notifyDataSetChanged();
+
 
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",

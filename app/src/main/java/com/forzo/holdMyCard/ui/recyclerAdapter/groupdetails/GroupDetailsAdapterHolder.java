@@ -24,7 +24,7 @@ public class GroupDetailsAdapterHolder extends RecyclerView.ViewHolder implement
     @BindView(R.id.card_image)
     ImageView setCardImageValue;
 
-    public GroupDetailsAdapterHolder(View itemView, GroupDetailsAdapterListPresenter groupDetailsAdapterListPresenter) {
+    public GroupDetailsAdapterHolder(View itemView, GroupDetailsAdapterListPresenter groupDetailsAdapterListPresenter,GroupDetailsRecyclerAdapter groupDetailsRecyclerAdapter) {
         super(itemView);
         this.fragmentListPresenter = groupDetailsAdapterListPresenter;
         ButterKnife.bind(this, itemView);

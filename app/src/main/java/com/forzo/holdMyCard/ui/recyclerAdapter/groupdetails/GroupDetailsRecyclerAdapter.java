@@ -22,12 +22,12 @@ public class GroupDetailsRecyclerAdapter extends RecyclerView.Adapter<GroupDetai
     @NonNull
     @Override
     public GroupDetailsAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new GroupDetailsAdapterHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_my_library, parent, false), currentFragmentListPresenter);
+        return new GroupDetailsAdapterHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_my_library, parent, false), currentFragmentListPresenter,this);
     }
 
     @Override
     public void onBindViewHolder(@NonNull GroupDetailsAdapterHolder holder, int position) {
-        currentFragmentListPresenter.bindEventRow(position, holder);
+        currentFragmentListPresenter.bindEventRow(position, holder,this);
     }
 
     @Override

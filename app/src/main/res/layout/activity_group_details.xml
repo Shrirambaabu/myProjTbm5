@@ -8,7 +8,8 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:paddingBottom="60dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -82,20 +83,22 @@
 
             </RelativeLayout>
 
-            <Button
-                android:id="@+id/add_users"
-                android:layout_width="match_parent"
-                android:background="@drawable/button_bg"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/group_users"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="Add Participant"
-                android:textColor="@android:color/white"
-                android:textAllCaps="false"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp" />
 
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/add_users"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_bg"
+        android:text="Add Participant"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
 </RelativeLayout>

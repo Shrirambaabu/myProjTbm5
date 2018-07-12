@@ -10,7 +10,7 @@ public class GroupDetailsAdapterContract {
 
         void setImage(String image, ImageView imageView);
 
-        void bindEventRow(int position, GroupDetailsAdapterRowView holder);
+        void bindEventRow(int position, GroupDetailsAdapterRowView holder,GroupDetailsRecyclerAdapter  groupDetailsRecyclerAdapter);
 
         void longPress(int adapterPosition);
     }
