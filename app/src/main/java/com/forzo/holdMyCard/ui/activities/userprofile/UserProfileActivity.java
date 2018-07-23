@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
+import com.forzo.holdMyCard.ui.activities.imageFullScreen.ImageFullScreenActivity;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.activities.newcard.NewCardActivity;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
@@ -381,6 +382,34 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                 .thumbnail(0.1f)
                 .into(circleImage);
     }
+
+
+    @OnClick(R.id.profile_library_image)
+    public void onViewClicked() {
+        if ((dpImageValue != null && !dpImageValue.equals("")||(bgImageValue != null && !bgImageValue.equals("")))) {
+            Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
+       /*     if (dpImageValue != null)
+                fullScreenIntent.putExtra("image", dpImageValue);*/
+            if (bgImageValue != null)
+                fullScreenIntent.putExtra("imageUri", bgImageValue);
+            startActivity(fullScreenIntent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
+    }
+
+    @OnClick(R.id.circleImage)
+    public void onViewClickedProfile() {
+        if ((dpImageValue != null && !dpImageValue.equals("")||(bgImageValue != null && !bgImageValue.equals("")))) {
+            Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
+            if (dpImageValue != null)
+                fullScreenIntent.putExtra("image", dpImageValue);
+           /* if (bgImageValue != null)
+                fullScreenIntent.putExtra("imageUri", bgImageValue);*/
+            startActivity(fullScreenIntent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {

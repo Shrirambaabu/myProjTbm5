@@ -120,7 +120,7 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
         final ArrayList<MyLibrary> filteredModeList = new ArrayList<>();
         for (MyLibrary model : myLibraryArrayList) {
             final String text = model.getCardName().toLowerCase();
-            if (text.startsWith(query)) {
+            if (text.contains(query)) {
                 filteredModeList.add(model);
             }
         }
