@@ -21,6 +21,10 @@
             android:icon="@drawable/ic_register"
             android:title="Register" />
         <item
+            android:id="@+id/user_profile"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Profile" />
+        <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout"
             android:title="Logout" />

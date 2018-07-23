@@ -62,6 +62,8 @@ public interface NewCardContract {
 
         void searchUserOnFacebook(String userName);
 
+        void searchUserOnLinkedIn(String userName);
+
         void updateBusinessImage(Uri uri, String userId, String imageType);
 
         void setImage(String imageName);
@@ -125,7 +127,7 @@ public interface NewCardContract {
 
         void setModifiedTs(String modifiedTs);
 
-       // void setBackImage(String backImage);
+        // void setBackImage(String backImage);
 
         void setBusinessCarosuilImage(Bitmap businessCarosuilImage, String imageName);
 

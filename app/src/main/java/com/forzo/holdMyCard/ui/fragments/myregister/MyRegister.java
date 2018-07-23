@@ -260,7 +260,7 @@ public class MyRegister extends Fragment implements MyRegisterContract.View {
     public void existingUserStatus(String status) {
 
         if (status.equals("false")) {
-            myRegisterPresenter.registerToHmc(textInputEditTextName.getText().toString(), textInputEditTextEmail.getText().toString(), textInputEditTextPassword.getText().toString(), textInputEditTextConfirmPassword.getText().toString());
+            myRegisterPresenter.registerToHmc(textInputEditTextName.getText().toString(), textInputEditTextEmail.getText().toString().trim(), textInputEditTextPassword.getText().toString(), textInputEditTextConfirmPassword.getText().toString());
         }else {
             Toast.makeText(getActivity(),"Email Already Registered",Toast.LENGTH_LONG).show();
         }

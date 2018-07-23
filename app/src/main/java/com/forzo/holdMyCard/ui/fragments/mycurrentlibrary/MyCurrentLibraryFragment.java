@@ -176,7 +176,7 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
         final ArrayList<MyLibrary> filteredModeList = new ArrayList<>();
         for (MyLibrary model : myLibraryArrayList) {
             final String text = model.getCardName().toLowerCase();
-            if (text.startsWith(query)) {
+            if (text.contains(query)) {
                 filteredModeList.add(model);
             }
         }
@@ -249,7 +249,7 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
             workbook.write(out);
             out.close();
             Log.e("Excel", "onViewClicked: " + "Excel written successfully..");
-            Toast.makeText(getActivity(), "Excel saved to " + newDir + File.separator + "new.xls", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Excel saved to " + newDir + File.separator + "new_" + timeStamp + "_" + PreferencesAppHelper.getUserId() + ".xls", Toast.LENGTH_LONG).show();
 //
 //            Intent shareIntent = new Intent(Intent.ACTION_SEND);
 //            shareIntent.setType("application/vnd.ms-excel");

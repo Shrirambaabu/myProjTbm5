@@ -584,14 +584,14 @@
                     android:background="@drawable/button_bg"
                     android:text="@string/save"
                     android:textColor="@android:color/white"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
 
                 <RelativeLayout
                     android:id="@+id/business_action_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:id="@+id/print_savelayout"
@@ -656,12 +656,23 @@
 
                     </LinearLayout>
 
+                    <Button
+                        android:id="@+id/linked_in"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/facebook_twitter"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/button_bg"
+                        android:text="LinkedIn"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white" />
+
 
                     <LinearLayout
                         android:id="@+id/update_del"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/facebook_twitter"
+                        android:layout_below="@+id/linked_in"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
@@ -698,11 +709,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/button_layout"
                 android:layout_centerInParent="true"
-                android:gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:textSize="16sp" />
         </RelativeLayout>
 

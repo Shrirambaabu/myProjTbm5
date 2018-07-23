@@ -1129,5 +1129,26 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
         alertDialog.show();
     }
 
+    @Override
+    public void searchUserOnLinkedIn(String userName) {
+
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Alert !!!");
+        alertDialog.setMessage("LinkedIn search can be made only if your account is logged in.");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+                (dialog, which) -> {
+                    dialog.dismiss();
+
+                    Intent facebookIntent = new Intent();
+                    facebookIntent.setAction(Intent.ACTION_VIEW);
+                    facebookIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+                    facebookIntent.setData(Uri.parse("https://www.linkedin.com/pub/dir/"+userName+"/+?trk=uno-reg-guest-home-name-search"));
+                    context.startActivity(facebookIntent);
+                });
+        alertDialog.show();
+
+
+    }
+
 
 }

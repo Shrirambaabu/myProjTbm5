@@ -68,16 +68,6 @@
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer">
 
-        <TextView
-            android:id="@+id/freshlancers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Powered by Freshlancers"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_gravity="bottom" />
     </android.support.design.widget.NavigationView>
 
 

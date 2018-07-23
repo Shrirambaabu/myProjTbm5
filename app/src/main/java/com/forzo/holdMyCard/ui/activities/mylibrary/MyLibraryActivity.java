@@ -93,8 +93,6 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
 
     @BindView(R.id.version_number)
     TextView versionNumberTextView;
-    @BindView(R.id.freshlancers)
-    TextView freshlancers;
     ImageView dotCircle;
 
     private SearchView mSearchView;
@@ -181,6 +179,13 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                     case R.id.register:
                         Intent loginIntent = new Intent(MyLibraryActivity.this, LoginRegisterActivity.class);
                         startActivity(loginIntent);
+                        break;
+                    case R.id.user_profile:
+                        if (PreferencesAppHelper.getUserId() != null) {
+                            Intent showProfileIntent = new Intent(MyLibraryActivity.this, UserProfileActivity.class);
+                            showProfileIntent.putExtra("userProfile", PreferencesAppHelper.getUserId());
+                            startActivity(showProfileIntent);
+                        }
                         break;
                     case R.id.logout:
 
@@ -383,12 +388,4 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
         super.onPause();
     }
 
-    @OnClick(R.id.freshlancers)
-    public void freshlancersSite() {
-        Intent websiteIntent = new Intent();
-        websiteIntent.setAction(Intent.ACTION_VIEW);
-        websiteIntent.addCategory(Intent.CATEGORY_BROWSABLE);
-        websiteIntent.setData(Uri.parse("http://freshlancers.com/"));
-        startActivity(websiteIntent);
-    }
 }

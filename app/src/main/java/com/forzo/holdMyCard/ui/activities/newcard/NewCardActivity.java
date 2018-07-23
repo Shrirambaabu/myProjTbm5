@@ -264,6 +264,17 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                 textInputEditTextJobTitle.getText().toString(), textInputEditTextAddress.getText().toString());
     }
 
+    @OnClick(R.id.linked_in)
+    public void searchOnLinkedIn() {
+
+        if (!textInputEditTextName.getText().toString().equals("")) {
+            newCardPresenter.searchUserOnLinkedIn(textInputEditTextName.getText().toString());
+        } else {
+            Toast.makeText(getApplicationContext(), "UserName is empty !", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
     @OnClick(R.id.twitter)
     public void searchOnTwitter() {
 
@@ -663,7 +674,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
             File filePath = new File(targetPdf);
             try {
                 document.writeTo(new FileOutputStream(filePath));
-                Toast.makeText(getApplicationContext(), "File Downloaded", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "File Downloaded to Sd Card", Toast.LENGTH_LONG).show();
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Sorry, Something wrong !!", Toast.LENGTH_LONG).show();
