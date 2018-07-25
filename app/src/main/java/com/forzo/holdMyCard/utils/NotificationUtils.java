@@ -106,7 +106,7 @@ public class NotificationUtils {
 
         final NotificationCompat.Builder mBuilder;
         // notification icon
-        final int icon = R.drawable.icon_notify;
+        final int icon = R.drawable.hmc_logo_one;
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         final PendingIntent resultPendingIntent =
@@ -152,7 +152,7 @@ public class NotificationUtils {
                 .setSound(alarmSound)
                 .setStyle(inboxStyle)
                 .setWhen(getTimeMilliSec(timeStamp))
-                .setSmallIcon(R.drawable.icon_notify)
+                .setSmallIcon(R.drawable.hmc_logo_one)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                 .setContentText(message)
                 .build();
@@ -193,7 +193,7 @@ public class NotificationUtils {
                 .setSound(alarmSound)
                 .setStyle(bigPictureStyle)
                 .setWhen(getTimeMilliSec(timeStamp))
-                .setSmallIcon(R.drawable.icon_notify)
+                .setSmallIcon(R.drawable.hmc_logo_one)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                 .setContentText(message)
                 .build();
