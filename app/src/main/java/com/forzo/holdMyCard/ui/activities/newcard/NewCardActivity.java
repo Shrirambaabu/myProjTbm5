@@ -608,7 +608,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         String path = storage.getExternalStorageDirectory();
 
         // new dir
-        newDir = path + File.separator + "Convert to Pdf";
+        newDir = path + File.separator + ".HMC Pdf";
         storage.createDirectory(newDir);
         Log.e("path", "" + newDir);
         boolean hasPermission = (ContextCompat.checkSelfPermission(getBaseContext(),
@@ -632,7 +632,9 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         Canvas canvasPng = new Canvas(bitmap);
         relativeHome.draw(canvasPng);
 
-        boolean success = storage.createFile(newDir + File.separator + "image.jpg", bitmap);
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                Locale.getDefault()).format(new Date());
+        boolean success = storage.createFile(newDir + File.separator + timeStamp+".jpg", bitmap);
         if (success) {
 
             WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
@@ -665,12 +667,12 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
             canvas.drawBitmap(bitmap, 0, 0, null);
             document.finishPage(page);
 
-
+/*
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                    Locale.getDefault()).format(new Date());
+                    Locale.getDefault()).format(new Date());*/
 
             // write the document content
-            String targetPdf = newDir + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
+            String targetPdf =  timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
             File filePath = new File(targetPdf);
             try {
                 document.writeTo(new FileOutputStream(filePath));

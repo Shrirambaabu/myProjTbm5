@@ -132,7 +132,7 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
         String path = storage.getExternalStorageDirectory();
 
         // new dir
-        newDir = path + File.separator + "Convert to Excel";
+        newDir = path + File.separator + "HMC Excel";
         storage.createDirectory(newDir);
 
         boolean hasPermission = (ContextCompat.checkSelfPermission(context,
@@ -176,7 +176,9 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
         final ArrayList<MyLibrary> filteredModeList = new ArrayList<>();
         for (MyLibrary model : myLibraryArrayList) {
             final String text = model.getCardName().toLowerCase();
-            if (text.contains(query)) {
+            final String email = model.getCardDescription().toLowerCase();
+            final String phone = model.getCardDetails().toLowerCase();
+            if (text.contains(query)||email.contains(query)||phone.contains(query)) {
                 filteredModeList.add(model);
             }
         }

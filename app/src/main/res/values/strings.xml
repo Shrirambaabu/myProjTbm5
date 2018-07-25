@@ -23,9 +23,12 @@
     <string name="update">Update</string>
     <string name="delete">Delete</string>
     <string name="version">Version:</string>
-    <string name="crop_image_menu_crop">Process</string>
+    <string name="crop_image_menu_crop">Process</string><!--
     <string name="facebook_app_id">153589605499502</string>
-    <string name="fb_login_protocol_scheme">fb153589605499502</string>
+    <string name="fb_login_protocol_scheme">fb153589605499502</string>-->
+    <string name="facebook_app_id">200864567249064</string>
+    <string name="fb_login_protocol_scheme">fb200864567249064</string>
+
     <string name="search">Search</string>
     <string name="profile">Profile</string>
     <string name="company">Company</string>
