@@ -50,6 +50,7 @@ import com.forzo.holdMyCard.utils.Constants;
 import com.forzo.holdMyCard.utils.NotificationUtils;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.forzo.holdMyCard.utils.SectionsStatePagerAdapter;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.jackandphantom.circularimageview.CircleImage;
 
@@ -217,6 +218,12 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
             }
         });
         myLibraryPresenter.userStatus();
+
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+
+        Log.e("MyLibFCMToke:",""+refreshedToken);
+        myLibraryPresenter.fcmToken(refreshedToken);
 
     }
 

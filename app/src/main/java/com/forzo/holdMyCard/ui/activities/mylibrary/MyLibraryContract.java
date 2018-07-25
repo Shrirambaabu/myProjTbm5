@@ -33,6 +33,8 @@ public interface MyLibraryContract {
         void checkVersion();
 
         void userStatus();
+
+        void fcmToken(String  refreshedToken);
     }
 
     // Action callbacks. Activity/Fragment will implement

@@ -21,6 +21,7 @@ import com.forzo.holdMyCard.ui.fragments.mycurrentlibrary.MyCurrentLibraryFragme
 import com.forzo.holdMyCard.ui.fragments.mygroups.MyGroupsFragment;
 import com.forzo.holdMyCard.ui.models.BusinessCard;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
+import com.forzo.holdMyCard.ui.models.MyRemainder;
 import com.forzo.holdMyCard.ui.models.User;
 import com.forzo.holdMyCard.utils.Constants;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
@@ -33,6 +34,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
 
@@ -82,7 +84,7 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
 
                         @Override
                         public void onNext(User user) {
-                            Log.e("UserIDNew",""+user.getNewUser());
+                            Log.e("UserIDNew", "" + user.getNewUser());
                             PreferencesAppHelper.setUserId(user.getNewUser());
                             PreferencesAppHelper.setFirstTime(true);
                         }
@@ -122,9 +124,9 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
     @Override
     public void getIntentValues(Intent intent) {
 
-        String alpha=intent.getStringExtra("alpha");
+        String alpha = intent.getStringExtra("alpha");
 
-        if (alpha!=null){
+        if (alpha != null) {
             getView().alphaValue(alpha);
         }
 
@@ -177,7 +179,7 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
 
                         if (isEnabled != null) {
                             Log.e(TAG, isEnabled);
-                           // getView().setIsEnabled(isEnabled);
+                            // getView().setIsEnabled(isEnabled);
                         }
 
                     }
@@ -273,8 +275,51 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
 
     @Override
     public void userStatus() {
-        String userStatus=PreferencesAppHelper.getUserStatus();
+        String userStatus = PreferencesAppHelper.getUserStatus();
 
         getView().setUserStatusUI(userStatus);
+    }
+
+    @Override
+    public void fcmToken(String refreshedToken) {
+
+        SharedPreferences pref = context.getSharedPreferences(Constants.SHARED_PREF, 0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("regId", refreshedToken);
+        editor.commit();
+
+
+        // sending gcm token to server
+        Log.e(TAG, "sendRegistrationToServer: " + PreferencesAppHelper.getUserId());
+        if (PreferencesAppHelper.getUserId() != null) {
+            mApiService.updateFcm(PreferencesAppHelper.getUserId(), refreshedToken)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Response<MyRemainder>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Response<MyRemainder> myRemainderResponse) {
+                            Log.e(TAG, "onNext: " + myRemainderResponse.code());
+                            if (myRemainderResponse.code() != 200)
+                                Toast.makeText(context, "FCM token Error!!!", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e(TAG, "onError: " + e.getMessage());
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+
+            Log.e(TAG, "sendRegistrationToServer: " + refreshedToken);
+        }
     }
 }
