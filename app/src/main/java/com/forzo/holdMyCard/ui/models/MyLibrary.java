@@ -42,6 +42,16 @@ public class MyLibrary {
     @Expose
     private String date;
 
+    private boolean setChecked;
+
+    public boolean isSetChecked() {
+        return setChecked;
+    }
+
+    public void setSetChecked(boolean setChecked) {
+        this.setChecked = setChecked;
+    }
+
     public String getDate() {
         return date;
     }

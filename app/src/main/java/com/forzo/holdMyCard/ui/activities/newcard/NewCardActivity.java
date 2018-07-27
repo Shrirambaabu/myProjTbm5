@@ -716,9 +716,11 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @OnClick(R.id.calendar_rel)
     public void calenderSection() {
-        Intent calendarIntent = new Intent(mContext, CustomChooserDialog.class);
+      /*  Intent calendarIntent = new Intent(mContext, CustomChooserDialog.class);
         calendarIntent.putExtra("email", textInputEditTextEmail.getText().toString());
         startActivity(calendarIntent);
+        */
+        newCardPresenter.calendarOptions(textInputEditTextEmail.getText().toString());
     }
 
     @OnClick(R.id.profile_library_image)

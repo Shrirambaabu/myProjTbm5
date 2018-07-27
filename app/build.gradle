@@ -6,8 +6,8 @@ android {
         applicationId "com.forzo.holdMyCard"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 1
-        versionName "Version 3.3"
+        versionCode 2
+        versionName "Release Version 1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -21,6 +21,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+        ignoreWarnings true //false
+    }
+
+
     buildToolsVersion '27.0.3'
 }
 

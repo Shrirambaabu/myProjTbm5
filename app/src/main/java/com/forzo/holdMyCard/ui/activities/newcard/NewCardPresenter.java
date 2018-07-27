@@ -2,6 +2,8 @@ package com.forzo.holdMyCard.ui.activities.newcard;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.provider.CalendarContract;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.customtabs.CustomTabsIntent;
@@ -20,7 +23,10 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.antonyt.infiniteviewpager.InfinitePagerAdapter;
@@ -30,6 +36,7 @@ import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
+import com.forzo.holdMyCard.ui.activities.customChooserDialog.CustomChooserDialog;
 import com.forzo.holdMyCard.ui.adapters.ImageSliderAdapter;
 import com.forzo.holdMyCard.ui.models.BusinessCard;
 import com.forzo.holdMyCard.utils.ImagePath_MarshMallow;
@@ -170,7 +177,7 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                             Log.e("userImage", "" + businessCardList.get(i).getImageType());
                             Log.e("userImage", "" + businessCardList.get(i).getPostImage());
 
-                           // getView().setBackImage(businessCardList.get(i).getPostImage());
+                            // getView().setBackImage(businessCardList.get(i).getPostImage());
                             setBackImage(businessCardList.get(i).getPostImage());
                             // PreferencesAppHelper.setCurrentUserProfileImage(businessCardList.get(i).getPostImage());
                         }
@@ -980,16 +987,16 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Log.e("getMsg",""+e.getLocalizedMessage());
-                    Log.e("getMsg2",""+e.getMessage());
+                    Log.e("getMsg", "" + e.getLocalizedMessage());
+                    Log.e("getMsg2", "" + e.getMessage());
 
                 }
                 return myBitmap;
             }
 
             protected void onPostExecute(Bitmap response) {
-                Log.e("BusImag","response");
-                getView().setBusinessCarosuilImage(response,imageName);
+                Log.e("BusImag", "response");
+                getView().setBusinessCarosuilImage(response, imageName);
             }
         }.execute();
     }
@@ -1019,7 +1026,7 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
             }
 
             protected void onPostExecute(Bitmap response) {
-                getView().setBusinessBackCarosuilImage(response,backImage);
+                getView().setBusinessBackCarosuilImage(response, backImage);
             }
         }.execute();
     }
@@ -1048,9 +1055,90 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
             }
 
             protected void onPostExecute(Bitmap response) {
-                getView().setBusinessQRCarosuilImage(response,qrImageName);
+                getView().setBusinessQRCarosuilImage(response, qrImageName);
             }
         }.execute();
+    }
+
+    @Override
+    public void calendarOptions(String email) {
+
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.calendar_options);
+
+        // Setting dialogview
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+
+        RelativeLayout createEventRelativeLayout = (RelativeLayout) dialog.findViewById(R.id.create_event_layout);
+        RelativeLayout calendarRelativeLayout = (RelativeLayout) dialog.findViewById(R.id.my_calendar_layout);
+
+        createEventRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try {
+
+                    Calendar beginTime = Calendar.getInstance();
+                    Calendar endTime = Calendar.getInstance();
+                    endTime.add(Calendar.HOUR_OF_DAY, 1);
+                    Intent intent = new Intent(Intent.ACTION_INSERT)
+                            .setData(CalendarContract.Events.CONTENT_URI)
+                            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                            .putExtra(CalendarContract.Events.TITLE, "")
+                            .putExtra(CalendarContract.Events.DESCRIPTION, "")
+                            .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
+                            .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+                            .putExtra(Intent.EXTRA_EMAIL, email);
+                    context.startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                    alertDialog.setTitle("Alert !!!");
+                    alertDialog.setMessage("Please install Calender!");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                            (dialog, which) -> {
+                                dialog.dismiss();
+                                Intent intent = new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.calendar&hl=en"));
+                                context.startActivity(intent);
+                            });
+                    alertDialog.show();
+                }
+            }
+        });
+
+
+        calendarRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try {
+                    Intent calIntent = new Intent(Intent.ACTION_MAIN);
+                    calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR);
+                    context.startActivity(calIntent);
+                } catch (ActivityNotFoundException e) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                    alertDialog.setTitle("Alert !!!");
+                    alertDialog.setMessage("Please install Calender!");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                            (dialog, which) -> {
+                                dialog.dismiss();
+                                Intent intent = new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.calendar&hl=en"));
+                                context.startActivity(intent);
+                            });
+                    alertDialog.show();
+                }
+
+            }
+        });
+
+
+        dialog.show();
     }
 
 
@@ -1142,7 +1230,7 @@ public class NewCardPresenter extends BasePresenter<NewCardContract.View> implem
                     Intent facebookIntent = new Intent();
                     facebookIntent.setAction(Intent.ACTION_VIEW);
                     facebookIntent.addCategory(Intent.CATEGORY_BROWSABLE);
-                    facebookIntent.setData(Uri.parse("https://www.linkedin.com/pub/dir/"+userName+"/+?trk=uno-reg-guest-home-name-search"));
+                    facebookIntent.setData(Uri.parse("https://www.linkedin.com/pub/dir/" + userName + "/+?trk=uno-reg-guest-home-name-search"));
                     context.startActivity(facebookIntent);
                 });
         alertDialog.show();

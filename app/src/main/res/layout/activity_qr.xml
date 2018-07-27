@@ -13,7 +13,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="16dp"
-        android:text="QR Code:"
+        android:text="Open NewCard >> QR code from another device to scan this QR Code. "
         android:textColor="@android:color/black"
         android:textSize="18sp"
         />

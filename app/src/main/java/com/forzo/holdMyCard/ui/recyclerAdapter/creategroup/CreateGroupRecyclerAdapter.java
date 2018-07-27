@@ -17,6 +17,8 @@ import java.util.ArrayList;
  */
 
 public class CreateGroupRecyclerAdapter extends RecyclerView.Adapter<CreateGroupHolder> implements Filterable {
+    public CreateGroupRecyclerAdapter() {
+    }
 
     private static final String TAG = "NotificationRecyclerAda";
     CreateGroupListPresenter createGroupListPresenter;

@@ -72,6 +72,8 @@ public interface NewCardContract {
 
         void setQRPresenter(String qrImageName);
 
+        void calendarOptions(String email);
+
     }
 
     interface View {
