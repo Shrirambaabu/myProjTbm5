@@ -11,6 +11,8 @@ public interface MyRegisterContract {
 
         void regSuccess();
 
+        void emailAlreadyRegistered();
+
         void checkExistingUser(String email);
     }
 

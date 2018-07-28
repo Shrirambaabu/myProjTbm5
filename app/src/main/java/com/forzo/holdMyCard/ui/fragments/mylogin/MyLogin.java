@@ -104,7 +104,7 @@ public class MyLogin extends Fragment implements MyLoginContract.View {
             Toast.makeText(getActivity(), "Please Enter the Password", Toast.LENGTH_LONG).show();
             return;
         }
-        myLoginPresenter.loginToHmc(textInputEditTextEmail.getText().toString(), textInputEditTextPassword.getText().toString());
+        myLoginPresenter.loginToHmc(textInputEditTextEmail.getText().toString().trim(), textInputEditTextPassword.getText().toString());
     }
 
     @Override

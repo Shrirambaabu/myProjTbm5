@@ -147,6 +147,20 @@ public class MyRegisterPresenter extends BasePresenter<MyRegisterContract.View> 
     }
 
     @Override
+    public void emailAlreadyRegistered() {
+
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Error !!!");
+        alertDialog.setMessage("Email Id Already Registered");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+                (dialog, which) -> {
+                    dialog.dismiss();
+
+                });
+        alertDialog.show();
+    }
+
+    @Override
     public void checkExistingUser(String email) {
 
         mApiService.checkExistingUser(email)
