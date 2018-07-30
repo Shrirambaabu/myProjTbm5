@@ -239,7 +239,7 @@ public class UserProfilePresenter extends BasePresenter<UserProfileContract.View
 
         File newFile = getBitmapLowFile(newBitmap);
 
-        Log.e("FileSize",""+newFile.length());
+        Log.e("FileSize", "" + newFile.length());
         RequestBody reqFile = RequestBody.create(MediaType.parse("image"), newFile);
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", newFile.getName(), reqFile);
 
@@ -256,16 +256,13 @@ public class UserProfilePresenter extends BasePresenter<UserProfileContract.View
 
                     @Override
                     public void onNext(BusinessCard userChangePassword) {
-
-
-                        Log.e("SuccStatus", "image"+userChangePassword.getUpdateImage());
+                        Log.e("SuccStatus", "image" + userChangePassword.getUpdateImage());
                         Log.e("Succ", "image");
                         getView().hideLoader();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        //  progressBar.smoothToHide();
                         Log.e("error", "" + e.getMessage());
                         Log.e("error", "ErrorUpdatingImage");
                         getView().hideLoader();

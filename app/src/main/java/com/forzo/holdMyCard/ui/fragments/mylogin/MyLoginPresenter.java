@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.forzo.holdMyCard.HmcApplication;
+import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
@@ -76,6 +77,7 @@ public class MyLoginPresenter extends BasePresenter<MyLoginContract.View> implem
     @Override
     public void errorDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setIcon(R.drawable.ic_warning_black_24dp);
         alertDialog.setTitle("Error !!!");
         alertDialog.setMessage("Make sure you have entered correct Username/Password and activated your account");
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",

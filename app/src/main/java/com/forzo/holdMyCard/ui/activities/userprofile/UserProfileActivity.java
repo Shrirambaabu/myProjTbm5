@@ -232,23 +232,20 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
     @OnClick(R.id.update_user_profile)
     public void updateUserProfile() {
-
         if (businessFile != null) {
          //   userProfilePresenter.postUserBusinessImage(businessFile, "BCF");
             if (!bgImageValue.equals("")) {
                 Log.e("updateReq", "BCF image");
                 userProfilePresenter.updateUserBusinessImage(businessFile, "BCF");
-
             } else {
                 Log.e("PostReq", "BCF image");
                 userProfilePresenter.postUserBusinessImage(businessFile, "BCF");
             }
-
         }
-
         if (profileImageFile != null) {
 
-
+            Log.e("updateReq", "DP image val:"+dpImageValue);
+            Log.e("updateReq", "DP Prof val:"+profileImageFile);
             if (!dpImageValue.equals("")) {
                 Log.e("updateReq", "DP image");
                 userProfilePresenter.updateUserBusinessImage(profileImageFile, "DP");
@@ -257,7 +254,6 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                 userProfilePresenter.postUserBusinessImage(profileImageFile, "DP");
             }
         }
-
         userProfilePresenter.updateUserProfile(textInputEditTextName.getText().toString(), textInputEditTextJobTitle.getText().toString(), textInputEditTextCompanyName.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(), "", textInputEditTextEmail.getText().toString(), textInputEditTextAddress.getText().toString(), textInputEditTextWebsite.getText().toString());
 
     }
@@ -403,6 +399,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
             Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
             if (dpImageValue != null)
                 fullScreenIntent.putExtra("image", dpImageValue);
+                fullScreenIntent.putExtra("profImage", "yes");
            /* if (bgImageValue != null)
                 fullScreenIntent.putExtra("imageUri", bgImageValue);*/
             startActivity(fullScreenIntent);
