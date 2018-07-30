@@ -10,7 +10,12 @@ import java.io.File;
 public interface UserProfileContract {
 
     interface Presenter extends BaseMvpPresenter<UserProfileContract.View> {
-        void getIntentValues(Intent intent);
+
+        void loadProfileVales();
+
+        void loadDisplayPicture();
+
+        void loadCoverImage();
 
         void postUserBusinessImage(File businessImage, String imageType);
 
@@ -20,6 +25,7 @@ public interface UserProfileContract {
     }
 
     interface View {
+
         void setUserProfileName(String userProfileName);
 
         void setUserProfileJob(String job);

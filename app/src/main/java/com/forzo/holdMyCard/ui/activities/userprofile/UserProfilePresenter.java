@@ -22,6 +22,7 @@ import java.util.List;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -43,109 +44,63 @@ public class UserProfilePresenter extends BasePresenter<UserProfileContract.View
     }
 
     @Override
-    public void getIntentValues(Intent intent) {
-        String userProfile = intent.getStringExtra("userProfile");
+    public void loadProfileVales() {
 
-        mApiService.getUserProfile(userProfile)
+        mApiService.getUserProfileData(PreferencesAppHelper.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BusinessCard>() {
+                .subscribe(new DisposableSingleObserver<BusinessCard>() {
                     @Override
-                    public void onSubscribe(Disposable d) {
-                    }
+                    public void onSuccess(BusinessCard businessCard) {
 
-                    @Override
-                    public void onNext(BusinessCard businessCardList) {
-
-                        String userNameProfile = businessCardList.getName();
-                        String job = businessCardList.getJobTitle();
-                        String companyNameProfile = businessCardList.getCompany();
-                        String phoneNumberProfile = businessCardList.getPhoneNumber();
-                        String phoneNumberProfile2 = businessCardList.getPhoneNumber2();
-                        String phoneNumberProfile3 = businessCardList.getPhoneNumber3();
-                        String emailIdProfile = businessCardList.getEmailId();
-                        String websiteProfile = businessCardList.getWebsite();
-                        String addressProfile = businessCardList.getAddress();
-                        if (userNameProfile != null) {
-                            Log.e(TAG, userNameProfile);
-                            getView().setUserProfileName(userNameProfile);
+                        if (businessCard.getName() != null) {
+                            Log.e(TAG, businessCard.getName());
+                            getView().setUserProfileName(businessCard.getName());
                         }
-                        if (job != null) {
-                            Log.e(TAG, job);
-                            getView().setUserProfileJob(job);
+                        if (businessCard.getJobTitle() != null) {
+                            Log.e(TAG, businessCard.getJobTitle());
+                            getView().setUserProfileJob(businessCard.getJobTitle());
                         }
-                        if (companyNameProfile != null) {
-                            Log.e(TAG, companyNameProfile);
-                            getView().setUserProfileCompanyName(companyNameProfile);
+                        if (businessCard.getCompany() != null) {
+                            Log.e(TAG, businessCard.getCompany());
+                            getView().setUserProfileCompanyName(businessCard.getCompany());
                         }
-                        if (phoneNumberProfile != null) {
-                            Log.e(TAG, phoneNumberProfile);
-                            getView().setUserProfilePhonePrimary(phoneNumberProfile);
+                        if (businessCard.getPhoneNumber() != null) {
+                            Log.e(TAG, businessCard.getPhoneNumber());
+                            getView().setUserProfilePhonePrimary(businessCard.getPhoneNumber());
                         }
-                        if (phoneNumberProfile2 != null) {
-                            Log.e(TAG, phoneNumberProfile2);
-                            getView().setUserProfilePhoneSecondary(phoneNumberProfile2);
+                        if (businessCard.getPhoneNumber2() != null) {
+                            Log.e(TAG, businessCard.getPhoneNumber2());
+                            getView().setUserProfilePhoneSecondary(businessCard.getPhoneNumber2());
                         }
-                        if (phoneNumberProfile3 != null) {
-                            Log.e(TAG, phoneNumberProfile3);
-                            getView().setUserProfilePhone3(phoneNumberProfile3);
+                        if (businessCard.getPhoneNumber3() != null) {
+                            Log.e(TAG, businessCard.getPhoneNumber3());
+                            getView().setUserProfilePhone3(businessCard.getPhoneNumber3());
                         }
-                        if (emailIdProfile != null) {
-                            Log.e(TAG, emailIdProfile);
-                            getView().setUserProfileEmail(emailIdProfile);
+                        if (businessCard.getEmailId() != null) {
+                            Log.e(TAG, businessCard.getEmailId());
+                            getView().setUserProfileEmail(businessCard.getEmailId());
                         }
-                        if (websiteProfile != null) {
-                            Log.e(TAG, websiteProfile);
-                            getView().setUserProfileWebsite(websiteProfile);
+                        if (businessCard.getWebsite() != null) {
+                            Log.e(TAG, businessCard.getWebsite());
+                            getView().setUserProfileWebsite(businessCard.getWebsite());
                         }
-                        if (addressProfile != null) {
-                            Log.e(TAG, addressProfile);
-                            getView().setUserProfileAddress(addressProfile);
+                        if (businessCard.getAddress() != null) {
+                            Log.e(TAG, businessCard.getAddress());
+                            getView().setUserProfileAddress(businessCard.getAddress());
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("err", "" + e.getMessage());
-                    }
 
-                    @Override
-                    public void onComplete() {
                     }
                 });
-        Log.e("GetProfImage", "" + PreferencesAppHelper.getUserId());
-        mApiService.getUserProfileImages(PreferencesAppHelper.getUserId(), "BCF")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<BusinessCard>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
+    }
 
-                    @Override
-                    public void onNext(List<BusinessCard> businessCardList) {
+    @Override
+    public void loadDisplayPicture() {
 
-                        for (int i = 0; i < businessCardList.size(); i++) {
-
-                            BusinessCard card = new BusinessCard();
-
-
-                            Log.e("userImage", "" + businessCardList.get(i).getImageType());
-                            Log.e("userImage", "" + businessCardList.get(i).getPostImage());
-                            getView().setBackGroundImage(businessCardList.get(i).getPostImage());
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("err", "" + e.getMessage());
-                        Log.e("err", "erorr image get");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                    }
-                });
         mApiService.getUserProfileImages(PreferencesAppHelper.getUserId(), "DP")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -158,9 +113,6 @@ public class UserProfilePresenter extends BasePresenter<UserProfileContract.View
                     public void onNext(List<BusinessCard> businessCardList) {
 
                         for (int i = 0; i < businessCardList.size(); i++) {
-
-                            BusinessCard card = new BusinessCard();
-
 
                             Log.e("userImage", "" + businessCardList.get(i).getImageType());
                             Log.e("userImage", "" + businessCardList.get(i).getPostImage());
@@ -183,14 +135,44 @@ public class UserProfilePresenter extends BasePresenter<UserProfileContract.View
     }
 
     @Override
-    public void postUserBusinessImage(File businessImage, String imageType) {
-      /*  Bitmap bitmapS = null;
+    public void loadCoverImage() {
+        Log.e("GetProfImage", "" + PreferencesAppHelper.getUserId());
 
-        try {
-            bitmapS = MediaStore.Images.Media.getBitmap(context.getContentResolver(), businessImage.getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        mApiService.getUserProfileImages(PreferencesAppHelper.getUserId(), "BCF")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<BusinessCard>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(List<BusinessCard> businessCardList) {
+
+                        for (int i = 0; i < businessCardList.size(); i++) {
+
+                            Log.e("userImage", "" + businessCardList.get(i).getImageType());
+                            Log.e("userImage", "" + businessCardList.get(i).getPostImage());
+                            getView().setBackGroundImage(businessCardList.get(i).getPostImage());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("err", "" + e.getMessage());
+                        Log.e("err", "erorr image get");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+
+    @Override
+    public void postUserBusinessImage(File businessImage, String imageType) {
+
         Bitmap bitmap = BitmapFactory.decodeFile(businessImage.getAbsolutePath());
 
         Bitmap newBitmap = getResizedBitmapFile(bitmap, 480, 640);
@@ -199,7 +181,6 @@ public class UserProfilePresenter extends BasePresenter<UserProfileContract.View
 
         RequestBody reqFile = RequestBody.create(MediaType.parse("image"), newFile);
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", newFile.getName(), reqFile);
-
 
         mApiService.postUserImage(body, Integer.parseInt(PreferencesAppHelper.getUserId()), imageType)
                 .subscribeOn(Schedulers.io())

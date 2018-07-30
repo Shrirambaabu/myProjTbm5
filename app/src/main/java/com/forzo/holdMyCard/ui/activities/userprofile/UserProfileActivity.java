@@ -62,6 +62,9 @@ import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 public class UserProfileActivity extends AppCompatActivity implements UserProfileContract.View {
 
 
+    public static final String SELECT_THE_IMAGE = "Select the image";
+    public static final int IMAGE_TYPE_DP = 0;
+    public static final int IMAGE_TYPE_BCF = 1;
     @BindView(R.id.edit_profile_image)
     CircleButton editProfileImage;
     @BindView(R.id.edit_profile)
@@ -102,12 +105,9 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     UserProfilePresenter userProfilePresenter;
     private Context mContext = UserProfileActivity.this;
 
-
     private Storage storage;
     private String newDir;
     private int WRITE_EXTERNAL_STORAGE = 111;
-    private File businessFile = null;
-    private File profileImageFile = null;
 
     private String dpImageValue = "", bgImageValue = "";
 
@@ -115,7 +115,6 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-
 
         ButterKnife.bind(this);
         backButtonOnToolbar(UserProfileActivity.this);
@@ -125,27 +124,17 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                 .inject(this);
         userProfilePresenter.attach(this);
 
-        userProfilePresenter.getIntentValues(getIntent());
-        // ImagePicker.setMinQuality(600, 600);
-    }
-
-
-    @OnClick(R.id.edit_profile_image)
-    public void imageSelect() {
-        EasyImage.openChooserWithGallery(UserProfileActivity.this, "Select the image", 0);
+        userProfilePresenter.loadCoverImage();
+        userProfilePresenter.loadDisplayPicture();
+        userProfilePresenter.loadProfileVales();
     }
 
     @OnClick(R.id.print_user_profile)
     public void printUserProfile() {
-
         activityLoader();
-/*
-        Layout_to_Image layout_to_image = new Layout_to_Image(NewCardActivity.this, scrollView);
-        Bitmap bitmap = layout_to_image.convert_layout();*/
         storage = new Storage(getApplicationContext());
         // get external storage
         String path = storage.getExternalStorageDirectory();
-
         // new dir
         newDir = path + File.separator + "Convert to Pdf";
         storage.createDirectory(newDir);
@@ -227,45 +216,22 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
     @OnClick(R.id.edit_profile)
     public void profileImageSelect() {
-        EasyImage.openChooserWithGallery(UserProfileActivity.this, "Select the image", 1);
+        EasyImage.openChooserWithGallery(UserProfileActivity.this, SELECT_THE_IMAGE, IMAGE_TYPE_BCF);
+    }
+
+    @OnClick(R.id.edit_profile_image)
+    public void imageSelect() {
+        EasyImage.openChooserWithGallery(UserProfileActivity.this, SELECT_THE_IMAGE, IMAGE_TYPE_DP);
     }
 
     @OnClick(R.id.update_user_profile)
     public void updateUserProfile() {
-        if (businessFile != null) {
-         //   userProfilePresenter.postUserBusinessImage(businessFile, "BCF");
-            if (!bgImageValue.equals("")) {
-                Log.e("updateReq", "BCF image");
-                userProfilePresenter.updateUserBusinessImage(businessFile, "BCF");
-            } else {
-                Log.e("PostReq", "BCF image");
-                userProfilePresenter.postUserBusinessImage(businessFile, "BCF");
-            }
-        }
-        if (profileImageFile != null) {
-
-            Log.e("updateReq", "DP image val:"+dpImageValue);
-            Log.e("updateReq", "DP Prof val:"+profileImageFile);
-            if (!dpImageValue.equals("")) {
-                Log.e("updateReq", "DP image");
-                userProfilePresenter.updateUserBusinessImage(profileImageFile, "DP");
-            } else {
-                Log.e("PostReq", "DP image");
-                userProfilePresenter.postUserBusinessImage(profileImageFile, "DP");
-            }
-        }
         userProfilePresenter.updateUserProfile(textInputEditTextName.getText().toString(), textInputEditTextJobTitle.getText().toString(), textInputEditTextCompanyName.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(), "", textInputEditTextEmail.getText().toString(), textInputEditTextAddress.getText().toString(), textInputEditTextWebsite.getText().toString());
 
     }
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-     /*   Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
-        // TODO do something with the bitmap
-
-        circleImage.setImageBitmap(bitmap);*/
 
         EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
             @Override
@@ -284,11 +250,11 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
     private void onPhotosReturned(File imageFile, int type) {
         Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-        if (type == 0) {
-            profileImageFile = imageFile;
+        if (type == IMAGE_TYPE_DP) {
+            userProfilePresenter.updateUserBusinessImage(imageFile, "DP");
             circleImage.setImageBitmap(bitmap);
-        } else if (type == 1) {
-            businessFile = imageFile;
+        } else if (type == IMAGE_TYPE_BCF) {
+            userProfilePresenter.updateUserBusinessImage(imageFile, "BCF");
             imageView.setImageBitmap(bitmap);
         }
     }
@@ -354,11 +320,9 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
     @Override
     public void updateSuccess() {
-
         Intent myLibrary = new Intent(UserProfileActivity.this, MyLibraryActivity.class);
         myLibrary.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(myLibrary);
-
     }
 
     @Override
@@ -384,8 +348,6 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     public void onViewClicked() {
         if ((dpImageValue != null && !dpImageValue.equals("")||(bgImageValue != null && !bgImageValue.equals("")))) {
             Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
-       /*     if (dpImageValue != null)
-                fullScreenIntent.putExtra("image", dpImageValue);*/
             if (bgImageValue != null)
                 fullScreenIntent.putExtra("imageUri", bgImageValue);
             startActivity(fullScreenIntent);
@@ -400,13 +362,10 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
             if (dpImageValue != null)
                 fullScreenIntent.putExtra("image", dpImageValue);
                 fullScreenIntent.putExtra("profImage", "yes");
-           /* if (bgImageValue != null)
-                fullScreenIntent.putExtra("imageUri", bgImageValue);*/
             startActivity(fullScreenIntent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {

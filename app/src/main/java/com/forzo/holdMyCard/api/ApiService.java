@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -53,6 +54,9 @@ public interface ApiService {
 
     @GET("profile/{userId}")
     Observable<BusinessCard> getUserProfile(@Path("userId") String userId);
+
+    @GET("profile/{userId}")
+    Single<BusinessCard> getUserProfileData(@Path("userId") String userId);
 
     @GET("profile/showProfileImagesByImageType/{userId}/{imageType}")
     Observable<List<BusinessCard>> getUserProfileImages(@Path("userId") String userId, @Path("imageType") String imageType);
