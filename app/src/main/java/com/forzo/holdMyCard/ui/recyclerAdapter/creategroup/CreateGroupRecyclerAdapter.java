@@ -40,7 +40,8 @@ public class CreateGroupRecyclerAdapter extends RecyclerView.Adapter<CreateGroup
 
     @Override
     public CreateGroupHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CreateGroupHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_create_group, parent, false), createGroupListPresenter);
+        return new CreateGroupHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.card_create_group, parent, false), createGroupListPresenter);
     }
 
     @Override
@@ -59,22 +60,16 @@ public class CreateGroupRecyclerAdapter extends RecyclerView.Adapter<CreateGroup
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
-
                 if (charString.isEmpty()) {
-
                     mFilteredList = mArrayList;
                 } else {
-
                     ArrayList<MyLibrary> filteredList = new ArrayList<>();
-
                     for (MyLibrary myLibrary : mArrayList) {
-
                         if (myLibrary.getCardName().toLowerCase().contains(charString)) {
                             Log.e("CardName", "" + myLibrary.getCardName().toLowerCase());
                             filteredList.add(myLibrary);
                         }
                     }
-
                     mFilteredList = filteredList;
                 }
 

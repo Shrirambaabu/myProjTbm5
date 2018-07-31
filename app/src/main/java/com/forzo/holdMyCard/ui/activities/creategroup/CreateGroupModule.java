@@ -27,7 +27,6 @@ public class CreateGroupModule {
         return new CreateGroupPresenter(context);
     }
 
-
     @Provides
     @PerActivityScope
     ArrayList<MyLibrary> myLibraries() {

@@ -13,7 +13,7 @@ public class ContextModule {
 
     private Context context;
 
-    public ContextModule(Context context) {
+    ContextModule(Context context) {
         this.context = context;
     }
 

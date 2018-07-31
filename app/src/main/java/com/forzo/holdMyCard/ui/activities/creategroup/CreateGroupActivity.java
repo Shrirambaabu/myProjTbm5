@@ -24,47 +24,35 @@ import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.recyclerAdapter.creategroup.CreateGroupListPresenter;
 import com.forzo.holdMyCard.ui.recyclerAdapter.creategroup.CreateGroupRecyclerAdapter;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
-import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.forzo.holdMyCard.utils.BottomNavigationHelper.enableNavigation;
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 
 public class CreateGroupActivity extends AppCompatActivity implements CreateGroupContract.View {
 
-
     @Inject
     CreateGroupPresenter createGroupPresenter;
-
     @Inject
     CreateGroupRecyclerAdapter createGroupRecyclerAdapter;
-
     @Inject
     CreateGroupListPresenter createGroupListPresenter;
-
-
     @Inject
     ArrayList<MyLibrary> myLibraryArrayList;
-
-
     @BindView(R.id.recycler_view_empty)
     EmptyRecyclerView recyclerView;
     @BindView(R.id.empty_view)
     RelativeLayout emptyView;
     @BindView(R.id.group_name)
     EditText groupNameEditText;
-
     @BindView(R.id.search_groups)
     android.support.v7.widget.SearchView searchView;
-
     @BindView(R.id.avi)
     AVLoadingIndicatorView avLoadingIndicatorView;
     @BindView(R.id.relative_progress)
@@ -86,17 +74,12 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
                 .build()
                 .inject(this);
 
-        searchView.setQueryHint("Search for people to add");
+        searchView.setQueryHint(getString(R.string.search_for_peopple_to_add));
         createGroupPresenter.attach(this);
         createGroupPresenter.getIntentValues(getIntent());
         createGroupPresenter.setupShowsRecyclerView(recyclerView, emptyView);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                searchView.clearFocus();
-            }
-        }, 300);
+        new Handler().postDelayed(() -> searchView.clearFocus(), 300);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -106,10 +89,8 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
-                final ArrayList<MyLibrary> filtermodelist = filter(myLibraryArrayList, newText);
-                createGroupListPresenter.setfilter(filtermodelist,createGroupRecyclerAdapter);
-
+                final ArrayList<MyLibrary> filterModeList = filter(myLibraryArrayList, newText);
+                createGroupListPresenter.setFilter(filterModeList,createGroupRecyclerAdapter);
                 return true;
             }
         });
@@ -119,23 +100,14 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
         query = query.toLowerCase();
         final ArrayList<MyLibrary> filteredModeList = new ArrayList<>();
         for (MyLibrary model : myLibraryArrayList) {
+            Log.e("creategrptagh", "filter: "+model.getUserId() );
             final String text = model.getCardName().toLowerCase();
             if (text.contains(query)) {
                 filteredModeList.add(model);
             }
         }
         return filteredModeList;
-
     }
-
-    private void setFilter(ArrayList<MyLibrary> newList) {
-
-        myLibraryArrayList = new ArrayList<>();
-        myLibraryArrayList.addAll(newList);
-        createGroupRecyclerAdapter.notifyDataSetChanged();
-
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -151,19 +123,13 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case R.id.action_next:
-
                 if (groupNameEditText.getText().toString().equals("")) {
                     Toast.makeText(getApplicationContext(), "Enter your group name", Toast.LENGTH_LONG).show();
                     return false;
                 }
-
                 createGroupPresenter.gotoGroupName(groupNameEditText.getText().toString());
-
                 Log.e("Create", "" + groupNameEditText.getText().toString());
-
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

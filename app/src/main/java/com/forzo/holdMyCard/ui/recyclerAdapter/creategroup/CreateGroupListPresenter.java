@@ -19,7 +19,7 @@ import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
  */
 
 public class CreateGroupListPresenter implements CreateGroupContract.Presenter {
-
+    private static final String TAG = "CreateGroupListPresente";
     private Context context;
     private ArrayList<MyLibrary> myLibraries;
     private ArrayList<String> selectedContact = new ArrayList<>();
@@ -31,6 +31,14 @@ public class CreateGroupListPresenter implements CreateGroupContract.Presenter {
         this.myLibraries = myLibraries;
     }
 
+    public ArrayList<String> getSelectedContact() {
+        return selectedContact;
+    }
+
+    public ArrayList<MyLibrary> getMyLibrariesList() {
+        return myLibraries;
+    }
+
     @Override
     public int getItemCount() {
         return (null != myLibraries ? myLibraries.size() : 0);
@@ -38,7 +46,6 @@ public class CreateGroupListPresenter implements CreateGroupContract.Presenter {
 
     @Override
     public void setImage(String image, ImageView imageView) {
-
         Glide.with(context)
                 .load(IMAGE_URL + image)
                 .thumbnail(0.1f)
@@ -54,37 +61,27 @@ public class CreateGroupListPresenter implements CreateGroupContract.Presenter {
         rowView.setCardDescription(myLibrary.getCardDescription());
         rowView.setCardDetails(myLibrary.getCardDetails());
         rowView.setImageCard(myLibrary.getImage());
-
+        if (myLibrary.isSetChecked())
+            rowView.setCheckBoxState(true);
+        else
+            rowView.setCheckBoxState(false);
     }
 
-
-    public void setfilter(ArrayList<MyLibrary> listitem, CreateGroupRecyclerAdapter createGroupRecyclerAdapter) {
+    public void setFilter(ArrayList<MyLibrary> listItem, CreateGroupRecyclerAdapter createGroupRecyclerAdapter) {
         myLibraries = new ArrayList<>();
-        myLibraries.addAll(listitem);
+        myLibraries.addAll(listItem);
         createGroupRecyclerAdapter.notifyDataSetChanged();
     }
 
-
     @Override
-    public void performClick(int adapterPosition, String value, AnimateCheckBox animeBox) {
-
-        Log.e("ClickPosition", "" + adapterPosition);
-        Log.e("ClickPositionUserId", "" + myLibraries.get(adapterPosition).getUserId());
-
-        if (value.equals("true")) {
+    public void performClick(int adapterPosition, boolean value, AnimateCheckBox animeBox) {
+        if (value) {
             selectedContact.add(myLibraries.get(adapterPosition).getUserId());
-        } else if (value.equals("false")) {
+            myLibraries.get(adapterPosition).setSetChecked(true);
+        } else {
             selectedContact.remove(myLibraries.get(adapterPosition).getUserId());
+            myLibraries.get(adapterPosition).setSetChecked(false);
         }
-
         createGroupPresenter.getGroupId(selectedContact);
-        // createGroupPresenter.getGroupId(selectedContact);
-      /*  if (!selectedContact.isEmpty()) {
-            int num = selectedContact.size();
-            for (int i = 0; i <= num - 1; i++) {
-                createGroupPresenter.getGroupId(selectedContact);
-                Log.e("SelContactLast", "" + selectedContact.get(i));
-            }
-        }*/
     }
 }

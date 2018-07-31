@@ -13,9 +13,9 @@ import dagger.Provides;
 @HmcScope
 public class HmcAppModule {
 
-    Application mApplication;
+    private Application mApplication;
 
-    public HmcAppModule(Application mApplication) {
+    HmcAppModule(Application mApplication) {
         this.mApplication = mApplication;
     }
 

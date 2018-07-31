@@ -18,7 +18,7 @@ public class CreateGroupContract {
 
         void bindEventRow(int position, CreateGroupRowView holder);
 
-        void performClick(int adapterPosition,String value, AnimateCheckBox animeBox);
+        void performClick(int adapterPosition, boolean value, AnimateCheckBox animeBox);
 
     }
 
@@ -32,6 +32,6 @@ public class CreateGroupContract {
 
         void setImageCard(String Image);
 
-
+        void setCheckBoxState(boolean state);
     }
 }

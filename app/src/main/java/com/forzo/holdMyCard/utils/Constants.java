@@ -19,4 +19,11 @@ public class Constants {
 
     public static final String SHARED_PREF = "ah_firebase";
 
+    public static final String UN_REGISTERED = "UnRegistered";
+    public static final String REGISTERED = "Registered";
+    public static final String UI_STATUS_ONE = "1";
+    public static final String UI_STATUS_ZERO = "0";
+    public static final String IS_ENABLED_TRUE = "true";
+    public static final String IS_ENABLED_FALSE = "false";
+
 }

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.forzo.holdMyCard.HmcApplication;
+import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
@@ -63,8 +64,8 @@ public class MyLibraryPresenter extends BasePresenter<MyLibraryContract.View> im
     @Override
     public void setupViewPager(ViewPager viewPager, SectionsStatePagerAdapter adapter,
                                MyCurrentLibraryFragment myCurrentLibraryFragment, MyGroupsFragment myGroupsFragment) {
-        adapter.addFragment(myCurrentLibraryFragment, "My Library");
-        adapter.addFragment(myGroupsFragment, "My Groups");
+        adapter.addFragment(myCurrentLibraryFragment, context.getString(R.string.my_library));
+        adapter.addFragment(myGroupsFragment, context.getString(R.string.my_groups));
         viewPager.setAdapter(adapter);
         getView().showTabLayout();
     }
