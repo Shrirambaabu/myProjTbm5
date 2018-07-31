@@ -21,7 +21,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/search_contact"
-                android:layout_margin="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="72dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/group_bg"
                 android:hint="Group Name"
                 android:paddingBottom="4dp"
@@ -30,6 +33,15 @@
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
+            <ImageView
+                android:id="@+id/edit_icon"
+                android:layout_width="48dp"
+                android:layout_height="36dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="24dp"
+                android:padding="4dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_edit_black_24dp" />
 
             <TextView
                 android:id="@+id/gn_hint"

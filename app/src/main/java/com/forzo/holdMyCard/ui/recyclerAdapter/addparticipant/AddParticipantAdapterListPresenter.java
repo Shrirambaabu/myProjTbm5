@@ -1,10 +1,12 @@
 package com.forzo.holdMyCard.ui.recyclerAdapter.addparticipant;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
+import com.hanks.library.AnimateCheckBox;
 
 import java.util.ArrayList;
 
@@ -15,6 +17,7 @@ public class AddParticipantAdapterListPresenter implements AddParticipantAdapter
 
     private Context context;
     private ArrayList<MyLibrary> myLibraries;
+    private ArrayList<String> selectedContact = new ArrayList<>();
 
     public AddParticipantAdapterListPresenter(Context context, ArrayList<MyLibrary> myLibraries) {
         this.context = context;
@@ -46,15 +49,34 @@ public class AddParticipantAdapterListPresenter implements AddParticipantAdapter
         holder.setCardDescription(myLibrary.getCardDescription());
         holder.setCardDetails(myLibrary.getCardDetails());
         //   holder.setImageCard(myLibrary.getImage());
+        if (myLibrary.isSetChecked())
+            holder.setCheckBoxState(true);
+        else
+            holder.setCheckBoxState(false);
     }
 
     @Override
-    public void performClick(int adapterPosition, String value) {
+    public void performClick(int adapterPosition, boolean value, AnimateCheckBox animeBox) {
 
+        Log.e("SeleCUser", "" + myLibraries.get(adapterPosition).getUserId());
+        if (value) {
+            if (!selectedContact.contains(myLibraries.get(adapterPosition).getUserId())) {
+                selectedContact.add(myLibraries.get(adapterPosition).getUserId());
+                myLibraries.get(adapterPosition).setSetChecked(true);
+            }
+        } else {
+            selectedContact.remove(myLibraries.get(adapterPosition).getUserId());
+            myLibraries.get(adapterPosition).setSetChecked(false);
+        }
+        if (!selectedContact.isEmpty()) {
+            for (int i = 0; i <= selectedContact.size() - 1; i++) {
+                Log.e("CRContactLast:" + selectedContact.size(), "" + selectedContact.get(i));
+            }
+        }
     }
 
 
-    public void setFilter(ArrayList<MyLibrary> listitem,AddParticipantRecyclerAdapter addParticipantRecyclerAdapter) {
+    public void setFilter(ArrayList<MyLibrary> listitem, AddParticipantRecyclerAdapter addParticipantRecyclerAdapter) {
         myLibraries = new ArrayList<>();
         myLibraries.addAll(listitem);
         addParticipantRecyclerAdapter.notifyDataSetChanged();

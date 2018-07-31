@@ -42,7 +42,6 @@ public class CreateGroupHolder extends RecyclerView.ViewHolder implements Create
 
     @Override
     public void setCardName(String cardName) {
-        Log.e("CardName:", ":" + cardName);
         setCardName.setText(cardName);
     }
 

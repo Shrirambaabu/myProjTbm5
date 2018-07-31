@@ -76,8 +76,10 @@ public class CreateGroupListPresenter implements CreateGroupContract.Presenter {
     @Override
     public void performClick(int adapterPosition, boolean value, AnimateCheckBox animeBox) {
         if (value) {
-            selectedContact.add(myLibraries.get(adapterPosition).getUserId());
-            myLibraries.get(adapterPosition).setSetChecked(true);
+            if (!selectedContact.contains(myLibraries.get(adapterPosition).getUserId())) {
+                selectedContact.add(myLibraries.get(adapterPosition).getUserId());
+                myLibraries.get(adapterPosition).setSetChecked(true);
+            }
         } else {
             selectedContact.remove(myLibraries.get(adapterPosition).getUserId());
             myLibraries.get(adapterPosition).setSetChecked(false);

@@ -11,7 +11,7 @@ import com.hanks.library.AnimateCheckBox;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddParticipantAdapterHolder extends RecyclerView.ViewHolder implements AddParticipantAdapterContract.AddParticipantRowView{
+public class AddParticipantAdapterHolder extends RecyclerView.ViewHolder implements AddParticipantAdapterContract.AddParticipantRowView, AnimateCheckBox.OnCheckedChangeListener {
 
 
     AddParticipantAdapterListPresenter createGroupListPresenter;
@@ -33,34 +33,41 @@ public class AddParticipantAdapterHolder extends RecyclerView.ViewHolder impleme
         super(itemView);
         this.createGroupListPresenter = addParticipantAdapterListPresenter;
         ButterKnife.bind(this, itemView);
-
+        animeBox.setOnCheckedChangeListener(this);
     }
 
 
     @Override
     public void setCardName(String cardName) {
-
-
         setCardName.setText(cardName);
-
     }
 
     @Override
     public void setCardDescription(String cardDescription) {
-
-
         setCardDescription.setText(cardDescription);
     }
 
     @Override
     public void setCardDetails(String cardDetails) {
-
-
         setCardDetails.setText(cardDetails);
     }
 
     @Override
     public void setImageCard(String Image) {
       //  createGroupListPresenter.setImage(Image,setCardImageValue);
+    }
+
+    @Override
+    public void setCheckBoxState(boolean state) {
+        animeBox.setChecked(state);
+    }
+
+    @Override
+    public void onCheckedChanged(View buttonView, boolean isChecked) {
+        if (isChecked) {
+            createGroupListPresenter.performClick(getAdapterPosition(), true, animeBox);
+        } else {
+            createGroupListPresenter.performClick(getAdapterPosition(), false, animeBox);
+        }
     }
 }

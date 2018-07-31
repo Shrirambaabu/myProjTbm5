@@ -126,7 +126,7 @@ public class CreateGroupPresenter extends BasePresenter<CreateGroupContract.View
         stringArrayList = stringArrayList3;
         if (!stringArrayList3.isEmpty()) {
             for (int i = 0; i <= stringArrayList3.size() - 1; i++) {
-                Log.e("CRContactLast", "" + stringArrayList3.get(i));
+                Log.e("CRContactLast:"+stringArrayList3.size(), "" + stringArrayList3.get(i));
             }
         }
     }

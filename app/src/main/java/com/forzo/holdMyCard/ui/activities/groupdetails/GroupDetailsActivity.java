@@ -85,7 +85,7 @@ public class GroupDetailsActivity extends AppCompatActivity implements GroupDeta
         groupDetailsPresenter.setupShowsRecyclerView(recyclerView, emptyView);
 
     }
-
+/*
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,7 +117,7 @@ public class GroupDetailsActivity extends AppCompatActivity implements GroupDeta
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
     @Override
     public boolean onSupportNavigateUp() {

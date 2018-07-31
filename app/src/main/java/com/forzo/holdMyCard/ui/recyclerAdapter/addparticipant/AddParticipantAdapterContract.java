@@ -2,6 +2,8 @@ package com.forzo.holdMyCard.ui.recyclerAdapter.addparticipant;
 
 import android.widget.ImageView;
 
+import com.hanks.library.AnimateCheckBox;
+
 public class AddParticipantAdapterContract {
 
 
@@ -13,7 +15,7 @@ public class AddParticipantAdapterContract {
 
         void bindEventRow(int position, AddParticipantRowView holder);
 
-        void performClick(int adapterPosition,String value);
+        void performClick(int adapterPosition, boolean value, AnimateCheckBox animeBox);
 
     }
 
@@ -27,6 +29,7 @@ public class AddParticipantAdapterContract {
 
         void setImageCard(String Image);
 
+        void setCheckBoxState(boolean state);
 
     }
 }

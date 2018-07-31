@@ -59,7 +59,12 @@ public class MyLibrary {
     public void setDate(String date) {
         this.date = date;
     }
-
+    public MyLibrary(String cardName, String cardDescription, String cardDetails, String userId) {
+        this.cardName = cardName;
+        this.cardDescription = cardDescription;
+        this.cardDetails = cardDetails;
+        this.userId = userId;
+    }
     public MyLibrary(String cardName, String cardDescription, String cardDetails) {
         this.cardName = cardName;
         this.cardDescription = cardDescription;
@@ -121,12 +126,12 @@ public class MyLibrary {
         this.cardDetails = cardDetails;
     }
 
-    public MyLibrary(String cardImage, String cardName, String cardDescription, String cardDetails) {
+   /* public MyLibrary(String cardImage, String cardName, String cardDescription, String cardDetails) {
         this.cardImage = cardImage;
         this.cardName = cardName;
         this.cardDescription = cardDescription;
         this.cardDetails = cardDetails;
-    }
+    }*/
 
     public MyLibrary() {
     }
