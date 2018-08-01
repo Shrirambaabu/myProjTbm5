@@ -112,9 +112,12 @@
         </activity>
         <activity
             android:name=".ui.activities.userprofile.UserProfileActivity"
-            android:label="@string/profile" />
+            android:label="@string/profile"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.activities.personalizedqr.QRActivity" />
-        <activity android:name=".ui.activities.newcard.NewCardActivity" />
+        <activity
+            android:name=".ui.activities.newcard.NewCardActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.activities.forgetPasswordConfirmation.ForgetPasswordConfirmationActivity" />
         <activity
             android:name=".ui.activities.creategroupname.CreateGroupNameActivity"
@@ -128,10 +131,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.groupdetails.GroupDetailsActivity"
-            android:label="Group Details"/>
-        <activity android:name=".ui.activities.addparticipant.AddParticipantActivity"
-            android:label="Add Participants"></activity>
+        <activity
+            android:name=".ui.activities.groupdetails.GroupDetailsActivity"
+            android:label="Group Details" />
+        <activity
+            android:name=".ui.activities.addparticipant.AddParticipantActivity"
+            android:label="Add Participants" />
+        <activity android:name=".ui.activities.editgroupname.EditGroupNameActivity"
+            android:label="Group Name"></activity>
     </application>
 
 </manifest>

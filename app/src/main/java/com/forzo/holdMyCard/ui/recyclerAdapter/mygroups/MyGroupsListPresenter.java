@@ -70,10 +70,10 @@ public class MyGroupsListPresenter implements MyGroupsContract.Presenter {
 
     @Override
     public void clickGroup(int position,String groupName) {
-        Toast.makeText(context, "Edit Group is under development", Toast.LENGTH_LONG).show();
-       /* Intent groupDetailsIntent=new Intent(context, GroupDetailsActivity.class);
+       // Toast.makeText(context, "Edit Group is under development", Toast.LENGTH_LONG).show();
+        Intent groupDetailsIntent=new Intent(context, GroupDetailsActivity.class);
         groupDetailsIntent.putExtra("adapterPosition",""+position);
         groupDetailsIntent.putExtra("groupName",""+groupName);
-        context.startActivity(groupDetailsIntent);*/
+        context.startActivity(groupDetailsIntent);
     }
 }

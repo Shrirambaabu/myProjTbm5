@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.addparticipant.AddParticipantActivity;
 import com.forzo.holdMyCard.ui.activities.creategroup.CreateGroupActivity;
+import com.forzo.holdMyCard.ui.activities.editgroupname.EditGroupNameActivity;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.recyclerAdapter.groupdetails.GroupDetailsRecyclerAdapter;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
@@ -53,10 +55,12 @@ public class GroupDetailsActivity extends AppCompatActivity implements GroupDeta
     RelativeLayout emptyView;
 
     @BindView(R.id.group_name)
-    EditText groupNameEditText;
+    TextView groupNameEditText;
 
     @BindView(R.id.add_users)
     Button addParticipant;
+    @BindView(R.id.edit_icon)
+    ImageView editGroupNameImage;
 
     private TextView updateGroup;
     private Context mContext = GroupDetailsActivity.this;
@@ -150,5 +154,12 @@ public class GroupDetailsActivity extends AppCompatActivity implements GroupDeta
     public void addUsers() {
         Intent addUsersIntent = new Intent(GroupDetailsActivity.this, AddParticipantActivity.class);
         startActivity(addUsersIntent);
+    }
+
+    @OnClick(R.id.edit_icon)
+    public void editGroupName() {
+        Intent editGroupNameIntent = new Intent(GroupDetailsActivity.this, EditGroupNameActivity.class);
+        editGroupNameIntent.putExtra("groupName",""+groupNameEditText.getText().toString());
+        startActivity(editGroupNameIntent);
     }
 }

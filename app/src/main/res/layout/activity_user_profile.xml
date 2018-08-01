@@ -6,439 +6,445 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.userprofile.UserProfileActivity">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/rel_home"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
             <RelativeLayout
-                android:id="@+id/profile_head"
+                android:id="@+id/rel_home"
                 android:layout_width="match_parent"
-                android:layout_height="180dp">
-
-                <ImageView
-                    android:id="@+id/profile_library_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/new_empty_image" />
-
-                <at.markushi.ui.CircleButton
-                    android:id="@+id/edit_profile"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_edit_black_24dp"
-                    app:cb_color="@android:color/white"
-                    app:cb_pressedRingWidth="8dip" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/profile_image_layout"
-                android:layout_width="match_parent"
-                android:layout_height="96dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="150dp">
-
-                <com.jackandphantom.circularimageview.CircleImage
-                    android:id="@+id/circleImage"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="16dp"
-                    android:src="@drawable/new_empty_image"
-                    app:add_shadow="false" />
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
+                    android:id="@+id/profile_head"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="48dp">
+                    android:layout_height="180dp">
+
+                    <ImageView
+                        android:id="@+id/profile_library_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/new_empty_image" />
 
                     <at.markushi.ui.CircleButton
-                        android:id="@+id/edit_profile_image"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_centerHorizontal="true"
+                        android:id="@+id/edit_profile"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_marginEnd="8dp"
-                        android:elevation="8dp"
-                        android:src="@drawable/ic_camera_light"
-                        app:cb_color="@color/colorLoginBg"
-                        app:cb_pressedRingWidth="8dip"
-                        tools:targetApi="lollipop" />
+                        android:src="@drawable/ic_edit_black_24dp"
+                        app:cb_color="@android:color/white"
+                        app:cb_pressedRingWidth="8dip" />
+
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/profile_image_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="150dp">
+
+                    <com.jackandphantom.circularimageview.CircleImage
+                        android:id="@+id/circleImage"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/new_empty_image"
+                        app:add_shadow="false" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="48dp">
+
+                        <at.markushi.ui.CircleButton
+                            android:id="@+id/edit_profile_image"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginEnd="8dp"
+                            android:elevation="8dp"
+                            android:src="@drawable/ic_camera_light"
+                            app:cb_color="@color/colorLoginBg"
+                            app:cb_pressedRingWidth="8dip"
+                            tools:targetApi="lollipop" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/data_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/profile_image_layout"
+                    android:padding="4dp">
+
+                    <ImageView
+                        android:id="@+id/profile_name_image"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/ic_profile_name" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/textInputLayoutName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_toEndOf="@+id/profile_name_image"
+                        android:background="@drawable/text_bg"
+                        android:focusableInTouchMode="true"
+                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/textInputEditTextName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/name"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:textColor="@android:color/black" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <ImageView
+                        android:id="@+id/profile_company_name_image"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_below="@+id/textInputLayoutName"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/ic_company" />
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/textInputLayoutCompanyName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textInputLayoutName"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_toEndOf="@+id/profile_company_name_image"
+                        android:background="@drawable/text_bg"
+                        android:focusableInTouchMode="true"
+                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/textInputEditTextCompanyName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/company"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:textColor="@android:color/black" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/profile_job_title"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_below="@+id/textInputLayoutCompanyName"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/ic_job" />
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/textInputLayoutJobTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textInputLayoutCompanyName"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_toEndOf="@+id/profile_company_name_image"
+                        android:background="@drawable/text_bg"
+                        android:focusableInTouchMode="true"
+                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/textInputEditTextJobTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="Job Title"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:textColor="@android:color/black" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/profile_phone_primary"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_below="@+id/textInputLayoutJobTitle"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/ic_phone" />
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/textInputLayoutPhonePrimary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textInputLayoutJobTitle"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_toEndOf="@+id/profile_company_name_image"
+                        android:background="@drawable/text_bg"
+                        android:focusableInTouchMode="true"
+                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/textInputEditTextPhonePrimary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="Phone Number(Primary)"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:textColor="@android:color/black" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/profile_phone_secondary"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_below="@+id/textInputLayoutPhonePrimary"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/ic_phone" />
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/textInputLayoutPhoneSecondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textInputLayoutPhonePrimary"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_toEndOf="@+id/profile_company_name_image"
+                        android:background="@drawable/text_bg"
+                        android:focusableInTouchMode="true"
+                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/textInputEditTextPhoneSecondary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="Phone Number(Secondary)"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:textColor="@android:color/black" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/profile_email"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_below="@+id/textInputLayoutPhoneSecondary"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/ic_email_black_24dp" />
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/textInputLayoutEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textInputLayoutPhoneSecondary"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_toEndOf="@+id/profile_company_name_image"
+                        android:background="@drawable/text_bg"
+                        android:focusableInTouchMode="true"
+                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/textInputEditTextEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/email"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:textColor="@android:color/black" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/profile_address"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_below="@+id/textInputLayoutEmail"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/ic_address" />
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/textInputLayoutAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textInputLayoutEmail"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_toEndOf="@+id/profile_company_name_image"
+                        android:background="@drawable/text_bg"
+                        android:focusableInTouchMode="true"
+                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/textInputEditTextAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="Address"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:textColor="@android:color/black" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/profile_website"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_below="@+id/textInputLayoutAddress"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/ic_website" />
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/textInputLayoutWebsite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textInputLayoutAddress"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_toEndOf="@+id/profile_company_name_image"
+                        android:background="@drawable/text_bg"
+                        android:focusableInTouchMode="true"
+                        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/textInputEditTextWebsite"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="Website"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:textColor="@android:color/black" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/data_layout"
+                    android:layout_marginBottom="24dp"
+                    android:weightSum="2">
+
+                    <Button
+                        android:id="@+id/print_user_profile"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_bg"
+                        android:text="@string/print"
+                        android:textColor="@android:color/white" />
+
+                    <Button
+                        android:id="@+id/update_user_profile"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_bg"
+                        android:text="@string/update"
+                        android:textColor="@android:color/white" />
+
+                </LinearLayout>
             </RelativeLayout>
 
 
-            <RelativeLayout
-                android:id="@+id/data_layout"
-                android:layout_width="match_parent"
+        </android.support.v4.widget.NestedScrollView>
+
+        <RelativeLayout
+            android:id="@+id/relative_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorTransparent"
+            android:visibility="gone">
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/avi"
+                style="@style/AVLoadingIndicatorView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/profile_image_layout"
-                android:padding="4dp">
-
-                <ImageView
-                    android:id="@+id/profile_name_image"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
-                    android:src="@drawable/ic_profile_name" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toEndOf="@+id/profile_name_image"
-                    android:background="@drawable/text_bg"
-                    android:focusableInTouchMode="true"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:hint="@string/name"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
-
-                </android.support.design.widget.TextInputLayout>
-
-
-                <ImageView
-                    android:id="@+id/profile_company_name_image"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_below="@+id/textInputLayoutName"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
-                    android:src="@drawable/ic_company" />
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutCompanyName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutName"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toEndOf="@+id/profile_company_name_image"
-                    android:background="@drawable/text_bg"
-                    android:focusableInTouchMode="true"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextCompanyName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:hint="@string/company"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <ImageView
-                    android:id="@+id/profile_job_title"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_below="@+id/textInputLayoutCompanyName"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
-                    android:src="@drawable/ic_job" />
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutJobTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutCompanyName"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toEndOf="@+id/profile_company_name_image"
-                    android:background="@drawable/text_bg"
-                    android:focusableInTouchMode="true"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextJobTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:hint="Job Title"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <ImageView
-                    android:id="@+id/profile_phone_primary"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_below="@+id/textInputLayoutJobTitle"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
-                    android:src="@drawable/ic_phone" />
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutPhonePrimary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutJobTitle"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toEndOf="@+id/profile_company_name_image"
-                    android:background="@drawable/text_bg"
-                    android:focusableInTouchMode="true"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextPhonePrimary"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:hint="Phone Number(Primary)"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <ImageView
-                    android:id="@+id/profile_phone_secondary"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_below="@+id/textInputLayoutPhonePrimary"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
-                    android:src="@drawable/ic_phone" />
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutPhoneSecondary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutPhonePrimary"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toEndOf="@+id/profile_company_name_image"
-                    android:focusableInTouchMode="true"
-                    android:background="@drawable/text_bg"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextPhoneSecondary"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:hint="Phone Number(Secondary)"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <ImageView
-                    android:id="@+id/profile_email"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_below="@+id/textInputLayoutPhoneSecondary"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
-                    android:src="@drawable/ic_email_black_24dp" />
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutPhoneSecondary"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toEndOf="@+id/profile_company_name_image"
-                    android:background="@drawable/text_bg"
-                    android:focusableInTouchMode="true"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:hint="@string/email"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <ImageView
-                    android:id="@+id/profile_address"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_below="@+id/textInputLayoutEmail"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
-                    android:src="@drawable/ic_address" />
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutEmail"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toEndOf="@+id/profile_company_name_image"
-                    android:background="@drawable/text_bg"
-                    android:focusableInTouchMode="true"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:hint="Address"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <ImageView
-                    android:id="@+id/profile_website"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_below="@+id/textInputLayoutAddress"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
-                    android:src="@drawable/ic_website" />
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayoutWebsite"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutAddress"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_toEndOf="@+id/profile_company_name_image"
-                    android:background="@drawable/text_bg"
-                    android:focusableInTouchMode="true"
-                    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/textInputEditTextWebsite"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:hint="Website"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:inputType="text|textNoSuggestions"
-                        android:maxLines="1"
-                        android:textColor="@android:color/black" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:weightSum="2"
-                android:layout_below="@+id/data_layout">
-
-                <Button
-                    android:id="@+id/print_user_profile"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_bg"
-                    android:text="@string/print"
-                    android:textColor="@android:color/white"
-                    android:layout_marginEnd="24dp"/>
-                <Button
-                    android:id="@+id/update_user_profile"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_bg"
-                    android:text="@string/update"
-                    android:textColor="@android:color/white"
-                    android:layout_marginEnd="24dp"/>
-
-            </LinearLayout>
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                app:indicatorColor="@color/colorPrimary"
+                app:indicatorName="BallGridPulseIndicator" />
         </RelativeLayout>
-
-
-    </ScrollView>
-
-    <RelativeLayout
-        android:id="@+id/relative_progress"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorTransparent"
-        android:visibility="gone">
-
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/avi"
-            style="@style/AVLoadingIndicatorView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            app:indicatorColor="@color/colorPrimary"
-            app:indicatorName="BallGridPulseIndicator" />
     </RelativeLayout>
 
 </RelativeLayout>

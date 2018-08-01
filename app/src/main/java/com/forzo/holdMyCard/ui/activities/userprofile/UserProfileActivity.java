@@ -348,8 +348,10 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     public void onViewClicked() {
         if ((dpImageValue != null && !dpImageValue.equals("")||(bgImageValue != null && !bgImageValue.equals("")))) {
             Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
-            if (bgImageValue != null)
+            if (bgImageValue != null) {
+                fullScreenIntent.putExtra("profImage", "yes");
                 fullScreenIntent.putExtra("imageUri", bgImageValue);
+            }
             startActivity(fullScreenIntent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
@@ -361,7 +363,6 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
             Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
             if (dpImageValue != null)
                 fullScreenIntent.putExtra("image", dpImageValue);
-                fullScreenIntent.putExtra("profImage", "yes");
             startActivity(fullScreenIntent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }

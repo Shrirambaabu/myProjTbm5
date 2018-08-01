@@ -53,7 +53,7 @@ public class ImageFullScreenActivity extends AppCompatActivity {
             if (bundle.getString("image") != null)
                 image = getIntent().getExtras().getString("image");
             if (bundle.getString("profImage") != null){
-                imageView.getLayoutParams().height = 800;
+                imageView.getLayoutParams().height = 600;
                 imageView.requestLayout();
             }
             if (bundle.getString("imageUri") != null)

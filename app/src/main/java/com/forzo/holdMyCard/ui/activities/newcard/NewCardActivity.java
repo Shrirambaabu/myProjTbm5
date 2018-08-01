@@ -21,6 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -130,7 +131,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     @BindView(R.id.avi)
     AVLoadingIndicatorView avLoadingIndicatorView;
     @BindView(R.id.scroll)
-    ScrollView scrollView;
+    NestedScrollView scrollView;
 
     @BindView(R.id.save_user_profile)
     Button saveButton;
@@ -221,6 +222,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                     if (imageValue != null && !imageValue.equals("")) {
                         Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
                         fullScreenIntent.putExtra("imageUri", IMAGE_URL+imageValue);
+                        fullScreenIntent.putExtra("profImage", "yes");
                         startActivity(fullScreenIntent);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     }
@@ -316,7 +318,6 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         CropImage.activity(photoUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setCropShape(CropImageView.CropShape.RECTANGLE)
-                .setAspectRatio(16, 9)
                 .setActivityMenuIconColor(Color.WHITE)
                 .setAllowRotation(true)
                 .setAllowFlipping(false)
