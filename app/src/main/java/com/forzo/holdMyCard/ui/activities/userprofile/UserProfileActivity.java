@@ -136,7 +136,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
         // get external storage
         String path = storage.getExternalStorageDirectory();
         // new dir
-        newDir = path + File.separator + "Convert to Pdf";
+        newDir = path + File.separator + ".HMC Pdf";
         storage.createDirectory(newDir);
         Log.e("path", "" + newDir);
         boolean hasPermission = (ContextCompat.checkSelfPermission(getBaseContext(),
@@ -188,16 +188,19 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
             canvas.drawBitmap(bitmap, 0, 0, null);
             document.finishPage(page);
 
+            String pathPdf = storage.getExternalStorageDirectory();
+            // new dir
+            String newDirPdf = pathPdf + File.separator + "HMC_pdf";
+            storage.createDirectory(newDirPdf);
 
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                     Locale.getDefault()).format(new Date());
-
             // write the document content
-            String targetPdf = newDir + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
-            File filePath = new File(targetPdf);
+          //  String targetPdf = newDir + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
+            File filePath = new File(newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf");
             try {
                 document.writeTo(new FileOutputStream(filePath));
-                Toast.makeText(getApplicationContext(), "File Downloaded", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "File Downloaded to"+newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf", Toast.LENGTH_LONG).show();
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Sorry, Something wrong !!", Toast.LENGTH_LONG).show();
@@ -346,7 +349,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
     @OnClick(R.id.profile_library_image)
     public void onViewClicked() {
-        if ((dpImageValue != null && !dpImageValue.equals("")||(bgImageValue != null && !bgImageValue.equals("")))) {
+        if ((dpImageValue != null && !dpImageValue.equals("") || (bgImageValue != null && !bgImageValue.equals("")))) {
             Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
             if (bgImageValue != null) {
                 fullScreenIntent.putExtra("profImage", "yes");
@@ -359,7 +362,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
     @OnClick(R.id.circleImage)
     public void onViewClickedProfile() {
-        if ((dpImageValue != null && !dpImageValue.equals("")||(bgImageValue != null && !bgImageValue.equals("")))) {
+        if ((dpImageValue != null && !dpImageValue.equals("") || (bgImageValue != null && !bgImageValue.equals("")))) {
             Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
             if (dpImageValue != null)
                 fullScreenIntent.putExtra("image", dpImageValue);

@@ -677,16 +677,15 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
             canvas.drawBitmap(bitmap, 0, 0, null);
             document.finishPage(page);
 
-/*
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                    Locale.getDefault()).format(new Date());*/
+            String pathPdf = storage.getExternalStorageDirectory();
+            // new dir
+            String newDirPdf = pathPdf + File.separator + "HMC_pdf";
+            storage.createDirectory(newDirPdf);
 
-            // write the document content
-            String targetPdf = timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
-            File filePath = new File(targetPdf);
+            File filePath = new File(newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf");
             try {
                 document.writeTo(new FileOutputStream(filePath));
-                Toast.makeText(getApplicationContext(), "File Downloaded to Sd Card", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "File Downloaded to "+newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf", Toast.LENGTH_LONG).show();
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Sorry, Something wrong !!", Toast.LENGTH_LONG).show();
