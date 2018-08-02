@@ -14,13 +14,10 @@ import com.forzo.holdMyCard.HmcApplication;
 import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
-import com.forzo.holdMyCard.ui.activities.creategroupname.CreateGroupNameActivity;
 import com.forzo.holdMyCard.ui.models.Groups;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
-import com.forzo.holdMyCard.ui.services.DataService;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
-import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +26,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-
-import static com.forzo.holdMyCard.utils.BottomNavigationHelper.setupBottomNavigationSetUp;
 
 /**
  * Created by Shriram on 4/3/2018.
@@ -134,20 +129,32 @@ public class CreateGroupPresenter extends BasePresenter<CreateGroupContract.View
     @Override
     public void gotoGroupName(String groupName) {
         Log.e("presenterDetailsNEXT", "" + stringArrayList.size());
+
+        ArrayList<String> usersArrayList=new ArrayList<>();
+
         if (stringArrayList.size() == 0) {
             Toast.makeText(context, "Select at least one contact", Toast.LENGTH_LONG).show();
             return;
         }
         for (int i = 0; i <= stringArrayList.size() - 1; i++) {
             String libraryContactId = stringArrayList.get(i);
+            usersArrayList.add(libraryContactId);
+        }
+            if (!usersArrayList.isEmpty()){
+            for (int i=0;i<=usersArrayList.size()-1;i++){
+                Log.e(TAG, "gotoGroupNameArray: " + usersArrayList.get(i));
+            }
+
+            }
             Groups myGroups = new Groups();
             myGroups.setLibraryOwnerId(PreferencesAppHelper.getUserId());
-            myGroups.setLibraryContactId(libraryContactId);
+            myGroups.setLibraryContactUsers(usersArrayList);
             myGroups.setLibraryGroupName(groupName);
 
-            Log.e(TAG, "gotoGroupName: " + libraryContactId);
 
-            mApiService.createGroupName(myGroups)
+
+
+            mApiService.createGroup(myGroups)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Groups>() {
@@ -158,7 +165,7 @@ public class CreateGroupPresenter extends BasePresenter<CreateGroupContract.View
 
                         @Override
                         public void onNext(Groups groups) {
-                            // getView().updatedSuccessfully();
+                            getView().createGroupDone();
                             Log.e("SuccMsg",""+groups.getAddedLibrary());
 
                         }
@@ -174,9 +181,9 @@ public class CreateGroupPresenter extends BasePresenter<CreateGroupContract.View
 
                         }
                     });
-            if (i == stringArrayList.size() - 1) {
+            /*if (i == stringArrayList.size() - 1) {
                 getView().createGroupDone();
-            }
-        }
+            }*/
+
     }
 }

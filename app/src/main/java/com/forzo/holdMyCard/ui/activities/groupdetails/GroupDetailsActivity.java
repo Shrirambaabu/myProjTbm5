@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import at.markushi.ui.CircleButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -60,9 +61,10 @@ public class GroupDetailsActivity extends AppCompatActivity implements GroupDeta
     @BindView(R.id.add_users)
     Button addParticipant;
     @BindView(R.id.edit_icon)
-    ImageView editGroupNameImage;
+    CircleButton editGroupNameImage;
 
     private TextView updateGroup;
+    private String groupId="";
     private Context mContext = GroupDetailsActivity.this;
 
     @Override
@@ -150,6 +152,11 @@ public class GroupDetailsActivity extends AppCompatActivity implements GroupDeta
         groupNameEditText.setText(groupName);
     }
 
+    @Override
+    public void setGroupId(String groupId) {
+        this.groupId=groupId;
+    }
+
     @OnClick(R.id.add_users)
     public void addUsers() {
         Intent addUsersIntent = new Intent(GroupDetailsActivity.this, AddParticipantActivity.class);
@@ -160,6 +167,7 @@ public class GroupDetailsActivity extends AppCompatActivity implements GroupDeta
     public void editGroupName() {
         Intent editGroupNameIntent = new Intent(GroupDetailsActivity.this, EditGroupNameActivity.class);
         editGroupNameIntent.putExtra("groupName",""+groupNameEditText.getText().toString());
+        editGroupNameIntent.putExtra("groupId",""+groupId);
         startActivity(editGroupNameIntent);
     }
 }

@@ -96,7 +96,7 @@ public class CreateGroupNamePresenter extends BasePresenter<CreateGroupNameContr
 
                 Groups myGroups = new Groups();
                 myGroups.setLibraryOwnerId(PreferencesAppHelper.getUserId());
-                myGroups.setLibraryContactId(libraryContactId);
+              //  myGroups.setLibraryContactId(libraryContactId);
                 myGroups.setLibraryGroupName(groupName);
 
 

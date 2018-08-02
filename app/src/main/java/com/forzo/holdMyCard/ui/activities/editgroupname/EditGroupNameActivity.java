@@ -5,11 +5,16 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
+import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import javax.inject.Inject;
 
@@ -32,6 +37,11 @@ public class EditGroupNameActivity extends AppCompatActivity implements EditGrou
     @BindView(R.id.cancel_name)
     Button cancelButton;
 
+    @BindView(R.id.relative_progress)
+    RelativeLayout relativeLayout;
+    @BindView(R.id.avi)
+    AVLoadingIndicatorView avLoadingIndicatorView;
+    private String userGroupId="";
     private Context mContext = EditGroupNameActivity.this;
 
     @Override
@@ -70,9 +80,42 @@ public class EditGroupNameActivity extends AppCompatActivity implements EditGrou
         groupNameEditText.setText(groupName);
     }
 
+    @Override
+    public void setGroupId(String groupId) {
+        this.userGroupId=groupId;
+    }
+
+    @Override
+    public void renameStatus(String renameStatus) {
+        if (renameStatus.equals("true")){
+            Toast.makeText(getApplicationContext(),"Group Renamed",Toast.LENGTH_LONG).show();
+            Intent myLibrary = new Intent(EditGroupNameActivity.this, MyLibraryActivity.class);
+            myLibrary.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(myLibrary);
+        }else if (renameStatus.equals("false")){
+            Toast.makeText(getApplicationContext(),"There was Error in updating Group Name",Toast.LENGTH_LONG).show();
+        }
+    }
+    @Override
+    public void activityLoader() {
+        relativeLayout.setVisibility(View.VISIBLE);
+        avLoadingIndicatorView.setVisibility(View.VISIBLE);
+        avLoadingIndicatorView.show();
+    }
+
+    @Override
+    public void hideLoader() {
+        relativeLayout.setVisibility(View.GONE);
+        avLoadingIndicatorView.setVisibility(View.GONE);
+        avLoadingIndicatorView.hide();
+    }
     @OnClick(R.id.okay_name)
     public void editGroupName() {
-        Log.e("GName:",""+groupNameEditText.getText().toString());
+        if (groupNameEditText.getText().toString().equals("")){
+            Toast.makeText(getApplicationContext(),"Enter the Group Name",Toast.LENGTH_LONG).show();
+            return;
+        }
+        editGroupNamePresenter.updateGroupName(userGroupId,groupNameEditText.getText().toString());
     }
     @OnClick(R.id.cancel_name)
     public void editCancelGroupName() {

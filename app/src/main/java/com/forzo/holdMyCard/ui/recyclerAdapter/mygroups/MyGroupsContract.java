@@ -11,9 +11,11 @@ public class MyGroupsContract {
 
         void setImage(String image, ImageView imageView);
 
-        void bindEventRow(int position, MyGroupsRow holder);
+        void bindEventRow(int position, MyGroupsRow holder,MyGroupsRecyclerAdapter myGroupsRecyclerAdapter);
 
-        void clickGroup(int position,String groupName);
+        void clickGroup(int position, String groupName);
+
+        void longPress(int adapterPosition);
     }
 
     interface MyGroupsRow {

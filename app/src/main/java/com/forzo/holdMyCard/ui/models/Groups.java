@@ -3,6 +3,8 @@ package com.forzo.holdMyCard.ui.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Groups {
 
 
@@ -21,9 +23,22 @@ public class Groups {
     @SerializedName("libraryOwnerId")
     @Expose
     private String libraryOwnerId;
+    /*@SerializedName("libraryContactId")
+    @Expose
+    private String libraryContactId;*/
+
     @SerializedName("libraryContactId")
     @Expose
-    private String libraryContactId;
+    private ArrayList<String> libraryContactUsers;
+
+    public ArrayList<String> getLibraryContactUsers() {
+        return libraryContactUsers;
+    }
+
+    public void setLibraryContactUsers(ArrayList<String> libraryContactUsers) {
+        this.libraryContactUsers = libraryContactUsers;
+    }
+
     @SerializedName("added to our library")
     @Expose
     private String addedLibrary;
@@ -65,14 +80,14 @@ public class Groups {
     public void setLibraryOwnerId(String libraryOwnerId) {
         this.libraryOwnerId = libraryOwnerId;
     }
-
+/*
     public String getLibraryContactId() {
         return libraryContactId;
     }
 
     public void setLibraryContactId(String libraryContactId) {
         this.libraryContactId = libraryContactId;
-    }
+    }*/
 
     public String getAddedLibrary() {
         return addedLibrary;

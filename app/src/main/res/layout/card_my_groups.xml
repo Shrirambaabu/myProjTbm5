@@ -19,7 +19,7 @@
 
     <LinearLayout
         android:layout_toEndOf="@id/card_image"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="96dp"
         android:orientation="vertical"
         android:weightSum="3">
@@ -60,7 +60,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:text="Card Details"
-            android:maxLength="15"
+            android:maxLength="20"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/colorCardDetails"

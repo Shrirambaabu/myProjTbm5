@@ -22,6 +22,19 @@ public class MyGroups {
     @Expose
     private String imageName;
 
+    public String getRenameStatus() {
+        return renameStatus;
+    }
+
+    public void setRenameStatus(String renameStatus) {
+        this.renameStatus = renameStatus;
+    }
+
+    @SerializedName("Group Renamed")
+    @Expose
+
+    private String renameStatus;
+
     public String getLibraryGroupName() {
         return libraryGroupName;
     }

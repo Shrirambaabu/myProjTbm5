@@ -2,6 +2,7 @@ package com.forzo.holdMyCard.ui.recyclerAdapter.mygroups;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -26,6 +27,8 @@ public class MyGroupsListPresenter implements MyGroupsContract.Presenter {
     private Context context;
     private ArrayList<MyGroups> groupsArrayList;
 
+    private MyGroupsRecyclerAdapter myGroupsRecyclerAdapter = new MyGroupsRecyclerAdapter();
+
     public MyGroupsListPresenter(Context context, ArrayList<MyGroups> myLibraries) {
         this.context = context;
         this.groupsArrayList = myLibraries;
@@ -46,7 +49,8 @@ public class MyGroupsListPresenter implements MyGroupsContract.Presenter {
     }
 
     @Override
-    public void bindEventRow(int position, MyGroupsContract.MyGroupsRow myGroupsRow) {
+    public void bindEventRow(int position, MyGroupsContract.MyGroupsRow myGroupsRow, MyGroupsRecyclerAdapter myGroupsRecyclerAdapter) {
+        this.myGroupsRecyclerAdapter = myGroupsRecyclerAdapter;
 
         MyGroups myGroups = groupsArrayList.get(position);
 
@@ -69,11 +73,35 @@ public class MyGroupsListPresenter implements MyGroupsContract.Presenter {
     }
 
     @Override
-    public void clickGroup(int position,String groupName) {
-        Toast.makeText(context, "Edit Group is under development", Toast.LENGTH_LONG).show();
-       /* Intent groupDetailsIntent=new Intent(context, GroupDetailsActivity.class);
-        groupDetailsIntent.putExtra("adapterPosition",""+position);
-        groupDetailsIntent.putExtra("groupName",""+groupName);
-        context.startActivity(groupDetailsIntent);*/
+    public void clickGroup(int position, String groupName) {
+        // Toast.makeText(context, "Edit Group is under development", Toast.LENGTH_LONG).show();
+        Intent groupDetailsIntent = new Intent(context, GroupDetailsActivity.class);
+        groupDetailsIntent.putExtra("adapterPosition", "" + position);
+        groupDetailsIntent.putExtra("groupName", "" + groupName);
+        groupDetailsIntent.putExtra("groupId", "" + groupsArrayList.get(position).getLibraryGroupId());
+        context.startActivity(groupDetailsIntent);
+    }
+
+    @Override
+    public void longPress(int adapterPosition) {
+        Log.e("LongClickPos:", "" + adapterPosition);
+        Log.e("LongClickPosName:", "" + groupsArrayList.get(adapterPosition).getLibraryGroupId());
+
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Confirm !!!");
+        alertDialog.setMessage("Are you sure you delete this group ?");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                (dialog, which) -> {
+                    dialog.dismiss();
+                    groupsArrayList.remove(adapterPosition);
+                    myGroupsRecyclerAdapter.notifyItemRemoved(adapterPosition);
+                    myGroupsRecyclerAdapter.notifyItemRangeChanged(adapterPosition, groupsArrayList.size());
+                    myGroupsRecyclerAdapter.notifyDataSetChanged();
+
+
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                (dialog, which) -> dialog.dismiss());
+        alertDialog.show();
     }
 }

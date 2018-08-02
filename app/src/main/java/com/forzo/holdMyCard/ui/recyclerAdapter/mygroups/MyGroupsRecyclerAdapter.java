@@ -12,6 +12,9 @@ public class MyGroupsRecyclerAdapter extends RecyclerView.Adapter<MyGroupsHolder
     private static final String TAG = "NotificationRecyclerAda";
     MyGroupsListPresenter groupsListPresenter;
 
+    public MyGroupsRecyclerAdapter() {
+    }
+
     public MyGroupsRecyclerAdapter(MyGroupsListPresenter myGroupsListPresenter) {
         this.groupsListPresenter = myGroupsListPresenter;
     }
@@ -24,7 +27,7 @@ public class MyGroupsRecyclerAdapter extends RecyclerView.Adapter<MyGroupsHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyGroupsHolder holder, int position) {
-        groupsListPresenter.bindEventRow(position, holder);
+        groupsListPresenter.bindEventRow(position, holder,this);
     }
 
     @Override

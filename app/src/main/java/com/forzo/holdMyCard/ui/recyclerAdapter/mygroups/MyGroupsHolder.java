@@ -12,7 +12,7 @@ import com.forzo.holdMyCard.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyGroupsHolder extends RecyclerView.ViewHolder implements MyGroupsContract.MyGroupsRow, View.OnClickListener {
+public class MyGroupsHolder extends RecyclerView.ViewHolder implements MyGroupsContract.MyGroupsRow, View.OnClickListener, View.OnLongClickListener {
 
 
     MyGroupsListPresenter myGroupsListPresenter;
@@ -32,12 +32,13 @@ public class MyGroupsHolder extends RecyclerView.ViewHolder implements MyGroupsC
         this.myGroupsListPresenter = fragmentListPresenter;
         ButterKnife.bind(this, itemView);
         itemView.setOnClickListener(this);
+        itemView.setOnLongClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
 
-        myGroupsListPresenter.clickGroup(getAdapterPosition(),groupNameText.getText().toString());
+        myGroupsListPresenter.clickGroup(getAdapterPosition(), groupNameText.getText().toString());
     }
 
     @Override
@@ -52,11 +53,17 @@ public class MyGroupsHolder extends RecyclerView.ViewHolder implements MyGroupsC
 
     @Override
     public void setGroupMembers(String groupMembers) {
-        groupMembersText.setText(groupMembers+" Members");
+        groupMembersText.setText(groupMembers + " Members");
     }
 
     @Override
     public void setCreatedOn(String createdOn) {
         groupCreatedOn.setText(createdOn);
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        myGroupsListPresenter.longPress(getAdapterPosition());
+        return true;
     }
 }
