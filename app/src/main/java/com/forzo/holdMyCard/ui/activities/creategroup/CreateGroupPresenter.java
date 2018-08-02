@@ -152,8 +152,6 @@ public class CreateGroupPresenter extends BasePresenter<CreateGroupContract.View
             myGroups.setLibraryGroupName(groupName);
 
 
-
-
             mApiService.createGroup(myGroups)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

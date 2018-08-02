@@ -46,7 +46,7 @@ public interface ApiService {
     @GET("profile/showMyGroup/{userId}")
     Observable<List<MyGroups>> getMyGroup(@Path("userId") String userId);
 
-    @GET("/profile/deleteGroup/{libraryGroupNameId} ")
+    @GET("profile/deleteGroup/{libraryGroupNameId} ")
     Observable<MyGroups> deleteMyGroup(@Path("libraryGroupNameId") String libraryGroupNameId);
 
     @GET("profile/renameGroup/{groupId}/{newGroupName} ")
@@ -130,8 +130,8 @@ public interface ApiService {
     Observable<Groups> createGroup(@Body Groups groups);
 
 
-    @GET("profile/showMyGroupWithDetail/{userId}")
-    Observable<List<Groups>> showMyGroupWithDetail(@Path("userId") String userId);
+    @GET("profile/showMyGroupWithDetail/{libraryGroupNameId}")
+    Observable<List<MyLibrary>> showMyGroupWithDetail(@Path("libraryGroupNameId") String userId);
 
 
     @GET("notes/deleteNotes/{notesId}")

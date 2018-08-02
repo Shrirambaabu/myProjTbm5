@@ -10,7 +10,7 @@ import com.forzo.holdMyCard.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GroupDetailsAdapterHolder extends RecyclerView.ViewHolder implements GroupDetailsAdapterContract.GroupDetailsAdapterRowView, View.OnLongClickListener {
+public class GroupDetailsAdapterHolder extends RecyclerView.ViewHolder implements GroupDetailsAdapterContract.GroupDetailsAdapterRowView, View.OnLongClickListener, View.OnClickListener {
 
 
     GroupDetailsAdapterListPresenter fragmentListPresenter;
@@ -24,17 +24,20 @@ public class GroupDetailsAdapterHolder extends RecyclerView.ViewHolder implement
     @BindView(R.id.card_image)
     ImageView setCardImageValue;
 
+    private String groupUserId,groupId;
+
     public GroupDetailsAdapterHolder(View itemView, GroupDetailsAdapterListPresenter groupDetailsAdapterListPresenter,GroupDetailsRecyclerAdapter groupDetailsRecyclerAdapter) {
         super(itemView);
         this.fragmentListPresenter = groupDetailsAdapterListPresenter;
         ButterKnife.bind(this, itemView);
         itemView.setOnLongClickListener(this);
+        itemView.setOnClickListener(this);
     }
 
     @Override
     public void setCardImage(String image) {
 
-      //  fragmentListPresenter.setImage(image,setCardImageValue);
+        fragmentListPresenter.setImage(image,setCardImageValue);
 
 
     }
@@ -62,9 +65,24 @@ public class GroupDetailsAdapterHolder extends RecyclerView.ViewHolder implement
     }
 
     @Override
+    public void setGroupUserId(String groupUserId) {
+        this.groupUserId=groupUserId;
+    }
+
+    @Override
+    public void setGroupId(String groupId) {
+        this.groupId=groupId;
+    }
+
+    @Override
     public boolean onLongClick(View v) {
 
-        fragmentListPresenter.longPress(getAdapterPosition());
+        fragmentListPresenter.longPress(getAdapterPosition(),groupId);
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        fragmentListPresenter.onSingleClick(getAdapterPosition(),groupUserId);
     }
 }

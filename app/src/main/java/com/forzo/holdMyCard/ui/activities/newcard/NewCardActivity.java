@@ -375,9 +375,9 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
         if (qrCode == 1) {
             newCardPresenter.saveQRImageName(userId, "BCF", qrImageName);
         } else {
-            newCardPresenter.saveBusinessImage(profileImageUri, userId, "BCF");
+            newCardPresenter.updateBusinessImage(profileImageUri, userId, "BCF");
             if (profileBackImageUri != null) {
-                newCardPresenter.saveBusinessImage(profileBackImageUri, userId, "BCB");
+                newCardPresenter.updateBusinessImage(profileBackImageUri, userId, "BCB");
             }
         }
 

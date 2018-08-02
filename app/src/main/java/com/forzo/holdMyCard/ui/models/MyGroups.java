@@ -22,18 +22,33 @@ public class MyGroups {
     @Expose
     private String imageName;
 
-    public String getRenameStatus() {
-        return renameStatus;
-    }
-
-    public void setRenameStatus(String renameStatus) {
-        this.renameStatus = renameStatus;
-    }
 
     @SerializedName("Group Renamed")
     @Expose
-
     private String renameStatus;
+
+    @SerializedName("deleteGroupMember")
+    @Expose
+    private String deleteStatus;
+    @SerializedName("deleteGroup")
+    @Expose
+    private String deleteGroup;
+
+    public String getDeleteGroup() {
+        return deleteGroup;
+    }
+
+    public void setDeleteGroup(String deleteGroup) {
+        this.deleteGroup = deleteGroup;
+    }
+
+    public String getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    public void setDeleteStatus(String deleteStatus) {
+        this.deleteStatus = deleteStatus;
+    }
 
     public String getLibraryGroupName() {
         return libraryGroupName;
@@ -41,6 +56,13 @@ public class MyGroups {
 
     public void setLibraryGroupName(String libraryGroupName) {
         this.libraryGroupName = libraryGroupName;
+    }
+    public String getRenameStatus() {
+        return renameStatus;
+    }
+
+    public void setRenameStatus(String renameStatus) {
+        this.renameStatus = renameStatus;
     }
 
     public String getCreatedTs() {

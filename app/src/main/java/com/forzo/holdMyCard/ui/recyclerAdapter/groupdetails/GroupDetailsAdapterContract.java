@@ -10,9 +10,15 @@ public class GroupDetailsAdapterContract {
 
         void setImage(String image, ImageView imageView);
 
-        void bindEventRow(int position, GroupDetailsAdapterRowView holder,GroupDetailsRecyclerAdapter  groupDetailsRecyclerAdapter);
+        void bindEventRow(int position, GroupDetailsAdapterRowView holder, GroupDetailsRecyclerAdapter groupDetailsRecyclerAdapter);
 
-        void longPress(int adapterPosition);
+        void longPress(int adapterPosition, String groupUserId);
+
+        void onSingleClick(int adapterPosition, String groupUserId);
+
+        void deleteUserFromGroup(String contactId, String groupId);
+
+
     }
 
     interface GroupDetailsAdapterRowView {
@@ -24,5 +30,10 @@ public class GroupDetailsAdapterContract {
         void setCardDescription(String cardDescription);
 
         void setCardDetails(String cardDetails);
+
+        void setGroupUserId(String groupUserId);
+
+        void setGroupId(String groupId);
+
     }
 }

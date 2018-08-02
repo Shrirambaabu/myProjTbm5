@@ -41,6 +41,30 @@ public class MyLibrary {
     @SerializedName("date")
     @Expose
     private String date;
+    @SerializedName("libraryGroupName")
+    @Expose
+    private String libraryGroupName;
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    @SerializedName("groupId")
+    @Expose
+
+    private String groupId;
+
+    public String getLibraryGroupName() {
+        return libraryGroupName;
+    }
+
+    public void setLibraryGroupName(String libraryGroupName) {
+        this.libraryGroupName = libraryGroupName;
+    }
 
     private boolean setChecked;
 

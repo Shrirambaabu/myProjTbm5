@@ -21,6 +21,7 @@ import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.addparticipant.AddParticipantActivity;
 import com.forzo.holdMyCard.ui.activities.creategroup.CreateGroupActivity;
 import com.forzo.holdMyCard.ui.activities.editgroupname.EditGroupNameActivity;
+import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.recyclerAdapter.groupdetails.GroupDetailsRecyclerAdapter;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
@@ -127,13 +128,19 @@ public class GroupDetailsActivity extends AppCompatActivity implements GroupDeta
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        Intent intent = new Intent(GroupDetailsActivity.this, MyLibraryActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent = new Intent(GroupDetailsActivity.this, MyLibraryActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
@@ -144,7 +151,7 @@ public class GroupDetailsActivity extends AppCompatActivity implements GroupDeta
     @Override
     public void showRecyclerView() {
         recyclerView.setAdapter(groupDetailsRecyclerAdapter);
-        groupDetailsPresenter.populateRecyclerView(myLibraryArrayList);
+        groupDetailsPresenter.populateRecyclerView(myLibraryArrayList,groupId);
     }
 
     @Override

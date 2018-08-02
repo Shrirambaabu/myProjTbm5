@@ -16,6 +16,7 @@ public class MyGroupsContract {
         void clickGroup(int position, String groupName);
 
         void longPress(int adapterPosition);
+        void deleteGroup(String groupId);
     }
 
     interface MyGroupsRow {

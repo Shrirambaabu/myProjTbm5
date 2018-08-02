@@ -157,6 +157,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
 
         myLibraryPresenter.setNavigationHeader();
 
+
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             // set item as selected to persist highlight
             menuItem.setChecked(false);
@@ -240,14 +241,22 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
 
     @Override
     public void setUserStatusUI(String userStatusUI) {
+
+        Menu menu = navigationView.getMenu();
+        MenuItem loginMenu = menu.findItem(R.id.logout);
+
         if (userStatusUI.equals(UI_STATUS_ZERO)) {
             registerStatus.setText(UN_REGISTERED);
+            loginMenu.setTitle("Login");
+            loginMenu.setIcon(R.drawable.ic_login_black);
             if (actionbar != null) {
                 actionbar.setHomeAsUpIndicator(R.drawable.ic_hamburger_red);
                 dotCircle.setBackgroundResource(R.drawable.indicator_selected);
             }
         } else if (userStatusUI.equals(UI_STATUS_ONE)) {
             registerStatus.setText(REGISTERED);
+            loginMenu.setTitle("Logout");
+            loginMenu.setIcon(R.drawable.ic_logout);
             if (actionbar != null) {
                 actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
                 dotCircle.setBackgroundResource(R.drawable.indicator);
@@ -258,11 +267,18 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
 
     @Override
     public void setIsEnabled(String isEnabled) {
+        Menu menu = navigationView.getMenu();
+        MenuItem loginMenu = menu.findItem(R.id.logout);
+
         if (isEnabled.equals(IS_ENABLED_TRUE)) {
+            loginMenu.setTitle("Logout");
+            loginMenu.setIcon(R.drawable.ic_logout);
             registerStatus.setText(REGISTERED);
             actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
             dotCircle.setBackgroundResource(R.drawable.indicator);
         } else if (isEnabled.equals(IS_ENABLED_FALSE)) {
+            loginMenu.setTitle("Login");
+            loginMenu.setIcon(R.drawable.ic_login_black);
             registerStatus.setText(UN_REGISTERED);
             actionbar.setHomeAsUpIndicator(R.drawable.ic_hamburger_red);
             dotCircle.setBackgroundResource(R.drawable.indicator_selected);

@@ -15,7 +15,7 @@ public interface GroupDetailsContract {
     interface Presenter extends BaseMvpPresenter<View> {
         void setupShowsRecyclerView(EmptyRecyclerView paymentCurrentRecyclerView, RelativeLayout emptyView);
 
-        void populateRecyclerView(List<MyLibrary> events);
+        void populateRecyclerView(List<MyLibrary> events,String groupId);
 
         void getIntentValues(Intent intent);
     }

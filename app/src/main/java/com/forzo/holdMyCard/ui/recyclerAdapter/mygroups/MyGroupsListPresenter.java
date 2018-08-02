@@ -1,5 +1,6 @@
 package com.forzo.holdMyCard.ui.recyclerAdapter.mygroups;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -8,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.forzo.holdMyCard.HmcApplication;
+import com.forzo.holdMyCard.api.ApiFactory;
+import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.ui.activities.groupdetails.GroupDetailsActivity;
 import com.forzo.holdMyCard.ui.models.Groups;
 import com.forzo.holdMyCard.ui.models.MyGroups;
@@ -18,6 +22,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
 import static com.forzo.holdMyCard.utils.Utils.gmtToLocalLibrary;
 
@@ -26,12 +35,13 @@ public class MyGroupsListPresenter implements MyGroupsContract.Presenter {
 
     private Context context;
     private ArrayList<MyGroups> groupsArrayList;
-
+    private ApiService mApiService;
     private MyGroupsRecyclerAdapter myGroupsRecyclerAdapter = new MyGroupsRecyclerAdapter();
 
     public MyGroupsListPresenter(Context context, ArrayList<MyGroups> myLibraries) {
         this.context = context;
         this.groupsArrayList = myLibraries;
+        mApiService = ApiFactory.create(HmcApplication.get((Activity) context).getRetrofit());
     }
 
     @Override
@@ -93,15 +103,47 @@ public class MyGroupsListPresenter implements MyGroupsContract.Presenter {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
                 (dialog, which) -> {
                     dialog.dismiss();
+                    deleteGroup(groupsArrayList.get(adapterPosition).getLibraryGroupId());
                     groupsArrayList.remove(adapterPosition);
                     myGroupsRecyclerAdapter.notifyItemRemoved(adapterPosition);
                     myGroupsRecyclerAdapter.notifyItemRangeChanged(adapterPosition, groupsArrayList.size());
                     myGroupsRecyclerAdapter.notifyDataSetChanged();
 
 
+
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
                 (dialog, which) -> dialog.dismiss());
         alertDialog.show();
+    }
+
+    @Override
+    public void deleteGroup(String groupId) {
+        mApiService.deleteMyGroup(groupId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MyGroups>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(MyGroups myGroupsList1) {
+
+                        Log.e("renameGroup", "" + myGroupsList1.getDeleteGroup());
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("error", e.getMessage());
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
     }
 }
