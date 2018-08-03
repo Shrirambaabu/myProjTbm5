@@ -20,7 +20,7 @@ public class AddParticipantRecyclerAdapter extends RecyclerView.Adapter<AddParti
     @NonNull
     @Override
     public AddParticipantAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new AddParticipantAdapterHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_create_group, parent, false), addParticipantAdapterListPresenter);
+        return new AddParticipantAdapterHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_add_group_members, parent, false), addParticipantAdapterListPresenter);
     }
 
     @Override

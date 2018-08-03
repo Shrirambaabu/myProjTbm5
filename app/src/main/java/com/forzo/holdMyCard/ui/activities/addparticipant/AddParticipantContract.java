@@ -19,7 +19,13 @@ public interface AddParticipantContract {
 
         void populateRecyclerView(List<MyLibrary> myLibraries);
 
-        void getIntentValues(Intent intent);
+        void getIntentValues(Intent intent, ArrayList<MyLibrary> myGroupsArrayList);
+
+        void showMyGroupWithDetail(String groupId, ArrayList<MyLibrary> myGroupsArrayList);
+
+        void addNewMembers(ArrayList<String> myLibraryArrayList);
+
+        void addNewUserToGroup(String groupId);
 
     }
 
@@ -31,7 +37,17 @@ public interface AddParticipantContract {
         void showRecyclerView();
 
         void setGroupId(String groupId);
+
         void setGroupName(String groupName);
+
+        void myGroupMembers(ArrayList<MyLibrary> myGroupsArrayList);
+
+        void personsAdded();
+
+
+        void showProgressBar();
+
+        void hideProgressBar();
     }
 
 }

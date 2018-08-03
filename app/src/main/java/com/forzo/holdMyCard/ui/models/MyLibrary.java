@@ -58,6 +58,17 @@ public class MyLibrary {
 
     private String groupId;
 
+
+    private boolean groupAdded;
+
+    public boolean isGroupAdded() {
+        return groupAdded;
+    }
+
+    public void setGroupAdded(boolean groupAdded) {
+        this.groupAdded = groupAdded;
+    }
+
     public String getLibraryGroupName() {
         return libraryGroupName;
     }

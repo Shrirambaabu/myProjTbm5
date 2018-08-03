@@ -14,7 +14,7 @@
     <item
 
         android:id="@+id/action_create"
-        android:icon="@drawable/ic_create_group_white"
+        android:icon="@drawable/ic_group_add_white_24dp"
         android:title=""
         app:showAsAction="always" />
 </menu>

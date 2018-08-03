@@ -63,11 +63,18 @@ public class AddParticipantAdapterHolder extends RecyclerView.ViewHolder impleme
     }
 
     @Override
+    public void handleGroupVisiblity() {
+        animeBox.setVisibility(View.GONE);
+        setCardDetails.setVisibility(View.GONE);
+        setCardDescription.setText("User Already Added");
+    }
+
+    @Override
     public void onCheckedChanged(View buttonView, boolean isChecked) {
         if (isChecked) {
-            createGroupListPresenter.performClick(getAdapterPosition(), true, animeBox);
+            createGroupListPresenter.performClick(getAdapterPosition(), true, animeBox,this);
         } else {
-            createGroupListPresenter.performClick(getAdapterPosition(), false, animeBox);
+            createGroupListPresenter.performClick(getAdapterPosition(), false, animeBox,this);
         }
     }
 }

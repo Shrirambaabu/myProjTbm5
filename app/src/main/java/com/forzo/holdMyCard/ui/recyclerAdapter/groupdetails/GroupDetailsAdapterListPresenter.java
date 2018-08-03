@@ -120,7 +120,7 @@ public class GroupDetailsAdapterListPresenter implements GroupDetailsAdapterCont
                     @Override
                     public void onNext(MyGroups myGroupsList1) {
 
-                        Log.e("renameGroup",""+myGroupsList1.getDeleteStatus());
+                        Log.e("deleteGroup",""+myGroupsList1.getDeleteStatus());
 
                     }
 

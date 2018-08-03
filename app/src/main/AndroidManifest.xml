@@ -30,11 +30,22 @@
                 tools:replace="android:resource" />
         </provider>
 
-        <activity android:name=".ui.activities.home.HomeActivity" />
-        <activity android:name=".ui.activities.Profile.ProfileActivity" />
-        <activity android:name=".ui.activities.sort.SortCardActivity" />
+        <activity
+            android:name=".ui.activities.home.HomeActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.Profile.ProfileActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.sort.SortCardActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.mylibrary.MyLibraryActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoAction">
 
             <!--
@@ -47,16 +58,38 @@
         </activity>
         <activity
             android:name=".ui.activities.login.LoginActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoAction" />
-        <activity android:name=".ui.activities.creategroup.CreateGroupActivity" />
-        <activity android:name=".ui.activities.forgetpassword.ForgetPasswordActivity" />
-        <activity android:name=".ui.activities.notes.NotesActivity" />
-        <activity android:name=".ui.activities.notesdetail.NotesDetailsActivity" />
-        <activity android:name=".ui.activities.remainder.ReminderActivity" />
-        <activity android:name=".ui.activities.remainderdetails.RemainderDetailsActivity" />
+        <activity
+            android:name=".ui.activities.creategroup.CreateGroupActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.forgetpassword.ForgetPasswordActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.notes.NotesActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.notesdetail.NotesDetailsActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.remainder.ReminderActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.remainderdetails.RemainderDetailsActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.customChooserDialog.CustomChooserDialog"
+            android:configChanges="orientation"
             android:parentActivityName=".ui.activities.Profile.ProfileActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Dialog.Alert" />
 
         <service android:name=".service.MyFirebaseInstanceIDService">
@@ -75,19 +108,28 @@
             </intent-filter>
         </service>
 
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.imageFullScreen.ImageFullScreenActivity"
+            android:configChanges="orientation"
             android:label=""
             android:parentActivityName=".ui.activities.Profile.ProfileActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoAction" />
         <activity
             android:name=".ui.activities.sortDialog.SortDialogActivity"
+            android:configChanges="orientation"
             android:label=""
             android:parentActivityName=".ui.activities.mylibrary.MyLibraryActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Dialog.Alert" />
         <activity
             android:name=".ui.activities.loginregister.LoginRegisterActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoAction" />
 
         <meta-data
@@ -114,16 +156,28 @@
             android:name=".ui.activities.userprofile.UserProfileActivity"
             android:label="@string/profile"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.activities.personalizedqr.QRActivity" />
+        <activity
+            android:name=".ui.activities.personalizedqr.QRActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.newcard.NewCardActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.activities.forgetPasswordConfirmation.ForgetPasswordConfirmationActivity" />
+        <activity
+            android:name=".ui.activities.forgetPasswordConfirmation.ForgetPasswordConfirmationActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.creategroupname.CreateGroupNameActivity"
-            android:label="New Group" />
+            android:configChanges="orientation"
+            android:label="New Group"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.splashscreen.SplashScreenActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoAction">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -133,12 +187,19 @@
         </activity>
         <activity
             android:name=".ui.activities.groupdetails.GroupDetailsActivity"
-            android:label="Group Details" />
+            android:configChanges="orientation"
+            android:label="Group Details"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.addparticipant.AddParticipantActivity"
-            android:label="Add Participants" />
-        <activity android:name=".ui.activities.editgroupname.EditGroupNameActivity"
-            android:label="Group Name"></activity>
+            android:configChanges="orientation"
+            android:label="Add Participants"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activities.editgroupname.EditGroupNameActivity"
+            android:configChanges="orientation"
+            android:label="Group Name"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

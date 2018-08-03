@@ -33,6 +33,17 @@ public class MyGroups {
     @SerializedName("deleteGroup")
     @Expose
     private String deleteGroup;
+    @SerializedName("addGroupMember")
+    @Expose
+    private String addGroupMember;
+
+    public String getAddGroupMember() {
+        return addGroupMember;
+    }
+
+    public void setAddGroupMember(String addGroupMember) {
+        this.addGroupMember = addGroupMember;
+    }
 
     public String getDeleteGroup() {
         return deleteGroup;

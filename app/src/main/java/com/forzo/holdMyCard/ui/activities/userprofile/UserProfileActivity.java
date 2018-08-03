@@ -326,6 +326,8 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
         Intent myLibrary = new Intent(UserProfileActivity.this, MyLibraryActivity.class);
         myLibrary.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(myLibrary);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
     }
 
     @Override

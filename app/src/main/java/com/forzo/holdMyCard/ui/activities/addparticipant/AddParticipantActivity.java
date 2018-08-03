@@ -10,6 +10,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,8 +22,10 @@ import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.recyclerAdapter.addparticipant.AddParticipantAdapterListPresenter;
 import com.forzo.holdMyCard.ui.recyclerAdapter.addparticipant.AddParticipantRecyclerAdapter;
 import com.forzo.holdMyCard.utils.EmptyRecyclerView;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -54,8 +57,14 @@ public class AddParticipantActivity extends AppCompatActivity implements AddPart
     @BindView(R.id.empty_view)
     RelativeLayout emptyView;
 
+    @BindView(R.id.avi)
+    AVLoadingIndicatorView avLoadingIndicatorView;
+    @BindView(R.id.relative_progress)
+    RelativeLayout relativeLayout;
     TextView addUser;
     private String groupId = "", groupName = "";
+
+    private ArrayList<MyLibrary> myGroupsArrayList = new ArrayList<MyLibrary>();
     @BindView(R.id.search_groups)
     android.support.v7.widget.SearchView searchView;
 
@@ -74,7 +83,7 @@ public class AddParticipantActivity extends AppCompatActivity implements AddPart
         searchView.setQueryHint("Search for people to add");
 
         addParticipantPresenter.attach(this);
-        addParticipantPresenter.getIntentValues(getIntent());
+        addParticipantPresenter.getIntentValues(getIntent(), myGroupsArrayList);
         addParticipantPresenter.setupShowsRecyclerView(recyclerView, emptyView);
 
         new Handler().postDelayed(new Runnable() {
@@ -122,8 +131,8 @@ public class AddParticipantActivity extends AppCompatActivity implements AddPart
     @Override
     public boolean onSupportNavigateUp() {
         Intent addUsersIntent = new Intent(AddParticipantActivity.this, GroupDetailsActivity.class);
-        addUsersIntent.putExtra("groupName",""+groupName);
-        addUsersIntent.putExtra("groupId",""+groupId);
+        addUsersIntent.putExtra("groupName", "" + groupName);
+        addUsersIntent.putExtra("groupId", "" + groupId);
         startActivity(addUsersIntent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
@@ -132,8 +141,8 @@ public class AddParticipantActivity extends AppCompatActivity implements AddPart
     @Override
     public void onBackPressed() {
         Intent addUsersIntent = new Intent(AddParticipantActivity.this, GroupDetailsActivity.class);
-        addUsersIntent.putExtra("groupName",""+groupName);
-        addUsersIntent.putExtra("groupId",""+groupId);
+        addUsersIntent.putExtra("groupName", "" + groupName);
+        addUsersIntent.putExtra("groupId", "" + groupId);
         startActivity(addUsersIntent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -154,8 +163,9 @@ public class AddParticipantActivity extends AppCompatActivity implements AddPart
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.action_next:
+            case R.id.action_add_user:
 
+                addParticipantPresenter.addNewUserToGroup(groupId);
 
                 return true;
             default:
@@ -167,12 +177,14 @@ public class AddParticipantActivity extends AppCompatActivity implements AddPart
     @Override
     public void updateAdapter() {
         addParticipantRecyclerAdapter.notifyDataSetChanged();
+
     }
 
     @Override
     public void showRecyclerView() {
         recyclerView.setAdapter(addParticipantRecyclerAdapter);
         addParticipantPresenter.populateRecyclerView(myLibraryArrayList);
+
     }
 
     @Override
@@ -183,5 +195,35 @@ public class AddParticipantActivity extends AppCompatActivity implements AddPart
     @Override
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    @Override
+    public void myGroupMembers(ArrayList<MyLibrary> myGroupsArrayList2) {
+        this.myGroupsArrayList = myGroupsArrayList2;
+        addParticipantAdapterListPresenter.setPrevGroupList(myGroupsArrayList);
+    }
+
+    @Override
+    public void personsAdded() {
+        Toast.makeText(getApplicationContext(), "Users Added", Toast.LENGTH_LONG).show();
+        Intent addUsersIntent = new Intent(AddParticipantActivity.this, GroupDetailsActivity.class);
+        addUsersIntent.putExtra("groupName", "" + groupName);
+        addUsersIntent.putExtra("groupId", "" + groupId);
+        startActivity(addUsersIntent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    public void showProgressBar() {
+        relativeLayout.setVisibility(View.VISIBLE);
+        avLoadingIndicatorView.setVisibility(View.VISIBLE);
+        avLoadingIndicatorView.show();
+    }
+
+    @Override
+    public void hideProgressBar() {
+        relativeLayout.setVisibility(View.GONE);
+        avLoadingIndicatorView.setVisibility(View.GONE);
+        avLoadingIndicatorView.hide();
     }
 }

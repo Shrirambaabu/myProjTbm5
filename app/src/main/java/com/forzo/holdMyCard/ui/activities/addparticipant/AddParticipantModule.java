@@ -30,6 +30,7 @@ public class AddParticipantModule {
         return new ArrayList<>();
     }
 
+
     @Provides
     @PerActivityScope
     AddParticipantAdapterListPresenter addParticipantAdapterListPresenter(Context context, ArrayList<MyLibrary> currentArrayList) {

@@ -160,12 +160,12 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
     @Override
     public boolean onQueryTextChange(String newText) {
 
-       // myLibraryRecyclerAdapter.getFilter().filter(newText);
+        // myLibraryRecyclerAdapter.getFilter().filter(newText);
         Log.e("MyLibraryFragmentChange", "" + newText);
 
 
         final ArrayList<MyLibrary> filtermodelist = filter(myLibraryArrayList, newText);
-        myLibraryListPresenter.setfilter(filtermodelist,myLibraryRecyclerAdapter);
+        myLibraryListPresenter.setfilter(filtermodelist, myLibraryRecyclerAdapter);
 
         return true;
     }
@@ -178,7 +178,7 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
             final String text = model.getCardName().toLowerCase();
             final String email = model.getCardDescription().toLowerCase();
             final String phone = model.getCardDetails().toLowerCase();
-            if (text.contains(query)||email.contains(query)||phone.contains(query)) {
+            if (text.contains(query) || email.contains(query) || phone.contains(query)) {
                 filteredModeList.add(model);
             }
         }
@@ -186,11 +186,12 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
     }
 
     @OnClick(R.id.fab)
-    public void fabButton() {/*
-        Intent sortIntent = new Intent(getActivity(), SortDialogActivity.class);
-        startActivity(sortIntent);*/
-
-        myCurrentLibraryFragmentPresenter.sortClicked(myLibraryArrayList, myLibraryRecyclerAdapter);
+    public void fabButton() {
+        if (myLibraryArrayList.size() > 0) {
+            myCurrentLibraryFragmentPresenter.sortClicked(myLibraryArrayList, myLibraryRecyclerAdapter);
+        } else {
+            Toast.makeText(getActivity(), "No Data found", Toast.LENGTH_LONG).show();
+        }
     }
 
     @OnClick(R.id.excel_export)
@@ -198,60 +199,59 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
 
 
         if (myLibraryArrayList.size() > 0) {
-            Log.e("arryList", "" + myLibraryArrayList.size());
-        }
-        Map<String, Object[]> data = new LinkedHashMap<>();
-        data.put("1", new Object[]{"UserId", "Name", "Email", "Phone"});
 
-        for (int i = 0; i <= myLibraryArrayList.size() - 1; i++) {
-            Log.e("ArrValueID", String.valueOf(i + 2));
-            Log.e("ArrValue", "" + myLibraryArrayList.get(i).getCardName());
-            Log.e("ArrValueUserId", "" + myLibraryArrayList.get(i).getUserId());
-            Log.e("ArrValueEmail", "" + myLibraryArrayList.get(i).getCardDescription());
-            Log.e("ArrValuePhone", "" + myLibraryArrayList.get(i).getCardDetails());
+            Map<String, Object[]> data = new LinkedHashMap<>();
+            data.put("1", new Object[]{"UserId", "Name", "Email", "Phone"});
 
-
-            data.put(String.valueOf(i + 2), new Object[]{myLibraryArrayList.get(i).getUserId(), myLibraryArrayList.get(i).getCardName(), myLibraryArrayList.get(i).getCardDescription(), myLibraryArrayList.get(i).getCardDetails()});
-
-        }
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("Sample sheet");
-
-        //  Map<String, Object[]> data = new LinkedHashMap<>();
+            for (int i = 0; i <= myLibraryArrayList.size() - 1; i++) {
+                Log.e("ArrValueID", String.valueOf(i + 2));
+                Log.e("ArrValue", "" + myLibraryArrayList.get(i).getCardName());
+                Log.e("ArrValueUserId", "" + myLibraryArrayList.get(i).getUserId());
+                Log.e("ArrValueEmail", "" + myLibraryArrayList.get(i).getCardDescription());
+                Log.e("ArrValuePhone", "" + myLibraryArrayList.get(i).getCardDetails());
 
 
-        Set<String> keyset = data.keySet();
-        int rowNum = 0;
-        for (String key : keyset) {
-            Row row = sheet.createRow(rowNum++);
-            Object[] objArr = data.get(key);
-            Log.e("Excel", "onViewClicked: " + key);
-            Log.e("Excel", "onViewClicked: " + Arrays.toString(objArr));
-            int cellNum = 0;
-            for (Object obj : objArr) {
-                Cell cell = row.createCell(cellNum++);
-                cell.setCellValue(String.valueOf(obj));
-                if (obj instanceof Date)
-                    cell.setCellValue((Date) obj);
-                else if (obj instanceof Boolean)
-                    cell.setCellValue((Boolean) obj);
-                else if (obj instanceof String)
-                    cell.setCellValue((String) obj);
-                else if (obj instanceof Double)
-                    cell.setCellValue((Double) obj);
+                data.put(String.valueOf(i + 2), new Object[]{myLibraryArrayList.get(i).getUserId(), myLibraryArrayList.get(i).getCardName(), myLibraryArrayList.get(i).getCardDescription(), myLibraryArrayList.get(i).getCardDetails()});
+
             }
-        }
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            HSSFSheet sheet = workbook.createSheet("Sample sheet");
 
-        try {
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                    Locale.getDefault()).format(new Date());
+            //  Map<String, Object[]> data = new LinkedHashMap<>();
 
-            File xlFile = new File(newDir + File.separator + "new_" + timeStamp + "_" + PreferencesAppHelper.getUserId() + ".xls");
-            FileOutputStream out = new FileOutputStream(xlFile);
-            workbook.write(out);
-            out.close();
-            Log.e("Excel", "onViewClicked: " + "Excel written successfully..");
-            Toast.makeText(getActivity(), "Excel saved to " + newDir + File.separator + "new_" + timeStamp + "_" + PreferencesAppHelper.getUserId() + ".xls", Toast.LENGTH_LONG).show();
+
+            Set<String> keyset = data.keySet();
+            int rowNum = 0;
+            for (String key : keyset) {
+                Row row = sheet.createRow(rowNum++);
+                Object[] objArr = data.get(key);
+                Log.e("Excel", "onViewClicked: " + key);
+                Log.e("Excel", "onViewClicked: " + Arrays.toString(objArr));
+                int cellNum = 0;
+                for (Object obj : objArr) {
+                    Cell cell = row.createCell(cellNum++);
+                    cell.setCellValue(String.valueOf(obj));
+                    if (obj instanceof Date)
+                        cell.setCellValue((Date) obj);
+                    else if (obj instanceof Boolean)
+                        cell.setCellValue((Boolean) obj);
+                    else if (obj instanceof String)
+                        cell.setCellValue((String) obj);
+                    else if (obj instanceof Double)
+                        cell.setCellValue((Double) obj);
+                }
+            }
+
+            try {
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+
+                File xlFile = new File(newDir + File.separator + "new_" + timeStamp + "_" + PreferencesAppHelper.getUserId() + ".xls");
+                FileOutputStream out = new FileOutputStream(xlFile);
+                workbook.write(out);
+                out.close();
+                Log.e("Excel", "onViewClicked: " + "Excel written successfully..");
+                Toast.makeText(getActivity(), "Excel saved to " + newDir + File.separator + "new_" + timeStamp + "_" + PreferencesAppHelper.getUserId() + ".xls", Toast.LENGTH_LONG).show();
 //
 //            Intent shareIntent = new Intent(Intent.ACTION_SEND);
 //            shareIntent.setType("application/vnd.ms-excel");
@@ -260,16 +260,18 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
 //            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(xlsFile));
 //            startActivity(Intent.createChooser(shareIntent, "Export as "));
 
-            // openFile(MainActivity.this,xlFile);
+                // openFile(MainActivity.this,xlFile);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("Excel", "onViewClicked: " + e.getMessage());
-            Toast.makeText(getActivity(), "Excel couldn't be saved to " + newDir + File.separator + "new.xls", Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("Excel", "onViewClicked: " + e.getMessage());
+                Toast.makeText(getActivity(), "Excel couldn't be saved to " + newDir + File.separator + "new.xls", Toast.LENGTH_LONG).show();
 
+            }
+        } else {
+            Toast.makeText(getActivity(), "No Data found", Toast.LENGTH_LONG).show();
         }
 
-        // Toast.makeText(getActivity(),"Excel export is disabled",Toast.LENGTH_LONG).show();
 
     }
 

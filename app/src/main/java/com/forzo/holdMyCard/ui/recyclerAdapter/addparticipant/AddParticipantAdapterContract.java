@@ -2,7 +2,11 @@ package com.forzo.holdMyCard.ui.recyclerAdapter.addparticipant;
 
 import android.widget.ImageView;
 
+import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.hanks.library.AnimateCheckBox;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddParticipantAdapterContract {
 
@@ -15,7 +19,9 @@ public class AddParticipantAdapterContract {
 
         void bindEventRow(int position, AddParticipantRowView holder);
 
-        void performClick(int adapterPosition, boolean value, AnimateCheckBox animeBox);
+        void performClick(int adapterPosition, boolean value, AnimateCheckBox animeBox,AddParticipantRowView holder);
+
+        void setPrevGroupList(ArrayList<MyLibrary> myGroupsArrayList);
 
     }
 
@@ -30,6 +36,9 @@ public class AddParticipantAdapterContract {
         void setImageCard(String Image);
 
         void setCheckBoxState(boolean state);
+
+        void handleGroupVisiblity();
+
 
     }
 }

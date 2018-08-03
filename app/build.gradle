@@ -6,8 +6,8 @@ android {
         applicationId "com.forzo.holdMyCard"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 6
-        versionName "Release Version 1.1"
+        versionCode 7
+        versionName "Release Version 1.7"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
