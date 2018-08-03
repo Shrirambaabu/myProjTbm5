@@ -1,6 +1,7 @@
 package com.forzo.holdMyCard.ui.activities.addparticipant;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +31,7 @@ import butterknife.ButterKnife;
 
 import static com.forzo.holdMyCard.utils.Utils.backButtonOnToolbar;
 
-public class AddParticipantActivity extends AppCompatActivity  implements AddParticipantContract.View {
+public class AddParticipantActivity extends AppCompatActivity implements AddParticipantContract.View {
 
     private Context mContext = AddParticipantActivity.this;
 
@@ -54,6 +55,7 @@ public class AddParticipantActivity extends AppCompatActivity  implements AddPar
     RelativeLayout emptyView;
 
     TextView addUser;
+    private String groupId = "", groupName = "";
     @BindView(R.id.search_groups)
     android.support.v7.widget.SearchView searchView;
 
@@ -94,7 +96,7 @@ public class AddParticipantActivity extends AppCompatActivity  implements AddPar
 
 
                 final ArrayList<MyLibrary> filtermodelist = filter(myLibraryArrayList, newText);
-                addParticipantAdapterListPresenter.setFilter(filtermodelist,addParticipantRecyclerAdapter);
+                addParticipantAdapterListPresenter.setFilter(filtermodelist, addParticipantRecyclerAdapter);
 
 
                 return true;
@@ -119,15 +121,22 @@ public class AddParticipantActivity extends AppCompatActivity  implements AddPar
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        Intent addUsersIntent = new Intent(AddParticipantActivity.this, GroupDetailsActivity.class);
+        addUsersIntent.putExtra("groupName",""+groupName);
+        addUsersIntent.putExtra("groupId",""+groupId);
+        startActivity(addUsersIntent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        Intent addUsersIntent = new Intent(AddParticipantActivity.this, GroupDetailsActivity.class);
+        addUsersIntent.putExtra("groupName",""+groupName);
+        addUsersIntent.putExtra("groupId",""+groupId);
+        startActivity(addUsersIntent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
-
 
 
     @Override
@@ -164,5 +173,15 @@ public class AddParticipantActivity extends AppCompatActivity  implements AddPar
     public void showRecyclerView() {
         recyclerView.setAdapter(addParticipantRecyclerAdapter);
         addParticipantPresenter.populateRecyclerView(myLibraryArrayList);
+    }
+
+    @Override
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    @Override
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

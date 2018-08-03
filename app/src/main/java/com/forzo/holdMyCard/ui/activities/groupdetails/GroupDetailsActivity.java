@@ -167,7 +167,10 @@ public class GroupDetailsActivity extends AppCompatActivity implements GroupDeta
     @OnClick(R.id.add_users)
     public void addUsers() {
         Intent addUsersIntent = new Intent(GroupDetailsActivity.this, AddParticipantActivity.class);
+        addUsersIntent.putExtra("groupName",""+groupNameEditText.getText().toString());
+        addUsersIntent.putExtra("groupId",""+groupId);
         startActivity(addUsersIntent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @OnClick(R.id.edit_icon)
@@ -176,5 +179,6 @@ public class GroupDetailsActivity extends AppCompatActivity implements GroupDeta
         editGroupNameIntent.putExtra("groupName",""+groupNameEditText.getText().toString());
         editGroupNameIntent.putExtra("groupId",""+groupId);
         startActivity(editGroupNameIntent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

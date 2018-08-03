@@ -48,7 +48,7 @@ public class AddParticipantAdapterListPresenter implements AddParticipantAdapter
         holder.setCardName(myLibrary.getCardName());
         holder.setCardDescription(myLibrary.getCardDescription());
         holder.setCardDetails(myLibrary.getCardDetails());
-        //   holder.setImageCard(myLibrary.getImage());
+        holder.setImageCard(myLibrary.getImage());
         if (myLibrary.isSetChecked())
             holder.setCheckBoxState(true);
         else

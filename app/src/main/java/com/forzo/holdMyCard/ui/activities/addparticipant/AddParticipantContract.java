@@ -30,6 +30,8 @@ public interface AddParticipantContract {
 
         void showRecyclerView();
 
+        void setGroupId(String groupId);
+        void setGroupName(String groupName);
     }
 
 }

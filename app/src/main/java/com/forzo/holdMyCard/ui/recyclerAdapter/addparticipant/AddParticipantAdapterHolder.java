@@ -54,7 +54,7 @@ public class AddParticipantAdapterHolder extends RecyclerView.ViewHolder impleme
 
     @Override
     public void setImageCard(String Image) {
-      //  createGroupListPresenter.setImage(Image,setCardImageValue);
+        createGroupListPresenter.setImage(Image,setCardImageValue);
     }
 
     @Override
