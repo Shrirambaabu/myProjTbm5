@@ -61,6 +61,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibraryFragmentContract.View, SearchView.OnQueryTextListener {
 
 
@@ -194,6 +196,7 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
         newCard.putExtra("ActivityAction", "NewCard");
         startActivity(newCard);
     }
+
     @OnClick(R.id.sort_text)
     public void fabSortButton() {
         if (myLibraryArrayList.size() > 0) {
@@ -220,7 +223,7 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
                 Log.e("ArrValuePhone", "" + myLibraryArrayList.get(i).getCardDetails());
 
 
-                data.put(String.valueOf(i + 2), new Object[]{ myLibraryArrayList.get(i).getCardName(), myLibraryArrayList.get(i).getCardDescription(), myLibraryArrayList.get(i).getCardDetails()});
+                data.put(String.valueOf(i + 2), new Object[]{myLibraryArrayList.get(i).getCardName(), myLibraryArrayList.get(i).getCardDescription(), myLibraryArrayList.get(i).getCardDetails()});
 
             }
             HSSFWorkbook workbook = new HSSFWorkbook();
@@ -260,15 +263,15 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
                 workbook.write(out);
                 out.close();
                 Log.e("Excel", "onViewClicked: " + "Excel written successfully..");
-
+                Toast.makeText(getActivity(), "Excel saved to " + newDir + File.separator + "new_" + timeStamp + "_" + PreferencesAppHelper.getUserId() + ".xls", Toast.LENGTH_LONG).show();
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.fromFile(xlFile), "application/vnd.ms-excel");
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {
                     Log.e("er", "" + e.getLocalizedMessage());
+                    Toast.makeText(getApplicationContext(), "Format not supported to open the file", Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(getActivity(), "Excel saved to " + newDir + File.separator + "new_" + timeStamp + "_" + PreferencesAppHelper.getUserId() + ".xls", Toast.LENGTH_LONG).show();
 //
 //            Intent shareIntent = new Intent(Intent.ACTION_SEND);
 //            shareIntent.setType("application/vnd.ms-excel");

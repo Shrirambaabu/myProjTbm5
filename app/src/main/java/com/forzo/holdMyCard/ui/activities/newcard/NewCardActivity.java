@@ -2,6 +2,7 @@ package com.forzo.holdMyCard.ui.activities.newcard;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -221,7 +222,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
                     if (imageValue != null && !imageValue.equals("")) {
                         Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
-                        fullScreenIntent.putExtra("imageUri", IMAGE_URL+imageValue);
+                        fullScreenIntent.putExtra("imageUri", IMAGE_URL + imageValue);
                         fullScreenIntent.putExtra("profImage", "yes");
                         startActivity(fullScreenIntent);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -685,7 +686,15 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
             File filePath = new File(newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf");
             try {
                 document.writeTo(new FileOutputStream(filePath));
-                Toast.makeText(getApplicationContext(), "File Downloaded to "+newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf", Toast.LENGTH_LONG).show();
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.fromFile(filePath), "application/pdf");
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Log.e("er", "" + e.getLocalizedMessage());
+                    Toast.makeText(getApplicationContext(), "Format not supported to open the file", Toast.LENGTH_LONG).show();
+                }
+                Toast.makeText(getApplicationContext(), "File Downloaded to " + newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf", Toast.LENGTH_LONG).show();
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Sorry, Something wrong !!", Toast.LENGTH_LONG).show();

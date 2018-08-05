@@ -202,6 +202,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
             File filePath = new File(newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf");
             try {
                 document.writeTo(new FileOutputStream(filePath));
+                Toast.makeText(getApplicationContext(), "File Downloaded to" + newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf", Toast.LENGTH_LONG).show();
 
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -209,13 +210,8 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {
                     Log.e("er", "" + e.getLocalizedMessage());
+                    Toast.makeText(getApplicationContext(), "Format not supported to open the file", Toast.LENGTH_LONG).show();
                 }
-                /*
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                Uri uri = Uri.parse(filePath.getAbsolutePath());
-                intent.setDataAndType(uri, "file/*");
-                startActivity(Intent.createChooser(intent, "Open Download Folder"));*/
-                Toast.makeText(getApplicationContext(), "File Downloaded to" + newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf", Toast.LENGTH_LONG).show();
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Sorry, Something wrong !!", Toast.LENGTH_LONG).show();

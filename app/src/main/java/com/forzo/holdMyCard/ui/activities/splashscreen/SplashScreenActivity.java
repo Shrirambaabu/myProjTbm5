@@ -32,9 +32,9 @@ public class SplashScreenActivity extends AppCompatActivity {
             finish();
         }, 2000);
 
-        boolean insertData = mDatabaseHelper.addData("2","HH","DP");
+        /*boolean insertData = mDatabaseHelper.addData("2","HH","DP");
 
-        Log.e("Insert",""+insertData);
+        Log.e("Insert",""+insertData);*/
 
     }
 }
