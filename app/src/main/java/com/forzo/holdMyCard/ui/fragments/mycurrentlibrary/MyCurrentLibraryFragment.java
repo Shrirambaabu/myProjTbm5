@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.FragmentContext;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
+import com.forzo.holdMyCard.ui.activities.newcard.NewCardActivity;
 import com.forzo.holdMyCard.ui.activities.sortDialog.SortDialogActivity;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibraryListPresenter;
@@ -189,6 +190,12 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
 
     @OnClick(R.id.fab)
     public void fabButton() {
+        Intent newCard = new Intent(context, NewCardActivity.class);
+        newCard.putExtra("ActivityAction", "NewCard");
+        startActivity(newCard);
+    }
+    @OnClick(R.id.sort_text)
+    public void fabSortButton() {
         if (myLibraryArrayList.size() > 0) {
             myCurrentLibraryFragmentPresenter.sortClicked(myLibraryArrayList, myLibraryRecyclerAdapter);
         } else {

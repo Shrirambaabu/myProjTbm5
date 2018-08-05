@@ -19,23 +19,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/excel_export"
+                <LinearLayout
+                    android:id="@+id/text_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Export"
-                    android:gravity="end"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="16sp"
-                    android:paddingEnd="24dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    />
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/sort_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:layout_weight="1"
+                        android:paddingBottom="8dp"
+                        android:paddingEnd="24dp"
+                        android:paddingTop="8dp"
+                        android:paddingStart="24dp"
+                        android:text="Sort"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/excel_export"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:paddingBottom="8dp"
+                        android:paddingEnd="24dp"
+                        android:paddingTop="8dp"
+                        android:text="Export"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/excel_export">
+                    android:layout_below="@+id/text_layout">
 
                     <include layout="@layout/layout_empty_recycler_view" />
 
@@ -68,13 +90,14 @@
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="24dp"
-            android:src="@drawable/ic_sort_white"
+            android:src="@drawable/ic_add_white_24dp"
             fab:fab_colorNormal="@color/colorPrimary"
             fab:fab_colorPressed="@color/colorPrimary"
             fab:fab_colorRipple="@color/colorPrimary" />
 
         <RelativeLayout
             android:id="@+id/empty_view"
+            android:layout_marginTop="48dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center">
