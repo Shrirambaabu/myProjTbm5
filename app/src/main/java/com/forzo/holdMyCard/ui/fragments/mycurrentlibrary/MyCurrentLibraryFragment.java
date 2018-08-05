@@ -1,9 +1,11 @@
 package com.forzo.holdMyCard.ui.fragments.mycurrentlibrary;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -201,7 +203,7 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
         if (myLibraryArrayList.size() > 0) {
 
             Map<String, Object[]> data = new LinkedHashMap<>();
-            data.put("1", new Object[]{"UserId", "Name", "Email", "Phone"});
+            data.put("1", new Object[]{"Name", "Email", "Phone"});
 
             for (int i = 0; i <= myLibraryArrayList.size() - 1; i++) {
                 Log.e("ArrValueID", String.valueOf(i + 2));
@@ -211,7 +213,7 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
                 Log.e("ArrValuePhone", "" + myLibraryArrayList.get(i).getCardDetails());
 
 
-                data.put(String.valueOf(i + 2), new Object[]{myLibraryArrayList.get(i).getUserId(), myLibraryArrayList.get(i).getCardName(), myLibraryArrayList.get(i).getCardDescription(), myLibraryArrayList.get(i).getCardDetails()});
+                data.put(String.valueOf(i + 2), new Object[]{ myLibraryArrayList.get(i).getCardName(), myLibraryArrayList.get(i).getCardDescription(), myLibraryArrayList.get(i).getCardDetails()});
 
             }
             HSSFWorkbook workbook = new HSSFWorkbook();
@@ -251,6 +253,14 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
                 workbook.write(out);
                 out.close();
                 Log.e("Excel", "onViewClicked: " + "Excel written successfully..");
+
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.fromFile(xlFile), "application/vnd.ms-excel");
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Log.e("er", "" + e.getLocalizedMessage());
+                }
                 Toast.makeText(getActivity(), "Excel saved to " + newDir + File.separator + "new_" + timeStamp + "_" + PreferencesAppHelper.getUserId() + ".xls", Toast.LENGTH_LONG).show();
 //
 //            Intent shareIntent = new Intent(Intent.ACTION_SEND);

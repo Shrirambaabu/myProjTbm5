@@ -1,6 +1,7 @@
 package com.forzo.holdMyCard.ui.activities.userprofile;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -196,11 +198,24 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                     Locale.getDefault()).format(new Date());
             // write the document content
-          //  String targetPdf = newDir + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
+            //  String targetPdf = newDir + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
             File filePath = new File(newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf");
             try {
                 document.writeTo(new FileOutputStream(filePath));
-                Toast.makeText(getApplicationContext(), "File Downloaded to"+newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf", Toast.LENGTH_LONG).show();
+
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.fromFile(filePath), "application/pdf");
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Log.e("er", "" + e.getLocalizedMessage());
+                }
+                /*
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                Uri uri = Uri.parse(filePath.getAbsolutePath());
+                intent.setDataAndType(uri, "file/*");
+                startActivity(Intent.createChooser(intent, "Open Download Folder"));*/
+                Toast.makeText(getApplicationContext(), "File Downloaded to" + newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf", Toast.LENGTH_LONG).show();
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Sorry, Something wrong !!", Toast.LENGTH_LONG).show();

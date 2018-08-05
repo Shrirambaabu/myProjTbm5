@@ -119,7 +119,9 @@ public class AddParticipantActivity extends AppCompatActivity implements AddPart
         final ArrayList<MyLibrary> filteredModeList = new ArrayList<>();
         for (MyLibrary model : myLibraryArrayList) {
             final String text = model.getCardName().toLowerCase();
-            if (text.startsWith(query)) {
+            final String email = model.getCardDescription().toLowerCase();
+            final String phone = model.getCardDetails().toLowerCase();
+            if (text.contains(query) || email.contains(query) || phone.contains(query)) {
                 filteredModeList.add(model);
             }
         }

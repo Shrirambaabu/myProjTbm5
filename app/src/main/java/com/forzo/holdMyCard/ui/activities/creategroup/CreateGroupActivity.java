@@ -79,7 +79,13 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
         createGroupPresenter.getIntentValues(getIntent());
         createGroupPresenter.setupShowsRecyclerView(recyclerView, emptyView);
 
-        new Handler().postDelayed(() -> searchView.clearFocus(), 300);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                searchView.clearFocus();
+            }
+        }, 300);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -90,7 +96,7 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
             @Override
             public boolean onQueryTextChange(String newText) {
                 final ArrayList<MyLibrary> filterModeList = filter(myLibraryArrayList, newText);
-                createGroupListPresenter.setFilter(filterModeList,createGroupRecyclerAdapter);
+                createGroupListPresenter.setFilter(filterModeList, createGroupRecyclerAdapter);
                 return true;
             }
         });
@@ -100,9 +106,10 @@ public class CreateGroupActivity extends AppCompatActivity implements CreateGrou
         query = query.toLowerCase();
         final ArrayList<MyLibrary> filteredModeList = new ArrayList<>();
         for (MyLibrary model : myLibraryArrayList) {
-            Log.e("creategrptagh", "filter: "+model.getUserId() );
             final String text = model.getCardName().toLowerCase();
-            if (text.contains(query)) {
+            final String email = model.getCardDescription().toLowerCase();
+            final String phone = model.getCardDetails().toLowerCase();
+            if (text.contains(query) || email.contains(query) || phone.contains(query)) {
                 filteredModeList.add(model);
             }
         }
