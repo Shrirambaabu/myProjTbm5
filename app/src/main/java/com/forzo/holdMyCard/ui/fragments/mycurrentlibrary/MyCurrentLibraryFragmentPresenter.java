@@ -11,8 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.forzo.holdMyCard.HmcApplication;
 import com.forzo.holdMyCard.R;
@@ -77,137 +80,66 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
 
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.sort_dialog);
+        dialog.setContentView(R.layout.new_sorting);
         Window window = dialog.getWindow();
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        // set the custom dialog components - text, image and button
+
+        RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.radioGroup);
+        radioGroup.clearCheck();
         TextView acceptSort = (TextView) dialog.findViewById(R.id.accept_sort);
-        TextView ascOrderDate = (TextView) dialog.findViewById(R.id.asc_order);
-        TextView dscOrderDate = (TextView) dialog.findViewById(R.id.des_order);
-        TextView ascAlphabet = (TextView) dialog.findViewById(R.id.atoz);
-        TextView dscAlphabet = (TextView) dialog.findViewById(R.id.ztoa);
         TextView cancelSort = (TextView) dialog.findViewById(R.id.cancel_sort);
-
-
-        if (alphabetValue == 0) {
-            ascAlphabet.setBackgroundResource(R.drawable.sort_selected);
-            ascAlphabet.setTextColor(Color.WHITE);
-            dscAlphabet.setBackgroundResource(R.drawable.sort_type);
-            dscAlphabet.setTextColor(Color.BLACK);
-            alphabetValue = 0;
-        } else if (alphabetValue == 1) {
-            dscAlphabet.setBackgroundResource(R.drawable.sort_selected);
-            dscAlphabet.setTextColor(Color.WHITE);
-            ascAlphabet.setBackgroundResource(R.drawable.sort_type);
-            ascAlphabet.setTextColor(Color.BLACK);
-            alphabetValue = 1;
-        }
-        if (dateValue == 0) {
-            ascOrderDate.setBackgroundResource(R.drawable.sort_selected);
-            ascOrderDate.setTextColor(Color.WHITE);
-            dscOrderDate.setBackgroundResource(R.drawable.sort_type);
-            dscOrderDate.setTextColor(Color.BLACK);
-            dateValue = 0;
-        } else if (dateValue == 1) {
-            dscOrderDate.setBackgroundResource(R.drawable.sort_selected);
-            dscOrderDate.setTextColor(Color.WHITE);
-            ascOrderDate.setBackgroundResource(R.drawable.sort_type);
-            ascOrderDate.setTextColor(Color.BLACK);
-            dateValue = 1;
-        }
-
-
-        ascOrderDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ascOrderDate.setBackgroundResource(R.drawable.sort_selected);
-                ascOrderDate.setTextColor(Color.WHITE);
-                dscOrderDate.setBackgroundResource(R.drawable.sort_type);
-                dscOrderDate.setTextColor(Color.BLACK);
-                dateValue = 0;
-            }
-        });
-
-        dscOrderDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dscOrderDate.setBackgroundResource(R.drawable.sort_selected);
-                dscOrderDate.setTextColor(Color.WHITE);
-                ascOrderDate.setBackgroundResource(R.drawable.sort_type);
-                ascOrderDate.setTextColor(Color.BLACK);
-                dateValue = 1;
-            }
-        });
-
-        ascAlphabet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ascAlphabet.setBackgroundResource(R.drawable.sort_selected);
-                ascAlphabet.setTextColor(Color.WHITE);
-                dscAlphabet.setBackgroundResource(R.drawable.sort_type);
-                dscAlphabet.setTextColor(Color.BLACK);
-                alphabetValue = 0;
-            }
-        });
-        dscAlphabet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dscAlphabet.setBackgroundResource(R.drawable.sort_selected);
-                dscAlphabet.setTextColor(Color.WHITE);
-                ascAlphabet.setBackgroundResource(R.drawable.sort_type);
-                ascAlphabet.setTextColor(Color.BLACK);
-                alphabetValue = 1;
-            }
-        });
 
         acceptSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Log.e("GetAlphabetValue:", "" + alphabetValue);
-                Log.e("GetDateValue:", "" + dateValue);
-                if (alphabetValue == 0) {
-                    Collections.sort(myLibraryArrayList, new Comparator<MyLibrary>() {
-                        @Override
-                        public int compare(MyLibrary o1, MyLibrary o2) {
-                            return o1.getCardName().compareTo(o2.getCardName());
-                        }
-                    });
-                    myLibraryRecyclerAdapter.notifyDataSetChanged();
-                } else if (alphabetValue == 1) {
-                    Collections.sort(myLibraryArrayList, new Comparator<MyLibrary>() {
-                        @Override
-                        public int compare(MyLibrary o1, MyLibrary o2) {
-                            return o2.getCardName().compareTo(o1.getCardName());
-                        }
-                    });
-                    myLibraryRecyclerAdapter.notifyDataSetChanged();
-                }
-                if (dateValue == 0) {
-                    Collections.sort(myLibraryArrayList, new Comparator<MyLibrary>() {
+                RadioButton rb = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
+                if (rb != null) {
+                    Log.e("RB:", "" + rb.getText());
 
+                    if (rb.getText().equals("Date Ascending")) {
+                        Collections.sort(myLibraryArrayList, new Comparator<MyLibrary>() {
+
+                            DateFormat f = new SimpleDateFormat("dd-MM-yyyy");
+
+                            @Override
+                            public int compare(MyLibrary o1, MyLibrary o2) {
+                                return o1.getDate().compareTo(o2.getDate());
+                            }
+                        });
+                        myLibraryRecyclerAdapter.notifyDataSetChanged();
+
+                    }
+                    if (rb.getText().equals("Date Descending")) {
                         DateFormat f = new SimpleDateFormat("dd-MM-yyyy");
-                        @Override
-                        public int compare(MyLibrary o1, MyLibrary o2) {
-                            return o1.getDate().compareTo(o2.getDate());
-                        }
-                    });
-                    myLibraryRecyclerAdapter.notifyDataSetChanged();
-                }else if (dateValue==1){
-                  DateFormat f = new SimpleDateFormat("dd-MM-yyyy");
 
-                    Collections.sort(myLibraryArrayList, new Comparator<MyLibrary>() {
-                        @Override
-                        public int compare(MyLibrary o1, MyLibrary o2) {
-                            return o2.getDate().compareTo(o1.getDate());
-                        }
-                    });
-                    myLibraryRecyclerAdapter.notifyDataSetChanged();
+                        Collections.sort(myLibraryArrayList, new Comparator<MyLibrary>() {
+                            @Override
+                            public int compare(MyLibrary o1, MyLibrary o2) {
+                                return o2.getDate().compareTo(o1.getDate());
+                            }
+                        });
+                        myLibraryRecyclerAdapter.notifyDataSetChanged();
+                    }
+                    if (rb.getText().equals("Alphabet A to Z")) {
+                        Collections.sort(myLibraryArrayList, new Comparator<MyLibrary>() {
+                            @Override
+                            public int compare(MyLibrary o1, MyLibrary o2) {
+                                return o1.getCardName().compareTo(o2.getCardName());
+                            }
+                        });
+                        myLibraryRecyclerAdapter.notifyDataSetChanged();
+                    }
+                    if (rb.getText().equals("Alphabet Z to A")) {
+                        Collections.sort(myLibraryArrayList, new Comparator<MyLibrary>() {
+                            @Override
+                            public int compare(MyLibrary o1, MyLibrary o2) {
+                                return o2.getCardName().compareTo(o1.getCardName());
+                            }
+                        });
+                        myLibraryRecyclerAdapter.notifyDataSetChanged();
+                    }
                 }
-
                 dialog.dismiss();
             }
         });
@@ -215,9 +147,6 @@ public class MyCurrentLibraryFragmentPresenter extends BasePresenter<MyCurrentLi
         cancelSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Log.e("GetAlphabetValue:", "" + alphabetValue);
-                Log.e("GetDateValue:", "" + dateValue);
                 dialog.dismiss();
             }
         });
