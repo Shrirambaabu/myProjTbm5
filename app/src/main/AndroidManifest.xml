@@ -194,12 +194,16 @@
             android:name=".ui.activities.addparticipant.AddParticipantActivity"
             android:configChanges="orientation"
             android:label="Add Participants"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.editgroupname.EditGroupNameActivity"
             android:configChanges="orientation"
             android:label="Group Name"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.pdfView.PdfViewerActivity"
+            android:configChanges="orientation"
+            android:label="PDF Viewer"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
