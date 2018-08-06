@@ -46,6 +46,7 @@ import com.forzo.holdMyCard.ui.activities.imageFullScreen.ImageFullScreenActivit
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 
 import com.forzo.holdMyCard.ui.activities.notes.NotesActivity;
+import com.forzo.holdMyCard.ui.activities.pdfView.PdfViewerActivity;
 import com.forzo.holdMyCard.ui.activities.remainder.ReminderActivity;
 import com.forzo.holdMyCard.utils.CameraUtils;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
@@ -217,7 +218,6 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
             public void onClick(int position) {
 
                 if (position == 0) {
-
                     if (imageValue != null && !imageValue.equals("")) {
                         Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
                         fullScreenIntent.putExtra("imageUri", IMAGE_URL + imageValue);
@@ -227,9 +227,9 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                     }
                 }
                 if (position == 1) {
-                    if (newCard.equals("newCard")){
+                    if (newCard.equals("newCard")) {
                         EasyImage.openChooserWithGallery(NewCardActivity.this, "Select the image", position);
-                    }else {
+                    } else {
                         if (imageBackValue != null && !imageBackValue.equals("")) {
                             Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
                             fullScreenIntent.putExtra("imageUri", IMAGE_URL + imageBackValue);
@@ -238,12 +238,9 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         }
                     }
-
-
                 }
             }
         });
-
 
 
         carouselView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -731,18 +728,22 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
             String newDirPdf = pathPdf + File.separator + "HMC_pdf";
             storage.createDirectory(newDirPdf);
 
-            File filePath = new File(newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf");
+            String pdfPath=newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
+            File filePath = new File(pdfPath);
             try {
                 document.writeTo(new FileOutputStream(filePath));
-                try {
+                Intent pdfIntent = new Intent(NewCardActivity.this, PdfViewerActivity.class);
+                pdfIntent.putExtra("file_path", pdfPath);
+                startActivity(pdfIntent);
+                /*try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.fromFile(filePath), "application/pdf");
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {
                     Log.e("er", "" + e.getLocalizedMessage());
                     Toast.makeText(getApplicationContext(), "Format not supported to open the file", Toast.LENGTH_LONG).show();
-                }
-                Toast.makeText(getApplicationContext(), "File Downloaded to " + newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf", Toast.LENGTH_LONG).show();
+                }*/
+              //  Toast.makeText(getApplicationContext(), "File Downloaded to " + newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf", Toast.LENGTH_LONG).show();
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Sorry, Something wrong !!", Toast.LENGTH_LONG).show();

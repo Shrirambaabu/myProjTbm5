@@ -28,9 +28,23 @@
                     <ImageView
                         android:id="@+id/profile_library_image"
                         android:layout_width="match_parent"
+                        android:visibility="gone"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
                         android:src="@drawable/new_empty_image" />
+
+                    <com.synnapps.carouselview.CarouselView
+                        android:id="@+id/carouselView"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:visibility="visible"
+                        app:autoPlay="false"
+                        android:layout_marginBottom="4dp"
+                        app:fillColor="@color/colorPrimary"
+                        app:pageColor="#00000000"
+                        app:radius="6dp"
+                        app:strokeColor="@android:color/white"
+                        app:strokeWidth="1dp" />
 
                     <at.markushi.ui.CircleButton
                         android:id="@+id/edit_profile"
@@ -49,6 +63,7 @@
                     android:id="@+id/profile_image_layout"
                     android:layout_width="match_parent"
                     android:layout_height="96dp"
+                    android:visibility="gone"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="150dp">
 
@@ -86,7 +101,8 @@
                     android:id="@+id/data_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/profile_image_layout"
+                    android:layout_marginTop="4dp"
+                    android:layout_below="@+id/profile_head"
                     android:padding="4dp">
 
                     <ImageView

@@ -1,10 +1,12 @@
 package com.forzo.holdMyCard.ui.activities.userprofile;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -17,6 +19,9 @@ import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -28,6 +33,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
+import static com.forzo.holdMyCard.HmcApplication.IMAGE_URL;
 import static com.forzo.holdMyCard.utils.Utils.getBitmapLowFile;
 import static com.forzo.holdMyCard.utils.Utils.getResizedBitmapFile;
 
@@ -117,6 +123,7 @@ public class UserProfilePresenter extends BasePresenter<UserProfileContract.View
                             Log.e("userImage", "" + businessCardList.get(i).getImageType());
                             Log.e("userImage", "" + businessCardList.get(i).getPostImage());
                             getView().setDpImage(businessCardList.get(i).getPostImage());
+                            setDpImage(businessCardList.get(i).getPostImage());
                         }
                     }
 
@@ -154,6 +161,7 @@ public class UserProfilePresenter extends BasePresenter<UserProfileContract.View
                             Log.e("userImage", "" + businessCardList.get(i).getImageType());
                             Log.e("userImage", "" + businessCardList.get(i).getPostImage());
                             getView().setBackGroundImage(businessCardList.get(i).getPostImage());
+                            setImage(businessCardList.get(i).getPostImage());
                         }
                     }
 
@@ -167,6 +175,69 @@ public class UserProfilePresenter extends BasePresenter<UserProfileContract.View
                     public void onComplete() {
                     }
                 });
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    @Override
+    public void setImage(String imageName) {
+        new AsyncTask<Object, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Object... params) {
+                Bitmap myBitmap = null;
+                try {
+                    URL url = new URL(IMAGE_URL + imageName);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    myBitmap = BitmapFactory.decodeStream(input);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("getBusiMsg", "" + e.getLocalizedMessage());
+                    Log.e("getBusiMsg2", "" + e.getMessage());
+
+                }
+                return myBitmap;
+            }
+
+            protected void onPostExecute(Bitmap response) {
+                getView().setBusinessCarosuilImage(response, imageName);
+            }
+        }.execute();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    @Override
+    public void setDpImage(String backImage) {
+
+        new AsyncTask<Object, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Object... params) {
+                Bitmap myBitmap = null;
+                try {
+                    URL url = new URL(IMAGE_URL + backImage);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    myBitmap = BitmapFactory.decodeStream(input);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                    Log.e("getDpMsg", "" + e.getLocalizedMessage());
+                    Log.e("getDpMsg2", "" + e.getMessage());
+                }
+                return myBitmap;
+            }
+
+            protected void onPostExecute(Bitmap response) {
+                getView().setBusinessDPCarosuilImage(response, backImage);
+            }
+        }.execute();
     }
 
 

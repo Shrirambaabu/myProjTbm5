@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,8 +38,12 @@ import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.activities.newcard.NewCardActivity;
 import com.forzo.holdMyCard.ui.activities.pdfView.PdfViewerActivity;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
+import com.google.api.services.vision.v1.model.Feature;
 import com.jackandphantom.circularimageview.CircleImage;
 import com.snatik.storage.Storage;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageClickListener;
+import com.synnapps.carouselview.ImageListener;
 import com.wang.avi.AVLoadingIndicatorView;
 
 
@@ -103,6 +108,8 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     RelativeLayout relativeHome;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avLoadingIndicatorView;
+    @BindView(R.id.carouselView)
+    CarouselView carouselView;
 
     @Inject
     UserProfilePresenter userProfilePresenter;
@@ -111,6 +118,15 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     private int WRITE_EXTERNAL_STORAGE = 111;
 
     private String dpImageValue = "", bgImageValue = "";
+    final Bitmap[] bitmaps = new Bitmap[2];
+    Bitmap image1, image2;
+    private static String dpValue;
+    private File dpFile = null;
+    private File bcfFile = null;
+    private static String bcfValue;
+    private static int scrollPosition = 0;
+    private Feature feature;
+    private String[] visionAPI = new String[]{"TEXT_DETECTION", "LOGO_DETECTION"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,9 +141,74 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                 .inject(this);
         userProfilePresenter.attach(this);
 
+        image1 = BitmapFactory.decodeResource(getResources(), R.drawable.new_black_image);
+        image2 = BitmapFactory.decodeResource(getResources(), R.drawable.new_black_image);
+        bitmaps[0] = image1;
+        bitmaps[1] = image2;
+        carouselView.setPageCount(2);
+        dpValue = "";
+        bcfValue = "";
+        final ImageListener imageListener = new ImageListener() {
+            @Override
+            public void setImageForPosition(int position, ImageView imageView) {
+                //  imageView.setImageResource(sampleImages[position]);
+                imageView.setImageBitmap(bitmaps[position]);
+            }
+        };
+
+        carouselView.setImageListener(imageListener);
+
+        carouselView.setImageClickListener(new ImageClickListener() {
+            @Override
+            public void onClick(int position) {
+
+                if (position == 0) {
+                    if (bgImageValue != null && !bgImageValue.equals("")) {
+                        Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
+                        fullScreenIntent.putExtra("imageUri", bgImageValue);
+                        fullScreenIntent.putExtra("profImage", "yes");
+                        startActivity(fullScreenIntent);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
+                }
+                if (position == 1) {
+                    if (dpImageValue != null && !dpImageValue.equals("")) {
+                        Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
+                        fullScreenIntent.putExtra("imageUri", dpImageValue);
+                        fullScreenIntent.putExtra("profImage", "yes");
+                        startActivity(fullScreenIntent);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
+                }
+
+            }
+        });
+        carouselView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                scrollPosition = position;
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        feature = new Feature();
+        feature.setType(visionAPI[0]);
+        feature.setMaxResults(15);
+
         userProfilePresenter.loadCoverImage();
         userProfilePresenter.loadDisplayPicture();
         userProfilePresenter.loadProfileVales();
+
+
     }
 
     @OnClick(R.id.print_user_profile)
@@ -211,18 +292,34 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
         }
     }
 
+    /* @OnClick(R.id.edit_profile)
+     public void profileImageSelect() {
+         EasyImage.openChooserWithGallery(UserProfileActivity.this, SELECT_THE_IMAGE, IMAGE_TYPE_BCF);
+     }
+ */
     @OnClick(R.id.edit_profile)
-    public void profileImageSelect() {
-        EasyImage.openChooserWithGallery(UserProfileActivity.this, SELECT_THE_IMAGE, IMAGE_TYPE_BCF);
-    }
-
-    @OnClick(R.id.edit_profile_image)
     public void imageSelect() {
-        EasyImage.openChooserWithGallery(UserProfileActivity.this, SELECT_THE_IMAGE, IMAGE_TYPE_DP);
+        if (scrollPosition == 0) {
+            EasyImage.openChooserWithGallery(UserProfileActivity.this, SELECT_THE_IMAGE, IMAGE_TYPE_BCF);
+        } else if (scrollPosition == 1) {
+
+            EasyImage.openChooserWithGallery(UserProfileActivity.this, SELECT_THE_IMAGE, IMAGE_TYPE_DP);
+        }
     }
 
     @OnClick(R.id.update_user_profile)
     public void updateUserProfile() {
+
+        if (dpValue.equals("DP")) {
+            if (dpFile != null) {
+                userProfilePresenter.updateUserBusinessImage(dpFile, "DP");
+            }
+        }
+        if (bcfValue.equals("BCF")) {
+            if (bcfFile != null) {
+                userProfilePresenter.updateUserBusinessImage(bcfFile, "BCF");
+            }
+        }
         userProfilePresenter.updateUserProfile(textInputEditTextName.getText().toString(), textInputEditTextJobTitle.getText().toString(), textInputEditTextCompanyName.getText().toString(), textInputEditTextMobile.getText().toString(), textInputEditTextMobile2.getText().toString(), "", textInputEditTextEmail.getText().toString(), textInputEditTextAddress.getText().toString(), textInputEditTextWebsite.getText().toString());
 
     }
@@ -248,11 +345,17 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     private void onPhotosReturned(File imageFile, int type) {
         Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
         if (type == IMAGE_TYPE_DP) {
-            userProfilePresenter.updateUserBusinessImage(imageFile, "DP");
-            circleImage.setImageBitmap(bitmap);
+            dpValue = "DP";
+            dpFile = imageFile;
+            //  userProfilePresenter.updateUserBusinessImage(imageFile, "DP");
+            bitmaps[1] = bitmap;
+            carouselView.setPageCount(2);
         } else if (type == IMAGE_TYPE_BCF) {
-            userProfilePresenter.updateUserBusinessImage(imageFile, "BCF");
-            imageView.setImageBitmap(bitmap);
+            //  userProfilePresenter.updateUserBusinessImage(imageFile, "BCF");
+            bcfValue = "BCF";
+            bcfFile = imageFile;
+            bitmaps[0] = bitmap;
+            carouselView.setPageCount(2);
         }
     }
 
@@ -327,19 +430,26 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     @Override
     public void setBackGroundImage(String backGroundImage) {
         bgImageValue = IMAGE_URL + backGroundImage;
-        Glide.with(mContext)
-                .load(IMAGE_URL + backGroundImage)
-                .thumbnail(0.1f)
-                .into(imageView);
     }
 
     @Override
     public void setDpImage(String dpImage) {
         dpImageValue = IMAGE_URL + dpImage;
-        Glide.with(mContext)
-                .load(IMAGE_URL + dpImage)
-                .thumbnail(0.1f)
-                .into(circleImage);
+    }
+
+    @Override
+    public void setBusinessCarosuilImage(Bitmap businessCarosuilImage, String imageName) {
+        bgImageValue = IMAGE_URL + imageName;
+        bitmaps[0] = businessCarosuilImage;
+        carouselView.setPageCount(2);
+    }
+
+    @Override
+    public void setBusinessDPCarosuilImage(Bitmap businessBackCarosuilImage, String imageName) {
+
+        dpImageValue = IMAGE_URL + imageName;
+        bitmaps[1] = businessBackCarosuilImage;
+        carouselView.setPageCount(2);
     }
 
 

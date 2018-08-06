@@ -2,6 +2,7 @@ package com.forzo.holdMyCard.ui.activities.userprofile;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 
 import com.forzo.holdMyCard.base.BaseMvpPresenter;
 
@@ -16,6 +17,10 @@ public interface UserProfileContract {
         void loadDisplayPicture();
 
         void loadCoverImage();
+
+        void setImage(String imageName);
+
+        void setDpImage(String backImage);
 
         void postUserBusinessImage(File businessImage, String imageType);
 
@@ -53,5 +58,9 @@ public interface UserProfileContract {
         void setBackGroundImage(String backGroundImage);
 
         void setDpImage(String dpImage);
+
+        void setBusinessCarosuilImage(Bitmap businessCarosuilImage, String imageName);
+
+        void setBusinessDPCarosuilImage(Bitmap businessBackCarosuilImage, String imageName);
     }
 }
