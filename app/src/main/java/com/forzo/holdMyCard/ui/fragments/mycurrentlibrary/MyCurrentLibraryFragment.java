@@ -27,7 +27,9 @@ import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.FragmentContext;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.activities.newcard.NewCardActivity;
+import com.forzo.holdMyCard.ui.activities.pdfView.PdfViewerActivity;
 import com.forzo.holdMyCard.ui.activities.sortDialog.SortDialogActivity;
+import com.forzo.holdMyCard.ui.activities.userprofile.UserProfileActivity;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
 import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibraryListPresenter;
 import com.forzo.holdMyCard.ui.recyclerAdapter.MyLibrary.MyLibraryRecyclerAdapter;
@@ -83,14 +85,11 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
     RelativeLayout emptyView;
     @BindView(R.id.fab)
     com.github.clans.fab.FloatingActionButton floatingActionButton;
-
-
+    SearchView searchView;
     private Storage storage;
     private String newDir;
     private int WRITE_EXTERNAL_STORAGE = 111;
-
     private Context context;
-    SearchView searchView;
 
     public MyCurrentLibraryFragment() {
         // Required empty public constructor
@@ -209,7 +208,6 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
     @OnClick(R.id.excel_export)
     public void excelExport() {
 
-
         if (myLibraryArrayList.size() > 0) {
 
             Map<String, Object[]> data = new LinkedHashMap<>();
@@ -222,15 +220,11 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
                 Log.e("ArrValueEmail", "" + myLibraryArrayList.get(i).getCardDescription());
                 Log.e("ArrValuePhone", "" + myLibraryArrayList.get(i).getCardDetails());
 
-
-                data.put(String.valueOf(i + 2), new Object[]{myLibraryArrayList.get(i).getCardName(), myLibraryArrayList.get(i).getCardDescription(), myLibraryArrayList.get(i).getCardDetails()});
-
+                data.put(String.valueOf(i + 2), new Object[]{myLibraryArrayList.get(i).getCardName(),
+                        myLibraryArrayList.get(i).getCardDescription(), myLibraryArrayList.get(i).getCardDetails()});
             }
             HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFSheet sheet = workbook.createSheet("Sample sheet");
-
-            //  Map<String, Object[]> data = new LinkedHashMap<>();
-
 
             Set<String> keyset = data.keySet();
             int rowNum = 0;
@@ -257,13 +251,13 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
             try {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                         Locale.getDefault()).format(new Date());
-
-                File xlFile = new File(newDir + File.separator + "new_" + timeStamp + "_" + PreferencesAppHelper.getUserId() + ".xls");
+                String xlsPath = newDir + File.separator + "new_" + timeStamp + "_"
+                        + PreferencesAppHelper.getUserId() + ".xls";
+                File xlFile = new File(xlsPath);
                 FileOutputStream out = new FileOutputStream(xlFile);
                 workbook.write(out);
                 out.close();
                 Log.e("Excel", "onViewClicked: " + "Excel written successfully..");
-                Toast.makeText(getActivity(), "Excel saved to " + newDir + File.separator + "new_" + timeStamp + "_" + PreferencesAppHelper.getUserId() + ".xls", Toast.LENGTH_LONG).show();
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.fromFile(xlFile), "application/vnd.ms-excel");
@@ -272,27 +266,14 @@ public class MyCurrentLibraryFragment extends Fragment implements MyCurrentLibra
                     Log.e("er", "" + e.getLocalizedMessage());
                     Toast.makeText(getApplicationContext(), "Format not supported to open the file", Toast.LENGTH_LONG).show();
                 }
-//
-//            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//            shareIntent.setType("application/vnd.ms-excel");
-//
-//            File xlsFile = new File(getFilesDir(), newDir + File.separator + "new.xls");
-//            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(xlsFile));
-//            startActivity(Intent.createChooser(shareIntent, "Export as "));
-
-                // openFile(MainActivity.this,xlFile);
-
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.e("Excel", "onViewClicked: " + e.getMessage());
                 Toast.makeText(getActivity(), "Excel couldn't be saved to " + newDir + File.separator + "new.xls", Toast.LENGTH_LONG).show();
-
             }
         } else {
             Toast.makeText(getActivity(), "No Data found", Toast.LENGTH_LONG).show();
         }
-
-
     }
 
     @Override
