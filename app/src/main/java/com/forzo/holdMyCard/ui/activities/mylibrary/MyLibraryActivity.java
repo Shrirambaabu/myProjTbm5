@@ -196,7 +196,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                     break;
                 case R.id.logout:
 
-                    Intent logoutIntent = new Intent(MyLibraryActivity.this, LoginRegisterActivity.class);
+                    Intent logoutIntent = new Intent(MyLibraryActivity.this, NewLoginActivity.class);
                     logoutIntent.putExtra("status", "logout");
                     logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     PreferencesAppHelper.setCurrentUserBusinessImage("");

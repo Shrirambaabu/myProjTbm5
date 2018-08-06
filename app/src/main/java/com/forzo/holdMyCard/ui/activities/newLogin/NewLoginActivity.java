@@ -71,15 +71,15 @@ public class NewLoginActivity extends AppCompatActivity {
                             mApiService.checkExistingUser(email)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Observer<CheckRegister>() {
+                                    .subscribe(new Observer<User>() {
                                         @Override
                                         public void onSubscribe(Disposable d) {
 
                                         }
 
                                         @Override
-                                        public void onNext(CheckRegister CheckRegister) {
-                                            if (!CheckRegister.getRegisgter()) {
+                                        public void onNext(User CheckRegister) {
+                                            if (CheckRegister.getUserId() == null) {
                                                 User user = new User();
                                                 user.setUserName(name);
                                                 user.setUserEmail(email);
@@ -95,12 +95,8 @@ public class NewLoginActivity extends AppCompatActivity {
 
                                                             @Override
                                                             public void onNext(User user1) {
-                                                                Log.e("Result", user1.getUserId());
                                                                 PreferencesAppHelper.setUserId(user1.getUserId());
-
-
                                                                 Toast.makeText(NewLoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-
                                                                 Intent libraryIntent = new Intent(NewLoginActivity.this, MyLibraryActivity.class);
                                                                 libraryIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                 startActivity(libraryIntent);
@@ -117,6 +113,14 @@ public class NewLoginActivity extends AppCompatActivity {
                                                             public void onComplete() {
                                                             }
                                                         });
+                                            }else{
+                                                PreferencesAppHelper.setUserId(CheckRegister.getUserId());
+                                                Toast.makeText(NewLoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                                Intent libraryIntent = new Intent(NewLoginActivity.this, MyLibraryActivity.class);
+                                                libraryIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(libraryIntent);
+                                                PreferencesAppHelper.setUserStatus("1");
+                                                Objects.requireNonNull(NewLoginActivity.this).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                             }
                                         }
 

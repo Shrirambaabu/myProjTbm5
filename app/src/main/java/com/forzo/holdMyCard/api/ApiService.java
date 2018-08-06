@@ -83,7 +83,7 @@ public interface ApiService {
 
     @POST("login/checkRegisteredUsingEmail")
     @FormUrlEncoded
-    Observable<CheckRegister> checkExistingUser(@Field("email") String email);
+    Observable<User> checkExistingUser(@Field("email") String email);
 
     @POST("login/forgotPassword")
     @FormUrlEncoded

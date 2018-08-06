@@ -167,13 +167,13 @@ public class MyRegisterPresenter extends BasePresenter<MyRegisterContract.View> 
         mApiService.checkExistingUser(email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<CheckRegister>() {
+                .subscribe(new Observer<User>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                     }
 
                     @Override
-                    public void onNext(CheckRegister user1) {
+                    public void onNext(User user1) {
 
                         Log.e("forgetPass", "next");
 
