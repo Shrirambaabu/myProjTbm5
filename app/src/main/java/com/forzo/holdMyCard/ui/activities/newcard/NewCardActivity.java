@@ -164,8 +164,9 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     private String primaryValue = "";
     private Uri profileImageUri = null;
     private Uri profileBackImageUri = null;
-
+    private static String newCard = "";
     private String imageValue = "";
+    private String imageBackValue = "";
     private String qrImageName = "";
     private Bitmap businessBitmap = null;
     Bitmap image1, image2;
@@ -173,6 +174,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     final Bitmap[] bitmaps = new Bitmap[2];
 
     private static Uri capturedImageUri = null;
+    private static int scrollPosition = 0;
     private String[] permissionList = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR};
 
@@ -191,7 +193,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                 .inject(this);
 
         newCardPresenter.attach(this);
-
+        newCard = "";
         image1 = BitmapFactory.decodeResource(getResources(), R.drawable.new_empty_image);
         image2 = BitmapFactory.decodeResource(getResources(), R.drawable.new_empty_image);
 
@@ -207,17 +209,13 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                 imageView.setImageBitmap(bitmaps[position]);
             }
         };
-
+        newCardPresenter.getIntentValues(getIntent());
         carouselView.setImageListener(imageListener);
+
         carouselView.setImageClickListener(new ImageClickListener() {
             @Override
             public void onClick(int position) {
 
-                Log.e("Click", "" + position);
-                // Toast.makeText(NewCardActivity.this, "Clicked item: " + position, Toast.LENGTH_SHORT).show();
-                if (position == 1) {
-                    EasyImage.openChooserWithGallery(NewCardActivity.this, "Select the image", position);
-                }
                 if (position == 0) {
 
                     if (imageValue != null && !imageValue.equals("")) {
@@ -228,12 +226,55 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     }
                 }
+                if (position == 1) {
+
+                    if (newCard.equals("newCard")){
+                        EasyImage.openChooserWithGallery(NewCardActivity.this, "Select the image", position);
+                    }else {
+                        if (imageBackValue != null && !imageBackValue.equals("")) {
+                            Intent fullScreenIntent = new Intent(mContext, ImageFullScreenActivity.class);
+                            fullScreenIntent.putExtra("imageUri", IMAGE_URL + imageBackValue);
+                            fullScreenIntent.putExtra("profImage", "yes");
+                            startActivity(fullScreenIntent);
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        }
+                    }
+
+
+                }
             }
         });
 
-        newCardPresenter.getIntentValues(getIntent());
 
 
+        carouselView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.e("ClickScroll", "" + position);
+                Log.e("ClickScroll", "" + newCard);
+                scrollPosition = position;
+                if (position == 1) {
+
+                    if (newCard.equals("newCard")) {
+                        cardFunctionLayout.setVisibility(View.GONE);
+                        scanQRLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        cardFunctionLayout.setVisibility(View.VISIBLE);
+                        scanQRLayout.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.e("ClickScrollSel", "" + position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         feature = new Feature();
         feature.setType(visionAPI[0]);
         feature.setMaxResults(15);
@@ -421,6 +462,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @Override
     public void newCardActivityType() {
+        newCard = "newCard";
         saveButton.setVisibility(View.VISIBLE);
         scanQRLayout.setVisibility(View.VISIBLE);
         cardFunctionLayout.setVisibility(View.GONE);
@@ -540,8 +582,15 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
     @OnClick(R.id.edit_profile)
     public void editBussinessProfile() {
 
-        cardFunctionLayout.setVisibility(View.GONE);
-        scanQRLayout.setVisibility(View.VISIBLE);
+        if (scrollPosition == 0) {
+            cardFunctionLayout.setVisibility(View.GONE);
+            scanQRLayout.setVisibility(View.VISIBLE);
+        } else if (scrollPosition == 1) {
+            cardFunctionLayout.setVisibility(View.VISIBLE);
+            scanQRLayout.setVisibility(View.GONE);
+            EasyImage.openChooserWithGallery(NewCardActivity.this, "Select the image", scrollPosition);
+
+        }
         //   Toast.makeText(getApplicationContext(), "Editing Image is Currently disabled", Toast.LENGTH_LONG).show();
 
     }
@@ -856,6 +905,7 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
 
     @Override
     public void setBusinessBackCarosuilImage(Bitmap businessBackCarosuilImage, String imageName) {
+        imageBackValue = imageName;
         bitmaps[1] = businessBackCarosuilImage;
         carouselView.setPageCount(2);
     }
