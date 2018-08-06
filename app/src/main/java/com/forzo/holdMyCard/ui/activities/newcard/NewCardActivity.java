@@ -227,7 +227,6 @@ public class NewCardActivity extends AppCompatActivity implements NewCardContrac
                     }
                 }
                 if (position == 1) {
-
                     if (newCard.equals("newCard")){
                         EasyImage.openChooserWithGallery(NewCardActivity.this, "Select the image", position);
                     }else {
