@@ -1,6 +1,7 @@
 package com.forzo.holdMyCard.api;
 
 import com.forzo.holdMyCard.ui.models.BusinessCard;
+import com.forzo.holdMyCard.ui.models.CheckRegister;
 import com.forzo.holdMyCard.ui.models.Groups;
 import com.forzo.holdMyCard.ui.models.MyGroups;
 import com.forzo.holdMyCard.ui.models.MyLibrary;
@@ -82,7 +83,7 @@ public interface ApiService {
 
     @POST("login/checkRegisteredUsingEmail")
     @FormUrlEncoded
-    Observable<User> checkExistingUser(@Field("email") String email);
+    Observable<CheckRegister> checkExistingUser(@Field("email") String email);
 
     @POST("login/forgotPassword")
     @FormUrlEncoded
@@ -115,6 +116,12 @@ public interface ApiService {
 
     @POST("login/registerUser")
     Observable<User> registerUser(@Body User user);
+
+    @POST("login/registerUsingFacebook")
+    Observable<User> registerUsingFacebook(@Body User user);
+
+    @POST("login/install")
+    Observable<User> install(@Body User user);
 
     @POST("notes/createNotes")
     Observable<MyNotes> saveNotes(@Body MyNotes myNotes);

@@ -200,10 +200,12 @@
             android:configChanges="orientation"
             android:label="Group Name"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activities.pdfView.PdfViewerActivity"
+        <activity
+            android:name=".ui.activities.pdfView.PdfViewerActivity"
             android:configChanges="orientation"
             android:label="PDF Viewer"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activities.newLogin.NewLoginActivity"></activity>
     </application>
 
 </manifest>

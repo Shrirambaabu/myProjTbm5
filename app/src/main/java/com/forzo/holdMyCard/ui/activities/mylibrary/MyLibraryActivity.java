@@ -37,12 +37,14 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.facebook.login.LoginManager;
 import com.forzo.holdMyCard.R;
 import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.activities.creategroup.CreateGroupActivity;
 import com.forzo.holdMyCard.ui.activities.home.HomeActivity;
 import com.forzo.holdMyCard.ui.activities.loginregister.LoginRegisterActivity;
+import com.forzo.holdMyCard.ui.activities.newLogin.NewLoginActivity;
 import com.forzo.holdMyCard.ui.activities.newcard.NewCardActivity;
 import com.forzo.holdMyCard.ui.activities.personalizedqr.QRActivity;
 import com.forzo.holdMyCard.ui.activities.userprofile.UserProfileActivity;
@@ -182,7 +184,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                     startActivity(qrIntent);
                     break;
                 case R.id.register:
-                    Intent loginIntent = new Intent(MyLibraryActivity.this, LoginRegisterActivity.class);
+                    Intent loginIntent = new Intent(MyLibraryActivity.this, NewLoginActivity.class);
                     startActivity(loginIntent);
                     break;
                 case R.id.user_profile:
@@ -199,6 +201,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                     logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     PreferencesAppHelper.setCurrentUserBusinessImage("");
                     PreferencesAppHelper.setCurrentUserProfileImage("");
+                    LoginManager.getInstance().logOut();
                     PreferencesAppHelper.setUserStatus("0");
                     startActivity(logoutIntent);
                     break;

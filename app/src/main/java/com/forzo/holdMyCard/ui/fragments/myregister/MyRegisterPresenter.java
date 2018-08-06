@@ -10,6 +10,7 @@ import com.forzo.holdMyCard.HmcApplication;
 import com.forzo.holdMyCard.api.ApiFactory;
 import com.forzo.holdMyCard.api.ApiService;
 import com.forzo.holdMyCard.base.BasePresenter;
+import com.forzo.holdMyCard.ui.models.CheckRegister;
 import com.forzo.holdMyCard.ui.models.User;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 
@@ -166,16 +167,14 @@ public class MyRegisterPresenter extends BasePresenter<MyRegisterContract.View> 
         mApiService.checkExistingUser(email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<User>() {
+                .subscribe(new Observer<CheckRegister>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                     }
 
                     @Override
-                    public void onNext(User user1) {
+                    public void onNext(CheckRegister user1) {
 
-                        Log.e("forgetPass", "" + user1.getExistingUser());
-                        getView().existingUserStatus(user1.getExistingUser());
                         Log.e("forgetPass", "next");
 
                     }
