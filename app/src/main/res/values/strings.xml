@@ -39,6 +39,8 @@
     <string name="my_library">My Library</string>
     <string name="my_groups">My Groups</string>
     <string name="search_for_peopple_to_add">Search for people to add</string>
+    <string name="share">Share</string>
+    <string name="download">Download</string>
 
 
 </resources>

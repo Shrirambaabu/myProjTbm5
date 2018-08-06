@@ -35,6 +35,7 @@ import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.activities.imageFullScreen.ImageFullScreenActivity;
 import com.forzo.holdMyCard.ui.activities.mylibrary.MyLibraryActivity;
 import com.forzo.holdMyCard.ui.activities.newcard.NewCardActivity;
+import com.forzo.holdMyCard.ui.activities.pdfView.PdfViewerActivity;
 import com.forzo.holdMyCard.utils.PreferencesAppHelper;
 import com.jackandphantom.circularimageview.CircleImage;
 import com.snatik.storage.Storage;
@@ -107,8 +108,6 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     UserProfilePresenter userProfilePresenter;
     private Context mContext = UserProfileActivity.this;
 
-    private Storage storage;
-    private String newDir;
     private int WRITE_EXTERNAL_STORAGE = 111;
 
     private String dpImageValue = "", bgImageValue = "";
@@ -134,16 +133,13 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     @OnClick(R.id.print_user_profile)
     public void printUserProfile() {
         activityLoader();
-        storage = new Storage(getApplicationContext());
-        // get external storage
+        Storage storage = new Storage(getApplicationContext());
         String path = storage.getExternalStorageDirectory();
-        // new dir
-        newDir = path + File.separator + ".HMC Pdf";
+        String newDir = path + File.separator + ".HMC Pdf";
         storage.createDirectory(newDir);
-        Log.e("path", "" + newDir);
+        Log.e("path", newDir);
         boolean hasPermission = (ContextCompat.checkSelfPermission(getBaseContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-
         if (!hasPermission) {
             ActivityCompat.requestPermissions(UserProfileActivity.this,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -152,7 +148,6 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                             Manifest.permission.INTERNET
                     }, WRITE_EXTERNAL_STORAGE);
         }
-
         Bitmap bitmap = Bitmap.createBitmap(relativeHome.getWidth(), relativeHome.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvasPng = new Canvas(bitmap);
         relativeHome.draw(canvasPng);
@@ -160,29 +155,19 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
         boolean success = storage.createFile(newDir + File.separator + "image.jpg", bitmap);
         if (success) {
 
-            WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-            Display display = wm.getDefaultDisplay();
             DisplayMetrics displaymetrics = new DisplayMetrics();
             this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-            float hight = displaymetrics.heightPixels;
-            float width = displaymetrics.widthPixels;
-
-            int convertHighet = (int) hight, convertWidth = (int) width;
-
-//        Resources mResources = getResources();
-//        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.screenshot);
 
             PdfDocument document = new PdfDocument();
-            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create();
+            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(),
+                    bitmap.getHeight(), 1).create();
             PdfDocument.Page page = document.startPage(pageInfo);
 
             Canvas canvas = page.getCanvas();
 
-
             Paint paint = new Paint();
             paint.setColor(Color.parseColor("#ffffff"));
             canvas.drawPaint(paint);
-
 
             bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
 
@@ -197,21 +182,21 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
 
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                     Locale.getDefault()).format(new Date());
-            // write the document content
-            //  String targetPdf = newDir + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
-            File filePath = new File(newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf");
+            String pdfPath = newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf";
+            File filePath = new File(pdfPath);
             try {
                 document.writeTo(new FileOutputStream(filePath));
-                Toast.makeText(getApplicationContext(), "File Downloaded to" + newDirPdf + File.separator + timeStamp + PreferencesAppHelper.getUserId() + ".pdf", Toast.LENGTH_LONG).show();
-
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(Uri.fromFile(filePath), "application/pdf");
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    Log.e("er", "" + e.getLocalizedMessage());
-                    Toast.makeText(getApplicationContext(), "Format not supported to open the file", Toast.LENGTH_LONG).show();
-                }
+                Intent pdfIntent = new Intent(UserProfileActivity.this, PdfViewerActivity.class);
+                pdfIntent.putExtra("file_path", pdfPath);
+                startActivity(pdfIntent);
+//                try {
+//                    Intent intent = new Intent(Intent.ACTION_VIEW);
+//                    intent.setDataAndType(Uri.fromFile(filePath), "application/pdf");
+//                    startActivity(intent);
+//                } catch (ActivityNotFoundException e) {
+//                    Log.e("er", "" + e.getLocalizedMessage());
+//                    Toast.makeText(getApplicationContext(), "Format not supported to open the file", Toast.LENGTH_LONG).show();
+//                }
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Sorry, Something wrong !!", Toast.LENGTH_LONG).show();
@@ -224,8 +209,6 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
             //  Toast.makeText(this, "Image couldn't be saved to " + newDir + File.separator + "image.jpg", Toast.LENGTH_LONG).show();
             Toast.makeText(this, "File couldn't be downloaded", Toast.LENGTH_LONG).show();
         }
-
-
     }
 
     @OnClick(R.id.edit_profile)
