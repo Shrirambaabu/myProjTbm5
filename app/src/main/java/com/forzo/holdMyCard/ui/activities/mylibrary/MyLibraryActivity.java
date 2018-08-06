@@ -43,6 +43,7 @@ import com.forzo.holdMyCard.base.ActivityContext;
 import com.forzo.holdMyCard.ui.activities.Profile.ProfileActivity;
 import com.forzo.holdMyCard.ui.activities.creategroup.CreateGroupActivity;
 import com.forzo.holdMyCard.ui.activities.home.HomeActivity;
+import com.forzo.holdMyCard.ui.activities.login.LoginActivity;
 import com.forzo.holdMyCard.ui.activities.loginregister.LoginRegisterActivity;
 import com.forzo.holdMyCard.ui.activities.newLogin.NewLoginActivity;
 import com.forzo.holdMyCard.ui.activities.newcard.NewCardActivity;
@@ -184,7 +185,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                     startActivity(qrIntent);
                     break;
                 case R.id.register:
-                    Intent loginIntent = new Intent(MyLibraryActivity.this, NewLoginActivity.class);
+                    Intent loginIntent = new Intent(MyLibraryActivity.this, LoginRegisterActivity.class);
                     startActivity(loginIntent);
                     break;
                 case R.id.user_profile:
@@ -195,8 +196,7 @@ public class MyLibraryActivity extends AppCompatActivity implements MyLibraryCon
                     }
                     break;
                 case R.id.logout:
-
-                    Intent logoutIntent = new Intent(MyLibraryActivity.this, NewLoginActivity.class);
+                    Intent logoutIntent = new Intent(MyLibraryActivity.this, LoginRegisterActivity.class);
                     logoutIntent.putExtra("status", "logout");
                     logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     PreferencesAppHelper.setCurrentUserBusinessImage("");

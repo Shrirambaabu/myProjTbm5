@@ -33,6 +33,7 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:hint="@string/email"
+                    android:imeOptions="actionNext"
                     android:importantForAutofill="noExcludeDescendants"
                     android:inputType="text|textNoSuggestions"
                     android:maxLines="1"
@@ -60,14 +61,13 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:hint="@string/password"
+                    android:imeOptions="actionDone"
                     android:importantForAutofill="noExcludeDescendants"
                     android:inputType="textPassword|textNoSuggestions"
                     android:maxLines="1"
                     android:textColor="@android:color/black" />
 
             </android.support.design.widget.TextInputLayout>
-
-
 
             <TextView
                 android:id="@+id/forget_pass"
@@ -96,49 +96,62 @@
                 android:text="@string/login"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white" />
-<!--
-            <TextView
-                android:id="@+id/or_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/login_button"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/or"
-                android:textSize="20sp"
-                android:textStyle="italic" />-->
-<!--
-            <Button
+
+            <com.facebook.login.widget.LoginButton
                 android:id="@+id/fb_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/or_text"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="8dp"
+                android:layout_below="@id/login_button"
+                android:layout_marginBottom="30dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button_bg"
-                android:text="@string/facebook"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />-->
+                android:layout_marginTop="8dp"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp" />
 
-<!--
-            <Button
-                android:id="@+id/wechat_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/or_text"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button_bg"
-                android:text="@string/wechat"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />-->
+            <!--
+                        <TextView
+                            android:id="@+id/or_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/login_button"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/or"
+                            android:textSize="20sp"
+                            android:textStyle="italic" />-->
+            <!--
+                        <Button
+                            android:id="@+id/fb_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/or_text"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp"
+                            android:background="@drawable/button_bg"
+                            android:text="@string/facebook"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white" />-->
+
+            <!--
+                        <Button
+                            android:id="@+id/wechat_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/or_text"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp"
+                            android:background="@drawable/button_bg"
+                            android:text="@string/wechat"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white" />-->
         </RelativeLayout>
 
     </ScrollView>
@@ -153,12 +166,12 @@
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/avi"
             style="@style/AVLoadingIndicatorView"
-            app:indicatorColor="@color/colorPrimary"
-            app:indicatorName="BallGridPulseIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:indicatorColor="@color/colorPrimary"
+            app:indicatorName="BallGridPulseIndicator" />
     </RelativeLayout>
 
 </FrameLayout>

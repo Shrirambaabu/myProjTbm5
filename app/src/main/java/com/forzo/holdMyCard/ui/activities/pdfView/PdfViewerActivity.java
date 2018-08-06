@@ -84,6 +84,14 @@ public class PdfViewerActivity extends AppCompatActivity {
                 return true;
             case R.id.download:
                 delete = false;
+                if (sharingFile != null) {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    Uri outputImgUri = FileProvider.getUriForFile(this,
+                            BuildConfig.APPLICATION_ID + ".provider", sharingFile);
+                    intent.setDataAndType(outputImgUri, "application/pdf");
+                    startActivity(intent);
+                }
                 Toast.makeText(getApplicationContext(), "File Downloaded to" + sharingFile, Toast.LENGTH_LONG).show();
                 return true;
             case android.R.id.home:

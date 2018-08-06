@@ -60,8 +60,8 @@ public class MyRegister extends Fragment implements MyRegisterContract.View {
     @Inject
     MyRegisterPresenter myRegisterPresenter;
 
-    @BindView(R.id.fb_button)
-    LoginButton loginButton;
+//    @BindView(R.id.fb_button)
+//    LoginButton loginButton;
     CallbackManager callbackManager;
     private String TAG = "Register";
 
@@ -82,61 +82,61 @@ public class MyRegister extends Fragment implements MyRegisterContract.View {
         myRegisterPresenter.attach(this);
 
 
-        loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
+//        loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
 
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-                Log.e("Success", "" + loginResult.getAccessToken().getToken());
-                Log.e("Success", "" + loginResult.getAccessToken().getUserId());
-
-
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject me, GraphResponse response) {
-                                if (response.getError() != null) {
-                                    // handle error
-                                } else {
-                                    // get email and id of the user
-                                    String email = me.optString("email");
-                                    String id = me.optString("id");
-                                    Log.e("SuccessEmail", "" + email);
-                                    Log.e("SuccessId", "" + id);
-                                    Log.e("SuccessJSON", "" + me);
-                                    try {
-                                        Log.e("SuccessJSON", "" + me.getString("email"));
-
-                                        textInputEditTextEmail.setText(me.getString("email"));
-                                        textInputEditTextName.setText(me.getString("first_name") + " " + me.getString("last_name"));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Bundle bFacebookData = getFacebookData(me);
-
-
-                                }
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id, first_name, last_name, email,gender, birthday, location"); // Parámetros que pedimos a facebook
-                request.setParameters(parameters);
-                request.executeAsync();
-
-            }
-
-            @Override
-            public void onCancel() {
-
-                Log.e("Cancelled", "Not Login");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Log.e("Error", "Error");
-            }
-        });
+//        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+//            @Override
+//            public void onSuccess(LoginResult loginResult) {
+//
+//                Log.e("Success", "" + loginResult.getAccessToken().getToken());
+//                Log.e("Success", "" + loginResult.getAccessToken().getUserId());
+//
+//
+//                GraphRequest request = GraphRequest.newMeRequest(
+//                        loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+//                            @Override
+//                            public void onCompleted(JSONObject me, GraphResponse response) {
+//                                if (response.getError() != null) {
+//                                    // handle error
+//                                } else {
+//                                    // get email and id of the user
+//                                    String email = me.optString("email");
+//                                    String id = me.optString("id");
+//                                    Log.e("SuccessEmail", "" + email);
+//                                    Log.e("SuccessId", "" + id);
+//                                    Log.e("SuccessJSON", "" + me);
+//                                    try {
+//                                        Log.e("SuccessJSON", "" + me.getString("email"));
+//
+//                                        textInputEditTextEmail.setText(me.getString("email"));
+//                                        textInputEditTextName.setText(me.getString("first_name") + " " + me.getString("last_name"));
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                    Bundle bFacebookData = getFacebookData(me);
+//
+//
+//                                }
+//                            }
+//                        });
+//                Bundle parameters = new Bundle();
+//                parameters.putString("fields", "id, first_name, last_name, email,gender, birthday, location"); // Parámetros que pedimos a facebook
+//                request.setParameters(parameters);
+//                request.executeAsync();
+//
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//
+//                Log.e("Cancelled", "Not Login");
+//            }
+//
+//            @Override
+//            public void onError(FacebookException error) {
+//                Log.e("Error", "Error");
+//            }
+//        });
 
         // Inflate the layout for this fragment
         return view;
